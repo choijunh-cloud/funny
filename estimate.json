@@ -1,0 +1,137 @@
+{
+  "assumptions": {
+    "simulations": 200000,
+    "seed": 20260817,
+    "debt_krw": 9000000000.0,
+    "owner_revenue_share": 0.1,
+    "owner_count": 2,
+    "nonphysician_staff": 50,
+    "owner_days_per_month": 28.0,
+    "total_physicians": {
+      "low": 8,
+      "mode": 10,
+      "high": 12
+    },
+    "employed_physician_days": {
+      "low": 18,
+      "mode": 22,
+      "high": 25
+    },
+    "patients_per_doctor_day": {
+      "low": 20,
+      "mode": 30,
+      "high": 42
+    },
+    "realized_revenue_per_visit": {
+      "low": 110000,
+      "mode": 145000,
+      "high": 190000
+    },
+    "employed_physician_monthly_cost": {
+      "low": 22000000,
+      "mode": 28000000,
+      "high": 36000000
+    },
+    "staff_monthly_gross_pay": {
+      "low": 2800000.0,
+      "mode": 3400000.0,
+      "high": 4099999.9999999995
+    },
+    "staff_employer_load": {
+      "low": 0.15,
+      "mode": 0.19,
+      "high": 0.24
+    },
+    "annual_rent_and_management": {
+      "low": 320000000.0,
+      "mode": 480000000.0,
+      "high": 700000000.0
+    },
+    "annual_other_fixed_cost": {
+      "low": 400000000.0,
+      "mode": 700000000.0,
+      "high": 1200000000.0
+    },
+    "variable_cost_rate": {
+      "low": 0.25,
+      "mode": 0.3,
+      "high": 0.36
+    },
+    "patient_ticket_correlation": -0.35,
+    "currency": "KRW",
+    "tax_note": "Approximate comprehensive income tax + 10% local tax; health insurance, pension, deductions and other income excluded."
+  },
+  "distributions": {
+    "monthly_revenue": {
+      "p05": 754937047.6214545,
+      "p25": 904474049.9222815,
+      "p50": 1023379027.534687,
+      "p75": 1156342266.349988,
+      "p95": 1364881653.150094,
+      "mean": 1037333310.5425717
+    },
+    "daily_patients": {
+      "p05": 168.1660804749428,
+      "p25": 201.62527874231242,
+      "p50": 228.7218552970183,
+      "p75": 258.00266579869304,
+      "p95": 302.06404519213373,
+      "mean": 231.01858400192324
+    },
+    "fixed_cost_annual": {
+      "p05": 5702924932.880073,
+      "p25": 6136524460.488359,
+      "p50": 6462350856.317808,
+      "p75": 6799253265.399911,
+      "p95": 7301456115.272799,
+      "mean": 6476425347.253233
+    },
+    "operating_bep_monthly_revenue": {
+      "p05": 785754426.7015733,
+      "p25": 852545384.1022216,
+      "p50": 902737477.1688377,
+      "p75": 955835008.3039033,
+      "p95": 1036405132.1284232,
+      "mean": 905773532.597373
+    },
+    "owner_monthly_net_each": {
+      "p05": 23516070.666734055,
+      "p25": 27624851.942909375,
+      "p50": 30823395.84068308,
+      "p75": 34400106.96481468,
+      "p95": 40009816.46973753,
+      "mean": 31188126.46899916
+    },
+    "owner_monthly_net_couple": {
+      "p05": 47032141.33346811,
+      "p25": 55249703.88581875,
+      "p50": 61646791.68136616,
+      "p75": 68800213.92962936,
+      "p95": 80019632.93947506,
+      "mean": 62376252.93799832
+    },
+    "years_to_repay_if_positive": {
+      "p05": 2.592226534425733,
+      "p25": 4.302860471688633,
+      "p50": 7.036950132968667,
+      "p75": 13.89734403547175,
+      "p95": 63.12167052691679,
+      "mean": 36.13134354101279
+    }
+  },
+  "probabilities": {
+    "operating_cashflow_positive": 0.755075,
+    "repay_within_6_years": 0.318405,
+    "repay_within_7_years": 0.375715,
+    "repay_within_10_years": 0.4892,
+    "monthly_revenue_at_least_10b_krw": 0.54999,
+    "daily_patients_at_least_280": 0.123145
+  },
+  "schedule_comparison": {
+    "owners_assumed_workdays_per_year": 336.0,
+    "days_off_per_year_at_exactly_two_per_month": 24,
+    "reported_korean_physician_average_workdays_2023": 292.8,
+    "reported_korean_physician_average_days_off_2023": 72.3,
+    "note": "The survey provides no variance or matched control group, so a p-value for long-term sustainability cannot be computed."
+  }
+}
