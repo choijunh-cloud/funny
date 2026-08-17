@@ -1,0 +1,110 @@
+{
+  "as_of": "2026-08-17",
+  "notes": "X(Twitter) MCP was unauthenticated in this run. Medigate local extracts are user-supplied priors, not independently pulled.",
+  "clinic": {
+    "name": "톤즈의원 인천본점(부평)",
+    "address": "인천 부평구 경원대로 1395 부평일번가 12·13층",
+    "opened": "2021-04-15",
+    "area_m2": 1119,
+    "area_pyeong": 338.5,
+    "doctors_gp": 11,
+    "doctors_specialist": 0,
+    "medical_staff_count": 14,
+    "legal_form": "개인",
+    "status": "영업중 (공공데이터 2024-12 갱신)",
+    "chain_branches_2026": 25,
+    "cumulative_procedures_all_branches_2026_06": 183400,
+    "sources": [
+      "지방행정 인허가/전국 의원 지도: 총면적 1,119㎡, 의료인 14, 성형외과·피부과",
+      "심평원 공개 요양기관: 의과일반의 11, 전문의 0",
+      "공식 사이트 tonesclinic.co.kr: 25지점, 누적 시술 183,400 (2026-06 내부집계)",
+      "나무위키/namu.moe: 본점 2025 연매출 150억 — 출처는 '운명전쟁49 출연 공개' (자기신고, 세무검증 아님)"
+    ]
+  },
+  "nts": {
+    "derm_urology_avg_revenue_2022_eok": 11.2834,
+    "derm_urology_avg_revenue_2023_eok": 12.7226,
+    "derm_max_gangnam_eok": 240,
+    "source": "국세청 TASIS 100대 생활업종 / 치의신보·데일리팜 재인용"
+  },
+  "peers": [
+    {
+      "name": "부평역 500m 피부과 평균",
+      "monthly_eok": 1.2092,
+      "median_eok": 0.881,
+      "n": 20,
+      "source": "데일리팜 전국 의원-약국 상권분석(12) 인천 부평역",
+      "confidence": "high"
+    },
+    {
+      "name": "부평역 500m 의원 전체 평균",
+      "monthly_eok": 1.0535,
+      "median_eok": 0.5178,
+      "n": 70,
+      "source": "데일리팜 부평역 상권분석",
+      "confidence": "high"
+    },
+    {
+      "name": "잠실역 피부과 평균",
+      "monthly_eok": 1.2534,
+      "source": "데일리팜 잠실역 상권분석",
+      "confidence": "high"
+    },
+    {
+      "name": "연신내역 피부과 평균",
+      "monthly_eok": 2.1013,
+      "source": "데일리팜 연신내역 상권분석",
+      "confidence": "high"
+    },
+    {
+      "name": "청량리역 피부과 평균",
+      "monthly_eok": 3.8851,
+      "source": "데일리팜 청량리역 상권분석(2025-09)",
+      "confidence": "high"
+    },
+    {
+      "name": "부평5동 피부과 평균",
+      "monthly_eok": 2.98,
+      "source": "사용자 제공 Medigate 로컬 (2026-08, 미독립검증)",
+      "confidence": "medium"
+    },
+    {
+      "name": "부평 1km 선택범위 피부과 평균",
+      "monthly_eok": 1.61,
+      "source": "사용자 제공 Medigate 로컬 (2026-08, 미독립검증)",
+      "confidence": "medium"
+    },
+    {
+      "name": "부평5동 상위 20%",
+      "monthly_eok": 6.82,
+      "source": "사용자 제공 Medigate 로컬 (2026-08, 미독립검증)",
+      "confidence": "medium"
+    },
+    {
+      "name": "톡스앤필 가맹 평균",
+      "monthly_eok": 4.2,
+      "source": "사용자 제공 벤치마크 (미독립검증)",
+      "confidence": "low"
+    },
+    {
+      "name": "톤즈 본점 자기신고 2025",
+      "monthly_eok": 12.5,
+      "annual_eok": 150,
+      "source": "나무위키: 운명전쟁49 출연 공개",
+      "confidence": "low"
+    }
+  ],
+  "labor_market": {
+    "gangnam_petit_net_2025_12": "세후 1,500~2,000만 (경력, 강남)",
+    "tones_incheon_user_prior": "신규 세후 1,700만 / 필러 1,900~2,200만",
+    "source": "연합뉴스 2025-12-04; 사용자 제공 톤즈 급여 전언"
+  },
+  "tax_2026": {
+    "income_brackets": "과세표준 8단계 6~45% + 지방소득세 10%",
+    "nhis_rate": 0.0719,
+    "ltci_rate_on_nhis": 0.1314,
+    "nps_rate_self_employed": 0.095,
+    "nps_cap_monthly_won": 6590000,
+    "source": "보건복지부 2026 건보/장기요양 보도자료, 종소세 누진표"
+  }
+}

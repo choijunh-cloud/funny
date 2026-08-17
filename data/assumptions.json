@@ -1,0 +1,66 @@
+{
+  "deal": {
+    "couple_equity_eok": 10.0,
+    "mso_principal_eok": 90.0,
+    "couple_take_rate": 0.10,
+    "interest_rate_base": 0.0,
+    "target_exit_years": [6, 7, 10],
+    "opex_paid_by": "mso_from_90pct",
+    "notes": "부부 10% 선취, 나머지 90%에서 OPEX를 빼고 잔액으로 90억 무이자 상환. 계약서 미확인."
+  },
+  "operations": {
+    "doctors_total": 11,
+    "doctors_paid": 9,
+    "staff_non_doctor": 50,
+    "clinic_days_per_month": 28,
+    "couple_off_days_per_month": 2,
+    "area_pyeong": 338.5
+  },
+  "cost_packages": {
+    "verified_58": {
+      "label": "대화 확정식 (고정 58억)",
+      "fixed_eok": 58.0,
+      "variable_rate": 0.30,
+      "note": "사용자 잠금식. 직원 50명을 과소반영했을 가능성."
+    },
+    "staff50_bottomup": {
+      "label": "직원 50명 바텀업 (권장)",
+      "fixed_eok": 68.0,
+      "variable_rate": 0.30,
+      "breakdown_eok": {
+        "paid_doctors_9x26m": 28.1,
+        "staff_50x420m_loaded": 25.2,
+        "rent_cam_338py": 6.2,
+        "marketing_fixed": 4.5,
+        "other_fixed": 4.0
+      },
+      "note": "의사 9명 세전 2,600만, 직원 50명 풀로딩 420만, 338평 임대+관리, 마케팅 고정+기타."
+    },
+    "staff50_high": {
+      "label": "인건비 상단 (고정 76억)",
+      "fixed_eok": 76.0,
+      "variable_rate": 0.32,
+      "note": "의사 급여 인플레 + 직원 풀로딩 450만 + 마케팅 확대."
+    }
+  },
+  "revenue_prior": {
+    "type": "lognormal",
+    "median_monthly_eok": 7.6,
+    "sigma": 0.30,
+    "physical_cap_monthly_eok": 16.0,
+    "floor_monthly_eok": 3.8,
+    "rationale": "부평 평균 1.2억의 6배, 11인 의사·338평 규모 보정. 150억 자기신고는 우측 꼬리로만 반영. 대화 후반의 월 9~14억 상향 드리프트는 채택하지 않음."
+  },
+  "physical": {
+    "ticket_won": [120000, 140000, 150000, 160000, 180000],
+    "patients_per_doctor_day": [20, 22, 25, 28, 32, 35],
+    "sustainable_ppd": 25,
+    "stretch_ppd": 32,
+    "quality_cap_ppd": 35
+  },
+  "em_comparison": {
+    "pattern": "Day-Night-Off-Off-Off-Off",
+    "monthly_net_won": 30000000,
+    "note": "응급의학과 전문의 본인 현재 조건"
+  }
+}

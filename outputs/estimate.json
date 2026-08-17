@@ -1,0 +1,1117 @@
+{
+  "recommended_package": "staff50_bottomup",
+  "beps": {
+    "verified_58": {
+      "operating": 8.055555555555555,
+      "y10": 9.305555555555555,
+      "y7": 9.84126984126984,
+      "y6": 10.138888888888888
+    },
+    "staff50_bottomup": {
+      "operating": 9.444444444444443,
+      "y10": 10.694444444444443,
+      "y7": 11.23015873015873,
+      "y6": 11.527777777777777
+    },
+    "staff50_high": {
+      "operating": 10.919540229885056,
+      "y10": 12.212643678160918,
+      "y7": 12.766830870279145,
+      "y6": 13.07471264367816
+    }
+  },
+  "grid": {
+    "verified_58": [
+      {
+        "monthly_eok": 5.0,
+        "annual_eok": 60.0,
+        "surplus_annual_eok": -21.999999999999993,
+        "operating_ok": false,
+        "exit_years": null,
+        "each_net_monthly_won": 13770341.833333334,
+        "couple_net_monthly_won": 27540683.666666668,
+        "each_pretax_monthly_won": 25000000.0,
+        "effective_tax_rate": 0.4491863266666667,
+        "shortcut_3_1pct_one_won": 15500000.0,
+        "shortcut_gap_won": 1729658.166666666
+      },
+      {
+        "monthly_eok": 5.5,
+        "annual_eok": 66.0,
+        "surplus_annual_eok": -18.39999999999999,
+        "operating_ok": false,
+        "exit_years": null,
+        "each_net_monthly_won": 14969722.683333332,
+        "couple_net_monthly_won": 29939445.366666663,
+        "each_pretax_monthly_won": 27500000.0,
+        "effective_tax_rate": 0.45564644787878794,
+        "shortcut_3_1pct_one_won": 17050000.0,
+        "shortcut_gap_won": 2080277.3166666683
+      },
+      {
+        "monthly_eok": 6.0,
+        "annual_eok": 72.0,
+        "surplus_annual_eok": -14.799999999999997,
+        "operating_ok": false,
+        "exit_years": null,
+        "each_net_monthly_won": 16166353.533333333,
+        "couple_net_monthly_won": 32332707.066666666,
+        "each_pretax_monthly_won": 30000000.0,
+        "effective_tax_rate": 0.4611215488888889,
+        "shortcut_3_1pct_one_won": 18600000.0,
+        "shortcut_gap_won": 2433646.466666667
+      },
+      {
+        "monthly_eok": 6.5,
+        "annual_eok": 78.0,
+        "surplus_annual_eok": -11.199999999999996,
+        "operating_ok": false,
+        "exit_years": null,
+        "each_net_monthly_won": 17362984.383333333,
+        "couple_net_monthly_won": 34725968.766666666,
+        "each_pretax_monthly_won": 32500000.0,
+        "effective_tax_rate": 0.46575432666666666,
+        "shortcut_3_1pct_one_won": 20150000.0,
+        "shortcut_gap_won": 2787015.616666667
+      },
+      {
+        "monthly_eok": 7.0,
+        "annual_eok": 84.0,
+        "surplus_annual_eok": -7.599999999999994,
+        "operating_ok": false,
+        "exit_years": null,
+        "each_net_monthly_won": 18559615.233333334,
+        "couple_net_monthly_won": 37119230.46666667,
+        "each_pretax_monthly_won": 35000000.0,
+        "effective_tax_rate": 0.469725279047619,
+        "shortcut_3_1pct_one_won": 21700000.0,
+        "shortcut_gap_won": 3140384.7666666657
+      },
+      {
+        "monthly_eok": 7.6,
+        "annual_eok": 91.19999999999999,
+        "surplus_annual_eok": -3.280000000000001,
+        "operating_ok": false,
+        "exit_years": null,
+        "each_net_monthly_won": 19995572.253333326,
+        "couple_net_monthly_won": 39991144.50666665,
+        "each_pretax_monthly_won": 37999999.99999999,
+        "effective_tax_rate": 0.47380073017543867,
+        "shortcut_3_1pct_one_won": 23559999.999999996,
+        "shortcut_gap_won": 3564427.74666667
+      },
+      {
+        "monthly_eok": 8.0,
+        "annual_eok": 96.0,
+        "surplus_annual_eok": -0.3999999999999915,
+        "operating_ok": false,
+        "exit_years": null,
+        "each_net_monthly_won": 20952876.933333334,
+        "couple_net_monthly_won": 41905753.86666667,
+        "each_pretax_monthly_won": 40000000.0,
+        "effective_tax_rate": 0.47617807666666667,
+        "shortcut_3_1pct_one_won": 24800000.0,
+        "shortcut_gap_won": 3847123.0666666664
+      },
+      {
+        "monthly_eok": 8.5,
+        "annual_eok": 102.0,
+        "surplus_annual_eok": 3.20000000000001,
+        "operating_ok": true,
+        "exit_years": 28.12499999999991,
+        "each_net_monthly_won": 22133924.45,
+        "couple_net_monthly_won": 44267848.9,
+        "each_pretax_monthly_won": 42500000.0,
+        "effective_tax_rate": 0.4792017776470588,
+        "shortcut_3_1pct_one_won": 26350000.0,
+        "shortcut_gap_won": 4216075.550000001
+      },
+      {
+        "monthly_eok": 9.0,
+        "annual_eok": 108.0,
+        "surplus_annual_eok": 6.800000000000011,
+        "operating_ok": true,
+        "exit_years": 13.235294117647037,
+        "each_net_monthly_won": 23275555.3,
+        "couple_net_monthly_won": 46551110.6,
+        "each_pretax_monthly_won": 45000000.0,
+        "effective_tax_rate": 0.4827654377777778,
+        "shortcut_3_1pct_one_won": 27900000.0,
+        "shortcut_gap_won": 4624444.699999999
+      },
+      {
+        "monthly_eok": 9.8,
+        "annual_eok": 117.60000000000001,
+        "surplus_annual_eok": 12.560000000000016,
+        "operating_ok": true,
+        "exit_years": 7.165605095541392,
+        "each_net_monthly_won": 25102164.66,
+        "couple_net_monthly_won": 50204329.32,
+        "each_pretax_monthly_won": 49000000.0,
+        "effective_tax_rate": 0.4877109253061224,
+        "shortcut_3_1pct_one_won": 30380000.0,
+        "shortcut_gap_won": 5277835.34
+      },
+      {
+        "monthly_eok": 10.1,
+        "annual_eok": 121.19999999999999,
+        "surplus_annual_eok": 14.719999999999999,
+        "operating_ok": true,
+        "exit_years": 6.114130434782609,
+        "each_net_monthly_won": 25787143.169999998,
+        "couple_net_monthly_won": 51574286.339999996,
+        "each_pretax_monthly_won": 50499999.99999999,
+        "effective_tax_rate": 0.48936350158415837,
+        "shortcut_3_1pct_one_won": 31310000.0,
+        "shortcut_gap_won": 5522856.830000002
+      },
+      {
+        "monthly_eok": 11.0,
+        "annual_eok": 132.0,
+        "surplus_annual_eok": 21.200000000000017,
+        "operating_ok": true,
+        "exit_years": 4.245283018867921,
+        "each_net_monthly_won": 27842078.7,
+        "couple_net_monthly_won": 55684157.4,
+        "each_pretax_monthly_won": 55000000.0,
+        "effective_tax_rate": 0.49378038727272733,
+        "shortcut_3_1pct_one_won": 34100000.0,
+        "shortcut_gap_won": 6257921.300000001
+      },
+      {
+        "monthly_eok": 12.1,
+        "annual_eok": 145.2,
+        "surplus_annual_eok": 29.120000000000005,
+        "operating_ok": true,
+        "exit_years": 3.0906593406593403,
+        "each_net_monthly_won": 30353666.569999997,
+        "couple_net_monthly_won": 60707333.13999999,
+        "each_pretax_monthly_won": 60500000.0,
+        "effective_tax_rate": 0.49828650297520666,
+        "shortcut_3_1pct_one_won": 37509999.99999999,
+        "shortcut_gap_won": 7156333.429999996
+      },
+      {
+        "monthly_eok": 12.5,
+        "annual_eok": 150.0,
+        "surplus_annual_eok": 32.000000000000014,
+        "operating_ok": true,
+        "exit_years": 2.8124999999999987,
+        "each_net_monthly_won": 31266971.25,
+        "couple_net_monthly_won": 62533942.5,
+        "each_pretax_monthly_won": 62500000.0,
+        "effective_tax_rate": 0.49972846,
+        "shortcut_3_1pct_one_won": 38750000.0,
+        "shortcut_gap_won": 7483028.75
+      }
+    ],
+    "staff50_bottomup": [
+      {
+        "monthly_eok": 5.0,
+        "annual_eok": 60.0,
+        "surplus_annual_eok": -31.999999999999993,
+        "operating_ok": false,
+        "exit_years": null,
+        "each_net_monthly_won": 13770341.833333334,
+        "couple_net_monthly_won": 27540683.666666668,
+        "each_pretax_monthly_won": 25000000.0,
+        "effective_tax_rate": 0.4491863266666667,
+        "shortcut_3_1pct_one_won": 15500000.0,
+        "shortcut_gap_won": 1729658.166666666
+      },
+      {
+        "monthly_eok": 5.5,
+        "annual_eok": 66.0,
+        "surplus_annual_eok": -28.39999999999999,
+        "operating_ok": false,
+        "exit_years": null,
+        "each_net_monthly_won": 14969722.683333332,
+        "couple_net_monthly_won": 29939445.366666663,
+        "each_pretax_monthly_won": 27500000.0,
+        "effective_tax_rate": 0.45564644787878794,
+        "shortcut_3_1pct_one_won": 17050000.0,
+        "shortcut_gap_won": 2080277.3166666683
+      },
+      {
+        "monthly_eok": 6.0,
+        "annual_eok": 72.0,
+        "surplus_annual_eok": -24.799999999999997,
+        "operating_ok": false,
+        "exit_years": null,
+        "each_net_monthly_won": 16166353.533333333,
+        "couple_net_monthly_won": 32332707.066666666,
+        "each_pretax_monthly_won": 30000000.0,
+        "effective_tax_rate": 0.4611215488888889,
+        "shortcut_3_1pct_one_won": 18600000.0,
+        "shortcut_gap_won": 2433646.466666667
+      },
+      {
+        "monthly_eok": 6.5,
+        "annual_eok": 78.0,
+        "surplus_annual_eok": -21.199999999999996,
+        "operating_ok": false,
+        "exit_years": null,
+        "each_net_monthly_won": 17362984.383333333,
+        "couple_net_monthly_won": 34725968.766666666,
+        "each_pretax_monthly_won": 32500000.0,
+        "effective_tax_rate": 0.46575432666666666,
+        "shortcut_3_1pct_one_won": 20150000.0,
+        "shortcut_gap_won": 2787015.616666667
+      },
+      {
+        "monthly_eok": 7.0,
+        "annual_eok": 84.0,
+        "surplus_annual_eok": -17.599999999999994,
+        "operating_ok": false,
+        "exit_years": null,
+        "each_net_monthly_won": 18559615.233333334,
+        "couple_net_monthly_won": 37119230.46666667,
+        "each_pretax_monthly_won": 35000000.0,
+        "effective_tax_rate": 0.469725279047619,
+        "shortcut_3_1pct_one_won": 21700000.0,
+        "shortcut_gap_won": 3140384.7666666657
+      },
+      {
+        "monthly_eok": 7.6,
+        "annual_eok": 91.19999999999999,
+        "surplus_annual_eok": -13.280000000000001,
+        "operating_ok": false,
+        "exit_years": null,
+        "each_net_monthly_won": 19995572.253333326,
+        "couple_net_monthly_won": 39991144.50666665,
+        "each_pretax_monthly_won": 37999999.99999999,
+        "effective_tax_rate": 0.47380073017543867,
+        "shortcut_3_1pct_one_won": 23559999.999999996,
+        "shortcut_gap_won": 3564427.74666667
+      },
+      {
+        "monthly_eok": 8.0,
+        "annual_eok": 96.0,
+        "surplus_annual_eok": -10.399999999999991,
+        "operating_ok": false,
+        "exit_years": null,
+        "each_net_monthly_won": 20952876.933333334,
+        "couple_net_monthly_won": 41905753.86666667,
+        "each_pretax_monthly_won": 40000000.0,
+        "effective_tax_rate": 0.47617807666666667,
+        "shortcut_3_1pct_one_won": 24800000.0,
+        "shortcut_gap_won": 3847123.0666666664
+      },
+      {
+        "monthly_eok": 8.5,
+        "annual_eok": 102.0,
+        "surplus_annual_eok": -6.79999999999999,
+        "operating_ok": false,
+        "exit_years": null,
+        "each_net_monthly_won": 22133924.45,
+        "couple_net_monthly_won": 44267848.9,
+        "each_pretax_monthly_won": 42500000.0,
+        "effective_tax_rate": 0.4792017776470588,
+        "shortcut_3_1pct_one_won": 26350000.0,
+        "shortcut_gap_won": 4216075.550000001
+      },
+      {
+        "monthly_eok": 9.0,
+        "annual_eok": 108.0,
+        "surplus_annual_eok": -3.1999999999999886,
+        "operating_ok": false,
+        "exit_years": null,
+        "each_net_monthly_won": 23275555.3,
+        "couple_net_monthly_won": 46551110.6,
+        "each_pretax_monthly_won": 45000000.0,
+        "effective_tax_rate": 0.4827654377777778,
+        "shortcut_3_1pct_one_won": 27900000.0,
+        "shortcut_gap_won": 4624444.699999999
+      },
+      {
+        "monthly_eok": 9.8,
+        "annual_eok": 117.60000000000001,
+        "surplus_annual_eok": 2.5600000000000165,
+        "operating_ok": true,
+        "exit_years": 35.15624999999977,
+        "each_net_monthly_won": 25102164.66,
+        "couple_net_monthly_won": 50204329.32,
+        "each_pretax_monthly_won": 49000000.0,
+        "effective_tax_rate": 0.4877109253061224,
+        "shortcut_3_1pct_one_won": 30380000.0,
+        "shortcut_gap_won": 5277835.34
+      },
+      {
+        "monthly_eok": 10.1,
+        "annual_eok": 121.19999999999999,
+        "surplus_annual_eok": 4.719999999999999,
+        "operating_ok": true,
+        "exit_years": 19.067796610169495,
+        "each_net_monthly_won": 25787143.169999998,
+        "couple_net_monthly_won": 51574286.339999996,
+        "each_pretax_monthly_won": 50499999.99999999,
+        "effective_tax_rate": 0.48936350158415837,
+        "shortcut_3_1pct_one_won": 31310000.0,
+        "shortcut_gap_won": 5522856.830000002
+      },
+      {
+        "monthly_eok": 11.0,
+        "annual_eok": 132.0,
+        "surplus_annual_eok": 11.200000000000017,
+        "operating_ok": true,
+        "exit_years": 8.035714285714274,
+        "each_net_monthly_won": 27842078.7,
+        "couple_net_monthly_won": 55684157.4,
+        "each_pretax_monthly_won": 55000000.0,
+        "effective_tax_rate": 0.49378038727272733,
+        "shortcut_3_1pct_one_won": 34100000.0,
+        "shortcut_gap_won": 6257921.300000001
+      },
+      {
+        "monthly_eok": 12.1,
+        "annual_eok": 145.2,
+        "surplus_annual_eok": 19.120000000000005,
+        "operating_ok": true,
+        "exit_years": 4.707112970711296,
+        "each_net_monthly_won": 30353666.569999997,
+        "couple_net_monthly_won": 60707333.13999999,
+        "each_pretax_monthly_won": 60500000.0,
+        "effective_tax_rate": 0.49828650297520666,
+        "shortcut_3_1pct_one_won": 37509999.99999999,
+        "shortcut_gap_won": 7156333.429999996
+      },
+      {
+        "monthly_eok": 12.5,
+        "annual_eok": 150.0,
+        "surplus_annual_eok": 22.000000000000014,
+        "operating_ok": true,
+        "exit_years": 4.090909090909088,
+        "each_net_monthly_won": 31266971.25,
+        "couple_net_monthly_won": 62533942.5,
+        "each_pretax_monthly_won": 62500000.0,
+        "effective_tax_rate": 0.49972846,
+        "shortcut_3_1pct_one_won": 38750000.0,
+        "shortcut_gap_won": 7483028.75
+      }
+    ],
+    "staff50_high": [
+      {
+        "monthly_eok": 5.0,
+        "annual_eok": 60.0,
+        "surplus_annual_eok": -41.199999999999996,
+        "operating_ok": false,
+        "exit_years": null,
+        "each_net_monthly_won": 13770341.833333334,
+        "couple_net_monthly_won": 27540683.666666668,
+        "each_pretax_monthly_won": 25000000.0,
+        "effective_tax_rate": 0.4491863266666667,
+        "shortcut_3_1pct_one_won": 15500000.0,
+        "shortcut_gap_won": 1729658.166666666
+      },
+      {
+        "monthly_eok": 5.5,
+        "annual_eok": 66.0,
+        "surplus_annual_eok": -37.72,
+        "operating_ok": false,
+        "exit_years": null,
+        "each_net_monthly_won": 14969722.683333332,
+        "couple_net_monthly_won": 29939445.366666663,
+        "each_pretax_monthly_won": 27500000.0,
+        "effective_tax_rate": 0.45564644787878794,
+        "shortcut_3_1pct_one_won": 17050000.0,
+        "shortcut_gap_won": 2080277.3166666683
+      },
+      {
+        "monthly_eok": 6.0,
+        "annual_eok": 72.0,
+        "surplus_annual_eok": -34.239999999999995,
+        "operating_ok": false,
+        "exit_years": null,
+        "each_net_monthly_won": 16166353.533333333,
+        "couple_net_monthly_won": 32332707.066666666,
+        "each_pretax_monthly_won": 30000000.0,
+        "effective_tax_rate": 0.4611215488888889,
+        "shortcut_3_1pct_one_won": 18600000.0,
+        "shortcut_gap_won": 2433646.466666667
+      },
+      {
+        "monthly_eok": 6.5,
+        "annual_eok": 78.0,
+        "surplus_annual_eok": -30.75999999999999,
+        "operating_ok": false,
+        "exit_years": null,
+        "each_net_monthly_won": 17362984.383333333,
+        "couple_net_monthly_won": 34725968.766666666,
+        "each_pretax_monthly_won": 32500000.0,
+        "effective_tax_rate": 0.46575432666666666,
+        "shortcut_3_1pct_one_won": 20150000.0,
+        "shortcut_gap_won": 2787015.616666667
+      },
+      {
+        "monthly_eok": 7.0,
+        "annual_eok": 84.0,
+        "surplus_annual_eok": -27.279999999999994,
+        "operating_ok": false,
+        "exit_years": null,
+        "each_net_monthly_won": 18559615.233333334,
+        "couple_net_monthly_won": 37119230.46666667,
+        "each_pretax_monthly_won": 35000000.0,
+        "effective_tax_rate": 0.469725279047619,
+        "shortcut_3_1pct_one_won": 21700000.0,
+        "shortcut_gap_won": 3140384.7666666657
+      },
+      {
+        "monthly_eok": 7.6,
+        "annual_eok": 91.19999999999999,
+        "surplus_annual_eok": -23.104,
+        "operating_ok": false,
+        "exit_years": null,
+        "each_net_monthly_won": 19995572.253333326,
+        "couple_net_monthly_won": 39991144.50666665,
+        "each_pretax_monthly_won": 37999999.99999999,
+        "effective_tax_rate": 0.47380073017543867,
+        "shortcut_3_1pct_one_won": 23559999.999999996,
+        "shortcut_gap_won": 3564427.74666667
+      },
+      {
+        "monthly_eok": 8.0,
+        "annual_eok": 96.0,
+        "surplus_annual_eok": -20.319999999999993,
+        "operating_ok": false,
+        "exit_years": null,
+        "each_net_monthly_won": 20952876.933333334,
+        "couple_net_monthly_won": 41905753.86666667,
+        "each_pretax_monthly_won": 40000000.0,
+        "effective_tax_rate": 0.47617807666666667,
+        "shortcut_3_1pct_one_won": 24800000.0,
+        "shortcut_gap_won": 3847123.0666666664
+      },
+      {
+        "monthly_eok": 8.5,
+        "annual_eok": 102.0,
+        "surplus_annual_eok": -16.83999999999999,
+        "operating_ok": false,
+        "exit_years": null,
+        "each_net_monthly_won": 22133924.45,
+        "couple_net_monthly_won": 44267848.9,
+        "each_pretax_monthly_won": 42500000.0,
+        "effective_tax_rate": 0.4792017776470588,
+        "shortcut_3_1pct_one_won": 26350000.0,
+        "shortcut_gap_won": 4216075.550000001
+      },
+      {
+        "monthly_eok": 9.0,
+        "annual_eok": 108.0,
+        "surplus_annual_eok": -13.359999999999992,
+        "operating_ok": false,
+        "exit_years": null,
+        "each_net_monthly_won": 23275555.3,
+        "couple_net_monthly_won": 46551110.6,
+        "each_pretax_monthly_won": 45000000.0,
+        "effective_tax_rate": 0.4827654377777778,
+        "shortcut_3_1pct_one_won": 27900000.0,
+        "shortcut_gap_won": 4624444.699999999
+      },
+      {
+        "monthly_eok": 9.8,
+        "annual_eok": 117.60000000000001,
+        "surplus_annual_eok": -7.791999999999987,
+        "operating_ok": false,
+        "exit_years": null,
+        "each_net_monthly_won": 25102164.66,
+        "couple_net_monthly_won": 50204329.32,
+        "each_pretax_monthly_won": 49000000.0,
+        "effective_tax_rate": 0.4877109253061224,
+        "shortcut_3_1pct_one_won": 30380000.0,
+        "shortcut_gap_won": 5277835.34
+      },
+      {
+        "monthly_eok": 10.1,
+        "annual_eok": 121.19999999999999,
+        "surplus_annual_eok": -5.7039999999999935,
+        "operating_ok": false,
+        "exit_years": null,
+        "each_net_monthly_won": 25787143.169999998,
+        "couple_net_monthly_won": 51574286.339999996,
+        "each_pretax_monthly_won": 50499999.99999999,
+        "effective_tax_rate": 0.48936350158415837,
+        "shortcut_3_1pct_one_won": 31310000.0,
+        "shortcut_gap_won": 5522856.830000002
+      },
+      {
+        "monthly_eok": 11.0,
+        "annual_eok": 132.0,
+        "surplus_annual_eok": 0.5600000000000023,
+        "operating_ok": true,
+        "exit_years": 160.71428571428507,
+        "each_net_monthly_won": 27842078.7,
+        "couple_net_monthly_won": 55684157.4,
+        "each_pretax_monthly_won": 55000000.0,
+        "effective_tax_rate": 0.49378038727272733,
+        "shortcut_3_1pct_one_won": 34100000.0,
+        "shortcut_gap_won": 6257921.300000001
+      },
+      {
+        "monthly_eok": 12.1,
+        "annual_eok": 145.2,
+        "surplus_annual_eok": 8.216000000000008,
+        "operating_ok": true,
+        "exit_years": 10.95423563777993,
+        "each_net_monthly_won": 30353666.569999997,
+        "couple_net_monthly_won": 60707333.13999999,
+        "each_pretax_monthly_won": 60500000.0,
+        "effective_tax_rate": 0.49828650297520666,
+        "shortcut_3_1pct_one_won": 37509999.99999999,
+        "shortcut_gap_won": 7156333.429999996
+      },
+      {
+        "monthly_eok": 12.5,
+        "annual_eok": 150.0,
+        "surplus_annual_eok": 11.000000000000014,
+        "operating_ok": true,
+        "exit_years": 8.181818181818171,
+        "each_net_monthly_won": 31266971.25,
+        "couple_net_monthly_won": 62533942.5,
+        "each_pretax_monthly_won": 62500000.0,
+        "effective_tax_rate": 0.49972846,
+        "shortcut_3_1pct_one_won": 38750000.0,
+        "shortcut_gap_won": 7483028.75
+      }
+    ]
+  },
+  "mc": {
+    "rev_p10": 4.927641015571887,
+    "rev_p50": 7.33947031972867,
+    "rev_p90": 10.899268413203208,
+    "rev_mean": 7.693386865403183,
+    "net1_p10": 13589208.358963542,
+    "net1_p50": 19372056.547826715,
+    "net1_p90": 27612082.125886664,
+    "couple_p10": 27178416.717927083,
+    "couple_p50": 38744113.09565343,
+    "couple_p90": 55224164.25177333,
+    "p_operating_surplus": 0.2229,
+    "p_exit_6": 0.08024,
+    "p_exit_7": 0.09354,
+    "p_exit_10": 0.12278,
+    "p_exit_15": 0.15004,
+    "p_never": 0.7771,
+    "exit_p50_finite": 8.694535176246488
+  },
+  "mc_capacity": {
+    "rev_p10": 7.630732715612373,
+    "rev_p50": 10.286358811556518,
+    "rev_p90": 13.703628995005571,
+    "rev_mean": 10.501915694020955,
+    "net1_p10": 20069123.68454542,
+    "net1_p50": 26212649.106884517,
+    "net1_p90": 34015171.23530571,
+    "couple_p10": 40138247.36909084,
+    "couple_p50": 52425298.21376903,
+    "couple_p90": 68030342.47061142,
+    "p_operating_surplus": 0.6554,
+    "p_exit_6": 0.3241,
+    "p_exit_7": 0.36774,
+    "p_exit_10": 0.4512,
+    "p_exit_15": 0.5192,
+    "p_never": 0.3446,
+    "exit_p50_finite": 6.065017837920053
+  },
+  "physical_base_25x15": {
+    "monthly_eok": 11.55,
+    "annual_eok": 138.60000000000002,
+    "surplus_annual_eok": 15.160000000000025,
+    "operating_ok": true,
+    "exit_years": 5.936675461741415,
+    "each_net_monthly_won": 29097872.635000005,
+    "couple_net_monthly_won": 58195745.27000001,
+    "each_pretax_monthly_won": 57750000.00000001,
+    "effective_tax_rate": 0.4961407335930736,
+    "shortcut_3_1pct_one_won": 35805000.00000001,
+    "shortcut_gap_won": 6707127.365000002
+  },
+  "stress": {
+    "base": {
+      "monthly_eok": 7.33947031972867,
+      "annual_eok": 88.07364383674404,
+      "surplus_annual_eok": -15.155813697953569,
+      "operating_ok": false,
+      "exit_years": null,
+      "each_net_monthly_won": 19372056.547826715,
+      "couple_net_monthly_won": 38744113.09565343,
+      "each_pretax_monthly_won": 36697351.598643355,
+      "effective_tax_rate": 0.47211295355322397,
+      "shortcut_3_1pct_one_won": 22752357.99115888,
+      "shortcut_gap_won": 3380301.4433321655
+    },
+    "rev_minus_20pct": {
+      "monthly_eok": 5.871576255782936,
+      "annual_eok": 70.45891506939523,
+      "surplus_annual_eok": -25.724650958362858,
+      "operating_ok": false,
+      "exit_years": null,
+      "each_net_monthly_won": 15859001.904928038,
+      "couple_net_monthly_won": 31718003.809856076,
+      "each_pretax_monthly_won": 29357881.27891468,
+      "effective_tax_rate": 0.4598042769415299,
+      "shortcut_3_1pct_one_won": 18201886.3929271,
+      "shortcut_gap_won": 2342884.487999061
+    },
+    "rev_minus_30pct": {
+      "monthly_eok": 5.137629223810069,
+      "annual_eok": 61.65155068572082,
+      "surplus_annual_eok": -31.0090695885675,
+      "operating_ok": false,
+      "exit_years": null,
+      "each_net_monthly_won": 14102474.583478699,
+      "couple_net_monthly_won": 28204949.166957397,
+      "each_pretax_monthly_won": 25688146.119050343,
+      "effective_tax_rate": 0.4510123650760342,
+      "shortcut_3_1pct_one_won": 15926650.593811214,
+      "shortcut_gap_won": 1824176.0103325155
+    },
+    "two_doctors_gone_approx_18pct": {
+      "monthly_eok": 6.018365662177509,
+      "annual_eok": 72.2203879461301,
+      "surplus_annual_eok": -24.66776723232193,
+      "operating_ok": false,
+      "exit_years": null,
+      "each_net_monthly_won": 16210307.369217902,
+      "couple_net_monthly_won": 32420614.738435805,
+      "each_pretax_monthly_won": 30091828.310887545,
+      "effective_tax_rate": 0.4613053350649073,
+      "shortcut_3_1pct_one_won": 18656933.55275028,
+      "shortcut_gap_won": 2446626.183532376
+    },
+    "hwang_exit_minus_15pct": {
+      "monthly_eok": 6.238549771769369,
+      "annual_eok": 74.86259726123242,
+      "surplus_annual_eok": -23.082441643260537,
+      "operating_ok": false,
+      "exit_years": null,
+      "each_net_monthly_won": 16737265.565652704,
+      "couple_net_monthly_won": 33474531.131305408,
+      "each_pretax_monthly_won": 31192748.858846843,
+      "effective_tax_rate": 0.4634244759449694,
+      "shortcut_3_1pct_one_won": 19339504.292485043,
+      "shortcut_gap_won": 2602238.7268323395
+    },
+    "fixed_plus_10pct": {
+      "monthly_eok": 7.33947031972867,
+      "annual_eok": 88.07364383674404,
+      "surplus_annual_eok": -21.95581369795358,
+      "operating_ok": false,
+      "exit_years": null,
+      "each_net_monthly_won": 19372056.547826715,
+      "couple_net_monthly_won": 38744113.09565343,
+      "each_pretax_monthly_won": 36697351.598643355,
+      "effective_tax_rate": 0.47211295355322397,
+      "shortcut_3_1pct_one_won": 22752357.99115888,
+      "shortcut_gap_won": 3380301.4433321655
+    },
+    "interest_6pct": {
+      "monthly_eok": 7.33947031972867,
+      "annual_eok": 88.07364383674404,
+      "surplus_annual_eok": -20.555813697953567,
+      "operating_ok": false,
+      "exit_years": null,
+      "each_net_monthly_won": 19372056.547826715,
+      "couple_net_monthly_won": 38744113.09565343,
+      "each_pretax_monthly_won": 36697351.598643355,
+      "effective_tax_rate": 0.47211295355322397,
+      "shortcut_3_1pct_one_won": 22752357.99115888,
+      "shortcut_gap_won": 3380301.4433321655
+    }
+  },
+  "physical": {
+    "20x120000": {
+      "ppd": 20,
+      "ticket": 120000,
+      "monthly_eok": 7.392,
+      "daily_patients": 220
+    },
+    "20x140000": {
+      "ppd": 20,
+      "ticket": 140000,
+      "monthly_eok": 8.624,
+      "daily_patients": 220
+    },
+    "20x150000": {
+      "ppd": 20,
+      "ticket": 150000,
+      "monthly_eok": 9.24,
+      "daily_patients": 220
+    },
+    "20x160000": {
+      "ppd": 20,
+      "ticket": 160000,
+      "monthly_eok": 9.856,
+      "daily_patients": 220
+    },
+    "20x180000": {
+      "ppd": 20,
+      "ticket": 180000,
+      "monthly_eok": 11.088,
+      "daily_patients": 220
+    },
+    "22x120000": {
+      "ppd": 22,
+      "ticket": 120000,
+      "monthly_eok": 8.1312,
+      "daily_patients": 242
+    },
+    "22x140000": {
+      "ppd": 22,
+      "ticket": 140000,
+      "monthly_eok": 9.4864,
+      "daily_patients": 242
+    },
+    "22x150000": {
+      "ppd": 22,
+      "ticket": 150000,
+      "monthly_eok": 10.164,
+      "daily_patients": 242
+    },
+    "22x160000": {
+      "ppd": 22,
+      "ticket": 160000,
+      "monthly_eok": 10.8416,
+      "daily_patients": 242
+    },
+    "22x180000": {
+      "ppd": 22,
+      "ticket": 180000,
+      "monthly_eok": 12.1968,
+      "daily_patients": 242
+    },
+    "25x120000": {
+      "ppd": 25,
+      "ticket": 120000,
+      "monthly_eok": 9.24,
+      "daily_patients": 275
+    },
+    "25x140000": {
+      "ppd": 25,
+      "ticket": 140000,
+      "monthly_eok": 10.78,
+      "daily_patients": 275
+    },
+    "25x150000": {
+      "ppd": 25,
+      "ticket": 150000,
+      "monthly_eok": 11.55,
+      "daily_patients": 275
+    },
+    "25x160000": {
+      "ppd": 25,
+      "ticket": 160000,
+      "monthly_eok": 12.32,
+      "daily_patients": 275
+    },
+    "25x180000": {
+      "ppd": 25,
+      "ticket": 180000,
+      "monthly_eok": 13.86,
+      "daily_patients": 275
+    },
+    "28x120000": {
+      "ppd": 28,
+      "ticket": 120000,
+      "monthly_eok": 10.3488,
+      "daily_patients": 308
+    },
+    "28x140000": {
+      "ppd": 28,
+      "ticket": 140000,
+      "monthly_eok": 12.0736,
+      "daily_patients": 308
+    },
+    "28x150000": {
+      "ppd": 28,
+      "ticket": 150000,
+      "monthly_eok": 12.936,
+      "daily_patients": 308
+    },
+    "28x160000": {
+      "ppd": 28,
+      "ticket": 160000,
+      "monthly_eok": 13.7984,
+      "daily_patients": 308
+    },
+    "28x180000": {
+      "ppd": 28,
+      "ticket": 180000,
+      "monthly_eok": 15.5232,
+      "daily_patients": 308
+    },
+    "32x120000": {
+      "ppd": 32,
+      "ticket": 120000,
+      "monthly_eok": 11.8272,
+      "daily_patients": 352
+    },
+    "32x140000": {
+      "ppd": 32,
+      "ticket": 140000,
+      "monthly_eok": 13.7984,
+      "daily_patients": 352
+    },
+    "32x150000": {
+      "ppd": 32,
+      "ticket": 150000,
+      "monthly_eok": 14.784,
+      "daily_patients": 352
+    },
+    "32x160000": {
+      "ppd": 32,
+      "ticket": 160000,
+      "monthly_eok": 15.7696,
+      "daily_patients": 352
+    },
+    "32x180000": {
+      "ppd": 32,
+      "ticket": 180000,
+      "monthly_eok": 17.7408,
+      "daily_patients": 352
+    },
+    "35x120000": {
+      "ppd": 35,
+      "ticket": 120000,
+      "monthly_eok": 12.936,
+      "daily_patients": 385
+    },
+    "35x140000": {
+      "ppd": 35,
+      "ticket": 140000,
+      "monthly_eok": 15.092,
+      "daily_patients": 385
+    },
+    "35x150000": {
+      "ppd": 35,
+      "ticket": 150000,
+      "monthly_eok": 16.17,
+      "daily_patients": 385
+    },
+    "35x160000": {
+      "ppd": 35,
+      "ticket": 160000,
+      "monthly_eok": 17.248,
+      "daily_patients": 385
+    },
+    "35x180000": {
+      "ppd": 35,
+      "ticket": 180000,
+      "monthly_eok": 19.404,
+      "daily_patients": 385
+    }
+  },
+  "procedure_count_checks": [
+    {
+      "hq_share": 0.35,
+      "months": 62,
+      "monthly_visits": 1035.3225806451612,
+      "ticket_won": 150000,
+      "implied_monthly_eok": 1.552983870967742
+    },
+    {
+      "hq_share": 0.4,
+      "months": 62,
+      "monthly_visits": 1183.225806451613,
+      "ticket_won": 180000,
+      "implied_monthly_eok": 2.1298064516129034
+    },
+    {
+      "hq_share": 0.35,
+      "months": 6,
+      "monthly_visits": 10698.333333333332,
+      "ticket_won": 150000,
+      "implied_monthly_eok": 16.047499999999996
+    },
+    {
+      "hq_share": 0.2,
+      "months": 12,
+      "monthly_visits": 3056.6666666666665,
+      "ticket_won": 150000,
+      "implied_monthly_eok": 4.585
+    }
+  ],
+  "peers": [
+    {
+      "name": "부평역 500m 피부과 평균",
+      "monthly_eok": 1.2092,
+      "median_eok": 0.881,
+      "n": 20,
+      "source": "데일리팜 전국 의원-약국 상권분석(12) 인천 부평역",
+      "confidence": "high"
+    },
+    {
+      "name": "부평역 500m 의원 전체 평균",
+      "monthly_eok": 1.0535,
+      "median_eok": 0.5178,
+      "n": 70,
+      "source": "데일리팜 부평역 상권분석",
+      "confidence": "high"
+    },
+    {
+      "name": "잠실역 피부과 평균",
+      "monthly_eok": 1.2534,
+      "source": "데일리팜 잠실역 상권분석",
+      "confidence": "high"
+    },
+    {
+      "name": "연신내역 피부과 평균",
+      "monthly_eok": 2.1013,
+      "source": "데일리팜 연신내역 상권분석",
+      "confidence": "high"
+    },
+    {
+      "name": "청량리역 피부과 평균",
+      "monthly_eok": 3.8851,
+      "source": "데일리팜 청량리역 상권분석(2025-09)",
+      "confidence": "high"
+    },
+    {
+      "name": "부평5동 피부과 평균",
+      "monthly_eok": 2.98,
+      "source": "사용자 제공 Medigate 로컬 (2026-08, 미독립검증)",
+      "confidence": "medium"
+    },
+    {
+      "name": "부평 1km 선택범위 피부과 평균",
+      "monthly_eok": 1.61,
+      "source": "사용자 제공 Medigate 로컬 (2026-08, 미독립검증)",
+      "confidence": "medium"
+    },
+    {
+      "name": "부평5동 상위 20%",
+      "monthly_eok": 6.82,
+      "source": "사용자 제공 Medigate 로컬 (2026-08, 미독립검증)",
+      "confidence": "medium"
+    },
+    {
+      "name": "톡스앤필 가맹 평균",
+      "monthly_eok": 4.2,
+      "source": "사용자 제공 벤치마크 (미독립검증)",
+      "confidence": "low"
+    },
+    {
+      "name": "톤즈 본점 자기신고 2025",
+      "monthly_eok": 12.5,
+      "annual_eok": 150,
+      "source": "나무위키: 운명전쟁49 출연 공개",
+      "confidence": "low"
+    }
+  ],
+  "clinic": {
+    "name": "톤즈의원 인천본점(부평)",
+    "address": "인천 부평구 경원대로 1395 부평일번가 12·13층",
+    "opened": "2021-04-15",
+    "area_m2": 1119,
+    "area_pyeong": 338.5,
+    "doctors_gp": 11,
+    "doctors_specialist": 0,
+    "medical_staff_count": 14,
+    "legal_form": "개인",
+    "status": "영업중 (공공데이터 2024-12 갱신)",
+    "chain_branches_2026": 25,
+    "cumulative_procedures_all_branches_2026_06": 183400,
+    "sources": [
+      "지방행정 인허가/전국 의원 지도: 총면적 1,119㎡, 의료인 14, 성형외과·피부과",
+      "심평원 공개 요양기관: 의과일반의 11, 전문의 0",
+      "공식 사이트 tonesclinic.co.kr: 25지점, 누적 시술 183,400 (2026-06 내부집계)",
+      "나무위키/namu.moe: 본점 2025 연매출 150억 — 출처는 '운명전쟁49 출연 공개' (자기신고, 세무검증 아님)"
+    ]
+  },
+  "nts": {
+    "derm_urology_avg_revenue_2022_eok": 11.2834,
+    "derm_urology_avg_revenue_2023_eok": 12.7226,
+    "derm_max_gangnam_eok": 240,
+    "source": "국세청 TASIS 100대 생활업종 / 치의신보·데일리팜 재인용"
+  },
+  "assumptions": {
+    "deal": {
+      "couple_equity_eok": 10.0,
+      "mso_principal_eok": 90.0,
+      "couple_take_rate": 0.1,
+      "interest_rate_base": 0.0,
+      "target_exit_years": [
+        6,
+        7,
+        10
+      ],
+      "opex_paid_by": "mso_from_90pct",
+      "notes": "부부 10% 선취, 나머지 90%에서 OPEX를 빼고 잔액으로 90억 무이자 상환. 계약서 미확인."
+    },
+    "operations": {
+      "doctors_total": 11,
+      "doctors_paid": 9,
+      "staff_non_doctor": 50,
+      "clinic_days_per_month": 28,
+      "couple_off_days_per_month": 2,
+      "area_pyeong": 338.5
+    },
+    "cost_packages": {
+      "verified_58": {
+        "label": "대화 확정식 (고정 58억)",
+        "fixed_eok": 58.0,
+        "variable_rate": 0.3,
+        "note": "사용자 잠금식. 직원 50명을 과소반영했을 가능성."
+      },
+      "staff50_bottomup": {
+        "label": "직원 50명 바텀업 (권장)",
+        "fixed_eok": 68.0,
+        "variable_rate": 0.3,
+        "breakdown_eok": {
+          "paid_doctors_9x26m": 28.1,
+          "staff_50x420m_loaded": 25.2,
+          "rent_cam_338py": 6.2,
+          "marketing_fixed": 4.5,
+          "other_fixed": 4.0
+        },
+        "note": "의사 9명 세전 2,600만, 직원 50명 풀로딩 420만, 338평 임대+관리, 마케팅 고정+기타."
+      },
+      "staff50_high": {
+        "label": "인건비 상단 (고정 76억)",
+        "fixed_eok": 76.0,
+        "variable_rate": 0.32,
+        "note": "의사 급여 인플레 + 직원 풀로딩 450만 + 마케팅 확대."
+      }
+    },
+    "revenue_prior": {
+      "type": "lognormal",
+      "median_monthly_eok": 7.6,
+      "sigma": 0.3,
+      "physical_cap_monthly_eok": 16.0,
+      "floor_monthly_eok": 3.8,
+      "rationale": "부평 평균 1.2억의 6배, 11인 의사·338평 규모 보정. 150억 자기신고는 우측 꼬리로만 반영. 대화 후반의 월 9~14억 상향 드리프트는 채택하지 않음."
+    },
+    "physical": {
+      "ticket_won": [
+        120000,
+        140000,
+        150000,
+        160000,
+        180000
+      ],
+      "patients_per_doctor_day": [
+        20,
+        22,
+        25,
+        28,
+        32,
+        35
+      ],
+      "sustainable_ppd": 25,
+      "stretch_ppd": 32,
+      "quality_cap_ppd": 35
+    },
+    "em_comparison": {
+      "pattern": "Day-Night-Off-Off-Off-Off",
+      "monthly_net_won": 30000000,
+      "note": "응급의학과 전문의 본인 현재 조건"
+    }
+  },
+  "em_comparison": {
+    "em_net_monthly": 30000000,
+    "deal_one_p50": 19372056.547826715,
+    "deal_couple_p50": 38744113.09565343,
+    "one_vs_em": -10627943.452173285,
+    "hours_note": "EM: DN+OOOO / Deal: 월 2일 휴무"
+  },
+  "x_status": "X MCP 미인증 — 공개 웹·공공데이터만 사용"
+}
