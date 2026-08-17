@@ -6,6 +6,7 @@ from clinic_model import (
     BILLION,
     Assumptions,
     Triangular,
+    korean_corporate_tax_2026,
     korean_income_tax,
     run_trial,
 )
@@ -27,6 +28,15 @@ class ClinicModelTest(unittest.TestCase):
         self.assertAlmostEqual(korean_income_tax(14_000_000), 924_000)
         self.assertGreater(korean_income_tax(600_000_000), 200_000_000)
         self.assertLess(korean_income_tax(600_000_000), 250_000_000)
+
+    def test_2026_corporate_tax_includes_local_tax(self):
+        self.assertEqual(korean_corporate_tax_2026(-1), 0)
+        self.assertAlmostEqual(
+            korean_corporate_tax_2026(200_000_000), 22_000_000
+        )
+        self.assertAlmostEqual(
+            korean_corporate_tax_2026(1_000_000_000), 198_000_000
+        )
 
     def test_bep_does_not_double_count_payroll(self):
         assumptions = Assumptions(

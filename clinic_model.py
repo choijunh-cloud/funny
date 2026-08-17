@@ -88,8 +88,10 @@ class Trial:
     fixed_cost_annual: float
     variable_cost_rate: float
     annual_repayment_cash: float
+    annual_repayment_cash_after_corporate_tax: float
     operating_bep_monthly_revenue: float
     years_to_repay: float
+    years_to_repay_after_corporate_tax: float
     owner_monthly_net_each: float
     owner_monthly_net_couple: float
 
@@ -115,6 +117,29 @@ def korean_income_tax(gross_income: float) -> float:
     for ceiling, rate, deduction in brackets:
         if gross_income <= ceiling:
             national = max(0.0, gross_income * rate - deduction)
+            return national * 1.10
+    raise AssertionError("unreachable")
+
+
+def korean_corporate_tax_2026(tax_base: float) -> float:
+    """2026 corporate income tax plus 10% local corporate income tax.
+
+    Acquisition-price amortization, loss carryforwards, tax credits, and other
+    adjustments are intentionally excluded. This is therefore a conservative
+    tax scenario when acquired goodwill or equipment is tax-depreciable.
+    """
+
+    if tax_base <= 0:
+        return 0.0
+    brackets = (
+        (200 * MILLION, 0.10, 0),
+        (20 * BILLION, 0.20, 20 * MILLION),
+        (300 * BILLION, 0.22, 420 * MILLION),
+        (math.inf, 0.25, 9.42 * BILLION),
+    )
+    for ceiling, rate, deduction in brackets:
+        if tax_base <= ceiling:
+            national = max(0.0, tax_base * rate - deduction)
             return national * 1.10
     raise AssertionError("unreachable")
 
@@ -175,9 +200,16 @@ def run_trial(rng: random.Random, a: Assumptions) -> Trial:
     contribution_rate = 1 - a.owner_revenue_share - variable_rate
     annual_revenue = monthly_revenue * 12
     repayment_cash = annual_revenue * contribution_rate - fixed_cost
+    corporate_tax = korean_corporate_tax_2026(repayment_cash)
+    repayment_cash_after_tax = repayment_cash - corporate_tax
     operating_bep = fixed_cost / contribution_rate / 12
     years_to_repay = (
         a.debt_krw / repayment_cash if repayment_cash > 0 else math.inf
+    )
+    years_to_repay_after_tax = (
+        a.debt_krw / repayment_cash_after_tax
+        if repayment_cash_after_tax > 0
+        else math.inf
     )
 
     owner_gross_each = (
@@ -195,8 +227,10 @@ def run_trial(rng: random.Random, a: Assumptions) -> Trial:
         fixed_cost_annual=fixed_cost,
         variable_cost_rate=variable_rate,
         annual_repayment_cash=repayment_cash,
+        annual_repayment_cash_after_corporate_tax=repayment_cash_after_tax,
         operating_bep_monthly_revenue=operating_bep,
         years_to_repay=years_to_repay,
+        years_to_repay_after_corporate_tax=years_to_repay_after_tax,
         owner_monthly_net_each=owner_net_each,
         owner_monthly_net_couple=owner_net_each * a.owner_count,
     )
@@ -257,6 +291,9 @@ def simulate(a: Assumptions) -> dict:
             "years_to_repay_if_positive": summarize(
                 t.years_to_repay for t in trials
             ),
+            "years_to_repay_after_corporate_tax_if_positive": summarize(
+                t.years_to_repay_after_corporate_tax for t in trials
+            ),
         },
         "probabilities": {
             "operating_cashflow_positive": probability(
@@ -270,6 +307,15 @@ def simulate(a: Assumptions) -> dict:
             ),
             "repay_within_10_years": probability(
                 trials, lambda t: t.years_to_repay <= 10
+            ),
+            "repay_within_6_years_after_corporate_tax": probability(
+                trials, lambda t: t.years_to_repay_after_corporate_tax <= 6
+            ),
+            "repay_within_7_years_after_corporate_tax": probability(
+                trials, lambda t: t.years_to_repay_after_corporate_tax <= 7
+            ),
+            "repay_within_10_years_after_corporate_tax": probability(
+                trials, lambda t: t.years_to_repay_after_corporate_tax <= 10
             ),
             "monthly_revenue_at_least_10b_krw": probability(
                 trials, lambda t: t.monthly_revenue >= 1.0 * BILLION
@@ -346,9 +392,18 @@ def render_markdown(result: dict) -> str:
         "## 모델 내 확률",
         "",
         f"- 운영현금흐름 흑자: {p['operating_cashflow_positive']:.1%}",
-        f"- 6년 내 90억 상환: {p['repay_within_6_years']:.1%}",
-        f"- 7년 내 90억 상환: {p['repay_within_7_years']:.1%}",
-        f"- 10년 내 90억 상환: {p['repay_within_10_years']:.1%}",
+        (
+            f"- 6년 내 90억 상환: 세전 {p['repay_within_6_years']:.1%} / "
+            f"법인세 후 {p['repay_within_6_years_after_corporate_tax']:.1%}"
+        ),
+        (
+            f"- 7년 내 90억 상환: 세전 {p['repay_within_7_years']:.1%} / "
+            f"법인세 후 {p['repay_within_7_years_after_corporate_tax']:.1%}"
+        ),
+        (
+            f"- 10년 내 90억 상환: 세전 {p['repay_within_10_years']:.1%} / "
+            f"법인세 후 {p['repay_within_10_years_after_corporate_tax']:.1%}"
+        ),
         f"- 월매출 10억 이상: {p['monthly_revenue_at_least_10b_krw']:.1%}",
         f"- 일 환자 280명 이상: {p['daily_patients_at_least_280']:.1%}",
         "",
@@ -374,6 +429,9 @@ def render_markdown(result: dict) -> str:
         "다르면 식을 바꿔야 합니다.",
         "- 법인세는 운영법인의 이익에 부과될 수 있으나, 부부 10%의 세후 계산은 "
         "개인 종합소득세 가정입니다. 법적 사업구조 확인 전 둘을 섞으면 안 됩니다.",
+        "- 법인세 후 시나리오는 2026년 세율과 지방세를 적용하고 인수자산 "
+        "감가상각은 0원으로 둔 보수값입니다. 영업권·장비의 세무상 취득가액이 "
+        "확인되면 상환 결과가 개선될 수 있습니다.",
     ]
     return "\n".join(lines) + "\n"
 
