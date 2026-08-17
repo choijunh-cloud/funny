@@ -123,6 +123,26 @@ def _load_xlsx(path):
 
 
 # ── 위생 ─────────────────────────────────────────────
+def apply_corrections(pool, path=None):
+    """시트5·v4.8·시트38·8월 실측 정정을 인센 계산 전에 덮어쓴다."""
+    p = Path(path) if path else DATA / "corrections.json"
+    if not p.exists():
+        return pool
+    cash = load_json(p).get("cash", {})
+    for d in pool:
+        patch = cash.get(d["h"])
+        if not patch:
+            continue
+        for k, v in patch.items():
+            if k == "note":
+                d["corr_note"] = v
+            else:
+                d[k] = v
+        if patch.get("cash2") is not None:
+            d["cash"] = patch["cash2"]
+    return pool
+
+
 def apply_hygiene(pool, ov):
     exclude = set(ov.get("exclude_from_rank", []))
     provisional = set(ov.get("provisional_volume", []))
@@ -332,15 +352,23 @@ def veto_reason(d, ov):
 
 
 def verdict(d, ov):
+    """숫자 게이트 + 정정 후 평판. 확정인데 연환자 미달은 스크리닝으로 올리지 않는다."""
     why = veto_reason(d, ov)
     g = d.get("g") or gates(d, ov)
     if why:
         return "AVOID", why
     if g["무결점"]:
-        return "PASS_CONFIRM", "확정+연환자"
-    if g["스크리닝"]:
-        return "PASS_SCREEN", "스크리닝"
-    return "HOLD", "게이트미달"
+        v, w = "PASS_CONFIRM", "확정+연환자"
+    elif g["확정"] and not g["연환자"]:
+        v, w = "HOLD", d.get("vol_why") or "연환자미달"
+    elif g["스크리닝"]:
+        v, w = "PASS_SCREEN", "스크리닝"
+    else:
+        v, w = "HOLD", "게이트미달"
+    rep = ov.get("reputation", {}).get(d["h"], {})
+    if v != "AVOID" and rep.get("flag") == "평판리스크":
+        return "REVIEW", "평판리스크·현직자통화필수"
+    return v, w
 
 
 def qualitative(d, ov):
@@ -424,6 +452,7 @@ def prepare(pool=None, overlays=None):
     else:
         pool = [dict(d) for d in pool]
     apply_hygiene(pool, ov)
+    apply_corrections(pool)
     apply_incentive(pool)
     for d in pool:
         spendable_cash(d, ov)
@@ -713,7 +742,7 @@ def print_report(pool, fin, ov):
     print("═" * 64)
 
     print("\n[판정 분포]")
-    for lab in ("PASS_CONFIRM", "PASS_SCREEN", "HOLD", "AVOID"):
+    for lab in ("PASS_CONFIRM", "REVIEW", "PASS_SCREEN", "HOLD", "AVOID"):
         names = [d["h"] for d in pool if d.get("verdict") == lab and d.get("rankable")]
         print(f"  {lab:14s} {len(names):2d}  {', '.join(names[:8])}{'…' if len(names) > 8 else ''}")
 
@@ -894,8 +923,14 @@ def main(argv=None):
     argv = list(sys.argv[1:] if argv is None else argv)
     flags, kv = _parse_kv(argv)
     if not flags:
-        flags = {"--report", "--targets"}
+        flags = {"--verdict"}
     pool, fin, ov = prepare()
+    if "--verdict" in flags:
+        from bongjik.verdict import print_board, print_card
+        cards = print_board(pool=pool, ov=ov)
+        print("\n[핵심 카드]")
+        for n in ("나사렛", "경희의료원", "진주", "을지(12", "국립중앙", "여수전남", "강북삼성"):
+            print_card(n, cards)
     if "--lineage" in flags:
         print_lineage()
     if "--report" in flags:

@@ -179,7 +179,8 @@ class UnifiedModelTests(unittest.TestCase):
         self.assertEqual(cards["천안충무(관대)"]["verdict"], "HOLD")
         self.assertEqual(cards["국립중앙의료원(7인·104h)"]["verdict"], "HOLD")
         kosin = cards["고신대복음병원"]
-        self.assertIn(kosin["verdict"], ("HOLD", "PASS_SCREEN"))
+        self.assertEqual(kosin["verdict"], "HOLD")
+        self.assertIn("대학구조", kosin["verdict_why"])
         self.assertFalse(kosin["g"]["연환자"])
 
     def test_market_score_ignores_commute(self):
@@ -197,6 +198,28 @@ class UnifiedModelTests(unittest.TestCase):
         if st["zone"]:
             self.assertLessEqual(st["zone"][0], CUT_UNIT)
             self.assertGreaterEqual(st["zone"][1], 13.0)
+
+    def test_eulji_is_review_not_confirm(self):
+        """카톡 3.0+2.2 폐기·통장 2,530. 숫자는 통과해도 평판이면 REVIEW."""
+        e12 = self.by_name["의정부을지(12인 후)"]
+        e10 = self.by_name["의정부을지(10인 현재)"]
+        self.assertEqual(e12["cash2"], 2530)
+        self.assertEqual(e12["incen_src"], "실측포함")
+        self.assertEqual(e12["verdict"], "REVIEW")
+        self.assertEqual(e10["verdict"], "REVIEW")
+        self.assertNotEqual(e12["verdict"], "PASS_CONFIRM")
+
+    def test_yeosu_august_cash(self):
+        d = self.by_name["여수전남병원"]
+        self.assertEqual(d["cash2"], 2770)
+        self.assertAlmostEqual(d["pp2"], 9.7, delta=0.2)
+        self.assertEqual(d["verdict"], "HOLD")
+
+    def test_redcross_keeps_posted_cash(self):
+        o = self.by_name["인천적십자(병당O)"]
+        self.assertEqual(o["cash2"], 1900)
+        self.assertEqual(o["incen_src"], "실측포함")
+        self.assertEqual(o["verdict"], "AVOID")
 
     def test_infer_does_not_double_count_nmc_or_halla(self):
         nmc = self.by_name["국립중앙의료원"]

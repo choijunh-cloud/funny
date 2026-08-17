@@ -12,8 +12,9 @@ v1.2 코드, 2026-06/07 백업, 최종 마스터(72프로필), 8월 홀드아웃
 
 ```bash
 pip install -r bongjik/requirements.txt
-python3 -m bongjik --report
-python3 -m bongjik --targets
+python3 -m bongjik --verdict
+python3 -m bongjik.verdict
+python3 -m bongjik --report --targets
 python3 -m bongjik --posting --holdout
 python3 -m bongjik --stats
 python3 -m bongjik --lineage
@@ -29,9 +30,10 @@ python3 -m unittest bongjik.tests.test_model -v
 | 라벨 | 의미 |
 |---|---|
 | `AVOID` | 법적 D · 월 168h+ · 안전 < 4.0 · 한산+약백업 · 회피 리스트 |
-| `PASS_CONFIRM` | 안전≥5.5 AND 단가≥13.1 AND 연환자 통과/구제 |
+| `HOLD` | 숫자 일부만 좋음. 확정인데 연환자 미달(한산·대학구조 경계)도 여기 |
+| `REVIEW` | 숫자는 통과해도 평판리스크. 현직자 2명 통화 전 확정 금지 (을지) |
 | `PASS_SCREEN` | 안전≥6.3 AND 단가≥11.1 |
-| `HOLD` | 숫자 일부만 좋음. 프로파일이 맞을 때만 보관 |
+| `PASS_CONFIRM` | 안전≥5.5 AND 단가≥13.1 AND 연환자 통과/구제 |
 
 단가 13.3은 **설명적 컷**입니다. 예측 임계값으로 부르지 않습니다.
 
