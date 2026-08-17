@@ -1,0 +1,493 @@
+{
+  "n_paths": 50000,
+  "assumptions": {
+    "couple_share": 0.1,
+    "variable_cost_ratio": 0.3,
+    "repayment_margin_ratio": 0.6,
+    "principal_eok": 90,
+    "interest": 0.0,
+    "tax_rate": 0.38,
+    "one_takehome_coeff": 0.031,
+    "couple_takehome_coeff": 0.062,
+    "staff_count": 50,
+    "operating_days_target": 28,
+    "formula": "annual_capacity = 0.60*R - F; exit_years = 90eok / capacity"
+  },
+  "peers": {
+    "nts_derm_avg_annual_2023": 1272260000.0,
+    "bupyeong_derm_avg_monthly": 120920000.0,
+    "bupyeong_derm_median_monthly": 88100000.0,
+    "bupyeong5_avg_monthly_prior": 298000000.0,
+    "bupyeong5_top20_monthly_prior": 682000000.0,
+    "toxnfill_franchise_avg_monthly_prior": 420000000.0
+  },
+  "cost_distribution_eok": {
+    "doctor": {
+      "p5": 25.038902418914333,
+      "p25": 28.09536628871356,
+      "p50": 30.5424358818995,
+      "p75": 33.42095229890182,
+      "p95": 37.12838789481577
+    },
+    "staff": {
+      "p5": 21.209365046459922,
+      "p25": 22.053867599330367,
+      "p50": 23.10199487142312,
+      "p75": 24.158279025519438,
+      "p95": 24.99051262092754
+    },
+    "rent": {
+      "p5": 6.149657949875943,
+      "p25": 6.751441248305051,
+      "p50": 7.498237886697846,
+      "p75": 8.249450469242808,
+      "p95": 8.847287100986984
+    },
+    "marketing": {
+      "p5": 4.151720376942457,
+      "p25": 4.757785098438846,
+      "p50": 5.503834110881733,
+      "p75": 6.25140972655721,
+      "p95": 6.850952060125562
+    },
+    "other": {
+      "p5": 4.12510886689094,
+      "p25": 4.628427171982344,
+      "p50": 5.259060749104369,
+      "p75": 5.87931515886009,
+      "p95": 6.376022869001811
+    },
+    "fixed_total": {
+      "p5": 65.69148873842602,
+      "p25": 69.23000304873106,
+      "p50": 72.06099231147091,
+      "p75": 74.98642091628386,
+      "p95": 78.95907302506751
+    }
+  },
+  "deterministic_bep_at_median_fixed": {
+    "fixed_median_annual_eok": 72.06099231147091,
+    "operating_bep_monthly_eok": 10.00847115437096,
+    "exit_10y_monthly_eok": 11.25847115437096,
+    "exit_7y_monthly_eok": 11.794185440085247,
+    "exit_6y_monthly_eok": 12.091804487704295
+  },
+  "revenue_monthly_eok": {
+    "p5": 4.608209714765939,
+    "p25": 6.214561550568402,
+    "p50": 7.651728782997258,
+    "p75": 9.435809037065232,
+    "p95": 12.566692267173135
+  },
+  "daily_patients": {
+    "p5": 127.19269763750259,
+    "p25": 161.67536725168407,
+    "p50": 192.85173203654756,
+    "p75": 229.15103937092914,
+    "p95": 289.519163391604
+  },
+  "annual_capacity_eok": {
+    "p5": -38.62364895586236,
+    "p25": -27.109524375516138,
+    "p50": -16.872751938228035,
+    "p75": -4.451260613041234,
+    "p95": 17.556716367774104
+  },
+  "exit_years_finite_only": {
+    "p5": 2.4474970740934894,
+    "p25": 4.906293003469857,
+    "p50": 9.364974797066662,
+    "p75": 21.895356606871914,
+    "p95": 122.34828765964873,
+    "share_infinite_or_never": 0.81292
+  },
+  "takehome": {
+    "one_man": {
+      "p5": 1428.545011577441,
+      "p25": 1926.5140806762047,
+      "p50": 2372.03592272915,
+      "p75": 2925.100801490222,
+      "p95": 3895.6746028236726
+    },
+    "couple_man": {
+      "p5": 2857.090023154882,
+      "p25": 3853.0281613524094,
+      "p50": 4744.0718454583,
+      "p75": 5850.201602980444,
+      "p95": 7791.349205647345
+    }
+  },
+  "probabilities": {
+    "operating_surplus": 0.18708,
+    "exit_within_10y": 0.0978,
+    "exit_within_7y": 0.07292,
+    "exit_within_6y": 0.06136
+  },
+  "peer_multiples_at_median_rev": {
+    "vs_bupyeong_derm_avg": 6.327926548955721,
+    "vs_nts_derm_monthly_equiv": 7.217136858501178,
+    "vs_toxnfill_prior": 1.8218401864279186,
+    "vs_bupyeong5_avg_prior": 2.5676942224823014,
+    "vs_bupyeong5_top20_prior": 1.1219543670083956
+  },
+  "em_opportunity_cost": {
+    "em_monthly_takehome_man": 3000,
+    "model_one_p50_man": 2372.03592272915,
+    "model_one_p25_man": 1926.5140806762047,
+    "model_one_p75_man": 2925.100801490222,
+    "prob_one_exceeds_em_3000": 0.2242,
+    "couple_p50_man": 4744.0718454583
+  },
+  "burnout_stress_bottom20": {
+    "share": 0.2,
+    "monthly_rev_p50_eok": 5.136702666419129,
+    "couple_th_p50_man": 3184.75565317986,
+    "prob_exit_within_10y": 0.0,
+    "prob_negative_capacity": 1.0
+  },
+  "band_table": [
+    {
+      "monthly_rev_eok": 5.5,
+      "one_takehome_man": 1705.0,
+      "couple_takehome_man": 3410.0,
+      "annual_capacity_eok": -32.46099231147092,
+      "exit_years": null,
+      "above_operating_bep": false
+    },
+    {
+      "monthly_rev_eok": 6.5,
+      "one_takehome_man": 2015.0,
+      "couple_takehome_man": 4030.0,
+      "annual_capacity_eok": -25.26099231147092,
+      "exit_years": null,
+      "above_operating_bep": false
+    },
+    {
+      "monthly_rev_eok": 7.5,
+      "one_takehome_man": 2325.0,
+      "couple_takehome_man": 4650.0,
+      "annual_capacity_eok": -18.06099231147092,
+      "exit_years": null,
+      "above_operating_bep": false
+    },
+    {
+      "monthly_rev_eok": 8.5,
+      "one_takehome_man": 2635.0,
+      "couple_takehome_man": 5270.0,
+      "annual_capacity_eok": -10.860992311470918,
+      "exit_years": null,
+      "above_operating_bep": false
+    },
+    {
+      "monthly_rev_eok": 9.5,
+      "one_takehome_man": 2945.0,
+      "couple_takehome_man": 5890.0,
+      "annual_capacity_eok": -3.6609923114709186,
+      "exit_years": null,
+      "above_operating_bep": false
+    },
+    {
+      "monthly_rev_eok": 10.5,
+      "one_takehome_man": 3255.0,
+      "couple_takehome_man": 6510.0,
+      "annual_capacity_eok": 3.5390076885290815,
+      "exit_years": 25.43085743829133,
+      "above_operating_bep": true
+    },
+    {
+      "monthly_rev_eok": 11.5,
+      "one_takehome_man": 3565.0,
+      "couple_takehome_man": 7130.0,
+      "annual_capacity_eok": 10.739007688529082,
+      "exit_years": 8.380662591026347,
+      "above_operating_bep": true
+    },
+    {
+      "monthly_rev_eok": 12.5,
+      "one_takehome_man": 3875.0,
+      "couple_takehome_man": 7750.0,
+      "annual_capacity_eok": 17.93900768852908,
+      "exit_years": 5.016999912294457,
+      "above_operating_bep": true
+    },
+    {
+      "monthly_rev_eok": 14.0,
+      "one_takehome_man": 4340.0,
+      "couple_takehome_man": 8680.0,
+      "annual_capacity_eok": 28.73900768852908,
+      "exit_years": 3.1316321348117633,
+      "above_operating_bep": true
+    }
+  ],
+  "physical_grid": [
+    {
+      "ppd": 22,
+      "ticket_man": 12,
+      "daily_patients": 220,
+      "monthly_rev_eok": 7.392,
+      "couple_takehome_man": 4583.04,
+      "exit_years": null,
+      "hits_7y": false
+    },
+    {
+      "ppd": 22,
+      "ticket_man": 14,
+      "daily_patients": 220,
+      "monthly_rev_eok": 8.624,
+      "couple_takehome_man": 5346.88,
+      "exit_years": null,
+      "hits_7y": false
+    },
+    {
+      "ppd": 22,
+      "ticket_man": 15,
+      "daily_patients": 220,
+      "monthly_rev_eok": 9.24,
+      "couple_takehome_man": 5728.8,
+      "exit_years": null,
+      "hits_7y": false
+    },
+    {
+      "ppd": 22,
+      "ticket_man": 16,
+      "daily_patients": 220,
+      "monthly_rev_eok": 9.856,
+      "couple_takehome_man": 6110.72,
+      "exit_years": null,
+      "hits_7y": false
+    },
+    {
+      "ppd": 25,
+      "ticket_man": 12,
+      "daily_patients": 250,
+      "monthly_rev_eok": 8.4,
+      "couple_takehome_man": 5208.0,
+      "exit_years": null,
+      "hits_7y": false
+    },
+    {
+      "ppd": 25,
+      "ticket_man": 14,
+      "daily_patients": 250,
+      "monthly_rev_eok": 9.8,
+      "couple_takehome_man": 6076.0,
+      "exit_years": null,
+      "hits_7y": false
+    },
+    {
+      "ppd": 25,
+      "ticket_man": 15,
+      "daily_patients": 250,
+      "monthly_rev_eok": 10.5,
+      "couple_takehome_man": 6510.0,
+      "exit_years": 25.43085743829133,
+      "hits_7y": false
+    },
+    {
+      "ppd": 25,
+      "ticket_man": 16,
+      "daily_patients": 250,
+      "monthly_rev_eok": 11.2,
+      "couple_takehome_man": 6944.0,
+      "exit_years": 10.490723783863515,
+      "hits_7y": false
+    },
+    {
+      "ppd": 28,
+      "ticket_man": 12,
+      "daily_patients": 280,
+      "monthly_rev_eok": 9.408,
+      "couple_takehome_man": 5832.96,
+      "exit_years": null,
+      "hits_7y": false
+    },
+    {
+      "ppd": 28,
+      "ticket_man": 14,
+      "daily_patients": 280,
+      "monthly_rev_eok": 10.976,
+      "couple_takehome_man": 6805.12,
+      "exit_years": 12.919511450713516,
+      "hits_7y": false
+    },
+    {
+      "ppd": 28,
+      "ticket_man": 15,
+      "daily_patients": 280,
+      "monthly_rev_eok": 11.76,
+      "couple_takehome_man": 7291.2,
+      "exit_years": 7.136622403447078,
+      "hits_7y": false
+    },
+    {
+      "ppd": 28,
+      "ticket_man": 16,
+      "daily_patients": 280,
+      "monthly_rev_eok": 12.544,
+      "couple_takehome_man": 7777.28,
+      "exit_years": 4.929937997569448,
+      "hits_7y": true
+    },
+    {
+      "ppd": 32,
+      "ticket_man": 12,
+      "daily_patients": 320,
+      "monthly_rev_eok": 10.752,
+      "couple_takehome_man": 6666.24,
+      "exit_years": 16.81172166148412,
+      "hits_7y": false
+    },
+    {
+      "ppd": 32,
+      "ticket_man": 14,
+      "daily_patients": 320,
+      "monthly_rev_eok": 12.544,
+      "couple_takehome_man": 7777.28,
+      "exit_years": 4.929937997569448,
+      "hits_7y": true
+    },
+    {
+      "ppd": 32,
+      "ticket_man": 15,
+      "daily_patients": 320,
+      "monthly_rev_eok": 13.44,
+      "couple_takehome_man": 8332.8,
+      "exit_years": 3.6426912208306397,
+      "hits_7y": true
+    },
+    {
+      "ppd": 32,
+      "ticket_man": 16,
+      "daily_patients": 320,
+      "monthly_rev_eok": 14.336,
+      "couple_takehome_man": 8888.32,
+      "exit_years": 2.888484501409032,
+      "hits_7y": true
+    },
+    {
+      "ppd": 35,
+      "ticket_man": 12,
+      "daily_patients": 350,
+      "monthly_rev_eok": 11.76,
+      "couple_takehome_man": 7291.2,
+      "exit_years": 7.136622403447078,
+      "hits_7y": false
+    },
+    {
+      "ppd": 35,
+      "ticket_man": 14,
+      "daily_patients": 350,
+      "monthly_rev_eok": 13.72,
+      "couple_takehome_man": 8506.4,
+      "exit_years": 3.3678843732336583,
+      "hits_7y": true
+    },
+    {
+      "ppd": 35,
+      "ticket_man": 15,
+      "daily_patients": 350,
+      "monthly_rev_eok": 14.7,
+      "couple_takehome_man": 9114.0,
+      "exit_years": 2.6643766693763133,
+      "hits_7y": true
+    },
+    {
+      "ppd": 35,
+      "ticket_man": 16,
+      "daily_patients": 350,
+      "monthly_rev_eok": 15.68,
+      "couple_takehome_man": 9721.6,
+      "exit_years": 2.203991258835536,
+      "hits_7y": true
+    }
+  ],
+  "physical_drivers": {
+    "ppd": {
+      "p5": 17.46084734643718,
+      "p25": 21.58119174302275,
+      "p50": 25.06091228294536,
+      "p75": 29.057885791943896,
+      "p95": 35.89967514158904
+    },
+    "ticket": {
+      "p5": 108044.8557357481,
+      "p25": 128641.88439478811,
+      "p50": 145108.89300641895,
+      "p75": 163689.47525153423,
+      "p95": 194437.09857495502
+    },
+    "days": {
+      "p5": 26.186075065839667,
+      "p25": 26.958838584585564,
+      "p50": 27.49436437140973,
+      "p75": 28.0,
+      "p95": 28.0
+    },
+    "util": {
+      "p5": 0.75,
+      "p25": 0.806417483538178,
+      "p50": 0.8744931546258967,
+      "p75": 0.9256208572941689,
+      "p95": 0.9716960448018357
+    },
+    "n_doctors_mean": 9.00452
+  },
+  "anchor_scenarios": [
+    {
+      "name": "채팅 EV",
+      "monthly_rev_eok": 6.4,
+      "one_man": 1984.0,
+      "couple_man": 3968.0,
+      "annual_capacity_eok": -25.98099231147091,
+      "exit_years": null
+    },
+    {
+      "name": "결제 하한",
+      "monthly_rev_eok": 6.8,
+      "one_man": 2108.0,
+      "couple_man": 4216.0,
+      "annual_capacity_eok": -23.100992311470907,
+      "exit_years": null
+    },
+    {
+      "name": "물리 Base(25×14만)",
+      "monthly_rev_eok": 9.8,
+      "one_man": 3038.0000000000005,
+      "couple_man": 6076.000000000001,
+      "annual_capacity_eok": -1.5009923114708996,
+      "exit_years": null
+    },
+    {
+      "name": "패키지 중심",
+      "monthly_rev_eok": 9.2,
+      "one_man": 2852.0,
+      "couple_man": 5704.0,
+      "annual_capacity_eok": -5.820992311470919,
+      "exit_years": null
+    },
+    {
+      "name": "운영 BEP(중앙F)",
+      "monthly_rev_eok": 10.01,
+      "one_man": 3102.6260578549977,
+      "couple_man": 6205.252115709995,
+      "annual_capacity_eok": 0.0,
+      "exit_years": null
+    },
+    {
+      "name": "7년 완제선",
+      "monthly_rev_eok": 11.79,
+      "one_man": 3656.1974864264266,
+      "couple_man": 7312.394972852853,
+      "annual_capacity_eok": 12.857142857142858,
+      "exit_years": 6.999999999999999
+    },
+    {
+      "name": "자기신고",
+      "monthly_rev_eok": 12.1,
+      "one_man": 3751.0,
+      "couple_man": 7502.0,
+      "annual_capacity_eok": 15.05900768852909,
+      "exit_years": 5.976489411620114
+    }
+  ]
+}
