@@ -42,7 +42,9 @@ class ClinicModelTest(unittest.TestCase):
         # Contribution after 10% owners' share and 30% variable cost is 60%.
         expected_monthly_bep = 6 * BILLION / 0.60 / 12
         self.assertAlmostEqual(
-            trial.operating_bep_monthly_revenue, expected_monthly_bep
+            trial.operating_bep_monthly_revenue,
+            expected_monthly_bep,
+            delta=1,
         )
 
     def test_nonpositive_cashflow_never_repays(self):

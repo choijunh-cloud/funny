@@ -19,6 +19,7 @@ from typing import Iterable
 
 
 BILLION = 1_000_000_000
+EOK = 100_000_000
 MILLION = 1_000_000
 
 
@@ -292,7 +293,7 @@ def simulate(a: Assumptions) -> dict:
 
 
 def money(value: float) -> str:
-    return f"{value / BILLION:,.2f}억원"
+    return f"{value / EOK:,.2f}억원"
 
 
 def render_markdown(result: dict) -> str:
