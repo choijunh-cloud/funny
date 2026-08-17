@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>8월 18일 오전 시장 브리핑 — 유가·금리·메모리</title>
+<style>
+  :root {
+    --navy:#0F2043; --navy2:#1E407C; --gold:#B8943A; --ink:#1A1A1A;
+    --gray:#4B5563; --line:#D5DCE6; --bg:#F4F6FA; --card:#FFFFFF;
+    --red:#991B1B; --green:#166534; --soft:#EEF2F8;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html,body { height:100%; background:#0B1528; color:var(--ink);
+    font-family:"Malgun Gothic","Apple SD Gothic Neo","Noto Sans KR",sans-serif; }
+  .deck { height:100%; display:flex; align-items:center; justify-content:center; }
+  .frame { width:min(1280px,100vw); height:min(720px,100vh); background:var(--bg);
+    border-radius:12px; overflow:hidden; position:relative; box-shadow:0 20px 60px rgba(0,0,0,.35); }
+  .slide { display:none; position:absolute; inset:0; padding:28px 40px 36px; }
+  .slide.on { display:flex; flex-direction:column; }
+  .top { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;
+    font-size:12px; letter-spacing:.04em; color:var(--gray); }
+  .kicker { color:var(--gold); font-weight:700; }
+  h2 { font-size:30px; color:var(--navy); margin:4px 0 16px; letter-spacing:-.02em; }
+  h2 small { font-size:14px; color:var(--gray); font-weight:600; margin-left:8px; }
+  h3 { font-size:16px; color:var(--navy2); margin-bottom:8px; }
+  .foot { position:absolute; left:40px; right:40px; bottom:12px; font-size:11px; color:#8A93A3; }
+  .hero { flex:1; display:flex; flex-direction:column; justify-content:center; }
+  .eyebrow { color:var(--gold); font-weight:700; letter-spacing:.12em; font-size:13px; }
+  .hero h1 { font-size:52px; line-height:1.15; color:var(--navy); margin:12px 0 8px; }
+  .hero h1 em { font-style:normal; color:var(--gold); }
+  .sub { color:var(--gray); font-size:18px; margin-bottom:28px; }
+  .hero-pills { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+  .hero-pills div { background:#fff; border:1px solid var(--line); border-top:3px solid var(--navy);
+    padding:14px 14px 12px; border-radius:8px; font-size:20px; font-weight:700; color:var(--navy); }
+  .hero-pills b { display:block; font-size:11px; color:var(--gray); font-weight:600; margin-bottom:4px; }
+  .hero-pills small { display:block; font-size:12px; color:var(--gray); font-weight:500; margin-top:2px; }
+  .grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+  .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .card { background:#fff; border:1px solid var(--line); border-radius:10px; padding:16px 18px; }
+  .card.bear { border-top:4px solid var(--red); }
+  .card.bull { border-top:4px solid var(--green); }
+  .card.navy { border-top:4px solid var(--navy); }
+  .card ul { padding-left:18px; line-height:1.7; font-size:15px; }
+  .tag { margin-top:10px; font-size:12px; font-weight:700; color:var(--navy2); }
+  .one-liner { margin-top:16px; background:var(--navy); color:#fff; padding:12px 16px; border-radius:8px; font-size:16px; }
+  .one-liner b { color:var(--gold); }
+  .chain { display:flex; align-items:center; justify-content:space-between; gap:6px; margin:8px 0 22px; }
+  .node { flex:1; background:#fff; border:1px solid var(--line); border-radius:10px; padding:14px 8px;
+    text-align:center; font-size:14px; font-weight:700; color:var(--navy); line-height:1.35;
+    box-shadow:0 4px 0 #E4E9F2; }
+  .node.hot { background:var(--navy); color:#fff; border-color:var(--navy); }
+  .arr { color:var(--gold); font-weight:800; font-size:20px; }
+  .split { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .split > div { background:#fff; border:1px solid var(--line); border-radius:10px; padding:16px 18px; }
+  .muted { color:var(--gray); font-size:14px; margin-top:6px; }
+  .vs { display:grid; grid-template-columns:1fr 1fr; gap:16px; flex:0; }
+  .col { border-radius:10px; padding:20px 22px; min-height:220px; }
+  .col.up { background:#E8F5E9; }
+  .col.down { background:#FDECEA; }
+  .col h3 { font-size:18px; }
+  .col.up h3 { color:var(--green); }
+  .col.down h3 { color:var(--red); }
+  .col ul { margin-top:10px; padding-left:18px; font-size:18px; line-height:1.8; }
+  .monitor { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:18px; }
+  .monitor div { background:#fff; border:1px solid var(--line); border-radius:8px; padding:12px; font-size:16px; font-weight:700; color:var(--navy); }
+  .monitor span { display:block; font-size:11px; color:var(--gray); font-weight:600; margin-bottom:4px; }
+  .bars { display:flex; flex-direction:column; gap:7px; }
+  .bar { display:grid; grid-template-columns:170px 1fr 64px; align-items:center; gap:10px; }
+  .bl { font-size:13px; color:var(--gray); text-align:right; }
+  .track { height:16px; background:#E5EAF1; border-radius:8px; overflow:hidden; }
+  .track i { display:block; height:100%; border-radius:8px; }
+  .track i.navy { background:#0F2043; }
+  .track i.blue { background:#1E407C; }
+  .track i.gold { background:#B8943A; }
+  .track i.ink { background:#2C3A58; }
+  .track i.gray { background:#6B7280; }
+  .bv { font-size:13px; font-weight:700; color:var(--navy); }
+  .caption { margin-top:14px; font-size:14px; color:var(--gray); }
+  .big { font-size:28px; color:var(--navy); margin:8px 0; }
+  .mini { width:100%; border-collapse:collapse; font-size:15px; }
+  .mini th,.mini td { border-bottom:1px solid var(--line); padding:8px 4px; text-align:left; }
+  .wide { width:100%; border-collapse:collapse; background:#fff; font-size:16px; }
+  .wide th { background:var(--navy); color:#fff; padding:10px 12px; text-align:center; }
+  .wide td { padding:11px 12px; text-align:center; border-bottom:1px solid var(--line); }
+  .wide td:first-child { text-align:left; font-weight:700; }
+  .lead { color:var(--gray); margin:-6px 0 14px; font-size:15px; }
+  .compare-note { display:flex; gap:16px; align-items:center; justify-content:center; margin-top:22px; font-size:20px; font-weight:800; color:var(--navy); }
+  .compare-note .arr { color:var(--gold); }
+  .k-bars { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:8px 0 18px; }
+  .k-bars > div { background:#fff; border-radius:10px; padding:18px 14px; text-align:center; border-top:4px solid var(--navy2); }
+  .k-bars > div.gold { border-top-color:var(--gold); }
+  .k-bars > div.ink { border-top-color:var(--navy); background:var(--navy); color:#fff; }
+  .k-bars em { display:block; font-style:normal; font-size:13px; color:var(--gray); }
+  .k-bars .ink em { color:#C9D3E4; }
+  .k-bars strong { display:block; font-size:28px; margin:6px 0 2px; }
+  .k-bars small { color:var(--gray); }
+  .k-bars .ink small { color:#C9D3E4; }
+  .plain { padding-left:20px; line-height:1.8; font-size:16px; }
+  .takeaway { padding-left:28px; font-size:18px; line-height:1.65; }
+  .takeaway li { margin-bottom:14px; }
+  .close { margin-top:auto; background:var(--navy); color:#fff; padding:14px 18px; border-radius:8px; font-size:16px; }
+  .nav { position:fixed; left:50%; bottom:18px; transform:translateX(-50%); display:flex; gap:8px; z-index:5; }
+  .nav button { background:rgba(255,255,255,.12); color:#fff; border:1px solid rgba(255,255,255,.2);
+    padding:6px 12px; border-radius:6px; cursor:pointer; font-size:12px; }
+  .dots { position:absolute; right:16px; top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:6px; }
+  .dots i { width:8px; height:8px; border-radius:50%; background:#C5CDD8; cursor:pointer; }
+  .dots i.on { background:var(--gold); }
+  .help { position:absolute; right:40px; bottom:12px; font-size:11px; color:#8A93A3; }
+  .bands { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .band-card { background:#fff; border:1px solid var(--line); border-radius:10px; padding:16px 18px; }
+  .band-card h3 small { font-size:12px; color:var(--gray); font-weight:600; margin-left:6px; }
+  .axis { margin:14px 0 10px; }
+  .axis-track { position:relative; height:18px; background:#EEF2F8; border-radius:9px; }
+  .axis-track .seg { position:absolute; top:3px; height:12px; border-radius:6px; }
+  .axis-track .seg.gold { background:#B8943A; }
+  .axis-track .seg.navy { background:#1E407C; }
+  .axis-track .seg.green { background:#166534; }
+  .axis-track .mark.now { position:absolute; top:-4px; width:3px; height:26px; background:#0F2043; border-radius:2px; }
+  .axis-labels { display:flex; justify-content:space-between; margin-top:6px; font-size:11px; color:var(--gray); }
+  .legend { list-style:none; padding:0; margin-top:8px; font-size:15px; line-height:1.7; }
+  .legend i { display:inline-block; width:10px; height:10px; border-radius:2px; margin-right:8px; }
+  .legend i.g { background:#B8943A; }
+  .legend i.n { background:#1E407C; }
+  .legend i.a { background:#166534; }
+</style>
+</head>
+<body>
+<div class="deck"><div class="frame" id="frame">
+<section class="slide" data-title="표지"><div class="top"><span class="kicker">MARKET BRIEF</span><span class="brand">8/18 오전 · Quick 코멘트</span></div>
+        <div class="hero">
+          <p class="eyebrow">2026. 8. 18  오전 브리핑</p>
+          <h1>유가↑ · 장기금리↑<br><em>vs 메모리</em></h1>
+          <p class="sub">8/17 미국 종가 → 8/18 한국장 기준점</p>
+          <div class="hero-pills">
+            <div><b>브렌트</b>$90.87 <small>+2.7%</small></div>
+            <div><b>30년물</b>5.31% <small>2007 이후 최고</small></div>
+            <div><b>하이닉스 ADR</b>$171.38 <small>243만원</small></div>
+            <div><b>코스피 기준점</b>+1% 중반</div>
+          </div>
+        </div>
+        <div class="foot">숫자·시나리오는 공개 코멘트 기준 · 8/17 종가</div></section><section class="slide" data-title="오늘 한 장"><div class="top"><span class="kicker">0. DASHBOARD</span><span class="brand">8/18 오전 · Quick 코멘트</span></div>
+        <h2>오늘 한 장</h2>
+        <div class="grid-3">
+          <article class="card bear">
+            <h3>지수 · 매크로</h3>
+            <ul>
+              <li>다우 −0.51 · S&P −0.52 · 나스닥 −0.32</li>
+              <li>브렌트 $90.87 (+2.7%)</li>
+              <li>30년 5.31% · 10년 4.725%</li>
+            </ul>
+            <p class="tag">고PER 부담</p>
+          </article>
+          <article class="card bull">
+            <h3>AI · 반도체</h3>
+            <ul>
+              <li>Anthropic ARR $65B+</li>
+              <li>NVDA·OpenAI DC 최대 $105B</li>
+              <li>SOX +1.6% · 마이크론 +4%</li>
+            </ul>
+            <p class="tag">CAPEX 안 꺾임</p>
+          </article>
+          <article class="card navy">
+            <h3>한국장 기준점</h3>
+            <ul>
+              <li>EWY +3.6% (2일)</li>
+              <li>하이닉스 ADR +3.4%</li>
+              <li>SOX +1.3% → 코스피 +1% 중반</li>
+            </ul>
+            <p class="tag">Non-삼전닉스 차감</p>
+          </article>
+        </div>
+        <p class="one-liner">최대 변수는 AI CAPEX가 아니라 <b>유가 + 장기금리</b>. 그 안에서 실적 나는 메모리는 차별화.</p>
+        <div class="foot">숫자·시나리오는 공개 코멘트 기준 · 8/17 종가</div></section><section class="slide" data-title="인과사슬"><div class="top"><span class="kicker">1. 시각화</span><span class="brand">8/18 오전 · Quick 코멘트</span></div>
+        <h2>하락의 핵심 — 인과사슬</h2>
+        <div class="chain">
+          <div class="node">미·이란<br>협상 교착</div>
+          <div class="arr">→</div>
+          <div class="node">호르무즈<br>리스크</div>
+          <div class="arr">→</div>
+          <div class="node hot">유가<br>$90.87</div>
+          <div class="arr">→</div>
+          <div class="node">인플레<br>우려 ↑</div>
+          <div class="arr">→</div>
+          <div class="node hot">30년물<br>5.31%</div>
+          <div class="arr">→</div>
+          <div class="node">고PER<br>증시 부담</div>
+        </div>
+        <div class="split">
+          <div>
+            <h3>지수</h3>
+            <p>다우 −0.51% · S&P −0.52% · 나스닥 −0.32%</p>
+            <p class="muted">장기금리 ↑ = 먼 미래 이익의 현재가치 ↓</p>
+          </div>
+          <div>
+            <h3>그래서 갈라진다</h3>
+            <p>고평가 소프트웨어 · AI 수익화 의문 종목이 먼저 맞음</p>
+            <p class="muted">26·27 EPS가 이미 큰 메모리는 배수 부담이 작다</p>
+          </div>
+        </div>
+        <div class="foot">숫자·시나리오는 공개 코멘트 기준 · 8/17 종가</div></section><section class="slide" data-title="차별화"><div class="top"><span class="kicker">2. AI · 반도체</span><span class="brand">8/18 오전 · Quick 코멘트</span></div>
+        <h2>시장의 차별화</h2>
+        <div class="vs">
+          <div class="col up">
+            <h3>상대 강세</h3>
+            <ul>
+              <li>반도체 · 메모리</li>
+              <li>AI 실수요 직접 수혜</li>
+              <li>HBM · 메모리 가격 상승</li>
+            </ul>
+          </div>
+          <div class="col down">
+            <h3>상대 약세</h3>
+            <ul>
+              <li>고평가 소프트웨어</li>
+              <li>AI 수익화 의문</li>
+              <li>높은 PER 부담</li>
+            </ul>
+          </div>
+        </div>
+        <div class="monitor">
+          <div><span>유가</span>$90 → $100</div>
+          <div><span>30년물</span>5.3% → 5.5%</div>
+          <div><span>FOMC</span>7월 의사록</div>
+          <div><span>소비</span>월마트 실적</div>
+        </div>
+        <div class="foot">숫자·시나리오는 공개 코멘트 기준 · 8/17 종가</div></section><section class="slide" data-title="Memory PER"><div class="top"><span class="kicker">3. 밸류에이션</span><span class="brand">8/18 오전 · Quick 코멘트</span></div>
+        <h2>Memory PER 비교 <small>8/17 종가</small></h2>
+        <div class="bars"><div class="bar"><span class="bl">마이크론 FWD 12M</span><div class="track"><i class="navy" style="width:81.0%"></i></div><span class="bv">8.10배</span></div><div class="bar"><span class="bl">마이크론 CY27</span><div class="track"><i class="navy" style="width:67.5%"></i></div><span class="bv">6.75배</span></div><div class="bar"><span class="bl">Sandisk FY27</span><div class="track"><i class="blue" style="width:89.0%"></i></div><span class="bv">8.90배</span></div><div class="bar"><span class="bl">하이닉스 ADR 26년</span><div class="track"><i class="gold" style="width:70.0%"></i></div><span class="bv">7.00배</span></div><div class="bar"><span class="bl">하이닉스 ADR 27년</span><div class="track"><i class="gold" style="width:55.6%"></i></div><span class="bv">5.56배</span></div><div class="bar"><span class="bl">하이닉스 본주 26년</span><div class="track"><i class="ink" style="width:48.0%"></i></div><span class="bv">4.80배</span></div><div class="bar"><span class="bl">하이닉스 본주 27년</span><div class="track"><i class="ink" style="width:38.0%"></i></div><span class="bv">3.80배</span></div><div class="bar"><span class="bl">삼성전자 26년</span><div class="track"><i class="gray" style="width:57.0%"></i></div><span class="bv">5.70배</span></div><div class="bar"><span class="bl">삼성전자 27년</span><div class="track"><i class="gray" style="width:41.0%"></i></div><span class="bv">4.10배</span></div></div>
+        <p class="caption">하이닉스 ADR 27년 5.56배 = 마이크론 CY27 6.75배 대비 <b>−18%</b> (과거 −20~−50%). 본주는 그보다 더 낮음.</p>
+        <div class="foot">숫자·시나리오는 공개 코멘트 기준 · 8/17 종가</div></section><section class="slide" data-title="ADR 프리미엄"><div class="top"><span class="kicker">3. 하이닉스</span><span class="brand">8/18 오전 · Quick 코멘트</span></div>
+        <h2>하이닉스 ADR → 본주</h2>
+        <div class="grid-2">
+          <article class="card navy">
+            <h3>환산</h3>
+            <p class="big">$171.38 → <b>243만원</b></p>
+            <p>1,417원/달러 · ADR 10주 = 본주 1주<br>검산 242.8만원</p>
+            <p>본주 164.5만원 대비 <b>+48%</b> 프리미엄</p>
+          </article>
+          <article class="card">
+            <h3>프리미엄을 얼마로 볼 것인가</h3>
+            <table class="mini">
+              <tr><th>가정</th><th>본주</th></tr>
+              <tr><td>최근 30~35% 인정</td><td><b>180~187만원</b></td></tr>
+              <tr><td>정상 +20% (TSMC ~15%)</td><td><b>203만원</b></td></tr>
+              <tr><td>현재 ADR 48% 유지</td><td>243만원 (ADR)</td></tr>
+            </table>
+          </article>
+        </div>
+        <p class="caption">같은 흐름이면 삼성전자는 <b>30만원 수준</b>. 최근 프리미엄 ‘감안 정도’만 반영한 숫자.</p>
+        <div class="foot">숫자·시나리오는 공개 코멘트 기준 · 8/17 종가</div></section><section class="slide" data-title="목표가"><div class="top"><span class="kicker">4. 본주 시나리오</span><span class="brand">8/18 오전 · Quick 코멘트</span></div>
+        <h2>삼전닉스 목표가 밴드</h2>
+        <div class="bands">
+          <div class="band-card">
+            <h3>SK하이닉스 <small>현재 164.5만원 · 축 140~260</small></h3>
+            <div class="axis">
+              <div class="axis-track">
+                <i class="mark now" style="left:20.4%"></i>
+                <i class="seg gold" style="left:33.3%;width:5.8%"></i>
+                <i class="seg navy" style="left:51.7%;width:2.2%"></i>
+                <i class="seg green" style="left:56.7%;width:28.3%"></i>
+              </div>
+              <div class="axis-labels"><span>140</span><span>164.5 현재</span><span>203</span><span>242</span><span>260</span></div>
+            </div>
+            <ul class="legend">
+              <li><i class="g"></i> 최근 프리미엄 30~35% → <b>180~187</b></li>
+              <li><i class="n"></i> 정상 +20% → <b>203</b></li>
+              <li><i class="a"></i> 26년 PER 6~7배 (27년 성장 0) → <b>208~242</b></li>
+            </ul>
+          </div>
+          <div class="band-card">
+            <h3>삼성전자 <small>현재 27.45만원 · 축 25~36</small></h3>
+            <div class="axis">
+              <div class="axis-track">
+                <i class="mark now" style="left:22.3%"></i>
+                <i class="seg gold" style="left:43.6%;width:2.8%"></i>
+                <i class="seg green" style="left:33.6%;width:43.6%"></i>
+              </div>
+              <div class="axis-labels"><span>25</span><span>27.45 현재</span><span>30</span><span>33.5</span><span>36</span></div>
+            </div>
+            <ul class="legend">
+              <li><i class="g"></i> 같은 흐름 → <b>30만원</b></li>
+              <li><i class="a"></i> 26년 PER 6~7배 → <b>28.7~33.5</b></li>
+            </ul>
+            <p class="muted">26년 OP/EPS  하이닉스 266조 / 346K · 삼성 391조 / 47.9K</p>
+          </div>
+        </div>
+        <div class="foot">숫자·시나리오는 공개 코멘트 기준 · 8/17 종가</div></section><section class="slide" data-title="Storage"><div class="top"><span class="kicker">4. WD · STX · SNDK</span><span class="brand">8/18 오전 · Quick 코멘트</span></div>
+        <h2>Storage 3사 — 한 자릿수 성장 가정</h2>
+        <p class="lead">FY27.1Q 가이던스 + QoQ +10% / +5% / +5% → FY27 EPS. 성장 전망이 더 높으면 실제 PER은 더 낮아짐.</p>
+        <table class="wide">
+          <thead><tr><th>종목</th><th>가격</th><th>1Q EPS</th><th>FY27 EPS</th><th>PER</th></tr></thead>
+          <tbody>
+            <tr><td>Sandisk</td><td>1,786.85</td><td>45</td><td>201</td><td>8.9배</td></tr>
+            <tr><td>Western Digital</td><td>536.01</td><td>4.0</td><td>17.9</td><td>30배</td></tr>
+            <tr><td>Seagate</td><td>994.79</td><td>7.3</td><td>32.6</td><td>31배</td></tr>
+          </tbody>
+        </table>
+        <div class="compare-note">
+          <span>메모리 한 자릿수</span>
+          <span class="arr">vs</span>
+          <span>HDD 30배대</span>
+        </div>
+        <div class="foot">숫자·시나리오는 공개 코멘트 기준 · 8/17 종가</div></section><section class="slide" data-title="한국장"><div class="top"><span class="kicker">5. 8/14 + 8/17</span><span class="brand">8/18 오전 · Quick 코멘트</span></div>
+        <h2>한국장 오프닝 기준점</h2>
+        <div class="k-bars">
+          <div><em>EWY</em><strong>+3.6%</strong><small>2일</small></div>
+          <div class="gold"><em>하이닉스 ADR</em><strong>+3.4%</strong><small>2일</small></div>
+          <div><em>SOX</em><strong>+1.3%</strong><small>2일</small></div>
+          <div class="ink"><em>코스피</em><strong>+1% 중반</strong><small>기준점</small></div>
+        </div>
+        <p class="lead">Non-삼전닉스 — 유가 · 금리 영향 등 변수 — 를 빼면 지수 전체를 3%대로 밀어 올리기 어렵다. 그래서 <b>+1% 중반</b>.</p>
+        <ul class="plain">
+          <li>위에서 열리면: 삼전닉스 갭 + ADR 프리미엄 축소 여부</li>
+          <li>아래에서 열리면: 유가·30년물 오버나이트가 할증을 먹었는지</li>
+          <li>오후 NON-삼전닉스 강의: 이 기준점 위에서 수주 · 할인율 · 배치</li>
+        </ul>
+        <div class="foot">숫자·시나리오는 공개 코멘트 기준 · 8/17 종가</div></section><section class="slide" data-title="클로징"><div class="top"><span class="kicker">6. TAKEAWAY</span><span class="brand">8/18 오전 · Quick 코멘트</span></div>
+        <h2>가져갈 세 문장</h2>
+        <ol class="takeaway">
+          <li>지수 하락 경로 = 호르무즈 → 유가 $90 → 30년물 5.31% → 고PER 부담. 체크는 <b>$100 / 5.5% / FOMC 의사록 / 월마트</b>.</li>
+          <li>AI CAPEX는 안 꺾였다. 메모리 PER은 마이크론 6.75~8.1배 옆 하이닉스 ADR 5.56~7.0배. <b>본주는 더 싸다.</b></li>
+          <li>한국장 기준점 <b>코스피 +1% 중반</b>. 하이닉스 180 / 203 / 208~242, 삼전 30 / 28.7~33.5.</li>
+        </ol>
+        <p class="close">금리 상승은 증시 전체에는 부담이지만, AI 실적이 실제 발생하는 반도체·메모리는 상대적으로 차별화될 가능성.</p>
+        <div class="foot">숫자·시나리오는 공개 코멘트 기준 · 8/17 종가</div></section>
+<div class="dots" id="dots"></div>
+<div class="help">← →  또는 클릭 · F 전체화면</div>
+</div></div>
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+const dots=document.getElementById('dots');
+let i=0;
+slides.forEach((_,n)=>{
+  const d=document.createElement('i');
+  d.onclick=()=>go(n);
+  dots.appendChild(d);
+});
+function go(n){
+  i=(n+slides.length)%slides.length;
+  slides.forEach((s,k)=>s.classList.toggle('on',k===i));
+  [...dots.children].forEach((d,k)=>d.classList.toggle('on',k===i));
+}
+go(0);
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown') go(i+1);
+  if(e.key==='ArrowLeft'||e.key==='PageUp') go(i-1);
+  if(e.key==='f'||e.key==='F') document.documentElement.requestFullscreen?.();
+});
+document.getElementById('frame').addEventListener('click',e=>{
+  if(e.target.closest('.dots')) return;
+  go(i+1);
+});
+</script>
+</body>
+</html>
