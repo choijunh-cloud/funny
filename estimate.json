@@ -117,6 +117,14 @@
       "p75": 13.89734403547175,
       "p95": 63.12167052691679,
       "mean": 36.13134354101279
+    },
+    "years_to_repay_after_corporate_tax_if_positive": {
+      "p05": 3.2965865850338707,
+      "p25": 5.4430890998117665,
+      "p50": 8.827066580495234,
+      "p75": 17.07350650372038,
+      "p95": 70.92322531114246,
+      "mean": 41.44948022661333
     }
   },
   "probabilities": {
@@ -124,6 +132,9 @@
     "repay_within_6_years": 0.318405,
     "repay_within_7_years": 0.375715,
     "repay_within_10_years": 0.4892,
+    "repay_within_6_years_after_corporate_tax": 0.2274,
+    "repay_within_7_years_after_corporate_tax": 0.2885,
+    "repay_within_10_years_after_corporate_tax": 0.42166,
     "monthly_revenue_at_least_10b_krw": 0.54999,
     "daily_patients_at_least_280": 0.123145
   },
