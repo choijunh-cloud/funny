@@ -120,12 +120,22 @@ def validate_margins() -> tuple[list[str], list[str]]:
         fails.append(f"OPM expected ~3.86%, got {opm:.2f}%")
     if not nearly(nim, 3.65, tol=0.05):
         fails.append(f"NIM expected ~3.65%, got {nim:.2f}%")
+    return rows, fails
 
+
+def validate_parent_thin_op() -> tuple[list[str], list[str]]:
+    rows: list[str] = []
+    fails: list[str] = []
     p = PARENT_H1_2026
     popm = p["op"] / p["rev"] * 100
+    rows.append(
+        f"별도 매출 {p['rev']:,} / OP {p['op']:,} / NI {p['ni']:,} / EPS {p['eps']:,}"
+    )
     rows.append(f"별도(석유화학) OPM {popm:.2f}%")
     if not nearly(popm, 1.03, tol=0.05):
         fails.append(f"parent OPM expected ~1.03%, got {popm:.2f}%")
+    if popm >= 3.0:
+        fails.append("parent OPM not thin vs consol (~3.9%) as expected")
     return rows, fails
 
 
@@ -243,6 +253,7 @@ def main() -> int:
     sections = [
         ("Consol YoY (H1'26 vs H1'25)", validate_consol_yoy),
         ("Margins", validate_margins),
+        ("Parent thin OP", validate_parent_thin_op),
         ("Segment mix", validate_segment_mix),
         ("Balance sheet", validate_balance_sheet),
         ("Q2 residual", validate_q2_residual),
