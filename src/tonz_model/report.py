@@ -238,6 +238,62 @@ def tornado_section(rows: list[dict]) -> str:
     )
 
 
+def feasibility_section(rows: list[dict], sched: dict, p: ModelParams) -> str:
+    body = []
+    for r in rows:
+        body.append(
+            [
+                r["목표"],
+                fmt_eok(r["필요_월매출"]),
+                f"{r['z']:+.2f}σ",
+                pct(r["p_단년도_달성"]),
+                pct(r["p_유지"]),
+                "—" if r["p_실제완제"] != r["p_실제완제"] else pct(r["p_실제완제"]),
+            ]
+        )
+    t = table(
+        ["목표", "필요 월매출", "앵커 대비", "단년도 달성확률", "그 기간 평균 유지확률", "실제 완제확률"],
+        body,
+    )
+    surv = ", ".join(f"{y}년 {pct(s, 0)}" for y, s in sched["생존곡선"])
+    return (
+        "## 9. '통계적으로 가능한가' — 두 층으로 나눠 답하기\n\n"
+        "도달과 유지는 다른 질문이다. 단년도 기준으로는 어떤 목표도 p<0.05로 기각되지 않는다. "
+        "확률을 죽이는 건 '6~7년 연속' 쪽이다.\n\n"
+        + t
+        + "\n\n### 월 2일 휴무의 지속가능성\n\n"
+        f"- 월 2일 휴무 체제가 유지될 확률: {surv}\n"
+        f"- 근무 정상화/번아웃까지 걸리는 시간 중앙값: {sched['중앙_유지연수']:.1f}년\n"
+        f"- 10년 내내 유지할 확률: **{pct(sched['P(끝까지 유지)'])}**\n\n"
+        "즉 '월 2일 휴무로 6~7년'은 시나리오가 아니라 가정이다. "
+        "모델은 그 가정이 깨지는 시점(중앙 3년 이내)을 이미 반영하고 있다.\n"
+    )
+
+
+def breakeven_section(rows: list[dict]) -> str:
+    body = []
+    for r in rows:
+        if r["도달불가"] or r["필요값"] is None:
+            body.append([r["레버"], f"{r['현재값']:g} {r['단위']}", "탐색 범위 내 도달 불가", "—", "—"])
+            continue
+        body.append(
+            [
+                r["레버"],
+                f"{r['현재값']:g} {r['단위']}",
+                f"{r['필요값']:,.2f} {r['단위']}" if r["단위"] != "명" else f"{r['필요값']:,.0f} {r['단위']}",
+                f"×{r['배율']:.2f}" if r["배율"] else "—",
+                pct(r["달성확률"]),
+            ]
+        )
+    return (
+        "## 8. 역산: 무엇이 참이어야 '7년 완제 반반'이 되는가\n\n"
+        "레버를 하나씩만 움직여 7년 완제 확률이 50%가 되는 지점을 찾았다. "
+        "다른 조건은 기준값 그대로다.\n\n"
+        + table(["레버", "현재 가정", "필요 수준", "배율", "그때 확률"], body)
+        + "\n"
+    )
+
+
 def career_section(c: dict, p: ModelParams) -> str:
     rows = [
         [
@@ -257,7 +313,7 @@ def career_section(c: dict, p: ModelParams) -> str:
     ]
     t = table(["항목", "응급의학 잔류 (D-N-Off×4)", "이 딜"], rows)
     return (
-        "## 8. 대안과의 비교\n\n"
+        "## 10. 대안과의 비교\n\n"
         + t
         + f"\n\n- 딜의 시간당 단가는 응급의학(D-N-Off×4)의 **{c['시간당_배율_중앙(딜/EM)']:.2f}배**\n"
         f"- 부부의 진짜 대안(미용 봉직의 2인, 1인 세후 {fmt_man(p.career.fallback_net_monthly_per_person)}) "

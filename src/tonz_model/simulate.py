@@ -197,7 +197,7 @@ def simulate(p: ModelParams, n_paths: int | None = None, seed: int | None = None
         # --- 실제 소화 가능한 환자수 (수요 vs 3중 병목) ---
         doctor_days = cap.couple_doctors * couple_days + n_emp * cap.employed_days_per_month
         capacity_doctor = doctor_days * cap.ppd_hard_cap
-        clinical_staff_now = staff * (cap.clinical_staff / cost.staff_headcount)
+        clinical_staff_now = staff * cap.clinical_staff_ratio
         capacity_facility = (
             np.minimum(
                 cap.treatment_rooms * cap.room_turns_per_day,

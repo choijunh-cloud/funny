@@ -101,6 +101,21 @@ SCENARIOS: dict[str, tuple[str, Mutator]] = {
             _set("capacity.ticket_median", 17.0),
         ),
     ),
+    "revenue_150": (
+        "실측 매출이 연 150억대인 경우 (수요 9,800명/월 + 객단가 16만)",
+        _chain(
+            _set("demand.monthly_patients_median", 9_800.0),
+            _set("capacity.ticket_median", 16.0),
+        ),
+    ),
+    "revenue_150_share7": (
+        "연 150억대 + 부부 선취 7% 재협상",
+        _chain(
+            _set("demand.monthly_patients_median", 9_800.0),
+            _set("capacity.ticket_median", 16.0),
+            _set("deal.couple_share", 0.07),
+        ),
+    ),
     "legal_crackdown": (
         "MSO 구조 단속 강화 (적발 해저드 연 6%)",
         _chain(_set("risk.sham_clinic_annual", 0.06), _set("risk.tax_attribution_annual", 0.05)),
@@ -154,6 +169,55 @@ def run_scenarios(base: ModelParams, n_paths: int | None = None) -> dict[str, di
         s["설명"] = label
         out[key] = s
     return out
+
+
+BREAKEVEN_LEVERS: list[tuple[str, str, float, float, str]] = [
+    # (경로, 표시명, 탐색 하한, 탐색 상한, 단위)
+    ("demand.monthly_patients_median", "월 환자수", 6_548.0, 16_000.0, "명/월"),
+    ("capacity.ticket_median", "객단가", 14.0, 32.0, "만원"),
+    ("cost.staff_headcount", "직원 수", 50.0, 12.0, "명"),
+    ("deal.couple_share", "부부 선취율", 0.10, 0.0, "비율"),
+    ("capacity.treatment_rooms", "시술실 수", 22.0, 60.0, "실"),
+]
+
+
+def breakeven_conditions(
+    base: ModelParams,
+    target_prob: float = 0.5,
+    metric: str = "P(7년내 완제)",
+    n_paths: int = 4_000,
+    iters: int = 9,
+) -> list[dict]:
+    """'무엇이 참이어야 이 딜이 반반이 되는가'를 역산한다.
+
+    레버 하나씩만 움직여서 목표 확률(기본 50%)에 도달하는 값을 이분법으로 찾는다.
+    다른 레버가 고정된 단독 조건이므로, 실제로는 조합이 필요하다.
+    """
+    rows = []
+    for path, label, start, end, unit in BREAKEVEN_LEVERS:
+        lo, hi = start, end  # lo=현재값(확률 낮음), hi=극단값(확률 높음)
+        best = None
+        for _ in range(iters):
+            mid = (lo + hi) / 2.0
+            val = mid if "headcount" not in path else round(mid)
+            prob = summarize(simulate(replace_nested(base, path, val), n_paths=n_paths))[metric]
+            if prob < target_prob:
+                lo = mid
+            else:
+                hi = mid
+                best = (val, prob)
+        rows.append(
+            {
+                "레버": label,
+                "현재값": start,
+                "필요값": best[0] if best else None,
+                "달성확률": best[1] if best else None,
+                "단위": unit,
+                "도달불가": best is None,
+                "배율": (best[0] / start) if best and start else None,
+            }
+        )
+    return rows
 
 
 def tornado(base: ModelParams, n_paths: int = 6_000, metric: str = "P(7년내 완제)") -> list[dict]:

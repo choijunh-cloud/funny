@@ -70,7 +70,8 @@ class CapacityParams:
     room_turns_per_day: float = 16.0
 
     # 인력 병목: 시술 가능 인력(간호/조무) 수 × 1인 1일 시술 건수
-    clinical_staff: int = 30
+    clinical_staff: int = 30  # 정원 50명 기준 시술 인력 수
+    clinical_staff_ratio: float = 0.60  # 전체 직원 중 시술 인력 비중
     treatments_per_staff_day: float = 12.0
 
     open_days_per_month: float = 28.0  # 연중무휴 가동
