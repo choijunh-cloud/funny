@@ -1,0 +1,119 @@
+{
+  "as_of": "2026-08-18",
+  "notes": "평가 카드. 마스터에 없는 8월 신규는 evaluate 스펙으로, 시트 판정은 recorded로 남긴다.",
+  "evaluate": [
+    {
+      "name": "김포우리(복원)",
+      "annual": 31500, "em": 11, "hours": 130, "cash_actual": 2652,
+      "acu": 0.94, "safe": 6.7, "sysx": 5.2, "wlb": 5.3,
+      "incen_included": false, "backup": "강", "zone": "수도권"
+    },
+    {
+      "name": "세란(신규)",
+      "annual": 14800, "em": 5, "hours": 146, "cash_actual": 2675,
+      "acu": 0.88, "safe": 4.4, "sysx": 3.2, "wlb": 4.3,
+      "incen_included": true, "backup": "중", "zone": "서울"
+    },
+    {
+      "name": "오산한국(8인·갱신)",
+      "annual": 20864, "em": 8, "hours": 122, "cash_actual": 2398,
+      "acu": 1.0, "safe": 5.9, "sysx": 4.3, "wlb": 5.73,
+      "incen_included": true, "backup": "강", "zone": "수도권"
+    },
+    {
+      "name": "부산동의병원",
+      "annual": 11300, "em": 6, "hours": 132, "cash_actual": 2388,
+      "acu": 0.88, "safe": 3.5, "sysx": 3.0, "wlb": 4.5,
+      "incen_included": true, "backup": "약", "zone": "지방", "legal": "C"
+    },
+    {
+      "name": "고신대복음병원",
+      "annual": 10102, "em": 5, "hours": 120, "cash_actual": 2300,
+      "acu": 1.14, "safe": 7.5, "sysx": 7.0, "wlb": 5.5,
+      "incen_included": true, "backup": "강", "zone": "광역시",
+      "volume_rescue": "대학구조경계"
+    },
+    {
+      "name": "검단탑병원",
+      "annual": 23283, "em": 9, "hours": 125, "cash_actual": 2118,
+      "acu": 1.0, "safe": 5.6, "sysx": 4.4, "wlb": 5.4,
+      "incen_included": true, "backup": "중", "zone": "광역시"
+    },
+    {
+      "name": "천안충무(보수)",
+      "annual": 24699, "em": 8, "hours": 114, "cash_actual": 1996,
+      "acu": 1.14, "safe": 7.4, "sysx": 7.2, "wlb": 6.4,
+      "incen_included": true, "backup": "강", "zone": "지방"
+    },
+    {
+      "name": "천안충무(관대)",
+      "annual": 24699, "em": 8, "hours": 114, "cash_actual": 2432,
+      "acu": 1.14, "safe": 7.4, "sysx": 7.2, "wlb": 6.4,
+      "incen_included": true, "backup": "강", "zone": "지방"
+    },
+    {
+      "name": "국립중앙의료원(7인·104h)",
+      "annual": 20000, "em": 7, "hours": 104, "cash_actual": 2150,
+      "acu": 1.0, "safe": 6.8, "sysx": 6.2, "wlb": 5.7,
+      "incen_included": true, "backup": "강", "zone": "서울"
+    }
+  ],
+  "recorded": [
+    {
+      "name": "부산동의(신규)",
+      "sheet": "40.8월배치_5건",
+      "cash2": 2388, "pp2": 15.2, "f5": 28.9, "joint": 40,
+      "verdict_sheet": "AVOID",
+      "note": "함정 3분법 정탐형. 단가 통과·안전 3.5·연 11,300. 결원 시 당직 비움 명문화."
+    },
+    {
+      "name": "고신대복음(신규)",
+      "sheet": "40.8월배치_5건",
+      "cash2": 2300, "pp2": 13.7, "f5": 32.5, "joint": 19,
+      "verdict_sheet": "HOLD",
+      "note": "대학 구조 구제 경계. 연 10,102 미달. 급여 gross 모호·상시 1인."
+    },
+    {
+      "name": "여수전남(갱신)",
+      "sheet": "40.8월배치_5건",
+      "cash2": 2770, "pp2": 9.7, "f5": 26.1, "joint": 61,
+      "verdict_sheet": "HOLD",
+      "note": "그라인더 고액. 1인당 3,432. 2028 신축+10인은 재평가 트리거."
+    },
+    {
+      "name": "포항세명(갱신)",
+      "sheet": "40.8월배치_5건",
+      "cash2": 2430, "pp2": 8.4, "f5": 29.7, "joint": 31,
+      "verdict_sheet": "HOLD",
+      "note": "출장형 렌즈 신설. DDNN 7연속오프·나이트 4h수면. 단가 8.4 물량 그라인더."
+    },
+    {
+      "name": "남원의료원(갱신)",
+      "sheet": "40.8월배치_5건",
+      "cash2": 2750, "pp2": null, "f5": null, "joint": null,
+      "verdict_sheet": "CLOSED",
+      "note": "즉시마감 2호. 지방 6인·net 3.0 = 짧은 공고 수명."
+    },
+    {
+      "name": "검단탑병원",
+      "sheet": "41.검단탑_신규공고",
+      "cash2": 2118, "pp2": 9.82, "f5": 28.7, "joint": 42,
+      "verdict_sheet": "HOLD",
+      "note": "수도권 물량형. vs 나사렛 손해 거래. 수확: KTAS/ICU 가중 인센."
+    },
+    {
+      "name": "천안충무(보수)",
+      "sheet": "42.천안충무_신규공고",
+      "cash2": 1996, "pp2": 7.8, "f5": 28.3, "joint": 43,
+      "verdict_sheet": "HOLD",
+      "note": "단가 미달 물량형. 매력은 전원제로 백업·1년 고정표(S6)·출장형."
+    },
+    {
+      "name": "국립중앙의료원(7인)",
+      "sheet": "43.국립중앙의료원_신규",
+      "cash2": 2150, "pp2": 9.0, "f5": 29.6, "joint": 36,
+      "verdict_sheet": "HOLD",
+      "note": "통근 최상위이나 단가 실패. 같은 값이면 강북삼성. 관찰 리스트."
+    }
+  ]
+}
