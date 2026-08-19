@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2026.08.19 시장 분석 — 매크로 역습 vs AI·반도체 펀더멘탈</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0f17;
+      --surface: #121826;
+      --surface2: #1a2235;
+      --border: #2a3550;
+      --text: #e8edf7;
+      --muted: #8b97b0;
+      --accent: #3b82f6;
+      --accent2: #06b6d4;
+      --green: #22c55e;
+      --red: #ef4444;
+      --amber: #f59e0b;
+      --purple: #a855f7;
+      --pink: #ec4899;
+      --shadow: 0 8px 32px rgba(0,0,0,.35);
+      --radius: 14px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 15px;
+    }
+    .layout { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+    nav {
+      position: sticky; top: 0; height: 100vh; overflow-y: auto;
+      background: var(--surface); border-right: 1px solid var(--border);
+      padding: 24px 16px;
+    }
+    nav h2 { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 16px; }
+    nav a {
+      display: block; padding: 8px 12px; border-radius: 8px; color: var(--muted);
+      text-decoration: none; font-size: 13.5px; margin-bottom: 2px; transition: .15s;
+    }
+    nav a:hover, nav a.active { background: var(--surface2); color: var(--text); }
+    main { padding: 32px 40px 80px; max-width: 1280px; }
+    .hero {
+      background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 50%, #1a1040 100%);
+      border: 1px solid var(--border); border-radius: 20px; padding: 36px 40px;
+      margin-bottom: 32px; position: relative; overflow: hidden;
+    }
+    .hero::after {
+      content: ''; position: absolute; top: -50%; right: -10%; width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(59,130,246,.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero h1 { font-size: 28px; font-weight: 800; line-height: 1.3; margin-bottom: 8px; }
+    .hero .sub { color: #94a3b8; font-size: 15px; max-width: 720px; }
+    .badge-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+    .badge {
+      padding: 5px 12px; border-radius: 999px; font-size: 12px; font-weight: 600;
+      border: 1px solid var(--border); background: rgba(255,255,255,.05);
+    }
+    .badge.red { border-color: #7f1d1d; color: #fca5a5; background: rgba(239,68,68,.12); }
+    .badge.green { border-color: #14532d; color: #86efac; background: rgba(34,197,94,.12); }
+    .badge.amber { border-color: #78350f; color: #fcd34d; background: rgba(245,158,11,.12); }
+    .badge.blue { border-color: #1e3a8a; color: #93c5fd; background: rgba(59,130,246,.12); }
+
+    section { margin-bottom: 40px; scroll-margin-top: 24px; }
+    section > h2 {
+      font-size: 20px; font-weight: 700; margin-bottom: 6px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    section > h2::before {
+      content: ''; width: 4px; height: 22px; background: var(--accent);
+      border-radius: 2px; flex-shrink: 0;
+    }
+    .section-desc { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    @media (max-width: 1100px) {
+      .layout { grid-template-columns: 1fr; }
+      nav { position: relative; height: auto; }
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+      main { padding: 20px 16px 60px; }
+    }
+
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow);
+    }
+    .card h3 { font-size: 14px; color: var(--muted); font-weight: 600; margin-bottom: 4px; }
+    .card .value { font-size: 28px; font-weight: 800; font-family: 'JetBrains Mono', monospace; }
+    .card .delta { font-size: 13px; margin-top: 4px; }
+    .delta.up { color: var(--green); }
+    .delta.down { color: var(--red); }
+    .delta.neutral { color: var(--amber); }
+
+    .chart-box { position: relative; height: 320px; }
+    .chart-box.tall { height: 400px; }
+    .chart-box.short { height: 260px; }
+
+    .mermaid-wrap {
+      background: var(--surface2); border-radius: var(--radius); padding: 20px;
+      overflow-x: auto; margin-bottom: 16px;
+    }
+
+    .insight-box {
+      border-left: 3px solid var(--accent); background: rgba(59,130,246,.06);
+      padding: 14px 18px; border-radius: 0 10px 10px 0; margin: 16px 0; font-size: 14px;
+    }
+    .insight-box.warn { border-color: var(--amber); background: rgba(245,158,11,.06); }
+    .insight-box.danger { border-color: var(--red); background: rgba(239,68,68,.06); }
+    .insight-box.success { border-color: var(--green); background: rgba(34,197,94,.06); }
+
+    .deep-dive {
+      border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; overflow: hidden;
+    }
+    .deep-dive summary {
+      padding: 14px 18px; cursor: pointer; font-weight: 600; font-size: 14.5px;
+      background: var(--surface2); list-style: none; display: flex; justify-content: space-between; align-items: center;
+    }
+    .deep-dive summary::after { content: '+'; font-size: 18px; color: var(--muted); }
+    .deep-dive[open] summary::after { content: '−'; }
+    .deep-dive .content { padding: 16px 18px 18px; font-size: 14px; color: #c8d0e0; }
+    .deep-dive .content ul { padding-left: 20px; margin: 8px 0; }
+    .deep-dive .content li { margin-bottom: 6px; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+    th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+    th { color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
+    tr:hover td { background: rgba(255,255,255,.02); }
+
+    .gauge-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .gauge-item { text-align: center; }
+    .gauge-ring {
+      width: 120px; height: 120px; margin: 0 auto 8px; position: relative;
+    }
+    .gauge-label { font-size: 13px; color: var(--muted); }
+    .gauge-status { font-size: 15px; font-weight: 700; margin-top: 4px; }
+
+    .timeline { position: relative; padding-left: 28px; }
+    .timeline::before {
+      content: ''; position: absolute; left: 8px; top: 4px; bottom: 4px;
+      width: 2px; background: var(--border);
+    }
+    .timeline-item { position: relative; margin-bottom: 18px; }
+    .timeline-item::before {
+      content: ''; position: absolute; left: -24px; top: 6px;
+      width: 10px; height: 10px; border-radius: 50%; background: var(--accent);
+      border: 2px solid var(--bg);
+    }
+    .timeline-item .time { font-size: 12px; color: var(--accent2); font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+    .timeline-item .event { font-size: 14px; margin-top: 2px; }
+
+    .compare-bar { display: flex; height: 28px; border-radius: 6px; overflow: hidden; margin: 8px 0; }
+    .compare-bar span { display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: #fff; }
+
+    footer {
+      text-align: center; color: var(--muted); font-size: 12px;
+      padding: 24px; border-top: 1px solid var(--border); margin-top: 40px;
+    }
+    .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+    .tag-macro { background: #7f1d1d33; color: #fca5a5; }
+    .tag-fund { background: #14532d33; color: #86efac; }
+    .tag-struct { background: #78350f33; color: #fcd34d; }
+
+    .tab-bar { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+    .tab-btn {
+      padding: 6px 14px; border-radius: 8px; border: 1px solid var(--border);
+      background: transparent; color: var(--muted); cursor: pointer; font-size: 13px;
+      font-family: inherit; transition: .15s;
+    }
+    .tab-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <nav>
+    <h2>목차</h2>
+    <a href="#summary">Executive Summary</a>
+    <a href="#macro">① 매크로 역습</a>
+    <a href="#watch">② 핵심 변수</a>
+    <a href="#memory-debate">③ 메모리 논쟁</a>
+    <a href="#hbm-alt">④ HBM 대체 Deep Dive</a>
+    <a href="#skhynix">⑤ SK하이닉스</a>
+    <a href="#samsung">⑥ 삼성 파운드리</a>
+    <a href="#supply-chain">⑦ 공급망 수혜주</a>
+    <a href="#framework">⑧ 투자 프레임</a>
+    <a href="#timeline">⑨ 타임라인</a>
+  </nav>
+
+  <main>
+    <!-- HERO -->
+    <div class="hero" id="summary">
+      <h1>매크로의 역습 — 펀더멘탈을 압도한 8/19</h1>
+      <p class="sub">
+        미·이란 협상 불확실성 → 유가 상승 → 인플레이션 우려 → 미 국채금리 급등 → AI·반도체 고PER 밸류에이션 압박.
+        AI 수요 약화가 아닌 <strong>금리 쇼크</strong>가 핵심. 동시에 SK하이닉스·삼성 파운드리 등 펀더멘탈 호재와 Wood/Thompson의 구조적 경고가 공존.
+      </p>
+      <div class="badge-row">
+        <span class="badge red">10Y 4.75% → 4.69% (장 말판 완화)</span>
+        <span class="badge red">30Y 5.34% → 5.285% (19년 고점)</span>
+        <span class="badge amber">유가 $90+ · 호르무즈 리스크</span>
+        <span class="badge green">SK하이닉스 40조 자사주</span>
+        <span class="badge green">삼성 SF4 15% 인상</span>
+        <span class="badge blue">Wood·Thompson HBM 경계</span>
+      </div>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="grid-4" style="margin-bottom:32px">
+      <div class="card">
+        <h3>10Y 미국채 (8/19)</h3>
+        <div class="value" style="color:var(--red)">4.69%</div>
+        <div class="delta down">전일 고점 4.75% · 20개월 최고</div>
+      </div>
+      <div class="card">
+        <h3>30Y 미국채 (8/19)</h3>
+        <div class="value" style="color:var(--red)">5.285%</div>
+        <div class="delta down">19년 최고(5.34%) 후 소폭 반전</div>
+      </div>
+      <div class="card">
+        <h3>SK하이닉스 Buyback</h3>
+        <div class="value" style="color:var(--green)">40조</div>
+        <div class="delta up">시총 3.3% · 3개월 내 소각</div>
+      </div>
+      <div class="card">
+        <h3>삼성 SF4 인상</h3>
+        <div class="value" style="color:var(--green)">+15%</div>
+        <div class="delta up">TSMC 포화 → 가격결정력 회복</div>
+      </div>
+    </div>
+
+    <!-- SECTION 1: MACRO -->
+    <section id="macro">
+      <h2>① 매크로 역습 — 인과관계 체인</h2>
+      <p class="section-desc">8/19 하락의 직접 원인은 AI 수요 약화가 아니라 지정학 → 유가 → 금리 → 성장주 할인율 상승 경로입니다.</p>
+
+      <div class="mermaid-wrap">
+        <pre class="mermaid">
+flowchart LR
+    A["미·이란 협상<br/>60일 시한 만료"] --> B["호르무즈<br/>봉쇄·유가 $90+"]
+    B --> C["인플레이션<br/>재점화 우려"]
+    C --> D["10Y 4.75%<br/>30Y 5.34%"]
+    D --> E["고PER 성장주<br/>밸류에이션 압박"]
+    E --> F["AI·반도체<br/>과도한 조정"]
+    G["AI Capex·토큰수요<br/>(펀더멘탈)"] -.->|단기 압도| F
+    style A fill:#7f1d1d,color:#fff
+    style D fill:#991b1b,color:#fff
+    style F fill:#dc2626,color:#fff
+    style G fill:#166534,color:#fff
+        </pre>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3 style="margin-bottom:12px">국채금리 추이 (8/18~19, bp)</h3>
+          <div class="chart-box"><canvas id="yieldChart"></canvas></div>
+          <div class="insight-box danger">
+            JP Morgan 추정: AI 기업 회사채 발행만 올해 <strong>$1.5조</strong>. 국채 vs 테크 회사채 자금 경쟁이 term premium을 추가 상승시키는 구조.
+          </div>
+        </div>
+        <div class="card">
+          <h3 style="margin-bottom:12px">8/5 급락·반등 — 유동성 쇼크 증거</h3>
+          <div class="chart-box"><canvas id="crashChart"></canvas></div>
+          <div class="insight-box">
+            Nikkei -19.5% → +10.23% (8/6), KOSPI -11.9% → +3.30%. <strong>펀더멘탈 1일 변화</strong>보다 레버리지·포지션 청산 성격.
+          </div>
+        </div>
+      </div>
+
+      <details class="deep-dive" open>
+        <summary>Deep Dive — 이란·호르무즈·FT 보도 (8/19)</summary>
+        <div class="content">
+          <ul>
+            <li><strong>FT (8/19):</strong> 트럼프가 전쟁 추가 확대 시, 이란 내부에서 <em>유럽(불가리아 Bezmer 기지, 키프로스)</em> 미군 시설 공격 옵션 검토. 동시에 호르무즈 해저 인프라 공격 가능성도 논의.</li>
+            <li><strong>핵심:</strong> "이란이 유럽을 공격하기로 결정"이 아니라, <em>확전 시 대비 시나리오</em> 검토.</li>
+            <li><strong>60일 협상 프레임워크 만료:</strong> 트럼프, 연장 거부. 이란 "외교 실패 시 공세 전환" 발언 → 시장은 호르무즈 장기 봉쇄를 pricing-in.</li>
+            <li><strong>Deutsche Bank (8/18):</strong> "단일 촉매 없이 채권·주식 동반 약세. 미·이란 합의 징후 부재 → 호르무즈 장기 폐쇄 반영."</li>
+            <li><strong>7월 재정적자 $3030억</strong> — 2021년 3월 이후 최대 월간 적자. 이자비용만 연 $1.2조+. 장기채 term premium 상승 요인.</li>
+          </ul>
+        </div>
+      </details>
+    </section>
+
+    <!-- SECTION 2: WATCH VARIABLES -->
+    <section id="watch">
+      <h2>② 단기 핵심 변수 3축 + 게이지</h2>
+      <p class="section-desc">유가 → 10Y 금리 → AI/반도체주. 이 3개를 함께 봐야 합니다.</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3 style="margin-bottom:12px">매크로 변수 임계점 (개념도)</h3>
+          <div class="chart-box tall"><canvas id="radarChart"></canvas></div>
+        </div>
+        <div class="card">
+          <h3 style="margin-bottom:12px">변수별 시장 영향 매트릭스</h3>
+          <div class="chart-box tall"><canvas id="impactChart"></canvas></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:20px">
+        <table>
+          <thead>
+            <tr><th>변수</th><th>안정 시그널</th><th>위험 시그널</th><th>현재 (8/19)</th><th>AI/반도체 영향</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>브렌트유</td><td>$90 전후</td><td>$100+ 지속</td><td><span class="tag tag-macro">$90+</span></td><td>인플레이션 → 금리 연쇄</td></tr>
+            <tr><td>10Y 금리</td><td>4.7% 이하</td><td>5% 돌파·고착</td><td><span class="tag tag-macro">4.69%</span></td><td>고PER 할인율 ↑</td></tr>
+            <tr><td>30Y 금리</td><td>5.3% 이하</td><td>5.34%+</td><td><span class="tag tag-macro">5.285%</span></td><td>성장주 전면 회피</td></tr>
+            <tr><td>USD/JPY</td><td>157~159</td><td>152→150 급락</td><td><span class="tag tag-macro">157~159</span></td><td>엔캐리 청산 경계</td></tr>
+            <tr><td>미·이란</td><td>협상·소강</td><td>확전·호르무즈</td><td><span class="tag tag-macro">협상 결렬</span></td><td>유가·금리 동반 상승</td></tr>
+            <tr><td>Fed</td><td>동결</td><td>인하 (24년형)</td><td><span class="tag tag-macro">동결 기대</span></td><td>동결이 시장 최선</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="insight-box warn" style="margin-top:16px">
+        <strong>결론:</strong> 미 기준금리 <em>동결</em>이 주식시장에 최선. 10Y 4.7% 이하 안정 + 미·이란 소강이 되어야 매크로 영향이 줄어듦. AI Capex·토큰 수요의 근본 궤도는 왠만한 금리 상승으로 바뀌기 어렵지만, <em>단기 무게중심은 왼쪽(전쟁·금리)</em>에 치우침.
+      </div>
+    </section>
+
+    <!-- SECTION 3: MEMORY DEBATE -->
+    <section id="memory-debate">
+      <h2>③ "왜 메모리주를 사지 않는가?" — Wood + Thompson</h2>
+      <p class="section-desc">중국 어론·글로벌 인플루언서 사이 확산 중인 논리. 메모리 vs 비메모리 헤게모니 프레임.</p>
+
+      <div class="mermaid-wrap">
+        <pre class="mermaid">
+flowchart TB
+    subgraph SHORT["단기 (호재)"]
+        S1["HBM 가격 3~10배 급등"]
+        S2["SK·Micron·Samsung<br/>실적·주가 수혜"]
+        S3["Buyback·FCF 환원"]
+    end
+    subgraph LONG["장기 (리스크)"]
+        L1["SRAM 확대"]
+        L2["메모리 압축·경량화"]
+        L3["ASIC·Cerebras·Groq"]
+        L4["중국 메모리 공급망"]
+    end
+    S1 -->|"가격↑ = 대체 유인"| LONG
+    H["Thompson 비유<br/>HBM = 호르무즈<br/>메모리업체 = 이란"] --> L4
+    style H fill:#78350f,color:#fff
+        </pre>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3 style="margin-bottom:12px">DRAM/HBM 가격 사이클 (2024→2026E)</h3>
+          <div class="chart-box"><canvas id="dramChart"></canvas></div>
+        </div>
+        <div class="card">
+          <h3 style="margin-bottom:12px">AI 업계 HBM 의존도 vs 대체 경로</h3>
+          <div class="chart-box"><canvas id="hbmDependChart"></canvas></div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:20px">
+        <div class="card">
+          <h3 style="font-size:16px;color:var(--text);margin-bottom:12px">Cathie Wood (ARK Invest)</h3>
+          <ul style="font-size:14px;color:#c8d0e0;padding-left:18px">
+            <li>메모리 = 반도체 공급망에서 <strong>"가장 cyclical하고 commoditized"</strong> 부분</li>
+            <li>"가격이 3~4배, 10배 오르는 건 기술의 정상 상태가 아니다 → <strong>부정적 신호</strong>"</li>
+            <li>Tesla가 코발트를 공학적으로 제거한 것처럼, AI도 HBM을 <strong>engineering out</strong></li>
+            <li>Cerebras·Groq: inference에서 <strong>외부 HBM 불필요</strong></li>
+            <li>ARK: Cerebras(CBRS) 8월 $28M+ 매수, Micron·SK하이닉스 <strong>미보유</strong></li>
+            <li>JP Morgan: DRAM 2024~26 <strong>+400%</strong> ("chipflation")</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 style="font-size:16px;color:var(--text);margin-bottom:12px">Ben Thompson (Stratechery)</h3>
+          <ul style="font-size:14px;color:#c8d0e0;padding-left:18px">
+            <li>"메모리 업체 = <strong>이란</strong>, HBM = <strong>호르무즈 해협</strong>"</li>
+            <li>억지력은 '카드를 쓸 수 있다'는 것. <strong>실제 사용 시</strong> 상대가 영구 우회 결심</li>
+            <li>"UAE·사우디가 파이프라인·新항구 건설 → 다시 당하지 않을 것"</li>
+            <li>알고리즘 최적화, 신규 공급자, 시스템 재설계로 <strong>우회 가속</strong></li>
+            <li>Big 3가 중국 메모리 문을 열면 <strong>후회할 수 있다</strong> (2026.06 Stratechery)</li>
+            <li>Apple, MS 등 hyperscaler는 메모리 효율·대체 공급 적극 추진</li>
+          </ul>
+        </div>
+      </div>
+
+      <details class="deep-dive">
+        <summary>Deep Dive — SK그룹 회장 vs Wood/Thompson (양면 논리)</summary>
+        <div class="content">
+          <p><strong>반론 (공급 측):</strong> SK그룹 최태원 회장 — "현재 메모리 가격은 비정상적으로 높다. 이익 극대화보다 <em>공급 확대</em>가 우선." SK하이닉스 10년 $7200억 CAPEX, Micron Idaho $500억 fab(2027 wafer).</p>
+          <p style="margin-top:10px"><strong>Wood 반론:</strong> "가격 급등은 SK하이닉스·삼성에게 <em>공급 추가의 invitation</em>" → 장기적 가격 정상화.</p>
+          <p style="margin-top:10px"><strong>Thompson 반론:</strong> 공급 확대해도, 이미 "카드를 썼기" 때문에 고객(hyperscaler)은 <em>아키텍처 레벨</em>에서 의존도 축소 투자를 가속.</p>
+          <p style="margin-top:10px"><strong>투자 함의:</strong> 단기 Buyback·HBM 실적 vs 장기 "메모리 고점 ≠ 수요 고점, but 가격결정력 상한". <span class="tag tag-struct">헤게모니: 메모리 vs 비메모리</span></p>
+        </div>
+      </details>
+    </section>
+
+    <!-- SECTION 4: HBM ALTERNATIVES -->
+    <section id="hbm-alt">
+      <h2>④ HBM 대체 기술 Deep Dive — Cerebras vs Groq vs GPU</h2>
+      <p class="section-desc">Wood가 베팅하는 "HBM engineering out"의 기술적 실체.</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3 style="margin-bottom:12px">메모리 대역폭 비교 (상대값, 로그 스케일 개념)</h3>
+          <div class="chart-box"><canvas id="bandwidthChart"></canvas></div>
+        </div>
+        <div class="card">
+          <h3 style="margin-bottom:12px">Inference 성능·비용 비교 (Llama 70B 기준)</h3>
+          <div class="chart-box"><canvas id="inferenceChart"></canvas></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:20px">
+        <table>
+          <thead>
+            <tr><th>아키텍처</th><th>온칩 메모리</th><th>HBM</th><th>대역폭</th><th>강점</th><th>약점</th><th>Wood/Thompson 연결</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>NVIDIA GPU</strong></td><td>소량 SRAM</td><td>80GB HBM3</td><td>~3.35 TB/s</td>
+              <td>Training + 범용</td><td>HBM 병목·비용</td><td>현재 지배적 but 비용 압력</td>
+            </tr>
+            <tr>
+              <td><strong>Cerebras WSE-3</strong></td><td>44GB SRAM/wafer</td><td><span style="color:var(--green)">없음</span></td><td>~21 PB/s</td>
+              <td>초고속 inference</td><td>용량·Training 한계</td><td>ARK 핵심 베팅 (CBRS)</td>
+            </tr>
+            <tr>
+              <td><strong>Groq LPU</strong></td><td>230MB/chip</td><td><span style="color:var(--green)">없음</span></td><td>초저지연</td>
+              <td>실시간 LLM (&lt;100ms TTFT)</td><td>대형 모델은 chip tiling</td><td>Nvidia $200억 인수 (2025.12)</td>
+            </tr>
+            <tr>
+              <td><strong>대체 경로 4종</strong></td><td colspan="6">① SRAM 확대 ② 메모리 압축(KV cache) ③ 모델 경량화(MoE·양자화) ④ ASIC(TPU·Trainium·커스텀)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <details class="deep-dive">
+        <summary>Deep Dive — Inference vs Training: HBM이 'engineering out' 되는 영역</summary>
+        <div class="content">
+          <p>Wood의 핵심 주장은 <strong>Training</strong>이 아니라 <strong>Inference</strong>에서 HBM 의존도가 먼저 줄어든다는 것.</p>
+          <ul>
+            <li><strong>Training:</strong> 대형 모델·대용량 HBM 필수 → NVIDIA GPU 지배력 유지 (단, 가격 압력 ↑)</li>
+            <li><strong>Inference:</strong> Latency·비용 최적화 → SRAM machine(Cerebras/Groq) 경쟁력. 토큰 생성 속도 2~10x+</li>
+            <li><strong>Cerebras CS-4 (2026):</strong> 매출 가이던스 $880~890M → 2027 3배+. 600MW computing capacity 목표</li>
+            <li><strong>산업 함의:</strong> AI Capex 총량은 유지되나, <em>메모리 wallet share</em>가 GPU/ASIC/SRAM으로 재분배될 수 있음</li>
+          </ul>
+        </div>
+      </details>
+    </section>
+
+    <!-- SECTION 5: SK HYNIX -->
+    <section id="skhynix">
+      <h2>⑤ SK하이닉스 — 역대 최대 40조 자사주 + FCF 50%+</h2>
+      <p class="section-desc">8/19 공시. ADR 희석 → SK스퀘어 지분율 복원 구조 포함.</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3 style="margin-bottom:12px">주주환원 추산 Waterfall (조원)</h3>
+          <div class="chart-box tall"><canvas id="skReturnChart"></canvas></div>
+        </div>
+        <div class="card">
+          <h3 style="margin-bottom:12px">자사주 매입 집행 시뮬레이션 (62영업일)</h3>
+          <div class="chart-box tall"><canvas id="skBuybackChart"></canvas></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:20px">
+        <table>
+          <thead>
+            <tr><th>항목</th><th>내용</th><th>투자 해석</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>규모</td><td>40조원 / 2,407만주 (3.3%) / 전량 소각</td><td>한국 상장사 역대 최대 Buyback</td></tr>
+            <tr><td>기간</td><td>2026.8.20 ~ 11.19 (약 3개월)</td><td>일 ~6,452억원 시장 매입</td></tr>
+            <tr><td>기준가</td><td>1,662,000원 (이사회 전일 종가)</td><td>+5~9% 주가 반응 가능 (규모 반영)</td></tr>
+            <tr><td>FCF 정책</td><td>2025~27 누적 FCF <strong>50% 초과</strong> 환원</td><td>보수 FCF ~565조 → 최소 ~192.5조+</td></tr>
+            <tr><td>추가 환원</td><td>40조 차감 → ~152.5조+ 잔여</td><td>3Q26(10월) 구체 규모·방식 공개</td></tr>
+            <tr><td>⚠ 주의</td><td>2028년 102.5조 = 모델 참고치</td><td>2028 정책은 별도 발표 필요</td></tr>
+            <tr><td>CAPEX</td><td>연 ~40조+ / 10년 $7200억</td><td>Buyback vs Fab 투자 동시 진행</td></tr>
+            <tr><td>순현금</td><td>2Q26末 ~69조원</td><td>재무건전성 전제 충족</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="insight-box success">
+        8/13 Investor Day 이후 성장·마진 재평가가 본격 반등 동력. 8/5~7 -15.1% 하락 → $140억 Buyback 승인이 +20% 상승의 <strong>직접 원인은 아님</strong>. Buyback은 EPS 레버리지 추가 요인.
+      </div>
+    </section>
+
+    <!-- SECTION 6: SAMSUNG -->
+    <section id="samsung">
+      <h2>⑥ 삼성전자 — 파운드리 15% 인상 (Reuters 8/19)</h2>
+      <p class="section-desc">TSMC 포화 → 삼성 가격결정력 회복. 2022년 이후 적자 파운드리 흑자 전환 기대.</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3 style="margin-bottom:12px">공정별 가격 인상률 (%)</h3>
+          <div class="chart-box"><canvas id="samsungPriceChart"></canvas></div>
+        </div>
+        <div class="card">
+          <h3 style="margin-bottom:12px">파운드리 시장 점유율 (2026 Q1)</h3>
+          <div class="chart-box"><canvas id="foundryShareChart"></canvas></div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:20px">
+        <div class="card">
+          <h3 style="margin-bottom:12px">파운드리 사업 전망</h3>
+          <div class="chart-box"><canvas id="samsungOutlookChart"></canvas></div>
+        </div>
+        <div class="card">
+          <h3 style="font-size:15px;color:var(--text);margin-bottom:12px">핵심 배경·고객</h3>
+          <ul style="font-size:14px;color:#c8d0e0;padding-left:18px">
+            <li>TSMC 첨단 공정 <strong>70%+ 점유</strong>, 용량 포화 → 삼성·Intel로 분산</li>
+            <li>중국 팹리스: 미 장비 수출 규제 → 해외 파운드리 의존 ↑ → <strong>최대 15% 인상 수용</strong></li>
+            <li>평택 SF4: 퀄컴 + HBM 베이스다이 풀가동 (2025末~)</li>
+            <li>고객: Tesla, Apple, Broadcom, Nvidia AI inference, <strong>Google 4nm 협의 중</strong></li>
+            <li>2026 파운드리 매출: 첨단 50%+, AI/HPC 30%+ (2025末 15~20%)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 7: SUPPLY CHAIN -->
+    <section id="supply-chain">
+      <h2>⑦ 공급망 수혜주 — 이수페타시스 · 기가비스</h2>
+      <p class="section-desc">AI → 고부가 PCB/기판 → 장비·소재 레버리지. 메모리 대비 상대적 방어 가능.</p>
+
+      <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchTab('isu')">이수페타시스</button>
+        <button class="tab-btn" onclick="switchTab('giga')">기가비스</button>
+        <button class="tab-btn" onclick="switchTab('compare')">비교</button>
+      </div>
+
+      <div id="tab-isu">
+        <div class="grid-2">
+          <div class="card">
+            <h3 style="margin-bottom:12px">Multi-Lam 매출 비중 추이 (%)</h3>
+            <div class="chart-box"><canvas id="multilamChart"></canvas></div>
+          </div>
+          <div class="card">
+            <h3 style="margin-bottom:12px">Capa 로드맵 (월 매출, 억원)</h3>
+            <div class="chart-box"><canvas id="capaChart"></canvas></div>
+          </div>
+        </div>
+        <div class="card" style="margin-top:16px">
+          <p style="font-size:14px;color:#c8d0e0">
+            <strong>2Q26:</strong> 매출 3,799억 (+57.4% YoY, 컨센 +4.9%), 영업이익 771억 (+83.3%), OPM 20.3%.
+            <strong>4Q~:</strong> G사 Multi-Lam 전환 + M사 ASIC 양산 + <strong>+15% 판가</strong> (하반기~).
+            2027 OI 컨센 +10% 상향 여지. "Capa만 보는 회사 → <em>이익 레버리지</em> 회사."
+          </p>
+        </div>
+      </div>
+
+      <div id="tab-giga" style="display:none">
+        <div class="grid-2">
+          <div class="card">
+            <h3 style="margin-bottom:12px">기가비스 실적 전망 (억원)</h3>
+            <div class="chart-box"><canvas id="gigavisChart"></canvas></div>
+          </div>
+          <div class="card">
+            <h3 style="font-size:15px;color:var(--text);margin-bottom:12px">FC-BGA 검사·수리 (AOI/AOR)</h3>
+            <ul style="font-size:14px;color:#c8d0e0;padding-left:18px">
+              <li>AOI = 불량 <strong>탐지</strong>, AOR = 레이저 <strong>수리</strong></li>
+              <li>고객: 이비덴, 신코, 유니마이크론, 삼성전기</li>
+              <li>8/18 일본 기판사 <strong>89.5억</strong> 계약 (매출대비 17.1%)</li>
+              <li>2025: 매출 847억 / OI 121억 → 2026E: 매출 1,785억 / OI 721억 (메리츠)</li>
+              <li>AI GPU → FC-BGA 고사양화 → 검사 난이도·장비 수요 ↑</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-compare" style="display:none">
+        <div class="card">
+          <h3 style="margin-bottom:12px">섹터별 매크로 민감도 vs 펀더멘탈 (개념)</h3>
+          <div class="chart-box tall"><canvas id="scatterChart"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 8: FRAMEWORK -->
+    <section id="framework">
+      <h2>⑧ 투자 프레임 — 무게중심 &amp; 배분</h2>
+      <p class="section-desc">글로벌 vs 국내 기관, 단기 vs 중장기 관점 정리.</p>
+
+      <div class="mermaid-wrap">
+        <pre class="mermaid">
+flowchart LR
+    subgraph LEFT["단기 무게중심 ←"]
+        L1["전쟁·유가"]
+        L2["10Y/30Y 금리"]
+        L3["국채 vs AI 회사채"]
+    end
+    subgraph RIGHT["중장기 궤도 →"]
+        R1["토큰 수요"]
+        R2["AI Capex"]
+        R3["빅테크 투자"]
+    end
+    LEFT -->|"안정화 전"| MKT["위험자산"]
+    RIGHT -.-> MKT
+        </pre>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3 style="margin-bottom:12px">글로벌 vs 국내 배분 관점</h3>
+          <div class="chart-box"><canvas id="allocationChart"></canvas></div>
+        </div>
+        <div class="card">
+          <h3 style="font-size:15px;color:var(--text);margin-bottom:12px">핵심 판단 매트릭스</h3>
+          <table>
+            <thead><tr><th>관점</th><th>단기 (8/19~)</th><th>중장기</th></tr></thead>
+            <tbody>
+              <tr><td>조정 원인</td><td>금리·유가 쇼크</td><td>AI 사이클 intact</td></tr>
+              <tr><td>메모리</td><td>Buyback 호재</td><td>HBM 대체 리스크</td></tr>
+              <tr><td>파운드리</td><td>삼성 가격↑</td><td>TSMC 의존 분산</td></tr>
+              <tr><td>소부장</td><td>상대 방어</td><td>CAPEX 레버리지</td></tr>
+              <tr><td>Fed</td><td>동결이 최선</td><td>인하 = 24년형?</td></tr>
+              <tr><td>국내 기관</td><td colspan="2">대형주 Exposure vs 변압기/소부장 믹스</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 9: TIMELINE -->
+    <section id="timeline">
+      <h2>⑨ 8/19 타임라인 &amp; 결론</h2>
+      <div class="card">
+        <div class="timeline">
+          <div class="timeline-item"><div class="time">06:20</div><div class="event">매크로 악재 — 미·이란 → 유가 → 10Y/30Y 급등 → 기술주·반도체 밸류에이션 압박</div></div>
+          <div class="timeline-item"><div class="time">07:11</div><div class="event">엔캐리·USD/JPY 157~159 반등 → 8/5형 청산보다 금리/밸류에이션 압력</div></div>
+          <div class="timeline-item"><div class="time">11:00</div><div class="event">기가비스 — 일본 기판사 89.5억 계약 (FC-BGA AOI/AOR)</div></div>
+          <div class="timeline-item"><div class="time">15:52</div><div class="event">SK하이닉스 — 40조 자사주 매입·소각 공시 (DART)</div></div>
+          <div class="timeline-item"><div class="time">17:53</div><div class="event">SK하이닉스 — FCF 50%+ 환원, 3Q26 추가 규모 발표 예정</div></div>
+          <div class="timeline-item"><div class="time">19:56</div><div class="event">삼성 — 파운드리 SF4/SF5 최대 15% 인상 (Reuters)</div></div>
+          <div class="timeline-item"><div class="time">20:08</div><div class="event">Wood/Thompson — "왜 메모리주를 사지 않는가" 논리 확산</div></div>
+          <div class="timeline-item"><div class="time">장 말판</div><div class="event">10Y 4.708% (-0.34%), 30Y 5.285% (-0.48%) — 공포감 소폭 완화</div></div>
+        </div>
+      </div>
+
+      <div class="grid-3" style="margin-top:24px">
+        <div class="card" style="border-top:3px solid var(--red)">
+          <h3>단기 리스크</h3>
+          <p style="font-size:14px;color:#c8d0e0;margin-top:8px">10Y 5% 돌파, 유가 $100+, 호르무즈 장기 봉쇄, 엔캐리 급격 청산</p>
+        </div>
+        <div class="card" style="border-top:3px solid var(--green)">
+          <h3>펀더멘탈 호재</h3>
+          <p style="font-size:14px;color:#c8d0e0;margin-top:8px">SK 40조 Buyback, 삼성 파운드리 인상, 이수 Multi-Lam, 기가비스 수주</p>
+        </div>
+        <div class="card" style="border-top:3px solid var(--amber)">
+          <h3>구조적 경고</h3>
+          <p style="font-size:14px;color:#c8d0e0;margin-top:8px">HBM 고가 → AI 대체 투자 가속. 메모리 vs 비메모리 헤게모니</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      2026.08.19 시장 분석 리포트 · 준비: Quick 코멘트 + Reuters/CNBC/Stratechery/ARK 공개자료 종합<br>
+      투자 참고용이며, 투자 권유가 아닙니다.
+    </footer>
+  </main>
+</div>
+
+<script>
+mermaid.initialize({ startOnLoad: true, theme: 'dark', themeVariables: {
+  primaryColor: '#1e3a5f', primaryTextColor: '#e8edf7', primaryBorderColor: '#3b82f6',
+  lineColor: '#64748b', secondaryColor: '#1a2235', tertiaryColor: '#121826'
+}});
+
+Chart.defaults.color = '#8b97b0';
+Chart.defaults.borderColor = '#2a3550';
+Chart.defaults.font.family = "'Noto Sans KR', sans-serif";
+
+const colors = {
+  blue: '#3b82f6', cyan: '#06b6d4', green: '#22c55e', red: '#ef4444',
+  amber: '#f59e0b', purple: '#a855f7', pink: '#ec4899', gray: '#64748b'
+};
+
+// 1. Yield Chart
+new Chart(document.getElementById('yieldChart'), {
+  type: 'line',
+  data: {
+    labels: ['8/18 AM', '8/18 Peak', '8/18 Close', '8/19 AM', '8/19 Close'],
+    datasets: [
+      { label: '10Y (%)', data: [4.68, 4.75, 4.706, 4.72, 4.69], borderColor: colors.red, backgroundColor: 'rgba(239,68,68,.1)', fill: true, tension: .3, pointRadius: 5 },
+      { label: '30Y (%)', data: [5.25, 5.34, 5.285, 5.30, 5.285], borderColor: colors.amber, backgroundColor: 'rgba(245,158,11,.08)', fill: true, tension: .3, pointRadius: 5 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      annotation: { annotations: {
+        line1: { type: 'line', yMin: 4.7, yMax: 4.7, borderColor: colors.green, borderDash: [6,4], label: { display: true, content: '10Y 4.7% 임계', color: colors.green }}
+      }}
+    },
+    scales: { y: { min: 4.5, max: 5.5, ticks: { callback: v => v + '%' } } }
+  }
+});
+
+// 2. Crash Chart
+new Chart(document.getElementById('crashChart'), {
+  type: 'bar',
+  data: {
+    labels: ['7/31', '8/2', '8/5 (폭락)', '8/6 (반등)'],
+    datasets: [
+      { label: 'Nikkei (%)', data: [0, -5.81, -19.5, +10.23], backgroundColor: [colors.gray, colors.red, colors.red, colors.green] },
+      { label: 'KOSPI (%)', data: [0, -3.65, -11.9, +3.30], backgroundColor: [colors.gray, 'rgba(239,68,68,.6)', 'rgba(239,68,68,.6)', 'rgba(34,197,94,.6)'] }
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } } }
+});
+
+// 3. Radar Chart
+new Chart(document.getElementById('radarChart'), {
+  type: 'radar',
+  data: {
+    labels: ['유가 안정', '10Y 4.7%↓', '30Y 5.3%↓', '지정학 완화', '엔화 안정', 'Fed 동결'],
+    datasets: [
+      { label: '현재 (8/19)', data: [35, 55, 45, 20, 60, 70], borderColor: colors.red, backgroundColor: 'rgba(239,68,68,.15)', pointBackgroundColor: colors.red },
+      { label: '시장 최선', data: [85, 90, 85, 80, 75, 85], borderColor: colors.green, backgroundColor: 'rgba(34,197,94,.08)', pointBackgroundColor: colors.green }
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false, scales: { r: { min: 0, max: 100, ticks: { display: false } } } }
+});
+
+// 4. Impact Matrix (horizontal bar)
+new Chart(document.getElementById('impactChart'), {
+  type: 'bar',
+  data: {
+    labels: ['AI 빅테크 (고PER)', '메모리 (SK/MU)', '파운드리 (삼성)', 'PCB (이수)', '장비 (기가비스)', '변압器/소부장'],
+    datasets: [{ label: '매크로 민감도', data: [95, 75, 65, 50, 45, 40], backgroundColor: [colors.red, colors.amber, colors.amber, colors.blue, colors.blue, colors.green] }]
+  },
+  options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, scales: { x: { max: 100 } } }
+});
+
+// 5. DRAM Price
+new Chart(document.getElementById('dramChart'), {
+  type: 'line',
+  data: {
+    labels: ['2024 Q1', 'Q2', 'Q3', 'Q4', '2025 Q1', 'Q2', 'Q3', 'Q4', '2026 Q1', 'Q2', 'Q3E', 'Q4E'],
+    datasets: [
+      { label: 'DRAM/HBM 가격 지수 (2024=100)', data: [100, 115, 140, 180, 220, 280, 350, 400, 450, 420, 380, 340], borderColor: colors.purple, fill: true, backgroundColor: 'rgba(168,85,247,.12)', tension: .3 },
+      { label: 'AI Capex 지수', data: [100, 110, 125, 140, 160, 185, 210, 240, 270, 300, 330, 360], borderColor: colors.cyan, borderDash: [5,5], tension: .3 }
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { annotation: { annotations: {
+    box1: { type: 'box', xMin: 8, xMax: 11, backgroundColor: 'rgba(245,158,11,.1)', borderColor: colors.amber, label: { display: true, content: 'Wood: 대체 가속 구간' } }
+  } } } }
+});
+
+// 6. HBM Dependence
+new Chart(document.getElementById('hbmDependChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Training (HBM 필수)', 'Inference GPU (HBM)', 'Inference SRAM (대체)', '모델 경량화/압축', 'ASIC/Custom'],
+    datasets: [{ data: [35, 30, 12, 13, 10], backgroundColor: [colors.red, colors.amber, colors.green, colors.blue, colors.purple] }]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { boxWidth: 12, font: { size: 11 } } } } }
+});
+
+// 7. Bandwidth
+new Chart(document.getElementById('bandwidthChart'), {
+  type: 'bar',
+  data: {
+    labels: ['HBM3 (GPU)', 'HBM4 (GPU)', 'Groq LPU', 'Cerebras WSE-3'],
+    datasets: [{ label: '상대 대역폭 (HBM3=1)', data: [1, 1.6, 850, 6300], backgroundColor: [colors.red, colors.amber, colors.green, colors.cyan] }]
+  },
+  options: { responsive: true, maintainAspectRatio: false, scales: { y: { type: 'logarithmic', title: { display: true, text: '로그 스케일' } } } }
+});
+
+// 8. Inference
+new Chart(document.getElementById('inferenceChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Groq LPU', 'NVIDIA H100', 'Cerebras WSE-3'],
+    datasets: [
+      { label: 'Tokens/sec (Llama 70B)', data: [500, 125, 2300], backgroundColor: colors.blue, yAxisID: 'y' },
+      { label: 'Cost $/1M tokens', data: [0.45, 1.2, 1.0], backgroundColor: colors.amber, yAxisID: 'y1' }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: {
+      y: { position: 'left', title: { display: true, text: 'Tokens/sec' } },
+      y1: { position: 'right', grid: { drawOnChartArea: false }, title: { display: true, text: '$/1M tokens' } }
+    }
+  }
+});
+
+// 9. SK Return Waterfall
+new Chart(document.getElementById('skReturnChart'), {
+  type: 'bar',
+  data: {
+    labels: ['누적 FCF\n(보수)', '50% 환원\n목표', '40조\n확정 Buyback', '추가 환원\n(3Q26)', 'CAPEX\n(연)', '순현금\n(2Q26)'],
+    datasets: [{ label: '조원', data: [565, 192.5, 40, 152.5, 40, 69], backgroundColor: [colors.blue, colors.green, colors.cyan, colors.green, colors.amber, colors.purple] }]
+  },
+  options: { responsive: true, maintainAspectRatio: false }
+});
+
+// 10. SK Buyback daily
+const days = Array.from({length: 62}, (_, i) => `D${i+1}`);
+const daily = 6452;
+new Chart(document.getElementById('skBuybackChart'), {
+  type: 'line',
+  data: {
+    labels: days.filter((_, i) => i % 7 === 0),
+    datasets: [{
+      label: '누적 매입 (억원)', 
+      data: days.filter((_, i) => i % 7 === 0).map((_, i) => daily * (i * 7 + 1)),
+      borderColor: colors.green, fill: true, backgroundColor: 'rgba(34,197,94,.1)', tension: .1
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { annotation: { annotations: {
+      line1: { type: 'line', yMin: 400000, yMax: 400000, borderColor: colors.amber, borderDash: [4,4], label: { display: true, content: '40조원', color: colors.amber }}
+    } } },
+    scales: { y: { title: { display: true, text: '억원' } } }
+  }
+});
+
+// 11. Samsung Price
+new Chart(document.getElementById('samsungPriceChart'), {
+  type: 'bar',
+  data: {
+    labels: ['SF4 (중·美)', 'SF4 (대만)', 'SF5', '8nm'],
+    datasets: [{ label: '인상률 (%)', data: [12.5, 7.5, 12.5, 10], backgroundColor: [colors.green, colors.cyan, colors.green, colors.blue] }]
+  },
+  options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 0, max: 18, ticks: { callback: v => '+' + v + '%' } } } }
+});
+
+// 12. Foundry Share
+new Chart(document.getElementById('foundryShareChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['TSMC', 'Samsung', 'Intel', '기타'],
+    datasets: [{ data: [70, 7, 8, 15], backgroundColor: [colors.red, colors.blue, colors.cyan, colors.gray] }]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+});
+
+// 13. Samsung Outlook
+new Chart(document.getElementById('samsungOutlookChart'), {
+  type: 'line',
+  data: {
+    labels: ['2022', '2023', '2024', '2025', '2026E', '2027E'],
+    datasets: [
+      { label: '파운드리 OPM (%)', data: [-15, -12, -8, -3, 2, 8], borderColor: colors.red, yAxisID: 'y', tension: .3 },
+      { label: 'AI/HPC 매출비중 (%)', data: [5, 8, 12, 18, 30, 38], borderColor: colors.green, yAxisID: 'y1', tension: .3 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: {
+      y: { position: 'left', title: { display: true, text: 'OPM %' } },
+      y1: { position: 'right', grid: { drawOnChartArea: false }, title: { display: true, text: 'AI/HPC %' }, min: 0 }
+    }
+  }
+});
+
+// 14. Multi-Lam
+new Chart(document.getElementById('multilamChart'), {
+  type: 'line',
+  data: {
+    labels: ['1Q25', '2Q25', '3Q25', '4Q25', '1Q26', '2Q26', '수주잔고', '4Q26E'],
+    datasets: [{ label: 'Multi-Lam 비중 (%)', data: [3, 4, 5, 6, 7, 11, 20, 25], borderColor: colors.purple, backgroundColor: 'rgba(168,85,247,.15)', fill: true, tension: .3, pointRadius: 5 }]
+  },
+  options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 0, max: 30 } } }
+});
+
+// 15. Capa
+new Chart(document.getElementById('capaChart'), {
+  type: 'bar',
+  data: {
+    labels: ['현재', '2027 2Q', '2028 H2'],
+    datasets: [{ label: '월 Capa (억원)', data: [1200, 1500, 1800], backgroundColor: [colors.blue, colors.cyan, colors.green] }]
+  },
+  options: { responsive: true, maintainAspectRatio: false }
+});
+
+// 16. Gigavis
+new Chart(document.getElementById('gigavisChart'), {
+  type: 'bar',
+  data: {
+    labels: ['2024', '2025', '2026E'],
+    datasets: [
+      { label: '매출', data: [520, 847, 1785], backgroundColor: colors.blue },
+      { label: '영업이익', data: [45, 121, 721], backgroundColor: colors.green }
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false }
+});
+
+// 17. Scatter (bubble)
+new Chart(document.getElementById('scatterChart'), {
+  type: 'bubble',
+  data: {
+    datasets: [
+      { label: 'SK하이닉스', data: [{x: 75, y: 85, r: 18}], backgroundColor: 'rgba(239,68,68,.7)' },
+      { label: '삼성전자', data: [{x: 65, y: 75, r: 22}], backgroundColor: 'rgba(59,130,246,.7)' },
+      { label: '이수페타시스', data: [{x: 50, y: 80, r: 10}], backgroundColor: 'rgba(34,197,94,.7)' },
+      { label: '기가비스', data: [{x: 45, y: 70, r: 8}], backgroundColor: 'rgba(168,85,247,.7)' },
+      { label: 'AI 빅테크', data: [{x: 95, y: 80, r: 20}], backgroundColor: 'rgba(245,158,11,.7)' }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: {
+      x: { title: { display: true, text: '매크로 민감도 →' }, min: 30, max: 100 },
+      y: { title: { display: true, text: '펀더멘탈 강도 →' }, min: 50, max: 100 }
+    }
+  }
+});
+
+// 18. Allocation
+new Chart(document.getElementById('allocationChart'), {
+  type: 'bar',
+  data: {
+    labels: ['미국 빅테크', '한국 메모리', '한국 파운드리', '일본/대만', '소부장/PCB', '변압器/전력'],
+    datasets: [
+      { label: '글로벌 선호', data: [90, 70, 55, 65, 50, 40], backgroundColor: colors.blue },
+      { label: '국내 기관', data: [60, 75, 70, 50, 65, 55], backgroundColor: colors.green }
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false, scales: { y: { max: 100 } } }
+});
+
+// Tab switch
+function switchTab(name) {
+  ['isu','giga','compare'].forEach(t => {
+    document.getElementById('tab-' + t).style.display = t === name ? 'block' : 'none';
+  });
+  document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', ['isu','giga','compare'][i] === name);
+  });
+}
+
+// Nav highlight on scroll
+const sections = document.querySelectorAll('section, .hero');
+const navLinks = document.querySelectorAll('nav a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (scrollY >= s.offsetTop - 100) current = s.id; });
+  navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+});
+</script>
+</body>
+</html>
