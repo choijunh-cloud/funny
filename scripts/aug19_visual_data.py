@@ -1,0 +1,186 @@
+"""8/19 Quick 코멘트에서 쓰는 숫자. 차트·표·테스트의 단일 소스."""
+
+from __future__ import annotations
+
+# ── 환율 ──────────────────────────────────────────────
+USD_KRW_HIGH = 1520
+USD_KRW_NOW = 1420
+USD_KRW_DXY_DOWNSIDE = 1360
+USD_KRW_KR_SUPPLY_DOWNSIDE = 1340
+USD_KRW_DEMAND_ZONE = 1350
+
+FX_DROP_PCT = (USD_KRW_NOW - USD_KRW_HIGH) / USD_KRW_HIGH  # -6.5789%
+SKH_FX_BETA = 0.9  # 원/달러 +1% → SK하이닉스 EPS +0.9%
+SEC_FX_BETA = 0.4  # 원/달러 +1% → 삼성전자 EPS +0.4%  (원문 'SK하이닉스'는 표기 오류)
+SKH_EPS_HIT_PCT = abs(FX_DROP_PCT) * SKH_FX_BETA * 100  # ≈ 5.92 → 약 5.9%
+
+SKH_27_NI_LOW = 300  # 조원
+SKH_27_NI_HIGH = 400
+SKH_NI_ADJ_LOW = SKH_27_NI_LOW * SKH_EPS_HIT_PCT / 100  # ≈ 17.8
+SKH_NI_ADJ_HIGH = SKH_27_NI_HIGH * SKH_EPS_HIT_PCT / 100  # ≈ 23.7
+SKH_26H2_FX_ADJ = 16.3  # 조원, 원문 가정
+
+# ── SK하이닉스 자사주 ────────────────────────────────
+SKH_BUYBACK_JO = 40.0
+SKH_SHARES_MN = 730.49
+SKH_BUYBACK_SHARES_MN = 24.07
+SKH_BUYBACK_PCT = SKH_BUYBACK_SHARES_MN / SKH_SHARES_MN * 100  # ≈ 3.295
+SKH_EPS_ACCRETION_PCT = (1 / (1 - SKH_BUYBACK_PCT / 100) - 1) * 100  # ≈ 3.41
+SKH_DAILY_BUY_EOK = 6452
+SKH_TRADING_DAYS = 62
+SKH_BUYBACK_EOK = SKH_DAILY_BUY_EOK * SKH_TRADING_DAYS  # 400,024억
+
+# ── FCF / 주주환원 ───────────────────────────────────
+FCF_CUM_25_27 = 385  # 조, 기본 가정
+FCF_PAYOUT_MIN = 0.50
+FCF_RETURN_MIN = FCF_CUM_25_27 * FCF_PAYOUT_MIN  # 192.5
+FCF_RETURN_REMAINING = FCF_RETURN_MIN - SKH_BUYBACK_JO  # 152.5
+
+FCF_BASE = (179, 242, 237)  # 기존 계산
+FCF_CONSERVATIVE = (150, 210, 205)  # 운전자본 20~30조 차감
+FCF_BASE_SUM = sum(FCF_BASE)  # 658
+FCF_CONSERVATIVE_SUM = sum(FCF_CONSERVATIVE)  # 565
+FCF_2028_ILLUSTRATIVE = 102.5  # 모델 참고치. 회사 정책 아님
+
+# ── 본주 밸류 (원문 8/19 야간 코멘트) ────────────────
+SKH_SPOT = 1_500_000
+SKH_26_PER = 4.3
+SKH_27_PER = 3.4
+SKH_27_PER_BEAR = 5.1
+SKH_26_OP = 266
+SKH_26_EPS = 346_000
+SKH_27_OP = 392
+SKH_27_EPS = 437_000
+SKH_26_OP_BEAR = (250, 260)
+SKH_26_EPS_BEAR = (290_000, 300_000)
+
+SEC_SPOT = 247_500
+SEC_26_PER = 5.2
+SEC_27_PER = 3.7
+SEC_27_PER_BEAR = 5.6
+SEC_26_OP = 391
+SEC_26_EPS = 47_900
+SEC_27_OP = 549
+SEC_27_EPS = 67_200
+SEC_26_OP_BEAR = (355, 370)
+SEC_26_EPS_BEAR = (43_000, 45_000)
+
+# 26년 실적만, 27년 성장 0 가정, 사이클 PER 6~7배
+SKH_TP_PER6 = SKH_26_EPS * 6  # 2,076,000
+SKH_TP_PER7 = SKH_26_EPS * 7  # 2,422,000
+SEC_TP_PER6 = SEC_26_EPS * 6  # 287,400
+SEC_TP_PER7 = SEC_26_EPS * 7  # 335,300
+
+# ── ADR ──────────────────────────────────────────────
+SKH_ADR = 163.8
+SKH_ADR_FX = 1390
+SKH_ADR_PER_SHARE = 10  # $163.8 × 1,390원 × 10 = 228만원 (원문, 본주 대비 +52%)
+SKH_ADR_KRW = SKH_ADR * SKH_ADR_FX * SKH_ADR_PER_SHARE  # 2,276,820
+SKH_ADR_26_PER = 6.6
+SKH_ADR_27_PER = 5.2
+SKH_ADR_VS_MU = -0.17
+SKH_ADR_27_PER_BEAR = 7.7
+SKH_ADR_PREMIUM = 0.52
+SKH_NORMAL_PREMIUM = 0.20
+SKH_RECENT_PREMIUM = (0.30, 0.35)
+SKH_IMPLIED_NORMAL = SKH_ADR_KRW / (1 + SKH_NORMAL_PREMIUM)  # ≈ 189.7만
+SKH_IMPLIED_RECENT_LO = SKH_ADR_KRW / (1 + SKH_RECENT_PREMIUM[1])  # ≈ 168.7만
+SKH_IMPLIED_RECENT_HI = SKH_ADR_KRW / (1 + SKH_RECENT_PREMIUM[0])  # ≈ 175.1만
+
+# ── 해외 피어 ────────────────────────────────────────
+MU_PRICE = 937.11
+MU_FWD12_PER = 7.5
+MU_CY27_EPS = 150
+MU_CY27_PER = MU_PRICE / MU_CY27_EPS  # 6.247
+SNDK_PRICE = 1568.37
+SNDK_FY27_EPS = 201
+SNDK_PER = SNDK_PRICE / SNDK_FY27_EPS  # 7.803
+
+# ── 매크로 ───────────────────────────────────────────
+UST10_CLOSE = 4.705
+UST10_INTRA_HIGH = 4.75
+UST10_BUYBACK = 4.64
+UST10_LINE = 4.70
+UST10_STRESS = 5.00
+UST30_INTRA_HIGH = 5.34
+UST30_CLOSE = 5.285
+UST30_BUYBACK = 5.19
+WTI = 84.0
+BRENT_STABLE = 90.0
+BRENT_STRESS = 100.0
+USDJPY_NOW = (157.0, 159.0)
+DXY_NOW = 99.0
+DXY_DOWNSIDE = (96.0, 97.0)
+
+# 2024.8 엔캐리 충격 (비교용)
+CARRY_NIKKEI = (39102, 31458)  # -19.5%
+CARRY_KOSPI = (2771, 2442)  # -11.9%
+CARRY_USDJPY = (152.5, 143.5)
+
+# ── 파운드리 ─────────────────────────────────────────
+SF4_HIKE = (0.10, 0.15)
+SF5_HIKE = (0.10, 0.15)
+N8_HIKE = 0.10
+TSMC_SHARE = 0.70
+SAMSUNG_HPC_NOW = (0.15, 0.20)
+SAMSUNG_HPC_TARGET = 0.30
+
+# ── HBM 수요 시나리오 ────────────────────────────────
+HBM_BULL = {"ai": 0.50, "eff": 0.20}  # 수요 여전히 증가
+HBM_BEAR = {"ai": 0.20, "eff": 0.30}  # 증가세 둔화
+
+# ── Marvell / Google ─────────────────────────────────
+MRVL_WARRANT_SHARES_MN = 58.97
+MRVL_STRIKE = 206.58
+MRVL_VEST_REVENUE_MN = 500
+MRVL_MOVE = 0.099
+AVGO_MOVE = -0.046
+
+# ── NVIDIA 프리뷰 ────────────────────────────────────
+NVDA_Q3_REV = 108  # $B, YoY +90%
+NVDA_Q4_REV = 120  # $B, YoY +77%
+NVDA_GM = 0.75
+HS_CAPEX_27 = 1000  # $B
+HS_CAPEX_GROWTH = 0.33
+RUBIN_RACK = (7.0, 8.5)  # $M
+OPENAI_Q2_REV = 6.7
+OPENAI_Q2_GROWTH = 0.18
+OPENAI_LOSS = (9.3, 12.3)
+
+# ── 이수페타시스 ─────────────────────────────────────
+ISU_REV = 3799
+ISU_REV_YOY = 0.574
+ISU_REV_BEAT = 0.049
+ISU_OP = 771
+ISU_OP_YOY = 0.833
+ISU_OP_BEAT = 0.027
+ISU_OPM = 0.203
+ISU_ML_1Q = 0.07
+ISU_ML_2Q = 0.11
+ISU_ML_BACKLOG = 0.20
+ISU_CAPA = (1200, 1500, 1800)  # 월 매출, 억
+ISU_ASP_HIKE = 0.15
+ISU_27_OP_UPSIDE = 0.10
+
+# ── 기가비스 ─────────────────────────────────────────
+GIGA_ORDER = 89.5
+GIGA_ORDER_PCT = 0.171
+GIGA_25_REV = 847
+GIGA_25_OP = 121
+GIGA_26_REV = 1785
+GIGA_26_OP = 721
+
+# ── 유니트리 ─────────────────────────────────────────
+UNITREE_MKT_CAGR = 0.31
+UNITREE_CLOSE_MCAP = 3418  # 억 위안
+UNITREE_26_REV = 22  # 억 위안
+UNITREE_PSR = UNITREE_CLOSE_MCAP / UNITREE_26_REV  # 155.36
+UNITREE_FAIR_PSR = 60
+
+# ── 키옥시아 자사주 ──────────────────────────────────
+KIOXIA_PRE = 46500
+KIOXIA_810 = 48010
+KIOXIA_818 = 49950
+KIOXIA_RET_1 = KIOXIA_810 / KIOXIA_PRE - 1  # 3.25%
+KIOXIA_RET_2 = KIOXIA_818 / KIOXIA_810 - 1  # 4.04%
+KIOXIA_RET_CUM = KIOXIA_818 / KIOXIA_PRE - 1  # 7.42%

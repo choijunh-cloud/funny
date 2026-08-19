@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2026.08.19 시장 브리핑 — 매크로 · 환율 · 주주환원 · AI 반도체</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b1020;
+      --surface: #141b2d;
+      --surface2: #1c2640;
+      --line: #2b3654;
+      --text: #eef2fb;
+      --muted: #93a0bb;
+      --blue: #3b82f6;
+      --cyan: #22d3ee;
+      --green: #22c55e;
+      --red: #f43f5e;
+      --amber: #f59e0b;
+      --gold: #d4a017;
+      --purple: #a78bfa;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: "Noto Sans KR", sans-serif; background: var(--bg); color: var(--text); line-height: 1.65; font-size: 15px; }
+    .wrap { display: grid; grid-template-columns: 248px 1fr; min-height: 100vh; }
+    nav { position: sticky; top: 0; height: 100vh; overflow: auto; background: #101727; border-right: 1px solid var(--line); padding: 22px 14px; }
+    nav .brand { font-size: 12px; letter-spacing: .12em; color: var(--gold); font-weight: 700; margin-bottom: 6px; }
+    nav h1 { font-size: 15px; line-height: 1.35; margin-bottom: 16px; }
+    nav a { display: block; color: var(--muted); text-decoration: none; font-size: 13px; padding: 7px 10px; border-radius: 8px; }
+    nav a:hover { background: var(--surface2); color: var(--text); }
+    main { padding: 36px 44px 80px; max-width: 1220px; }
+    .hero { background: linear-gradient(135deg,#1a2a55 0%,#0d1426 55%,#23163a 100%); border: 1px solid var(--line); border-radius: 20px; padding: 34px 36px; margin-bottom: 28px; }
+    .hero .kicker { color: var(--gold); font-size: 12px; font-weight: 700; letter-spacing: .1em; }
+    .hero h2 { font-size: 30px; font-weight: 800; margin: 8px 0 10px; line-height: 1.25; }
+    .hero p { color: #b6c2da; max-width: 820px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    .chip { font-size: 12px; font-weight: 600; padding: 5px 11px; border-radius: 999px; border: 1px solid var(--line); background: rgba(255,255,255,.04); }
+    .chip.red { color: #fda4af; border-color: #7f1d1d; background: rgba(244,63,94,.12); }
+    .chip.green { color: #86efac; border-color: #14532d; background: rgba(34,197,94,.12); }
+    .chip.amber { color: #fcd34d; border-color: #78350f; background: rgba(245,158,11,.12); }
+    .chip.blue { color: #93c5fd; border-color: #1e3a8a; background: rgba(59,130,246,.12); }
+    section { margin: 42px 0; scroll-margin-top: 20px; }
+    section > h3 { font-size: 21px; display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+    section > h3::before { content: ""; width: 4px; height: 20px; background: var(--blue); border-radius: 2px; }
+    .lead { color: var(--muted); margin-bottom: 18px; }
+    .grid { display: grid; gap: 16px; }
+    .g2 { grid-template-columns: 1fr 1fr; }
+    .g3 { grid-template-columns: repeat(3,1fr); }
+    .g4 { grid-template-columns: repeat(4,1fr); }
+    .g5 { grid-template-columns: repeat(5,1fr); }
+    .card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; }
+    .card h4 { font-size: 13px; color: var(--muted); font-weight: 600; margin-bottom: 4px; }
+    .val { font-family: "IBM Plex Mono", monospace; font-size: 26px; font-weight: 600; }
+    .sub { font-size: 12.5px; color: var(--muted); margin-top: 4px; }
+    .up { color: var(--green); }
+    .dn { color: var(--red); }
+    .flat { color: var(--amber); }
+    .chart { position: relative; height: 300px; }
+    .chart.tall { height: 360px; }
+    .chart.short { height: 240px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+    th { background: #0f2043; color: #fff; font-weight: 600; padding: 9px 10px; text-align: left; }
+    td { padding: 8px 10px; border-bottom: 1px solid var(--line); }
+    tr:nth-child(even) td { background: rgba(255,255,255,.02); }
+    .note { border-left: 3px solid var(--blue); background: rgba(59,130,246,.08); padding: 12px 14px; border-radius: 0 10px 10px 0; margin: 14px 0; font-size: 14px; }
+    .note.warn { border-color: var(--amber); background: rgba(245,158,11,.08); }
+    .note.danger { border-color: var(--red); background: rgba(244,63,94,.08); }
+    .note.ok { border-color: var(--green); background: rgba(34,197,94,.08); }
+    .flow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 12px 0 18px; }
+    .flow span { background: var(--surface2); border: 1px solid var(--line); padding: 7px 11px; border-radius: 8px; font-size: 13px; font-weight: 600; }
+    .flow .arr { color: var(--gold); border: 0; background: none; padding: 0; }
+    .bar { display: flex; align-items: center; gap: 10px; margin: 8px 0; }
+    .bar .lbl { width: 150px; font-size: 13px; color: var(--muted); }
+    .bar .track { flex: 1; height: 10px; background: #243049; border-radius: 99px; overflow: hidden; }
+    .bar .fill { height: 100%; border-radius: 99px; }
+    .bar .num { width: 70px; font-family: "IBM Plex Mono", monospace; font-size: 13px; }
+    footer { color: var(--muted); font-size: 12px; border-top: 1px solid var(--line); padding-top: 18px; margin-top: 40px; }
+    @media (max-width: 1100px) {
+      .wrap { grid-template-columns: 1fr; }
+      nav { position: relative; height: auto; }
+      .g2,.g3,.g4,.g5 { grid-template-columns: 1fr; }
+      main { padding: 20px 16px 50px; }
+    }
+    @media print { nav { display: none; } .wrap { display: block; } }
+  </style>
+</head>
+<body>
+<div class="wrap">
+<nav>
+  <div class="brand">MARKET BRIEF</div>
+  <h1>2026.08.19<br>시각화 보고서</h1>
+  <a href="#exec">0. 한 장 요약</a>
+  <a href="#macro">1. 매크로 체인</a>
+  <a href="#fx">2. 환율 · EPS</a>
+  <a href="#return">3. 하이닉스 환원</a>
+  <a href="#value">4. 메모리 밸류</a>
+  <a href="#hbm">5. HBM 논쟁</a>
+  <a href="#foundry">6. 삼성 파운드리</a>
+  <a href="#marvell">7. 구글–마벨</a>
+  <a href="#nvda">8. 엔비디아 프리뷰</a>
+  <a href="#supply">9. 소부장</a>
+  <a href="#other">10. 기타 종목</a>
+  <a href="#watch">11. 관전 포인트</a>
+</nav>
+<main>
+
+<div class="hero">
+  <div class="kicker">QUICK COMMENT · VISUAL REPORT · 2026.08.19</div>
+  <h2>매크로의 역습, 원화 강세, 그리고 주주환원</h2>
+  <p>오늘 코멘트의 축은 네 개입니다. ① 전쟁→유가→금리 ② 국내 달러 공급이 끌어내린 원/달러 ③ SK하이닉스 40조 소각+FCF 50%+ ④ HBM 가격결정력은 영구가 아니라는 경고. 펀더멘탈이 깨진 날은 아니고, 할인율·환율·자금 이동이 동시에 움직인 날입니다.</p>
+  <div class="chips">
+    <span class="chip red">10Y 4.7% 라인</span>
+    <span class="chip amber">원/달러 1,520→1,420</span>
+    <span class="chip green">SKH 40조 소각</span>
+    <span class="chip blue">FCF 50%+</span>
+    <span class="chip amber">마벨 +9.9% / 브로드컴 −4.6%</span>
+    <span class="chip">투자 참고 · 권유 아님</span>
+  </div>
+</div>
+
+<section id="exec">
+  <h3>0. 한 장 요약</h3>
+  <p class="lead">원문 숫자만 카드로 모았습니다. 해석은 각 섹션에서 풉니다.</p>
+  <div class="grid g5">
+    <div class="card"><h4>원/달러 가정</h4><div class="val">1,420</div><div class="sub dn">1,520 대비 −6.6%</div></div>
+    <div class="card"><h4>SKH EPS 환율 타격</h4><div class="val dn">−5.9%</div><div class="sub">27년 순익 18~24조 조정</div></div>
+    <div class="card"><h4>자사주 소각</h4><div class="val">40조</div><div class="sub">시총 3.3% · EPS +3.4%</div></div>
+    <div class="card"><h4>25~27 최소 환원</h4><div class="val">192.5조</div><div class="sub">이미 40조 → 잔여 152.5조+</div></div>
+    <div class="card"><h4>SKH 27년 PER</h4><div class="val">3.4배</div><div class="sub">본주 150만 · 보수 5.1배</div></div>
+  </div>
+  <div class="note">오늘을 한 문장으로: <b>AI 수요가 갑자기 꺾인 것이 아니라, 금리·환율·섹터 로테이션이 높은 밸류에이션을 압박했고, 하이닉스는 환원으로 방어선을 쳤다.</b></div>
+</section>
+
+<section id="macro">
+  <h3>1. 매크로 — 전쟁보다 금리</h3>
+  <p class="lead">인과는 단순합니다. 이란·호르무즈 → 유가 → 인플레 우려 → 미 국채금리 → 고PER 성장주. 재무부 바이백이 일단 속도를 낮췄지만 구조 요인은 그대로입니다.</p>
+  <div class="flow">
+    <span>미·이란</span><span class="arr">→</span>
+    <span>호르무즈</span><span class="arr">→</span>
+    <span>유가</span><span class="arr">→</span>
+    <span>인플레</span><span class="arr">→</span>
+    <span>10Y / 30Y</span><span class="arr">→</span>
+    <span>AI·반도체 할인율</span>
+  </div>
+  <div class="grid g2">
+    <div class="card">
+      <h4>미국 국채 — 장중 고점 vs 진정</h4>
+      <div class="chart"><canvas id="yieldChart"></canvas></div>
+    </div>
+    <div class="card">
+      <h4>단기 3축 게이지 (원문 임계값)</h4>
+      <div class="bar"><div class="lbl">유가(브렌트)</div><div class="track"><div class="fill" style="width:84%;background:#f59e0b"></div></div><div class="num">$84~90</div></div>
+      <div class="bar"><div class="lbl">10Y 안정선</div><div class="track"><div class="fill" style="width:47%;background:#22c55e"></div></div><div class="num">≤4.7%</div></div>
+      <div class="bar"><div class="lbl">10Y 스트레스</div><div class="track"><div class="fill" style="width:100%;background:#f43f5e"></div></div><div class="num">5.0%</div></div>
+      <div class="bar"><div class="lbl">엔/달러</div><div class="track"><div class="fill" style="width:78%;background:#3b82f6"></div></div><div class="num">157~159</div></div>
+      <div class="note warn" style="margin-top:14px">10년물 4.7% 이하 안정이 단기 최대 변수. 5% 고착이면 위험자산 회피 확대. 30년물은 언론용, 실무는 10년물을 봅니다.</div>
+    </div>
+  </div>
+  <div class="grid g2" style="margin-top:16px">
+    <div class="card">
+      <h4>2024.8 엔캐리 청산 vs 현재</h4>
+      <div class="chart short"><canvas id="carryChart"></canvas></div>
+      <p class="sub">당시 USD/JPY 152→142대(약 −6%)와 함께 닛케이 −19.5%, 코스피 −11.9%. 지금은 157~159에서 반등. 1차 충격은 엔캐리보다 글로벌 금리/밸류 압박으로 보는 편이 타당.</p>
+    </div>
+    <div class="card">
+      <h4>무게중심 — 전쟁 매크로 vs 투자 vs 토큰</h4>
+      <div class="chart short"><canvas id="weightChart"></canvas></div>
+      <p class="sub">단기 추는 왼쪽으로 기울어 있습니다. 다만 토큰 수요→AI CAPEX 궤도는 금리 1~2회 인상만으로 꺾이기 어렵다는 것이 기본 가정입니다.</p>
+    </div>
+  </div>
+  <div class="note">재무부 장기채 바이백 20억→40억 달러: 방어선 신호이지 재정적자·인플레·AI 자금수요의 해법은 아닙니다. Fed 의사록은 매파, 당장은 Treasury 영향이 더 큽니다.</div>
+</section>
+
+<section id="fx">
+  <h3>2. 왜 1,400원 아래로 왔나 — 환율과 EPS</h3>
+  <p class="lead">“달러 약세 때문에 원화가 강해졌다”가 아니라, <b>한국의 달러 공급이 먼저 세졌다</b>는 것이 핵심입니다. DXY·엔만으로는 설명이 부족합니다.</p>
+  <div class="flow">
+    <span>법인세·설비투자</span><span class="arr">→</span>
+    <span>수출기업 달러 매도</span><span class="arr">→</span>
+    <span>환헤지 비중 ↑</span><span class="arr">→</span>
+    <span>달러-원 하락</span><span class="arr">→</span>
+    <span>고환율 잔여물량 추가 매도</span>
+  </div>
+  <div class="grid g2">
+    <div class="card">
+      <h4>원/달러 시나리오</h4>
+      <div class="chart"><canvas id="fxPathChart"></canvas></div>
+    </div>
+    <div class="card">
+      <h4>환율 +1%당 EPS 민감도</h4>
+      <div class="chart"><canvas id="fxBetaChart"></canvas></div>
+      <p class="sub">삼성전자 카드의 원문 표기는 ‘SK하이닉스 EPS +0.4%’였으나, 맥락상 삼성전자 민감도입니다.</p>
+    </div>
+  </div>
+  <div class="grid g3" style="margin-top:16px">
+    <div class="card"><h4>1,520→1,420</h4><div class="val dn">−6.6%</div><div class="sub">SKH EPS 약 −5.9%</div></div>
+    <div class="card"><h4>27년 순익 300~400조</h4><div class="val">18~24조</div><div class="sub">이익 조정 가능성</div></div>
+    <div class="card"><h4>26년 하반기</h4><div class="val">16.3조</div><div class="sub">환율 조정 가능성</div></div>
+  </div>
+  <div class="note warn">추가 하락 핵심 변수는 달러. 인상 기대가 되돌려지면 DXY 99→96~97, 달러-원 추가 하락. 1,300원대 중반은 조건부: DXY −3~4%면 약 1,360원, 국내 공급이 더해지면 1,340원대. 리스크는 ① 외국인 매도 ② 이란/유가 ③ 1,350원 부근 달러 수요 반등.</div>
+</section>
+
+<section id="return">
+  <h3>3. SK하이닉스 주주환원 — 40조는 시작</h3>
+  <p class="lead">정책 기간은 2025~2027년입니다. 192.5조는 2027년 한 해에 주는 돈이 아닙니다. 2028년 102.5조는 우리가 만든 FCF 모델의 참고치이지 회사 정책이 아닙니다.</p>
+  <div class="grid g2">
+    <div class="card">
+      <h4>25~27 누적 FCF 환원 구조 (조원)</h4>
+      <div class="chart tall"><canvas id="fcfChart"></canvas></div>
+    </div>
+    <div class="card">
+      <h4>연도별 FCF — 기본 vs 보수</h4>
+      <div class="chart tall"><canvas id="fcfYearChart"></canvas></div>
+    </div>
+  </div>
+  <table style="margin-top:16px">
+    <tr><th>항목</th><th>숫자</th><th>읽는 법</th></tr>
+    <tr><td>자사주 취득·소각</td><td>40조 · 2,407만주 · 3.3%</td><td>8/20~11/19, 전량 소각. 동일 순이익이면 EPS 약 +3.4%</td></tr>
+    <tr><td>일평균 매입</td><td>6,452억원 × 62영업일</td><td>400,024억원 ≈ 40.0조</td></tr>
+    <tr><td>환원 기준</td><td>누적 FCF의 50% 이상</td><td>기존 ‘50% 범위 내’에서 상향. 초과가 목표</td></tr>
+    <tr><td>기본 누적 FCF</td><td>385조</td><td>385 × 50% = 192.5조. 이미 40조 → 잔여 152.5조+</td></tr>
+    <tr><td>보수 FCF</td><td>150 / 210 / 205조</td><td>운전자본 등 20~30조 차감. 3년 합 565조</td></tr>
+    <tr><td>추가 규모 발표</td><td>3Q26 실적</td><td>자사주·현금배당·특별배당 검토</td></tr>
+  </table>
+  <div class="note ok">회사는 주가가 내재가치 대비 저평가라고 직접 밝혔습니다. ADR 발행으로 희석된 SK스퀘어 지분율을, 소각으로 발행 전 수준에 가깝게 되돌리는 구조이기도 합니다.</div>
+</section>
+
+<section id="value">
+  <h3>4. 메모리 밸류 — 본주 · ADR · 피어</h3>
+  <p class="lead">본주 150만(하이닉스) / 24.75만(삼성) 기준입니다. 26년만 보면 비싸고, 27년 성장이 초점입니다.</p>
+  <div class="grid g2">
+    <div class="card">
+      <h4>Forward PER 비교</h4>
+      <div class="chart"><canvas id="perChart"></canvas></div>
+    </div>
+    <div class="card">
+      <h4>27년 성장 0 가정 · 사이클 PER 6~7배</h4>
+      <div class="chart"><canvas id="cyclePerChart"></canvas></div>
+    </div>
+  </div>
+  <table style="margin-top:16px">
+    <tr><th>종목</th><th>가격</th><th>26 PER</th><th>27 PER</th><th>26 OP / EPS</th><th>27 OP / EPS</th><th>보수 27 PER</th></tr>
+    <tr><td>SK하이닉스 본주</td><td>150만</td><td>4.3</td><td>3.4</td><td>266조 / 346K</td><td>392조 / 437K</td><td>5.1</td></tr>
+    <tr><td>삼성전자</td><td>24.75만</td><td>5.2</td><td>3.7</td><td>391조 / 47.9K</td><td>549조 / 67.2K</td><td>5.6</td></tr>
+    <tr><td>SKH ADR</td><td>$163.8</td><td>6.6</td><td>5.2</td><td colspan="2">1,390원 환산 228만</td><td>7.7</td></tr>
+    <tr><td>마이크론</td><td>$937.11</td><td>Fwd12 7.5</td><td>CY27 6.25</td><td colspan="2">CY27 EPS $150</td><td>—</td></tr>
+    <tr><td>샌디스크</td><td>$1,568</td><td>—</td><td>FY27 7.8</td><td colspan="2">FY27 EPS $201</td><td>—</td></tr>
+  </table>
+  <div class="grid g3" style="margin-top:16px">
+    <div class="card"><h4>ADR 프리미엄</h4><div class="val">+52%</div><div class="sub">정상 +20%(TSMC ~15%)면 본주 약 190만</div></div>
+    <div class="card"><h4>최근 프리미엄 30~35%</h4><div class="val">169~175만</div><div class="sub">본주 함의 가격</div></div>
+    <div class="card"><h4>사이클 PER 6~7배</h4><div class="val">208~242만</div><div class="sub">삼전 28.7~33.5만</div></div>
+  </div>
+  <div class="note">ADR은 마이크론 대비 −17% (과거 −20~−50%). 8/19 미장에서 SKH ADR은 +5.2%까지 갔다가 +0.3% 마감. 주주환원 효과는 “최소 +5%”를 기대했으나 금리·섹터 로테이션이 상쇄.</div>
+</section>
+
+<section id="hbm">
+  <h3>5. “왜 메모리주를 사지 않는가” — Wood + Thompson</h3>
+  <p class="lead">틀린 문장과 맞는 문장을 먼저 가릅니다. 가격이 높다고 수요가 곧 꺾인다는 논리는 약합니다. 가격이 높을수록 효율화·대체 유인이 커진다는 논리는 강합니다.</p>
+  <div class="grid g2">
+    <div class="card">
+      <h4>순 메모리 수요 = AI 증가 − 효율 개선</h4>
+      <div class="chart"><canvas id="hbmDemandChart"></canvas></div>
+    </div>
+    <div class="card">
+      <h4>대체 기술 현실성</h4>
+      <table>
+        <tr><th>경로</th><th>현실성</th><th>의미</th></tr>
+        <tr><td>Cerebras 온칩 SRAM</td><td class="up">높음</td><td>HBM 의존 축소</td></tr>
+        <tr><td>Groq SRAM inference</td><td class="up">높음</td><td>추론 전용 구조</td></tr>
+        <tr><td>NVIDIA + Groq</td><td class="up">높음</td><td>NV도 SRAM 채택</td></tr>
+        <tr><td>KV Cache 압축</td><td class="up">높음</td><td>필요 HBM 용량 ↓</td></tr>
+        <tr><td>HBF / SSD 계층</td><td class="flat">진행 중</td><td>계층 다변화</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="note">SRAM ≠ HBM. 핵심은 대체가 아니라 분업입니다. workload마다 SRAM + HBM + DRAM + SSD를 조합합니다. 캐시 우드·벤 톰슨의 요지는 ‘지금 메모리주가 틀렸다’가 아니라 <b>지금의 HBM 가격결정력이 영구라고 가정하면 안 된다</b>는 경고입니다. 2026~28년 초과이익의 양날의 검이 2028년 이후 효율화 촉진입니다.</div>
+</section>
+
+<section id="foundry">
+  <h3>6. 삼성 파운드리 — 신규 주문 최대 +15%</h3>
+  <p class="lead">TSMC 포화 + 중국 팹리스 해외 의존 + 평택 SF4 풀가동(퀄컴 + HBM 베이스 다이). 가격 협상력이 돌아온 구간입니다. Reuters 2026-08-19.</p>
+  <div class="grid g2">
+    <div class="card">
+      <h4>공정별 인상 폭</h4>
+      <div class="chart short"><canvas id="foundryHikeChart"></canvas></div>
+    </div>
+    <div class="card">
+      <h4>믹스 변화</h4>
+      <div class="chart short"><canvas id="foundryMixChart"></canvas></div>
+    </div>
+  </div>
+  <div class="note ok">2022년 이후 적자 파운드리가 단가·수율·가동률로 이르면 내년 흑자 전환 기대. 첨단 중 AI/HPC 비중은 2025말 15~20% → 30%+. 테슬라·애플·브로드컴·엔비디아 추론칩에 이어 구글 4나노 협의.</div>
+</section>
+
+<section id="marvell">
+  <h3>7. Google × Marvell — TPU 주변을 열어젖히다</h3>
+  <p class="lead">마벨은 칩 설계 업체가 아니라 AI 인프라 파트너로 읽히기 시작했습니다. 브로드컴의 구글 TPU 독점에 대한 견제 신호입니다.</p>
+  <div class="grid g2">
+    <div class="card">
+      <h4>8/19 미장 반응</h4>
+      <div class="chart short"><canvas id="mrvlChart"></canvas></div>
+    </div>
+    <div class="card">
+      <h4>Warrant 구조</h4>
+      <table>
+        <tr><th>항목</th><th>내용</th></tr>
+        <tr><td>규모</td><td>최대 5,897만주 매입권</td></tr>
+        <tr><td>행사가</td><td>$206.58</td></tr>
+        <tr><td>베스팅</td><td>Google Custom Products 매출 $5억마다 1 tranche</td></tr>
+        <tr><td>기간</td><td>FY2027 Q3 ~ FY2033</td></tr>
+        <tr><td>영역</td><td>추론 가속기 · Storage · NIC · Memory Interface · Near-memory</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="note">단기 이벤트가 아니라 장기 AI ASIC 계약입니다. 매출이 늘수록 구글의 마벨 지분 이해관계가 커지는 연동 구조입니다.</div>
+</section>
+
+<section id="nvda">
+  <h3>8. NVIDIA Q2 FY27 프리뷰 — Beat보다 CAPEX와 Rubin</h3>
+  <div class="grid g2">
+    <div class="card">
+      <h4>가이던스 함의 매출 ($B)</h4>
+      <div class="chart short"><canvas id="nvdaRevChart"></canvas></div>
+    </div>
+    <div class="card">
+      <h4>관전 포인트 5개</h4>
+      <table>
+        <tr><th>#</th><th>질문</th></tr>
+        <tr><td>1</td><td>AI 인프라 수요가 계속 증가하는가</td></tr>
+        <tr><td>2</td><td>Hyperscaler CAPEX가 지속 가능한가 (2027 ≥ $1T, +33%)</td></tr>
+        <tr><td>3</td><td>AI 기업 자금 조달이 가능한가</td></tr>
+        <tr><td>4</td><td>GM 75%를 지키는가</td></tr>
+        <tr><td>5</td><td>Blackwell → Rubin(3Q26) 전환이 순조로운가</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="note warn">OpenAI Q2 매출 $6.7B(+18% QoQ)는 절대액은 크지만 기대 성장에는 미달. 영업손실 $9.3B→$12.3B. “수요인가, 순환 금융인가” 논쟁은 젠슨 황의 설명과 8/26 실적에서 다시 열립니다. Rubin 랙 $7~8.5M, 추론 처리량 최대 35배, AI Factory 기회 최대 10배.</div>
+</section>
+
+<section id="supply">
+  <h3>9. 소부장 — 이수페타시스 · 기가비스</h3>
+  <div class="grid g2">
+    <div class="card">
+      <h4>이수페타시스 Multi-Lam 믹스</h4>
+      <div class="chart"><canvas id="mlChart"></canvas></div>
+    </div>
+    <div class="card">
+      <h4>기가비스 실적 레버리지</h4>
+      <div class="chart"><canvas id="gigaChart"></canvas></div>
+    </div>
+  </div>
+  <div class="grid g2" style="margin-top:16px">
+    <div class="card">
+      <h4>이수페타시스 2Q26</h4>
+      <table>
+        <tr><th>항목</th><th>실적</th><th>YoY / vs 컨센</th></tr>
+        <tr><td>매출</td><td>3,799억</td><td>+57.4% / +4.9%</td></tr>
+        <tr><td>영업이익</td><td>771억</td><td>+83.3% / +2.7%</td></tr>
+        <tr><td>OPM</td><td>20.3%</td><td>Capa + AI + Multi-Lam</td></tr>
+        <tr><td>월 Capa</td><td>1,200억</td><td>27.2Q 1,500 · 28H2 1,800</td></tr>
+        <tr><td>판가</td><td>+15%</td><td>하반기부터</td></tr>
+      </table>
+      <p class="sub">Peer 하락으로 타깃 멀티플 30.9→26.0배. 이익 상향 여지로 TP 하향 폭은 제한적. “Capa 회사”가 아니라 Multi-Lam 이익 레버리지 회사.</p>
+    </div>
+    <div class="card">
+      <h4>기가비스 (420770)</h4>
+      <p>FC-BGA(ABF)의 눈(AOI)과 레이저 수리공(AOR). 고객은 이비덴·신코·유니마이크론·삼성전기.</p>
+      <table>
+        <tr><th>항목</th><th>숫자</th></tr>
+        <tr><td>일본 기판사 수주</td><td>89.5억 · 매출대비 17.1%</td></tr>
+        <tr><td>기간</td><td>26.8.18 ~ 27.9.30</td></tr>
+        <tr><td>2025 매출/OP</td><td>847억 / 121억</td></tr>
+        <tr><td>2026E (메리츠)</td><td>1,785억 / 721억</td></tr>
+        <tr><td>컨센 TP</td><td>19만원선 · 분할 접근 후보</td></tr>
+      </table>
+      <p class="sub">26년 실적 기준으로는 비싸고, 27년 성장 잠재력이 초점입니다.</p>
+    </div>
+  </div>
+</section>
+
+<section id="other">
+  <h3>10. 기타 — 바이오 로테이션 · 방산 · 배터리 · 로봇</h3>
+  <div class="grid g2">
+    <div class="card">
+      <h4>금리 하락에도 기술주가 안 오른 이유</h4>
+      <div class="chart short"><canvas id="rotationChart"></canvas></div>
+      <p class="sub">국채 바이백 → 장기금리 하락은 기술주에 우호적. 그러나 AI→헬스케어 자금 이동이 상쇄. 모더나 암백신 3상, MSD 병용. 국내 관련: 알테오젠·에스티팜·올릭스·알지노믹스.</p>
+    </div>
+    <div class="card">
+      <h4>유니트리 PSR — 고평가 프레임</h4>
+      <div class="chart short"><canvas id="unitreeChart"></canvas></div>
+      <p class="sub">종가 시총 3,418억 위안 ÷ 2026 매출 22억 위안 ≈ PSR 155배. 시장 CAGR 31% 프레임의 정당화선(PSR 60)의 2.6배. 상장 첫날 5배, 상업화는 아직 파일럿.</p>
+    </div>
+  </div>
+  <table style="margin-top:16px">
+    <tr><th>종목</th><th>포인트</th></tr>
+    <tr><td>한화에어로스페이스</td><td>미 육군 MTC 단독. 시제 $1억 / 옵션 포함 $2.6억. 양산 시 약 10조 사업 진입.</td></tr>
+    <tr><td>LG에너지솔루션</td><td>북미 EV→ESS. 랜싱 35GWh+, 테슬라 메가팩 LFP 약 $43억. 방산 드론 배터리 협의.</td></tr>
+    <tr><td>LS</td><td>2Q OP 5,956억 연속 최대. 26/27 OP +20%/+17% 상향. 자사주 11.1% 보유.</td></tr>
+    <tr><td>키옥시아 자사주</td><td>8/3~8/10 8,000억엔. 7/31 46,500→8/18 49,950, 누적 +7.4%.</td></tr>
+    <tr><td>알테오젠</td><td>키트루다SC 2Q $4.63억. 외부사 병용 3상 시작. ADC SC 옵션.</td></tr>
+  </table>
+</section>
+
+<section id="watch">
+  <h3>11. 앞으로 볼 것</h3>
+  <div class="grid g3">
+    <div class="card"><h4>매크로</h4><p>10Y 4.7% 안정 vs 5% 돌파. 유가 $90 vs $100. USD/JPY가 150 초반으로 깨지면 2024.8형 엔캐리 의심.</p></div>
+    <div class="card"><h4>환율</h4><p>DXY 99 유지 vs 96~97. 1,350원 부근 달러 수요. 외국인 순매도 확대 여부.</p></div>
+    <div class="card"><h4>반도체</h4><p>8/26 엔비디아. 하이닉스 3Q26 추가 환원. 마벨 커스텀 매출 tranche. Multi-Lam 4Q 전환.</p></div>
+  </div>
+  <div class="note">국내 기관의 고민은 AI를 줄일지가 아니라, <b>대형주 익스포저 vs 변압기·소부장 믹스</b>입니다. 임계점 전에는 글로벌 자금이 AI 비중을 크게 줄이기 어렵습니다. 선호 순서는 빅테크 → 파운드리 → 메모리, 미국·일본·한국.</div>
+  <div class="note danger">이 자료는 원문 Quick 코멘트를 도표로 재구성한 참고용입니다. 매수·매도 추천이 아니며 법적 자료로 쓸 수 없습니다.</div>
+</section>
+
+<footer>
+  2026.08.19 시각화 보고서 · 원문 Quick 코멘트(07:09~23:50) 재구성 · 숫자는 코멘트 기준 산술 검증 · 투자 판단은 각자.
+</footer>
+</main>
+</div>
+
+<script>
+Chart.defaults.color = "#93a0bb";
+Chart.defaults.borderColor = "#2b3654";
+Chart.defaults.font.family = "'Noto Sans KR', sans-serif";
+const tip = { plugins: { legend: { labels: { boxWidth: 12 } } } };
+
+new Chart(document.getElementById("yieldChart"), {
+  type: "bar",
+  data: {
+    labels: ["10Y 장중고점", "10Y 마감", "10Y 바이백 후", "30Y 장중고점", "30Y 마감", "30Y 바이백 후"],
+    datasets: [{
+      label: "%",
+      data: [4.75, 4.705, 4.64, 5.34, 5.285, 5.19],
+      backgroundColor: ["#f43f5e","#f59e0b","#22c55e","#f43f5e","#f59e0b","#22c55e"]
+    }]
+  },
+  options: { ...tip, scales: { y: { min: 4.4, max: 5.5 } } }
+});
+
+new Chart(document.getElementById("carryChart"), {
+  type: "bar",
+  data: {
+    labels: ["Nikkei 24.8", "KOSPI 24.8", "USD/JPY 24.8"],
+    datasets: [{
+      label: "당시 낙폭 %",
+      data: [-19.5, -11.9, -6.0],
+      backgroundColor: ["#f43f5e","#fb7185","#f59e0b"]
+    }]
+  },
+  options: tip
+});
+
+new Chart(document.getElementById("weightChart"), {
+  type: "doughnut",
+  data: {
+    labels: ["전쟁·금리 매크로", "AI 투자의지", "토큰 수요"],
+    datasets: [{ data: [50, 28, 22], backgroundColor: ["#f43f5e","#3b82f6","#22c55e"] }]
+  },
+  options: { plugins: { legend: { position: "bottom" } } }
+});
+
+new Chart(document.getElementById("fxPathChart"), {
+  type: "line",
+  data: {
+    labels: ["고점 가정", "현재 가정", "DXY −3~4%", "국내공급 가세", "수요 반등존"],
+    datasets: [{
+      label: "원/달러",
+      data: [1520, 1420, 1360, 1340, 1350],
+      borderColor: "#22d3ee",
+      backgroundColor: "rgba(34,211,238,.15)",
+      fill: true,
+      tension: .25
+    }]
+  },
+  options: { ...tip, scales: { y: { min: 1280, max: 1560 } } }
+});
+
+new Chart(document.getElementById("fxBetaChart"), {
+  type: "bar",
+  data: {
+    labels: ["삼성전자", "SK하이닉스"],
+    datasets: [{
+      label: "원/달러 +1% → EPS %",
+      data: [0.4, 0.9],
+      backgroundColor: ["#3b82f6","#a78bfa"]
+    }]
+  },
+  options: { ...tip, indexAxis: "y", scales: { x: { max: 1.2 } } }
+});
+
+new Chart(document.getElementById("fcfChart"), {
+  type: "bar",
+  data: {
+    labels: ["25~27 FCF", "최소 50% 환원", "이미 확정 40조", "추가 필요"],
+    datasets: [{
+      label: "조원",
+      data: [385, 192.5, 40, 152.5],
+      backgroundColor: ["#3b82f6","#22c55e","#f59e0b","#22d3ee"]
+    }]
+  },
+  options: tip
+});
+
+new Chart(document.getElementById("fcfYearChart"), {
+  type: "bar",
+  data: {
+    labels: ["2025E", "2026E", "2027E", "3년 합"],
+    datasets: [
+      { label: "기본", data: [179, 242, 237, 658], backgroundColor: "#3b82f6" },
+      { label: "보수(WC 차감)", data: [150, 210, 205, 565], backgroundColor: "#64748b" }
+    ]
+  },
+  options: tip
+});
+
+new Chart(document.getElementById("perChart"), {
+  type: "bar",
+  data: {
+    labels: ["SKH 본주", "삼성전자", "SKH ADR", "마이크론", "샌디스크"],
+    datasets: [
+      { label: "26 / Fwd", data: [4.3, 5.2, 6.6, 7.5, null], backgroundColor: "#3b82f6" },
+      { label: "27년", data: [3.4, 3.7, 5.2, 6.25, 7.8], backgroundColor: "#22d3ee" }
+    ]
+  },
+  options: tip
+});
+
+new Chart(document.getElementById("cyclePerChart"), {
+  type: "bar",
+  data: {
+    labels: ["하이닉스 PER6", "하이닉스 PER7", "삼성 PER6", "삼성 PER7"],
+    datasets: [{
+      label: "함의 주가 (만원)",
+      data: [208, 242, 28.7, 33.5],
+      backgroundColor: ["#a78bfa","#a78bfa","#3b82f6","#3b82f6"]
+    }]
+  },
+  options: tip
+});
+
+new Chart(document.getElementById("hbmDemandChart"), {
+  type: "bar",
+  data: {
+    labels: ["Bull: AI+50% / 효율+20%", "Bear: AI+20% / 효율+30%"],
+    datasets: [
+      { label: "AI 증가", data: [50, 20], backgroundColor: "#22c55e" },
+      { label: "효율 개선", data: [20, 30], backgroundColor: "#f59e0b" },
+      { label: "순 메모리 수요", data: [25.0, -7.7], backgroundColor: "#3b82f6" }
+    ]
+  },
+  options: tip
+});
+
+new Chart(document.getElementById("foundryHikeChart"), {
+  type: "bar",
+  data: {
+    labels: ["SF4 중국·미국", "SF4 대만", "SF5", "8나노"],
+    datasets: [
+      { label: "하단 %", data: [10, 5, 10, 10], backgroundColor: "#64748b" },
+      { label: "상단 %", data: [15, 10, 15, 10], backgroundColor: "#3b82f6" }
+    ]
+  },
+  options: tip
+});
+
+new Chart(document.getElementById("foundryMixChart"), {
+  type: "doughnut",
+  data: {
+    labels: ["AI/HPC 목표 30%+", "기타 첨단", "레거시"],
+    datasets: [{ data: [30, 25, 45], backgroundColor: ["#22d3ee","#3b82f6","#64748b"] }]
+  },
+  options: { plugins: { legend: { position: "bottom" } } }
+});
+
+new Chart(document.getElementById("mrvlChart"), {
+  type: "bar",
+  data: {
+    labels: ["Marvell", "Broadcom"],
+    datasets: [{ label: "8/19 %", data: [9.9, -4.6], backgroundColor: ["#22c55e","#f43f5e"] }]
+  },
+  options: tip
+});
+
+new Chart(document.getElementById("nvdaRevChart"), {
+  type: "line",
+  data: {
+    labels: ["Q3 FY27", "Q4 FY27"],
+    datasets: [{
+      label: "$B",
+      data: [108, 120],
+      borderColor: "#22c55e",
+      backgroundColor: "rgba(34,197,94,.15)",
+      fill: true,
+      tension: .3
+    }]
+  },
+  options: { ...tip, scales: { y: { min: 90, max: 130 } } }
+});
+
+new Chart(document.getElementById("mlChart"), {
+  type: "line",
+  data: {
+    labels: ["1Q 매출", "2Q 매출", "수주잔고"],
+    datasets: [{
+      label: "Multi-Lam 비중 %",
+      data: [7, 11, 20],
+      borderColor: "#a78bfa",
+      backgroundColor: "rgba(167,139,250,.2)",
+      fill: true,
+      tension: .3
+    }]
+  },
+  options: { ...tip, scales: { y: { min: 0, max: 28 } } }
+});
+
+new Chart(document.getElementById("gigaChart"), {
+  type: "bar",
+  data: {
+    labels: ["2025", "2026E"],
+    datasets: [
+      { label: "매출 억", data: [847, 1785], backgroundColor: "#3b82f6" },
+      { label: "영업이익 억", data: [121, 721], backgroundColor: "#22c55e" }
+    ]
+  },
+  options: tip
+});
+
+new Chart(document.getElementById("rotationChart"), {
+  type: "bar",
+  data: {
+    labels: ["Moderna", "BNTX", "Merck", "S&P Tech", "SOX"],
+    datasets: [{
+      label: "%",
+      data: [77, 22, 12.9, -0.73, -2.12],
+      backgroundColor: ["#22c55e","#4ade80","#86efac","#f43f5e","#fb7185"]
+    }]
+  },
+  options: tip
+});
+
+new Chart(document.getElementById("unitreeChart"), {
+  type: "bar",
+  data: {
+    labels: ["정당화선 PSR60", "실제 PSR155"],
+    datasets: [{ label: "배", data: [60, 155], backgroundColor: ["#3b82f6","#f43f5e"] }]
+  },
+  options: tip
+});
+</script>
+</body>
+</html>
