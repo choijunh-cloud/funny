@@ -21,8 +21,10 @@ from docx.shared import Cm, Mm, Pt, RGBColor, Inches
 ROOT = Path("/workspace")
 CHART_DIR = ROOT / "lectures" / "charts" / "aug19"
 OUT_PATH = ROOT / "lectures" / "8월 19일 Quick코멘트 시각화보고서.docx"
+OUT_HTML = ROOT / "lectures" / "8월 19일 Quick코멘트 시각화보고서.html"
 
-KR_FONT = "NanumGothic"
+KR_FONT = "맑은 고딕"
+EN_FONT = "Calibri"
 FALLBACK = "DejaVu Sans"
 
 NAVY = RGBColor(0x0F, 0x20, 0x43)
@@ -394,8 +396,8 @@ def generate_all_charts() -> dict[str, Path]:
 def set_run_font(run, size=11, bold=False, color=DARK, italic=False, font=KR_FONT):
     run.font.name = font
     run._element.rPr.rFonts.set(qn("w:eastAsia"), KR_FONT)
-    run._element.rPr.rFonts.set(qn("w:ascii"), font)
-    run._element.rPr.rFonts.set(qn("w:hAnsi"), font)
+    run._element.rPr.rFonts.set(qn("w:ascii"), EN_FONT)
+    run._element.rPr.rFonts.set(qn("w:hAnsi"), EN_FONT)
     run.font.size = Pt(size)
     run.bold = bold
     run.italic = italic
@@ -741,12 +743,111 @@ def build_report(charts: dict[str, Path]):
     r.save(OUT_PATH)
 
 
+def build_html(charts: dict[str, Path]):
+    """브라우저/Cursor에서 바로 열 수 있는 HTML 버전."""
+    rel = lambda p: os.path.relpath(p, OUT_HTML.parent).replace("\\", "/")
+    chart = lambda key: rel(charts[key])
+
+    html = f"""<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>8월 19일 Quick 코멘트 시각화 보고서</title>
+<style>
+  body {{ font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif; max-width: 920px; margin: 0 auto; padding: 24px; color: #1a1a1a; line-height: 1.6; background: #fafbfc; }}
+  h1 {{ color: #0F2043; border-bottom: 3px solid #0F2043; padding-bottom: 8px; }}
+  h2 {{ color: #1E407C; margin-top: 32px; }}
+  .cover {{ text-align: center; margin-bottom: 32px; }}
+  .cover h1 {{ font-size: 28px; border: none; }}
+  .cover .sub {{ color: #4B5563; }}
+  .callout {{ background: #EEF2F8; border-left: 5px solid #0F2043; padding: 16px 20px; margin: 16px 0; border-radius: 0 8px 8px 0; }}
+  .callout.warn {{ background: #FFF8E7; border-color: #B8943A; }}
+  table {{ width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }}
+  th {{ background: #0F2043; color: white; padding: 10px; text-align: center; }}
+  td {{ border: 1px solid #D5DCE6; padding: 8px 10px; }}
+  tr:nth-child(even) td {{ background: #F7F9FC; }}
+  img {{ max-width: 100%; height: auto; display: block; margin: 20px auto; border: 1px solid #e5e7eb; border-radius: 8px; }}
+  ul {{ padding-left: 20px; }}
+  li {{ margin: 6px 0; }}
+  .footer {{ text-align: right; color: #6B7280; font-size: 13px; margin-top: 40px; }}
+</style>
+</head>
+<body>
+<div class="cover">
+  <p class="sub">2026. 8. 19. Quick 코멘트 정리</p>
+  <h1>시각화 보고서</h1>
+  <p class="sub">매크로 · SK하이닉스 · 환율 · 메모리 · 섹터로테이션</p>
+</div>
+
+<div class="callout">
+  <strong>Executive Summary</strong>
+  <ul>
+    <li>악재: AI 수요 훼손보다 <b>유가→금리→고PER 압박</b> + 차익실현</li>
+    <li>호재: SK하이닉스 <b>40조 자사주 소각</b> + FCF 50% 이상 환원</li>
+    <li>美장: 국채 바이백으로 금리↓, 그러나 <b>AI→헬스케어</b> 섹터 로테이션</li>
+    <li>환율: 국내 달러 공급 핵심, 1,400원 하회, 1,340~1,360 가능</li>
+  </ul>
+</div>
+
+<h2>오늘 핵심 숫자</h2>
+<table>
+<tr><th>항목</th><th>숫자</th><th>함의</th></tr>
+<tr><td>SKHY 자사주</td><td>40조 / 3.3% / 3개월</td><td>EPS +3.4%, 역대 최대</td></tr>
+<tr><td>FCF 환원</td><td>385조 × 50%+</td><td>추가 152.5조+ 여지</td></tr>
+<tr><td>美 10Y</td><td>4.708%</td><td>4.7% 이하 = 성장주 완화</td></tr>
+<tr><td>달러-원</td><td>1,412원대</td><td>국내 수급 주도</td></tr>
+<tr><td>Marvell</td><td>+9.9% vs AVGO -4.6%</td><td>Google TPU 재편</td></tr>
+</table>
+
+<h1>1. 매크로 — 유가·금리·반도체</h1>
+<img src="{chart("macro_chain")}" alt="매크로 전달 경로">
+<img src="{chart("bond_thresholds")}" alt="금리 임계 구간">
+
+<h1>2. 국내 시장 — 8/19 장세</h1>
+<img src="{chart("kospi_flow")}" alt="코스피 흐름">
+
+<h1>3. SK하이닉스 — 역대 최대 주주환원</h1>
+<img src="{chart("sk_buyback")}" alt="SK하이닉스 주주환원">
+
+<h1>4. 환율 — 달러-원 하락과 민감도</h1>
+<img src="{chart("fx_drivers")}" alt="환율 요인">
+<img src="{chart("fx_sensitivity")}" alt="환율 민감도">
+<img src="{chart("fx_scenario")}" alt="환율 시나리오">
+
+<h1>5. 밸류에이션</h1>
+<img src="{chart("per_comparison")}" alt="PER 비교">
+
+<h1>6. 美장 — 섹터 로테이션</h1>
+<img src="{chart("sector_rotation")}" alt="섹터 로테이션">
+<img src="{chart("marvell_broadcom")}" alt="Marvell vs Broadcom">
+
+<h1>7. HBM 논쟁</h1>
+<img src="{chart("hbm_debate")}" alt="HBM 대체 기술">
+
+<h1>8. 앞으로 볼 변수</h1>
+<table>
+<tr><th>#</th><th>변수</th><th>관찰 포인트</th></tr>
+<tr><td>①</td><td>美 10Y</td><td>4.7% 이하 vs 5% 돌파</td></tr>
+<tr><td>②</td><td>유가</td><td>$90 vs $100+</td></tr>
+<tr><td>③</td><td>달러-원</td><td>1,350~1,400</td></tr>
+<tr><td>④</td><td>NVIDIA</td><td>8/26 실적</td></tr>
+</table>
+
+<p class="footer">— 8/19 Quick 코멘트 기준 · 투자 추천 아님 · HTML/Cursor에서 바로 열람 가능</p>
+</body>
+</html>"""
+    OUT_HTML.write_text(html, encoding="utf-8")
+
+
 def main():
     setup_matplotlib()
     charts = generate_all_charts()
     build_report(charts)
+    build_html(charts)
     print(f"Charts: {CHART_DIR}")
-    print(f"Report: {OUT_PATH} ({OUT_PATH.stat().st_size:,} bytes)")
+    print(f"DOCX:   {OUT_PATH} ({OUT_PATH.stat().st_size:,} bytes)")
+    print(f"HTML:   {OUT_HTML} ({OUT_HTML.stat().st_size:,} bytes)")
 
 
 if __name__ == "__main__":
