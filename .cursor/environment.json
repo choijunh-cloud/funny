@@ -1,0 +1,4 @@
+{
+  "name": "funny lecture notes",
+  "install": "bash scripts/cloud_agent_install.sh"
+}
