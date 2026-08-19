@@ -1,0 +1,4 @@
+{
+  "name": "funny lecture-notes",
+  "install": "pip install --user -r requirements.txt"
+}
