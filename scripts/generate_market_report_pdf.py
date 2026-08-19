@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import base64
 import io
 from datetime import date
 from pathlib import Path
@@ -29,8 +30,12 @@ from reportlab.platypus import (
 )
 
 OUT_PATH = Path("/workspace/reports/2026-08-19-market-analysis-report.pdf")
-FONT_PATH = "/usr/share/fonts/truetype/wqy/wqy-microhei.ttc"
-FONT_NAME = "WQYMicroHei"
+HTML_STANDALONE_PATH = Path("/workspace/reports/2026-08-19-market-analysis-standalone.html")
+FONT_DIR = Path(__file__).resolve().parent.parent / "assets" / "fonts"
+FONT_PATH = str(FONT_DIR / "NanumGothic.ttf")
+FONT_BOLD_PATH = str(FONT_DIR / "NanumGothicBold.ttf")
+FONT_NAME = "NanumGothic"
+FONT_BOLD_NAME = "NanumGothicBold"
 
 # Brand colors
 NAVY = colors.HexColor("#0F2043")
@@ -44,7 +49,14 @@ AMBER = colors.HexColor("#D97706")
 
 
 def register_fonts():
-    pdfmetrics.registerFont(TTFont(FONT_NAME, FONT_PATH))
+    if not Path(FONT_PATH).exists():
+        raise FileNotFoundError(
+            f"한글 폰트가 없습니다: {FONT_PATH}\n"
+            "assets/fonts/NanumGothic.ttf 파일을 확인하세요."
+        )
+    pdfmetrics.registerFont(TTFont(FONT_NAME, FONT_PATH, subfontIndex=0))
+    if Path(FONT_BOLD_PATH).exists():
+        pdfmetrics.registerFont(TTFont(FONT_BOLD_NAME, FONT_BOLD_PATH, subfontIndex=0))
     fm.fontManager.addfont(FONT_PATH)
     prop = fm.FontProperties(fname=FONT_PATH)
     plt.rcParams["font.family"] = prop.get_name()
@@ -419,6 +431,8 @@ def build_pdf():
         bottomMargin=1.8 * cm,
         title="2026.08.19 시장 분석 리포트",
         author="Market Intelligence",
+        subject="매크로 역습 vs AI·반도체 펀더멘탈",
+        creator="generate_market_report_pdf.py",
     )
 
     story = []
@@ -696,5 +710,95 @@ def build_pdf():
     print(f"Generated: {OUT_PATH} ({OUT_PATH.stat().st_size // 1024} KB)")
 
 
+def fig_to_b64(fig) -> str:
+    buf = io.BytesIO()
+    fig.savefig(buf, format="png", dpi=160, bbox_inches="tight", facecolor="white")
+    plt.close(fig)
+    return base64.b64encode(buf.getvalue()).decode("ascii")
+
+
+def build_standalone_html():
+    """CDN 없이 브라우저에서 바로 열리는 단일 HTML."""
+    charts = {
+        "yield": (chart_yield(), "미국 국채금리 추이 (8/18~19)"),
+        "crash": (chart_crash(), "8/5 급락·8/6 반등 — 유동성 쇼크"),
+        "radar": (chart_macro_radar(), "매크로 변수 게이지"),
+        "dram": (chart_dram(), "DRAM/HBM vs AI Capex"),
+        "hbm": (chart_hbm_pie(), "AI 워크로드별 HBM 의존도"),
+        "bw": (chart_bandwidth(), "메모리 대역폭 비교"),
+        "sk": (chart_sk_waterfall(), "SK하이닉스 주주환원 추산"),
+        "samsung": (chart_samsung(), "삼성 파운드리 가격 인상"),
+        "multilam": (chart_multilam(), "이수페타시스 Multi-Lam"),
+        "foundry": (chart_foundry_share(), "글로벌 파운드리 점유"),
+        "alloc": (chart_allocation(), "섹터별 자금 선호"),
+    }
+    imgs = {k: fig_to_b64(fn) for k, (fn, _) in charts.items()}
+    captions = {k: cap for k, (_, cap) in charts.items()}
+
+    html = f"""<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>2026.08.19 시장 분석 (Standalone)</title>
+<style>
+body{{font-family:'Malgun Gothic','Apple SD Gothic Neo',sans-serif;max-width:920px;margin:0 auto;padding:24px 20px 60px;color:#1f2937;line-height:1.65;background:#fff}}
+h1{{color:#0f2043;font-size:1.6rem;border-bottom:3px solid #b8943a;padding-bottom:8px}}
+h2{{color:#1e407c;font-size:1.15rem;margin-top:28px}}
+.kpi{{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}}
+.kpi div{{background:#eef2f8;border:1px solid #cbd5e1;border-radius:8px;padding:12px;text-align:center}}
+.kpi b{{display:block;font-size:1.2rem;color:#0f2043}}
+img{{max-width:100%;height:auto;display:block;margin:12px auto;border:1px solid #e2e8f0;border-radius:8px}}
+.cap{{text-align:center;font-size:.85rem;color:#64748b;margin-bottom:20px}}
+.box{{background:#f8fafc;border-left:4px solid #3b82f6;padding:12px 16px;margin:12px 0;font-size:.95rem}}
+table{{width:100%;border-collapse:collapse;font-size:.9rem;margin:12px 0}}
+th,td{{border:1px solid #cbd5e1;padding:8px 10px;text-align:left}}
+th{{background:#1e407c;color:#fff}}
+tr:nth-child(even){{background:#f8fafc}}
+@media(max-width:700px){{.kpi{{grid-template-columns:1fr 1fr}}}}
+</style></head><body>
+<h1>2026.08.19 시장 분석 — 매크로 역습 vs AI·반도체</h1>
+<p>오프라인 단일 파일 · PDF: <code>2026-08-19-market-analysis-report.pdf</code></p>
+<div class="kpi">
+<div><span>10Y 미국채</span><b>4.69%</b><small>고점 4.75%</small></div>
+<div><span>30Y 미국채</span><b>5.285%</b><small>19년 고점</small></div>
+<div><span>SK Buyback</span><b>40조</b><small>시총 3.3%</small></div>
+<div><span>삼성 SF4</span><b>+15%</b><small>파운드리</small></div>
+</div>
+<div class="box"><b>핵심:</b> 8/19 하락 = AI 수요 약화 ✗ / <b>유가·금리 쇼크</b> ✓. SK 40조 Buyback·삼성 파운드리 인상 등 펀더멘탈 호재와 Wood/Thompson HBM 경고 공존.</div>
+
+<h2>1. 매크로 — 금리·유가</h2>
+<img src="data:image/png;base64,{imgs['yield']}" alt="yield"><p class="cap">{captions['yield']}</p>
+<img src="data:image/png;base64,{imgs['crash']}" alt="crash"><p class="cap">{captions['crash']}</p>
+
+<h2>2. 단기 변수</h2>
+<img src="data:image/png;base64,{imgs['radar']}" alt="radar"><p class="cap">{captions['radar']}</p>
+<table><tr><th>변수</th><th>안정</th><th>위험</th><th>현재</th></tr>
+<tr><td>유가</td><td>$90</td><td>$100+</td><td>$90+</td></tr>
+<tr><td>10Y</td><td>4.7%↓</td><td>5%+</td><td>4.69%</td></tr>
+<tr><td>미·이란</td><td>소강</td><td>확전</td><td>협상 결렬</td></tr></table>
+
+<h2>3. 메모리 논쟁 (Wood & Thompson)</h2>
+<img src="data:image/png;base64,{imgs['dram']}" alt="dram"><p class="cap">{captions['dram']}</p>
+<img src="data:image/png;base64,{imgs['hbm']}" alt="hbm"><p class="cap">{captions['hbm']}</p>
+<ul>
+<li><b>Wood:</b> 메모리 = 가장 cyclical·commoditized. HBM 3~10배 = 부정 신호. Cerebras·Groq inference에서 HBM 불필요.</li>
+<li><b>Thompson:</b> 메모리업체=이란, HBM=호르무즈. 카드 사용 → 영구 우회.</li>
+</ul>
+
+<h2>4. HBM 대체 · SK하이닉스 · 삼성</h2>
+<img src="data:image/png;base64,{imgs['bw']}" alt="bw"><p class="cap">{captions['bw']}</p>
+<img src="data:image/png;base64,{imgs['sk']}" alt="sk"><p class="cap">{captions['sk']}</p>
+<img src="data:image/png;base64,{imgs['samsung']}" alt="samsung"><p class="cap">{captions['samsung']}</p>
+<img src="data:image/png;base64,{imgs['foundry']}" alt="foundry"><p class="cap">{captions['foundry']}</p>
+
+<h2>5. 공급망 · 결론</h2>
+<img src="data:image/png;base64,{imgs['multilam']}" alt="multilam"><p class="cap">{captions['multilam']}</p>
+<img src="data:image/png;base64,{imgs['alloc']}" alt="alloc"><p class="cap">{captions['alloc']}</p>
+<p style="font-size:.85rem;color:#64748b;margin-top:24px">투자 참고용 · 투자 권유 아님 · {date.today()}</p>
+</body></html>"""
+    HTML_STANDALONE_PATH.write_text(html, encoding="utf-8")
+    print(f"Generated: {HTML_STANDALONE_PATH} ({HTML_STANDALONE_PATH.stat().st_size // 1024} KB)")
+
+
 if __name__ == "__main__":
+    register_fonts()
     build_pdf()
+    build_standalone_html()
