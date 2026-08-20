@@ -23,3 +23,18 @@ python3 test_aug19_numbers.py
 매크로(금리·엔캐리·재무부 바이백) · 원/달러 민감도 · 하이닉스 환원 · 본주/ADR 밸류 · HBM 논쟁 · 마벨–구글 · 삼성 파운드리 · NVIDIA/OpenAI · 이수페타시스 · 기가비스.
 
 숫자 원천은 `scripts/aug19_data.py`입니다.
+
+# 2026.08.18–20 통합 시각화 보고서
+
+업로드 워드 11개를 한 권으로 재구성했습니다.
+
+| 파일 | 용도 |
+|---|---|
+| `2026-08-18-20-통합-시각화보고서.html` | 인터랙티브 (Chart.js) |
+| `../lectures/8월 18-20일 통합 시장 시각화 보고서.docx` | 인쇄·배포, 차트 삽입 |
+| `charts_integrated/*.png` | 정적 차트 |
+
+```bash
+python3 scripts/test_integrated_numbers.py
+python3 scripts/generate_integrated_report.py
+```
