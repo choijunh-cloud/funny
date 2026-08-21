@@ -1,0 +1,314 @@
+{
+  "horizons": {
+    "3M": {
+      "p": 0.5066176470588235,
+      "f": -0.16875,
+      "weights": {
+        "A": 0.21718749700206336,
+        "B": 0.3298394578033356,
+        "B*": 0.2272889225652821,
+        "C": 0.15109694571981636,
+        "D": 0.07458717690950258
+      },
+      "disp": {
+        "A": 22,
+        "B": 33,
+        "B*": 23,
+        "C": 15,
+        "D": 7
+      },
+      "alloc": {
+        "Semiconductor": 0.35153865948234536,
+        "AI_Compute": 0.10463524825808346,
+        "Power_Grid": 0.16919574907789195,
+        "Non_Semi_Export": 0.1699127027679162,
+        "Cash": 0.20471764041376303
+      },
+      "alloc_disp": {
+        "Semiconductor": 35,
+        "AI_Compute": 10,
+        "Power_Grid": 17,
+        "Non_Semi_Export": 17,
+        "Cash": 21
+      },
+      "proj": {
+        "expected_level": 7388.060885288806,
+        "p10": 6334.551088213901,
+        "p50": 7328.317756786075,
+        "p90": 8793.525172865015,
+        "support_low": 5200.0,
+        "support_high": 9300.0
+      },
+      "physical": {
+        "memory_price": 0.65,
+        "earnings_outlook": 0.4,
+        "ai_physical_demand": 0.7,
+        "supply_discipline": 0.45,
+        "china_memory_supply_balance": -0.05
+      },
+      "financial": {
+        "ai_financing": -0.2,
+        "rates_fx": -0.1,
+        "foreign_flows": -0.22
+      }
+    },
+    "6M": {
+      "p": 0.31,
+      "f": -0.06857142857142857,
+      "weights": {
+        "A": 0.1946580509530646,
+        "B": 0.29174095937670697,
+        "B*": 0.16614170570541037,
+        "C": 0.22097070776066702,
+        "D": 0.12648857620415105
+      },
+      "disp": {
+        "A": 19,
+        "B": 29,
+        "B*": 17,
+        "C": 22,
+        "D": 13
+      },
+      "alloc": {
+        "Semiconductor": 0.336262775207493,
+        "AI_Compute": 0.1025976246967634,
+        "Power_Grid": 0.1678536161118576,
+        "Non_Semi_Export": 0.17423796477520498,
+        "Cash": 0.21904801920868103
+      },
+      "alloc_disp": {
+        "Semiconductor": 34,
+        "AI_Compute": 10,
+        "Power_Grid": 17,
+        "Non_Semi_Export": 17,
+        "Cash": 22
+      },
+      "proj": {
+        "expected_level": 7227.240809496418,
+        "p10": 5674.351137474745,
+        "p50": 7209.551092890908,
+        "p90": 8734.906496487409,
+        "support_low": 5200.0,
+        "support_high": 9300.0
+      },
+      "physical": {
+        "memory_price": 0.4,
+        "earnings_outlook": 0.2,
+        "ai_physical_demand": 0.6,
+        "supply_discipline": 0.25,
+        "china_memory_supply_balance": -0.15
+      },
+      "financial": {
+        "ai_financing": -0.2,
+        "rates_fx": 0.0,
+        "foreign_flows": 0.0
+      }
+    },
+    "12M": {
+      "p": 0.025892857142857134,
+      "f": -0.04318181818181818,
+      "weights": {
+        "A": 0.14344730301819505,
+        "B": 0.2490686299214181,
+        "B*": 0.13101318860160763,
+        "C": 0.2748838405777597,
+        "D": 0.20158703788101953
+      },
+      "disp": {
+        "A": 14,
+        "B": 25,
+        "B*": 13,
+        "C": 28,
+        "D": 20
+      },
+      "alloc": {
+        "Semiconductor": 0.31437472826119733,
+        "AI_Compute": 0.09683385831122283,
+        "Power_Grid": 0.16728786094662734,
+        "Non_Semi_Export": 0.1783845596693099,
+        "Cash": 0.2431189928116426
+      },
+      "alloc_disp": {
+        "Semiconductor": 31,
+        "AI_Compute": 10,
+        "Power_Grid": 17,
+        "Non_Semi_Export": 18,
+        "Cash": 24
+      },
+      "proj": {
+        "expected_level": 6980.941318387889,
+        "p10": 5497.638184630765,
+        "p50": 6869.54974630303,
+        "p90": 8533.167876387,
+        "support_low": 5200.0,
+        "support_high": 9300.0
+      },
+      "physical": {
+        "memory_price": 0.05,
+        "earnings_outlook": -0.1,
+        "ai_physical_demand": 0.35,
+        "supply_discipline": 0.05,
+        "china_memory_supply_balance": -0.25
+      },
+      "financial": {
+        "ai_financing": -0.25,
+        "rates_fx": 0.08,
+        "foreign_flows": 0.0
+      }
+    }
+  },
+  "regimes": {
+    "A": {
+      "name": "A: Re-acceleration (재가속)",
+      "p_coord": 0.7,
+      "f_coord": 0.3,
+      "policy_weights": {
+        "Semiconductor": 0.45,
+        "AI_Compute": 0.15,
+        "Power_Grid": 0.15,
+        "Non_Semi_Export": 0.15,
+        "Cash": 0.1
+      }
+    },
+    "B": {
+      "name": "B: Late verification (후기검증)",
+      "p_coord": 0.4,
+      "f_coord": 0.0,
+      "policy_weights": {
+        "Semiconductor": 0.38,
+        "AI_Compute": 0.12,
+        "Power_Grid": 0.16,
+        "Non_Semi_Export": 0.16,
+        "Cash": 0.18
+      }
+    },
+    "B*": {
+      "name": "B*: Physical boom / financial squeeze (실물호황·신용경색)",
+      "p_coord": 0.55,
+      "f_coord": -0.65,
+      "policy_weights": {
+        "Semiconductor": 0.32,
+        "AI_Compute": 0.06,
+        "Power_Grid": 0.2,
+        "Non_Semi_Export": 0.17,
+        "Cash": 0.25
+      }
+    },
+    "C": {
+      "name": "C: Soft landing / rotation (연착륙·순환)",
+      "p_coord": -0.05,
+      "f_coord": 0.2,
+      "policy_weights": {
+        "Semiconductor": 0.28,
+        "AI_Compute": 0.1,
+        "Power_Grid": 0.18,
+        "Non_Semi_Export": 0.22,
+        "Cash": 0.22
+      }
+    },
+    "D": {
+      "name": "D: Defensive downside (방어)",
+      "p_coord": -0.35,
+      "f_coord": -0.45,
+      "policy_weights": {
+        "Semiconductor": 0.18,
+        "AI_Compute": 0.05,
+        "Power_Grid": 0.15,
+        "Non_Semi_Export": 0.17,
+        "Cash": 0.45
+      }
+    }
+  },
+  "anchors": {
+    "3M": {
+      "A": [
+        8200.0,
+        9300.0
+      ],
+      "B": [
+        7200.0,
+        8100.0
+      ],
+      "B*": [
+        6400.0,
+        7300.0
+      ],
+      "C": [
+        6200.0,
+        7000.0
+      ],
+      "D": [
+        5200.0,
+        5800.0
+      ]
+    },
+    "6M": {
+      "A": [
+        8200.0,
+        9300.0
+      ],
+      "B": [
+        7200.0,
+        8100.0
+      ],
+      "B*": [
+        6400.0,
+        7300.0
+      ],
+      "C": [
+        6200.0,
+        7000.0
+      ],
+      "D": [
+        5200.0,
+        5800.0
+      ]
+    },
+    "12M": {
+      "A": [
+        8200.0,
+        9300.0
+      ],
+      "B": [
+        7200.0,
+        8100.0
+      ],
+      "B*": [
+        6400.0,
+        7300.0
+      ],
+      "C": [
+        6200.0,
+        7000.0
+      ],
+      "D": [
+        5200.0,
+        5800.0
+      ]
+    }
+  },
+  "execution": {
+    "level": "NORMAL",
+    "clusters": [],
+    "messages": [
+      "✅ Comparable spot premium is positive (+18.5%).",
+      "KOSPI drawdown from rolling high: -26.8%.",
+      "Decision rule: Allocation adjustment requires human review."
+    ],
+    "spread": 18.494382022471903,
+    "drawdown": -0.267948717948718,
+    "spot": 52.73,
+    "contract": 44.5,
+    "spot_product": "DDR5 16Gb",
+    "spot_as_of": "2026-08-14",
+    "contract_as_of": "2026-07-31",
+    "kospi": 6852.0,
+    "rolling_high": 9360.0,
+    "forward_pe": 10.2,
+    "valuation_ceiling": 12.5,
+    "earnings_outlook": 0.4,
+    "ai_financing": -0.2,
+    "rates_fx": -0.1,
+    "foreign_flows": -0.22
+  }
+}

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>2026.08.21 패널 합성 국면 모델 — 베이스라인</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:#0b0f17; --surface:#121826; --surface2:#1a2235; --border:#2a3550;
+      --text:#e8edf7; --muted:#8b97b0; --accent:#3b82f6; --gold:#B8943A;
+      --green:#22c55e; --red:#ef4444; --amber:#f59e0b; --purple:#a855f7;
+      --radius:14px; --shadow:0 8px 32px rgba(0,0,0,.35);
+    }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Noto Sans KR',sans-serif; background:var(--bg); color:var(--text); line-height:1.65; font-size:15px; }
+    .layout { display:grid; grid-template-columns:240px 1fr; min-height:100vh; }
+    nav { position:sticky; top:0; height:100vh; overflow:auto; background:var(--surface); border-right:1px solid var(--border); padding:22px 14px; }
+    nav .brand { color:var(--gold); font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; margin-bottom:14px; }
+    nav a { display:block; padding:8px 10px; border-radius:8px; color:var(--muted); text-decoration:none; font-size:13px; }
+    nav a:hover { background:var(--surface2); color:var(--text); }
+    main { padding:28px 36px 72px; max-width:1240px; }
+    .hero {
+      background:linear-gradient(135deg,#1e3a5f 0%,#0f172a 52%,#1a1040 100%);
+      border:1px solid var(--border); border-radius:20px; padding:32px 34px; margin-bottom:22px;
+    }
+    .hero h1 { font-size:26px; font-weight:800; line-height:1.3; margin:6px 0 8px; }
+    .hero p { color:#94a3b8; max-width:820px; }
+    .badge-row { display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; }
+    .badge { padding:4px 11px; border-radius:999px; font-size:12px; font-weight:600; border:1px solid var(--border); background:rgba(255,255,255,.05); }
+    .badge.g { border-color:#14532d; color:#86efac; background:rgba(34,197,94,.12); }
+    .badge.a { border-color:#78350f; color:#fcd34d; background:rgba(245,158,11,.12); }
+    .badge.b { border-color:#1e3a8a; color:#93c5fd; background:rgba(59,130,246,.12); }
+    .kpi { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-bottom:22px; }
+    .kpi .c, .card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:16px 18px; box-shadow:var(--shadow); }
+    .kpi h3 { font-size:11px; color:var(--muted); }
+    .kpi .v { font-family:'IBM Plex Mono',monospace; font-size:22px; font-weight:700; margin-top:4px; }
+    .kpi .s { font-size:12px; color:var(--muted); margin-top:3px; }
+    section { margin-bottom:36px; scroll-margin-top:18px; }
+    section > h2 { font-size:20px; font-weight:700; margin-bottom:6px; display:flex; align-items:center; gap:10px; }
+    section > h2::before { content:''; width:4px; height:20px; background:var(--accent); border-radius:2px; }
+    .lead { color:var(--muted); font-size:14px; margin-bottom:14px; }
+    .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .chart { position:relative; height:340px; }
+    .chart.tall { height:400px; }
+    .call { border-left:3px solid var(--accent); background:rgba(59,130,246,.08); padding:12px 14px; border-radius:0 10px 10px 0; margin:14px 0; }
+    .call.warn { border-color:var(--amber); background:rgba(245,158,11,.08); }
+    table { width:100%; border-collapse:collapse; font-size:13px; margin-top:12px; }
+    th { background:#0f172a; color:#cbd5e1; text-align:left; padding:8px 10px; }
+    td { padding:8px 10px; border-bottom:1px solid var(--border); }
+    tr:nth-child(even) td { background:rgba(255,255,255,.02); }
+    .mono { font-family:'IBM Plex Mono',monospace; }
+    footer { color:var(--muted); font-size:12px; margin-top:28px; }
+    @media (max-width:1100px) {
+      .layout { grid-template-columns:1fr; }
+      nav { position:relative; height:auto; }
+      .kpi, .grid-2 { grid-template-columns:1fr; }
+      main { padding:18px 14px 56px; }
+    }
+  </style>
+</head>
+<body>
+<div class="layout">
+<nav>
+  <div class="brand">Panel Synthesis</div>
+  <a href="#top">요약</a>
+  <a href="#state">상태공간</a>
+  <a href="#regime">국면 확률</a>
+  <a href="#alloc">정책 배분</a>
+  <a href="#kospi">코스피 혼합</a>
+  <a href="#factor">팩터</a>
+  <a href="#exec">실행 리스크</a>
+</nav>
+<main>
+  <div class="hero" id="top">
+    <div class="badge-row"><span class="badge b">BASELINE 2026-08-21</span><span class="badge g">TRIGGER NORMAL</span></div>
+    <h1>패널 합성 국면 모델<br/>실물은 식고, 국면은 B에서 C로 미끄러진다</h1>
+    <p>3개월은 후기검증(B) 33%. 1년은 연착륙·순환(C) 28%. 현물 프리미엄 +18.5%가 메모리 스트레스를 끄고, 코스피 6,852는 12개월 혼합 중앙값에 붙어 있다. 배분 숫자는 사람 검토용이다.</p>
+    <div class="badge-row">
+      <span class="badge">3M B 33%</span>
+      <span class="badge">6M B 29%</span>
+      <span class="badge a">12M C 28%</span>
+      <span class="badge g">스트레스 0 / 4</span>
+    </div>
+  </div>
+
+  <div class="kpi">
+    <div class="c"><h3>3M 상태</h3><div class="v">P +0.51</div><div class="s">F -0.17 · B 33%</div></div>
+    <div class="c"><h3>12M 상태</h3><div class="v">P +0.03</div><div class="s">F -0.04 · C 28%</div></div>
+    <div class="c"><h3>3M 코스피 평균</h3><div class="v">7,388</div><div class="s">P50 7,328 · P90 8,794</div></div>
+    <div class="c"><h3>현물 프리미엄</h3><div class="v" style="color:var(--green)">+18.5%</div><div class="s">DDR5 16Gb 52.73 / 44.50</div></div>
+    <div class="c"><h3>코스피 낙폭</h3><div class="v" style="color:var(--amber)">-26.8%</div><div class="s">6,852 / 고점 9,360</div></div>
+  </div>
+
+  <section id="state">
+    <h2>상태공간 궤적</h2>
+    <p class="lead">실물 축은 +0.51 → +0.03, 금융 축은 −0.17 → −0.04. 3개월은 A/B/B* 삼각 경합, 12개월은 원점의 C.</p>
+    <div class="card"><div class="chart tall"><canvas id="stateChart"></canvas></div></div>
+    <table>
+      <tr><th>시계</th><th>P</th><th>F</th><th>1위</th><th>2위</th><th>3위</th></tr>
+      <tr><td>3M</td><td class="mono">+0.507</td><td class="mono">-0.169</td><td>B 33%</td><td>B* 23%</td><td>A 22%</td></tr>
+      <tr><td>6M</td><td class="mono">+0.310</td><td class="mono">-0.069</td><td>B 29%</td><td>C 22%</td><td>A 19%</td></tr>
+      <tr><td>12M</td><td class="mono">+0.026</td><td class="mono">-0.043</td><td>C 28%</td><td>B 25%</td><td>D 20%</td></tr>
+    </table>
+  </section>
+
+  <section id="regime">
+    <h2>국면 확률</h2>
+    <p class="lead">거리 제곱을 온도로 나눈 소프트맥스. 온도는 3M 0.52 / 6M 0.68 / 12M 0.78 — 시계가 길수록 분포가 평평해진다.</p>
+    <div class="card"><div class="chart"><canvas id="regimeChart"></canvas></div></div>
+    <div class="call">A는 22→14%로 줄고 D는 7→20%로 는다. 단기 재가속과 장기 방어가 한 모델 안에 같이 있다.</div>
+  </section>
+
+  <section id="alloc">
+    <h2>정책 배분</h2>
+    <p class="lead">국면별 정책 가중치의 확률 평균. 반도체 35.2%→31.4%, 현금 20.5%→24.3%.</p>
+    <div class="card"><div class="chart"><canvas id="allocChart"></canvas></div></div>
+    <table>
+      <tr><th>자산</th><th>3M</th><th>6M</th><th>12M</th></tr>
+      <tr><td>반도체</td><td class='mono'>35.2%</td><td class='mono'>33.6%</td><td class='mono'>31.4%</td></tr><tr><td>AI 연산</td><td class='mono'>10.5%</td><td class='mono'>10.3%</td><td class='mono'>9.7%</td></tr><tr><td>전력망</td><td class='mono'>16.9%</td><td class='mono'>16.8%</td><td class='mono'>16.7%</td></tr><tr><td>비반도체 수출</td><td class='mono'>17.0%</td><td class='mono'>17.4%</td><td class='mono'>17.8%</td></tr><tr><td>현금</td><td class='mono'>20.5%</td><td class='mono'>21.9%</td><td class='mono'>24.3%</td></tr>
+    </table>
+  </section>
+
+  <section id="kospi">
+    <h2>코스피 혼합 분위수</h2>
+    <p class="lead">국면 앵커 밴드를 균등분포로 섞었다. 현 6,852는 12M P50(6,870)과 같고, 3M 평균(7,388)보다는 아래다.</p>
+    <div class="card"><div class="chart tall"><canvas id="kospiChart"></canvas></div></div>
+    <table>
+      <tr><th>항목</th><th>3M</th><th>6M</th><th>12M</th></tr>
+      <tr><td>평균</td><td class="mono">7,388</td><td class="mono">7,227</td><td class="mono">6,981</td></tr>
+      <tr><td>P10</td><td class="mono">6,335</td><td class="mono">5,674</td><td class="mono">5,498</td></tr>
+      <tr><td>P50</td><td class="mono">7,328</td><td class="mono">7,210</td><td class="mono">6,870</td></tr>
+      <tr><td>P90</td><td class="mono">8,794</td><td class="mono">8,735</td><td class="mono">8,533</td></tr>
+    </table>
+  </section>
+
+  <section id="factor">
+    <h2>팩터 스냅샷</h2>
+    <p class="lead">메모리·AI 실물 수요는 빠지고, 금리·환율과 외국인 수급은 회복. AI 자금조달만 음수로 남는다.</p>
+    <div class="card"><div class="chart tall"><canvas id="factorChart"></canvas></div></div>
+  </section>
+
+  <section id="exec">
+    <h2>실행 리스크</h2>
+    <p class="lead">클러스터 0개 → NORMAL. 딥 드로우다운(−40%)과 PER 천장은 아직 아니다.</p>
+    <div class="grid-2">
+      <div class="card">
+        <h3 style="color:#94a3b8;font-size:13px;margin-bottom:8px;">트리거 보드</h3>
+        <table>
+          <tr><th>점검</th><th>값</th><th>결과</th></tr>
+          <tr><td>현·선 스프레드</td><td class="mono">+18.5%</td><td>양호</td></tr>
+          <tr><td>실적 전망</td><td class="mono">+0.40</td><td>memory 미발동</td></tr>
+          <tr><td>AI 자금조달</td><td class="mono">-0.20</td><td>임계 −0.50 미달</td></tr>
+          <tr><td>유동성 평균</td><td class="mono">-0.16</td><td>임계 −0.40 미달</td></tr>
+          <tr><td>선행 PER</td><td class="mono">10.2 / 12.5</td><td>천장 아래</td></tr>
+          <tr><td>낙폭</td><td class="mono">-26.8%</td><td>−40% 아님</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3 style="color:#94a3b8;font-size:13px;margin-bottom:8px;">엔진 메시지</h3>
+        <div class="call">✅ Comparable spot premium is positive (+18.5%).</div>
+        <div class="call warn">KOSPI drawdown from rolling high: -26.8%.</div>
+        <div class="call">Decision rule: Allocation adjustment requires human review.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>관측: 현물 2026-08-14, 계약 2026-07-31. 투자 참고용 · 투자 권유 아님 · 배분 변경은 사람 검토.</footer>
+</main>
+</div>
+<script>
+const D = {"horizons": ["3M", "6M", "12M"], "codes": ["A", "B", "B*", "C", "D"], "names": {"A": "A: Re-acceleration (재가속)", "B": "B: Late verification (후기검증)", "B*": "B*: Physical boom / financial squeeze (실물호황·신용경색)", "C": "C: Soft landing / rotation (연착륙·순환)", "D": "D: Defensive downside (방어)"}, "centroids": {"A": [0.7, 0.3], "B": [0.4, 0.0], "B*": [0.55, -0.65], "C": [-0.05, 0.2], "D": [-0.35, -0.45]}, "states": {"3M": [0.5066176470588235, -0.16875], "6M": [0.31, -0.06857142857142857], "12M": [0.025892857142857134, -0.04318181818181818]}, "disp": {"3M": {"A": 22, "B": 33, "B*": 23, "C": 15, "D": 7}, "6M": {"A": 19, "B": 29, "B*": 17, "C": 22, "D": 13}, "12M": {"A": 14, "B": 25, "B*": 13, "C": 28, "D": 20}}, "alloc": {"3M": [35.15386594823454, 10.463524825808346, 16.919574907789194, 16.99127027679162, 20.471764041376304], "6M": [33.6262775207493, 10.259762469676339, 16.78536161118576, 17.423796477520497, 21.904801920868103], "12M": [31.437472826119734, 9.683385831122283, 16.728786094662734, 17.83845596693099, 24.31189928116426]}, "assets": ["반도체", "AI 연산", "전력망", "비반도체 수출", "현금"], "proj": {"3M": {"expected_level": 7388.060885288806, "p10": 6334.551088213901, "p50": 7328.317756786075, "p90": 8793.525172865015, "support_low": 5200.0, "support_high": 9300.0}, "6M": {"expected_level": 7227.240809496418, "p10": 5674.351137474745, "p50": 7209.551092890908, "p90": 8734.906496487409, "support_low": 5200.0, "support_high": 9300.0}, "12M": {"expected_level": 6980.941318387889, "p10": 5497.638184630765, "p50": 6869.54974630303, "p90": 8533.167876387, "support_low": 5200.0, "support_high": 9300.0}}, "spot": 6852.0, "factors": {"labels": ["메모리 가격", "실적 전망", "AI 실물 수요", "공급 규율", "중국 메모리 수급", "AI 자금조달", "금리·환율", "외국인 수급"], "values": {"3M": [0.65, 0.4, 0.7, 0.45, -0.05, -0.2, -0.1, -0.22], "6M": [0.4, 0.2, 0.6, 0.25, -0.15, -0.2, 0.0, 0.0], "12M": [0.05, -0.1, 0.35, 0.05, -0.25, -0.25, 0.08, 0.0]}}};
+const REGIME_COLORS = {A:'#22c55e',B:'#3b82f6','B*':'#a855f7',C:'#f59e0b',D:'#ef4444'};
+const HZ_COLORS = {'3M':'#93c5fd','6M':'#60a5fa','12M':'#B8943A'};
+const ASSET_COLORS = ['#38bdf8','#a78bfa','#f59e0b','#34d399','#94a3b8'];
+
+Chart.defaults.color = '#8b97b0';
+Chart.defaults.borderColor = '#2a3550';
+Chart.defaults.font.family = "'Noto Sans KR', sans-serif";
+
+new Chart(document.getElementById('stateChart'), {
+  type: 'scatter',
+  data: {
+    datasets: [
+      ...D.codes.map(code => ({
+        label: code,
+        data: [{x:D.centroids[code][0], y:D.centroids[code][1]}],
+        backgroundColor: REGIME_COLORS[code],
+        pointRadius: 11,
+      })),
+      {
+        label: '궤적',
+        data: D.horizons.map(hz => ({x:D.states[hz][0], y:D.states[hz][1]})),
+        showLine: true,
+        borderColor: '#B8943A',
+        backgroundColor: '#B8943A',
+        pointRadius: 7,
+        pointStyle: 'rectRot',
+      }
+    ]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false,
+    plugins: {
+      legend: { labels: { boxWidth:10 } },
+      tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}  P ${ctx.parsed.x.toFixed(2)}  F ${ctx.parsed.y.toFixed(2)}` } }
+    },
+    scales: {
+      x: { title: {display:true, text:'실물 P'}, min:-0.55, max:0.9 },
+      y: { title: {display:true, text:'금융 F'}, min:-0.85, max:0.5 }
+    }
+  }
+});
+
+new Chart(document.getElementById('regimeChart'), {
+  type: 'bar',
+  data: {
+    labels: D.codes.map(c => c),
+    datasets: D.horizons.map(hz => ({
+      label: hz,
+      data: D.codes.map(c => D.disp[hz][c]),
+      backgroundColor: HZ_COLORS[hz],
+    }))
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false,
+    plugins: { legend: { position:'top' } },
+    scales: { y: { beginAtZero:true, max:42, title: {display:true, text:'%'} } }
+  }
+});
+
+new Chart(document.getElementById('allocChart'), {
+  type: 'bar',
+  data: {
+    labels: D.horizons,
+    datasets: D.assets.map((name, i) => ({
+      label: name,
+      data: D.horizons.map(hz => D.alloc[hz][i]),
+      backgroundColor: ASSET_COLORS[i],
+      stack: 'alloc',
+    }))
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false,
+    scales: {
+      x: { stacked:true },
+      y: { stacked:true, max:100, title: {display:true, text:'%'} }
+    }
+  }
+});
+
+new Chart(document.getElementById('kospiChart'), {
+  type: 'bar',
+  data: {
+    labels: D.horizons,
+    datasets: [
+      {
+        label: 'P10–P90',
+        data: D.horizons.map(hz => [D.proj[hz].p10, D.proj[hz].p90]),
+        backgroundColor: 'rgba(59,130,246,.28)',
+        borderColor: '#60a5fa',
+        borderWidth: 1,
+        barPercentage: 0.35,
+      },
+      {
+        label: '평균',
+        type: 'scatter',
+        data: D.horizons.map((hz, i) => ({x:i, y:D.proj[hz].expected_level})),
+        backgroundColor: '#B8943A',
+        pointStyle: 'rectRot',
+        pointRadius: 7,
+      },
+      {
+        label: 'P50',
+        type: 'scatter',
+        data: D.horizons.map((hz, i) => ({x:i, y:D.proj[hz].p50})),
+        backgroundColor: '#e8edf7',
+        pointRadius: 5,
+      }
+    ]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false,
+    plugins: {
+      annotation: undefined,
+      tooltip: { callbacks: { label: ctx => ctx.dataset.label + ' ' + (Array.isArray(ctx.raw) ? ctx.raw.map(v=>Math.round(v)).join('–') : Math.round(ctx.parsed.y)) } }
+    },
+    scales: {
+      y: { min:5000, max:9500, title: {display:true, text:'KOSPI'} },
+      x: { type:'category', labels: D.horizons }
+    }
+  }
+});
+
+new Chart(document.getElementById('factorChart'), {
+  type: 'bar',
+  data: {
+    labels: D.factors.labels,
+    datasets: D.horizons.map(hz => ({
+      label: hz,
+      data: D.factors.values[hz],
+      backgroundColor: HZ_COLORS[hz],
+    }))
+  },
+  options: {
+    indexAxis: 'y',
+    responsive:true, maintainAspectRatio:false,
+    scales: { x: { min:-1, max:1, title: {display:true, text:'점수'} } }
+  }
+});
+</script>
+</body>
+</html>
