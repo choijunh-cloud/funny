@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>8월 24일 투자판단 검증</title>
+  <style>
+    :root {
+      --navy: #0f2043;
+      --navy2: #1e407c;
+      --gold: #b8943a;
+      --gray: #4b5563;
+      --bg: #f4f6fb;
+      --card: #ffffff;
+      --ok: #166534;
+      --ok-bg: #e8f5e9;
+      --warn: #7a5c12;
+      --warn-bg: #fff8e7;
+      --bad: #991b1b;
+      --bad-bg: #fdecea;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
+      background: var(--bg);
+      color: #1a1a1a;
+      line-height: 1.55;
+    }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 32px 20px 80px; }
+    header { text-align: center; margin-bottom: 28px; }
+    .kicker { color: var(--gray); letter-spacing: .08em; font-size: 13px; }
+    h1 { color: var(--navy); font-size: 34px; margin: 8px 0 4px; }
+    .sub { color: var(--navy2); font-weight: 700; font-size: 18px; }
+    h2 { color: var(--navy); border-bottom: 3px solid var(--navy); padding-bottom: 6px; margin-top: 42px; }
+    h3 { color: var(--navy2); margin-top: 22px; }
+    .card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 16px 18px;
+      box-shadow: 0 1px 2px rgba(15,32,67,.06);
+      margin: 14px 0;
+    }
+    .key { border-left: 6px solid var(--navy); background: #eef2f8; }
+    .ok { border-left: 6px solid var(--ok); background: var(--ok-bg); }
+    .warn { border-left: 6px solid var(--gold); background: var(--warn-bg); }
+    .bad { border-left: 6px solid var(--bad); background: var(--bad-bg); }
+    .label { font-size: 12px; font-weight: 700; margin-bottom: 6px; }
+    table { width: 100%; border-collapse: collapse; background: #fff; font-size: 14px; }
+    th { background: var(--navy); color: #fff; padding: 8px 10px; text-align: left; }
+    td { padding: 8px 10px; border-bottom: 1px solid #e5eaf1; vertical-align: top; }
+    tr:nth-child(even) td { background: #f7f9fc; }
+    img { width: 100%; border-radius: 10px; background: #fff; }
+    .muted { color: var(--gray); font-size: 13px; }
+    ul { padding-left: 20px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } h1 { font-size: 26px; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="kicker">FACT CHECK · 2026. 8. 24</div>
+      <h1>헤드라인보다 분모와 계약</h1>
+      <div class="sub">150% · MCP · 서버 15% · 광고 노출률 · $3~$5 · SDD 무게</div>
+      <p class="muted">게시 전 교차검증 · 공개 보도·증권사 리포트 기준 · 매수·매도 추천 아님</p>
+    </header>
+
+    <div class="card key">
+      <div class="label">한 줄 판단</div>
+      방향은 맞다. 그대로 배포하면 투자 판단을 왜곡할 표현이 여섯 개 있다. 지금 투자 근거로 쓰면 안 되는 것은 Apple–CXMT·YMTC 승인 루머다.
+    </div>
+
+    <h2>반드시 고칠 여섯 가지</h2>
+    <img src="charts/20260824_six_must_fix.png" alt="배포 전 필수 수정 여섯 가지" />
+
+    <h2>전체 판정표</h2>
+    <table>
+      <thead><tr><th>주장</th><th>판정</th><th>검증 결과</th></tr></thead>
+      <tbody>
+        <tr><td>마이크론 수요 150%</td><td>부분 확인</td><td>분모는 확약 가능 공급량. 산업 전체 수급·확정 수주 아님</td></tr>
+        <tr><td>공급자 → 전략 파트너</td><td>타당</td><td>16개 SCA, take-or-pay, 예치, 가격하한, RPO 약 $1,000억</td></tr>
+        <tr><td>사이클 소멸</td><td>과장</td><td>완충은 되나 증설·AI ROIC·대체 기술 사이클은 남음</td></tr>
+        <tr><td>HBF = 시장 확대</td><td>방향 타당</td><td>계층 확장이 주이나 일부 HBM 대체 여지</td></tr>
+        <tr><td>NVIDIA 15%</td><td>보도 확인</td><td>서버 시스템 가격. 공식 확인·독립 검증 없음</td></tr>
+        <tr><td>Apple CXMT 승인</td><td>미확인 루머</td><td>웨이보발, 60% Plausible. 상위 보도는 반대 방향</td></tr>
+        <tr><td>MCP=HBM·DDR5</td><td>부정확</td><td>통관 분류 ≠ 제품 ≠ 세대 규격</td></tr>
+        <tr><td>모듈 ASP = 믹스</td><td>가능</td><td>단가뿐 아니라 역산 중량 감소도 동반</td></tr>
+        <tr><td>로보티즈 QDD 우위</td><td>타당</td><td>직접성은 높고 밸류·수율 위험도 큼</td></tr>
+        <tr><td>에스피지 양산 전환</td><td>절반 확인</td><td>감속기는 매출화, SDD는 초기</td></tr>
+        <tr><td>Google 29.45%</td><td>수치 확인</td><td>미국 상업성 선별 표본</td></tr>
+        <tr><td>ChatGPT 25.94%</td><td>수치 확인</td><td>Free·Go, 상업성 프롬프트 표본</td></tr>
+      </tbody>
+    </table>
+
+    <h2>마이크론</h2>
+    <div class="card ok">
+      <div class="label">게시 문안</div>
+      데이터센터 고객의 구매 요구량이 마이크론이 확약 가능한 공급량의 약 1.5배다. 산업 전체 공급부족률이나 확정 수주잔고가 아니다. 더 중요한 것은 16개 SCA와 take-or-pay·현금예치·가격하한이다. 사이클이 사라진 것은 아니다.
+    </div>
+    <div class="card bad">
+      <div class="label">쓰지 말 것</div>
+      메모리 산업 전체 수요가 공급보다 50% 많다. 확정 수주가 CAPA의 150%다. 메모리 사이클이 완전히 사라졌다.
+    </div>
+
+    <h2>수출 분해</h2>
+    <img src="charts/20260824_memory_export_decomposition.png" alt="메모리 수출 분해" />
+    <p class="muted">DRAM 모듈 ASP 하락 ≠ DRAM die 가격 하락. 다만 8월 1~20일에는 중량 감소도 같이 나와 믹스만으로 단정할 수 없다. MCP=HBM이 아니다.</p>
+
+    <h2>AI 광고</h2>
+    <img src="charts/20260824_ai_ads_comparison.png" alt="AI 광고 비교" />
+    <div class="grid">
+      <div class="card ok">
+        <div class="label">맞는 숫자</div>
+        Google 29.45%, ChatGPT 25.94%, 96.37% 미인용, CPC 구간별 노출률.
+      </div>
+      <div class="card warn">
+        <div class="label">반드시 붙일 분모</div>
+        미국 상업성 선별 표본. ChatGPT는 Free·Go. $3~$5는 권장 최대 입찰가.
+      </div>
+    </div>
+
+    <h2>최종 판정</h2>
+    <ul>
+      <li>강한 신호: 16개 SCA와 RPO, 서버 가격 전가, HBM–HBF–SSD 계층, 상업성 AI 광고 재고</li>
+      <li>추가 검증: MCP bit, 모듈 중량 원인, 우즈벡 수율, SDD 실제 PO, CTR·실효 CPC</li>
+      <li>쓰면 안 됨: Apple CXMT·YMTC 승인 루머</li>
+    </ul>
+    <div class="card key">
+      핵심은 150%라는 헤드라인보다 계약의 법적 강도, MCP 수출액보다 품목 분류와 kg당 통관단가, 로봇 목표주가보다 실제 출하와 수율, 광고 노출률보다 CTR·실효 CPC·전환율이다.
+    </div>
+  </div>
+</body>
+</html>
