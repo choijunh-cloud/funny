@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>8월 25일 상세 통합 레포트</title>
+  <style>
+    :root {
+      --navy: #0f2043;
+      --navy2: #1e407c;
+      --gold: #b8943a;
+      --gray: #4b5563;
+      --bg: #f4f6fb;
+      --card: #ffffff;
+      --ok: #166534;
+      --ok-bg: #e8f5e9;
+      --warn: #7a5c12;
+      --warn-bg: #fff8e7;
+      --bad: #991b1b;
+      --bad-bg: #fdecea;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", "WenQuanYi Micro Hei", sans-serif;
+      background: var(--bg);
+      color: #1a1a1a;
+      line-height: 1.55;
+    }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 32px 20px 80px; }
+    header { text-align: center; margin-bottom: 28px; }
+    .kicker { color: var(--gray); letter-spacing: .08em; font-size: 13px; }
+    h1 { color: var(--navy); font-size: 34px; margin: 8px 0 4px; }
+    .sub { color: var(--navy2); font-weight: 700; font-size: 18px; }
+    h2 { color: var(--navy); border-bottom: 3px solid var(--navy); padding-bottom: 6px; margin-top: 42px; }
+    h3 { color: var(--navy2); margin-top: 22px; }
+    .card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 16px 18px;
+      box-shadow: 0 1px 2px rgba(15,32,67,.06);
+      margin: 14px 0;
+    }
+    .key { border-left: 6px solid var(--navy); background: #eef2f8; }
+    .ok { border-left: 6px solid var(--ok); background: var(--ok-bg); }
+    .warn { border-left: 6px solid var(--gold); background: var(--warn-bg); }
+    .bad { border-left: 6px solid var(--bad); background: var(--bad-bg); }
+    .label { font-size: 12px; font-weight: 700; margin-bottom: 6px; }
+    table { width: 100%; border-collapse: collapse; background: #fff; font-size: 14px; }
+    th { background: var(--navy); color: #fff; padding: 8px 10px; text-align: left; }
+    td { padding: 8px 10px; border-bottom: 1px solid #e5eaf1; vertical-align: top; }
+    tr:nth-child(even) td { background: #f7f9fc; }
+    img { width: 100%; border-radius: 10px; background: #fff; margin: 8px 0 4px; }
+    .muted { color: var(--gray); font-size: 13px; }
+    ul { padding-left: 20px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .tag { display: inline-block; font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: 999px; margin-right: 4px; }
+    .t-ok { background: var(--ok-bg); color: var(--ok); }
+    .t-br { background: #e8f1fb; color: var(--navy2); }
+    .t-as { background: var(--warn-bg); color: var(--warn); }
+    .t-inv { background: #f3e8ff; color: #6b21a8; }
+    @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } h1 { font-size: 26px; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="kicker">LECTURE / REPORT · 2026. 8. 25</div>
+      <h1>금리는 풋의 테스트다</h1>
+      <div class="sub">금리 급등 · 금융억압 · AI 전가 · 한국 수급 · 로봇</div>
+      <p class="muted">제공 PDF + 8/24 여섯 교정 · 공개 보도·공시 기준 · 매수·매도 추천 아님</p>
+      <p class="muted">원본: lectures/sources/20260825_market_strategy_report_korean_font_fixed.pdf · 바이백 창 9/9 [확인], PDF 첫 매입 9/10 · NVIDIA 공식 콜 8/27 06:00 KST</p>
+    </header>
+
+    <img src="charts/20260825_source_legend.png" alt="숫자 태그 읽는 법" />
+
+    <div class="card key">
+      <div class="label">한 줄 판단</div>
+      헤드라인 5%보다 풋이 먹히느냐, 15%는 GPU가 아니라 서버, 환원은 닉스가 먼저, 로봇은 1:1이 아니다. 금융억압은 수년 시계의 스케치이지 이번 주 매수 이유가 아니다.
+    </div>
+
+    <h2>0. 반드시 유지하는 여섯 교정</h2>
+    <table>
+      <thead><tr><th>항목</th><th>쓰면 안 되는 말</th><th>고쳐 쓸 말</th></tr></thead>
+      <tbody>
+        <tr><td>마이크론 150%</td><td>산업 전체 50% 부족</td><td>데이터센터 요구량 ÷ 마이크론 확약 가능 공급 ≈ 1.5배</td></tr>
+        <tr><td>MCP · HBM · DDR5</td><td>셋이 같다</td><td>통관 분류 ≠ 제품 ≠ 세대 규격</td></tr>
+        <tr><td>NVIDIA 15%</td><td>GPU ASP +15%</td><td>AI 칩 탑재 서버 시스템 가격. Bloomberg</td></tr>
+        <tr><td>광고 노출률</td><td>검색 1/3, ChatGPT 전체 26%</td><td>미국 상업성 표본 29.45% · 25.94%</td></tr>
+        <tr><td>OpenAI $3~$5</td><td>실제 CPC</td><td>권장 최대 CPC 입찰가</td></tr>
+        <tr><td>SDD</td><td>90% 경량화</td><td>중국 제품 무게의 약 90% = 약 10% 경량화</td></tr>
+      </tbody>
+    </table>
+    <div class="card bad">
+      <div class="label">쓰지 말 것</div>
+      트럼프가 Apple의 CXMT·YMTC 구매를 승인할 것이라는 웨이보발 루머 (Wccftech 60% Plausible).
+    </div>
+
+    <h2>I–II. 금리</h2>
+    <img src="charts/20260825_rate_thresholds.png" alt="금리 임계" />
+    <img src="charts/20260825_pdf_fig01_rate_map.png" alt="장기금리 위험지도" />
+    <div class="card warn">
+      <div class="label">세션 [방송]</div>
+      10년 4.704% · 30년 5.234% · WTI $85.01. Hartnett 30년 5% 선은 이미 위. 폭락이 없었으니 질문은 풋이 되돌리느냐다. 30년 TIPS 본선 3.0% (8/21 최근값 약 2.94%).
+    </div>
+    <img src="charts/20260825_pdf_fig02_aug24_market.png" alt="8월 24일 미국 시장" />
+    <p class="muted">8/24는 금리가 빠져도 메모리가 더 팔린 세션이다 [방송]. FY2025 순이자 $970.4B &gt; 국방 $916.6B [확인]. Ferguson’s Law [확인].</p>
+
+    <h2>III. 베선트 풋 ≠ QE</h2>
+    <img src="charts/20260825_bessent_vs_qe.png" alt="베선트 풋과 QE" />
+    <img src="charts/20260825_pdf_fig04_tga.png" alt="TGA 바이백" />
+    <div class="grid">
+      <div class="card ok">
+        <div class="label"><span class="tag t-ok">확인</span> 바이백</div>
+        회당 최대 $2B → 최소 $4B. 9/9~11/4. TGA 약 $950B~$1T가 재원일 수 있다. 베선트는 $4B 초과 가능.
+      </div>
+      <div class="card warn">
+        <div class="label"><span class="tag t-br">방송</span> 아직 매입 전</div>
+        “haven't bought a single one yet”. 풋은 신호와 수급이지 연준 대차 확대가 아니다.
+      </div>
+    </div>
+
+    <h2>III-A. 정치 조합</h2>
+    <img src="charts/20260825_politics_2x2.png" alt="정치 2x2" />
+    <p class="muted">규제 완화만 호재가 아니다. 텍사스 DC는 단기 지연과 장기 Dark GPU 억제를 같이 본다.</p>
+
+    <h2>IV. 이번 주 분기</h2>
+    <img src="charts/20260825_week_branch.png" alt="이번 주 분기" />
+    <img src="charts/20260825_pdf_fig05_timeline.png" alt="이벤트 타임라인" />
+    <img src="charts/20260825_pdf_fig06_2x2.png" alt="2x2 시나리오" />
+    <table>
+      <thead><tr><th>창</th><th>숫자</th><th>태그</th></tr></thead>
+      <tbody>
+        <tr><td>8/26 21:30 PCE</td><td>가정 +3.6% / 코어 +3.3%</td><td>가정</td></tr>
+        <tr><td>8/27 06:00 NVIDIA 공식 콜</td><td>컨센 $91.9~92.1B(+97%), 가이드 $91.0B±2%, 3Q ~$103~103.8B, 마진 ~75%</td><td>확인</td></tr>
+        <tr><td>8/27 금통위</td><td>인상 vs 동결</td><td>가정</td></tr>
+        <tr><td>8/28 Warsh</td><td>취임 후 첫 연설. 스티펠 원론</td><td>방송</td></tr>
+        <tr><td>9/9 바이백</td><td>실제 호가와 실행력</td><td>확인</td></tr>
+      </tbody>
+    </table>
+    <p class="muted">Needham SKHY $220 · Rosenblatt NVDA $325 [확인]. 기본 7,000~7,200 / 최악 30년 5.4%·6,000은 [가정].</p>
+
+    <h2>V. 금융억압</h2>
+    <img src="charts/20260825_repression_map.png" alt="금융억압 지도" />
+    <div class="card bad">
+      <div class="label">이번 주에 쓰지 말 것</div>
+      금융억압이 시작됐으니 실물을 사라. 베선트 풋은 QE다. 이자가 국방을 넘었으니 달러는 끝났다.
+    </div>
+
+    <h2>VI. AI 전가</h2>
+    <div class="card ok">
+      <div class="label">서버 15%</div>
+      NVIDIA AI 칩을 탑재한 서버 시스템 가격. GPU ASP가 아니다. 고정 CAPEX면 대수 약 −13% <span class="tag t-inv">역산</span>.
+    </div>
+    <div class="card warn">
+      <div class="label">광고 분모</div>
+      Google 29.45%, ChatGPT 25.94%는 미국 상업성 표본. $3~$5는 권장 최대 입찰가.
+    </div>
+    <img src="charts/20260825_pdf_fig07_capital.png" alt="AI 자본순환" />
+    <p class="muted">소프트뱅크 1조 엔 · 7년 4.3~4.9% · OpenAI $60B+ [확인]. 추가 $300B / $646B / 13% / 3월 $40B 브리지 [방송].</p>
+
+    <h2>VII. 한국 수급</h2>
+    <img src="charts/20260825_korea_return.png" alt="한국 환원 수급" />
+    <img src="charts/20260825_pdf_fig08_return.png" alt="환원 규모" />
+    <div class="grid">
+      <div class="card ok">
+        <div class="label">닉스</div>
+        40조 매입+전량소각, FCF 50%+ [확인]. 첫날 ~65만주 [방송].
+      </div>
+      <div class="card warn">
+        <div class="label">삼성</div>
+        90~110조. 3Q 배당 ~30조(10월). 잔여 60~80조는 2027년 1월. 임직원 15조는 소각 아님. 금산법 10%.
+      </div>
+    </div>
+    <p class="muted">7월 코스피 월간 약 −28.9%, 고점 대비 약 −33.9%, 외국인 순매도 약 17.9조 [확인]. 90~110조에 30조를 더하면 안 된다.</p>
+    <img src="charts/20260825_pdf_fig09_abf.png" alt="ABF 투자 논리" />
+    <p class="muted">ABF는 필름 절대부족이 아니라 고사양 기판의 수율·유효 CAPA다.</p>
+
+    <h2>VIII. 로봇</h2>
+    <table>
+      <thead><tr><th>기준</th><th>로보티즈</th><th>에스피지</th></tr></thead>
+      <tbody>
+        <tr><td>QDD 직접성</td><td>높음</td><td>초기</td></tr>
+        <tr><td>실적 방어</td><td>2026E 적자</td><td>모터·감속기 본업</td></tr>
+        <tr><td>밸류 전제</td><td>2027 SPS × P/S 42.3배</td><td>2029 EPS × 60배</td></tr>
+        <tr><td>무게·물량</td><td>—</td><td>무게의 90% = 10% 경량화. 5,000대는 목표</td></tr>
+      </tbody>
+    </table>
+
+    <h2>IX. 매도와 신호판</h2>
+    <div class="card key">
+      <div class="label">가장 중요한 문장 [PDF]</div>
+      과거의 고점은 본전이 아니다. 매도 기준은 투자논리의 유효성이다. 가장 위험한 조합은 코어 PCE 3.4%+ · NVIDIA 가이드 미달 · 30년 5.4%+ · Warsh 신뢰 실패 · 텍사스형 규제 확산이다. 세 가지 이상이 동시에 올 때 체제가 바뀐다.
+    </div>
+
+    <h2>XI. 체크 순서</h2>
+    <ul>
+      <li>8/26 PCE → 8/27 NVIDIA 가이드 → 8/27 금통위 → 8/28 Warsh → 9/9 바이백</li>
+      <li>강한 신호: 바이백·TGA, 순이자&gt;국방, 서버 전가, 닉스 소각, 광고 재고</li>
+      <li>추가 검증: 실제 매입, 3Q 가이드, 매입 속도, 10월 배당, ABF 수율, 로봇 출하, 실효 CPC</li>
+    </ul>
+    <div class="card key">
+      이 문서는 공개 보도·공시·증권사 리포트를 재구성한 강의 노트다. 특정 종목의 매수·매도를 권유하지 않는다.
+    </div>
+  </div>
+</body>
+</html>
