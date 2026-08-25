@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>8월 25일 Quick 코멘트 시각화 · 순환매 장세 지속</title>
+  <style>
+    :root {
+      --navy: #0f2043;
+      --navy2: #1e407c;
+      --gold: #b8943a;
+      --gray: #4b5563;
+      --bg: #f3f5fa;
+      --card: #ffffff;
+      --ok: #166534;
+      --ok-bg: #e8f5e9;
+      --warn: #7a5c12;
+      --warn-bg: #fff8e7;
+      --bad: #991b1b;
+      --bad-bg: #fdecea;
+      --blue: #1e407c;
+      --blue-bg: #e8f1fb;
+      --purple: #6b21a8;
+      --purple-bg: #f3e8ff;
+      --line: #d7deea;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", "WenQuanYi Micro Hei", sans-serif;
+      background: var(--bg);
+      color: #1a1a1a;
+      line-height: 1.58;
+    }
+    .top {
+      position: sticky; top: 0; z-index: 20;
+      background: var(--navy);
+      color: #fff;
+      box-shadow: 0 2px 10px rgba(15,32,67,.18);
+    }
+    .top-inner {
+      max-width: 1080px; margin: 0 auto;
+      padding: 10px 18px 12px;
+    }
+    .brand { font-size: 12px; letter-spacing: .08em; opacity: .75; }
+    .brand b { font-size: 15px; letter-spacing: 0; opacity: 1; }
+    nav {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      margin-top: 8px;
+    }
+    nav a {
+      color: #dbe4f5; text-decoration: none;
+      font-size: 12px; font-weight: 700;
+      padding: 4px 8px; border-radius: 999px;
+      background: rgba(255,255,255,.08);
+    }
+    nav a:hover { background: var(--gold); color: var(--navy); }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 28px 18px 90px; }
+    header { text-align: center; margin: 8px 0 22px; }
+    h1 { color: var(--navy); font-size: 34px; margin: 6px 0 8px; letter-spacing: -0.03em; }
+    .sub { color: var(--navy2); font-weight: 800; font-size: 18px; }
+    .muted { color: var(--gray); font-size: 13.5px; }
+    h2 {
+      color: var(--navy);
+      border-bottom: 3px solid var(--navy);
+      padding-bottom: 6px;
+      margin-top: 46px;
+      font-size: 24px;
+    }
+    h3 { color: var(--navy2); margin-top: 22px; font-size: 17px; }
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin: 18px 0 8px;
+    }
+    .kpi {
+      background: #fff; border-radius: 12px;
+      padding: 12px 12px 14px;
+      border: 1px solid var(--line);
+    }
+    .kpi span { display: block; font-size: 12px; color: var(--gray); font-weight: 700; }
+    .kpi b { display: block; font-size: 20px; color: var(--navy); margin-top: 4px; letter-spacing: -0.03em; }
+    .kpi em { font-style: normal; font-size: 12px; color: var(--gray); }
+    .kpi.down b { color: var(--bad); }
+    .kpi.up b { color: var(--ok); }
+    .kpi.warn b { color: #c2410c; }
+    .card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 14px 16px;
+      box-shadow: 0 1px 2px rgba(15,32,67,.06);
+      margin: 12px 0;
+      border: 1px solid #eef1f6;
+    }
+    .key { border-left: 6px solid var(--navy); background: #eef2f8; }
+    .ok { border-left: 6px solid var(--ok); background: var(--ok-bg); }
+    .warn { border-left: 6px solid var(--gold); background: var(--warn-bg); }
+    .bad { border-left: 6px solid var(--bad); background: var(--bad-bg); }
+    .blue { border-left: 6px solid var(--navy2); background: var(--blue-bg); }
+    .purple { border-left: 6px solid var(--purple); background: var(--purple-bg); }
+    .label { font-size: 12px; font-weight: 800; margin-bottom: 6px; letter-spacing: .02em; }
+    table { width: 100%; border-collapse: collapse; background: #fff; font-size: 14px; margin: 10px 0 16px; }
+    th { background: var(--navy); color: #fff; padding: 8px 10px; text-align: left; }
+    td { padding: 8px 10px; border-bottom: 1px solid #e5eaf1; vertical-align: top; }
+    tr:nth-child(even) td { background: #f7f9fc; }
+    img.chart {
+      width: 100%;
+      border-radius: 12px;
+      background: #fff;
+      margin: 8px 0 4px;
+      border: 1px solid var(--line);
+    }
+    .cap { text-align: center; color: var(--gray); font-size: 12.5px; margin: 0 0 16px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+    .tag {
+      display: inline-block; font-size: 11px; font-weight: 800;
+      padding: 1px 7px; border-radius: 999px; margin-right: 4px;
+    }
+    .t-ok { background: var(--ok-bg); color: var(--ok); }
+    .t-br { background: var(--blue-bg); color: var(--navy2); }
+    .t-as { background: var(--warn-bg); color: var(--warn); }
+    .t-bad { background: var(--bad-bg); color: var(--bad); }
+    .t-inv { background: var(--purple-bg); color: var(--purple); }
+    ul { padding-left: 20px; margin: 8px 0; }
+    li { margin: 4px 0; }
+    .time { color: var(--gold); font-weight: 800; font-variant-numeric: tabular-nums; }
+    details.raw {
+      background: #fff; border: 1px solid var(--line); border-radius: 12px;
+      margin: 8px 0; padding: 0 14px;
+    }
+    details.raw summary {
+      cursor: pointer; font-weight: 800; color: var(--navy);
+      padding: 12px 0;
+    }
+    details.raw .body { padding-bottom: 14px; color: #222; font-size: 14.5px; }
+    .src { font-size: 13px; }
+    .src a { color: var(--navy2); }
+    footer.note {
+      margin-top: 48px; padding-top: 16px;
+      border-top: 1px solid var(--line);
+      color: var(--gray); font-size: 13px;
+    }
+    @media (max-width: 820px) {
+      .kpis, .grid, .grid3 { grid-template-columns: 1fr 1fr; }
+      h1 { font-size: 26px; }
+    }
+    @media (max-width: 560px) {
+      .kpis, .grid, .grid3 { grid-template-columns: 1fr; }
+      nav a { font-size: 11px; }
+    }
+    @media print {
+      .top { position: static; }
+      nav { display: none; }
+      body { background: #fff; }
+    }
+  </style>
+</head>
+<body>
+  <div class="top">
+    <div class="top-inner">
+      <div class="brand">QUICK COMMENT BRIEF · 2026.08.25 · <b>순환매 장세 지속</b></div>
+      <nav>
+        <a href="#thesis">한 줄</a>
+        <a href="#korea">국내 순환매</a>
+        <a href="#us">미국장</a>
+        <a href="#liq">유동성</a>
+        <a href="#crypto">GENIUS</a>
+        <a href="#honam">호남·대미 Fab</a>
+        <a href="#hynix">하이닉스</a>
+        <a href="#nuke">원전</a>
+        <a href="#sds">SDS 로봇</a>
+        <a href="#ai">AI 조달</a>
+        <a href="#check">체크포인트</a>
+        <a href="#raw">원문</a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <header>
+      <div class="muted">2026. 8. 25 아침 Quick 코멘트 · 06:24–11:24 · 모든 항목 포함</div>
+      <h1>순환매 장세 지속</h1>
+      <div class="sub">지수 조정 ≠ 전면 위험회피 · 핵심 변수는 유동성 + 반도체</div>
+      <p class="muted">반도체/AI에서 빠진 자금이 금융·에너지·방산·화장품·일부 소부장으로 이동. 매수·매도 추천 아님.</p>
+    </header>
+
+    <div class="kpis">
+      <div class="kpi down"><span>코스피</span><b>6,600선</b><em>반도체 갭하락 후 대형주 순환매</em></div>
+      <div class="kpi down"><span>SOX / 엔비디아</span><b>−2.7% / −2.9%</b><em>8/24 차익실현 · 실적 대기</em></div>
+      <div class="kpi up"><span>미 10년 / 30년</span><b>4.704% / 5.234%</b><em>−3bp / −4bp · 바이백 기대</em></div>
+      <div class="kpi warn"><span>하이닉스 노조</span><b>반대 50.1%</b><em>25표 차 부결 · 40조 소각은 유지</em></div>
+    </div>
+    <div class="kpis">
+      <div class="kpi up"><span>현대건설 / 대우건설</span><b>+11% / +7%</b><em>한미 투자 1호 = 에너지·원전</em></div>
+      <div class="kpi"><span>TGA 재원</span><b>$9,500억</b><em>바이백 재원 가능성 · 전액 투입 아님</em></div>
+      <div class="kpi warn"><span>엔비디아 실적</span><b>8/26</b><em>+ 7월 PCE = 단기 변곡점</em></div>
+      <div class="kpi"><span>9월 대미 1차 명단</span><b>메모리 Fab?</b><em>하이닉스 미국 Fab 포함 여부</em></div>
+    </div>
+
+    <section id="thesis">
+      <h2>0. 한 장으로 읽는 오늘</h2>
+      <div class="card key">
+        <div class="label">한 줄 판단</div>
+        오늘 장은 반도체가 빠져서 지수가 조정을 받는 날이지, 돈이 시장을 떠나는 날이 아니다. 유동성(TGA·바이백)은 하방을 받치고, 반도체/AI는 엔비디아 실적 앞에서 차익실현 중이다. 포트폴리오는 AI vs Non-AI 밸런스가 필요하다.
+      </div>
+      <div class="grid">
+        <div class="card ok">
+          <div class="label"><span class="tag t-ok">하방 완화</span> 유동성</div>
+          재무부 국채 바이백 확대 + TGA 최대 $9,500억 재원 보도. 장기금리 상승세 일부 진정. QE는 아니지만 “장기금리를 방치하지 않겠다”는 신호.
+        </div>
+        <div class="card bad">
+          <div class="label"><span class="tag t-bad">조정의 중심</span> 반도체</div>
+          엔비디아 실적 대기, 삼성 주주환원 이후 Sell-on, YMTC IPO 임박, 메모리 급락. 오늘 조정의 중심은 반도체/AI 밸류체인.
+        </div>
+      </div>
+      <div class="card warn">
+        <div class="label">동시에 열린 세 개의 9월 이벤트</div>
+        ① 대미 투자 1차 명단 — 메모리 Fab을 미국에 얼마나 줄 것인가 · ② 한미 1호 프로젝트 — 시장은 에너지/원전 · ③ 하이닉스 3분기 실발 — 추가 환원과 재협상 현금/주식 비율
+      </div>
+    </section>
+
+    <section id="korea">
+      <h2>1. 국내 장세 — 순환매</h2>
+      <p class="muted">원문 시각: 11:24</p>
+      <img class="chart" src="charts/02_korea_rotation.png" alt="국내 순환매 지도" />
+      <p class="cap">반도체에서 빠진 자금이 대형주·테마로 이동. 지수는 조정이지만 전면 위험회피가 아니다.</p>
+
+      <div class="grid3">
+        <div class="card bad">
+          <div class="label">빠진 곳</div>
+          반도체 중심 갭하락 → 대형주 순환매로 6,600선 근접.<br /><br />
+          코스닥: 바이오·2차전지 등 전일 주도주 급락, 전일 상승분 반납.
+        </div>
+        <div class="card ok">
+          <div class="label">들어간 곳</div>
+          화장품 · 금융 · 건설/원전·에너지 · 방산 · 일부 소부장(심텍, HPSP) · 실리콘투
+        </div>
+        <div class="card blue">
+          <div class="label">왜 밸런스가 필요한가</div>
+          AI exposure vs Non-AI (건설, 화장품, 조선, 바이오, 2차전지). 기민한 대응이 필요한 이유.
+        </div>
+      </div>
+
+      <h3>한미 투자 → 에너지/원전 (오늘 가장 주목)</h3>
+      <table>
+        <thead><tr><th>종목</th><th>등락</th><th>읽기</th></tr></thead>
+        <tbody>
+          <tr><td>현대건설</td><td>+11%</td><td>미국 전력사업자 주도 원전 EPC 파이프라인</td></tr>
+          <tr><td>대우건설</td><td>+7%</td><td>한미 투자협력 프로젝트 기대</td></tr>
+          <tr><td>두산에너빌리티</td><td>+5%</td><td>장납기 기자재 선발주 수혜 1순위</td></tr>
+        </tbody>
+      </table>
+      <div class="card ok">
+        다음 달 1호 대미투자 프로젝트 발표 예정. 시장은 에너지 분야에 주목. 구체적 프로젝트가 나오면 원전·전력 인프라 관련주로 추가 순환매 가능.
+      </div>
+
+      <h3>대외변수 — 현재는 시장 충격 제한적</h3>
+      <div class="grid">
+        <div class="card warn">
+          <div class="label">미국 → 이란 지원 금융기관 제재</div>
+          구체적 시행 시점이 불명확. 유가도 오히려 차익실현으로 하락(WTI $85.01, −2.35%).
+        </div>
+        <div class="card warn">
+          <div class="label">캐나다 → 자동차·부품/철강 50% 관세</div>
+          내년 시행. 당장 시장 충격은 제한적.
+        </div>
+      </div>
+    </section>
+
+    <section id="us">
+      <h2>2. 하룻밤 미국장 — 금리↓ 유가↓ 그런데 반도체↓↓</h2>
+      <p class="muted">원문 시각: 06:24</p>
+      <img class="chart" src="charts/01_us_overnight.png" alt="8월 24일 미국장" />
+      <p class="cap">원래 기술주에 우호적인 매크로인데, 반도체 매도가 이를 압도했다.</p>
+
+      <table>
+        <thead><tr><th>지수·종목</th><th>등락</th><th>가격 / 메모</th></tr></thead>
+        <tbody>
+          <tr><td>다우</td><td>+0.26%</td><td>상대적 방어</td></tr>
+          <tr><td>S&amp;P500</td><td>−0.28%</td><td>소폭 조정</td></tr>
+          <tr><td>나스닥</td><td>−0.77%</td><td>기술주 약세</td></tr>
+          <tr><td>SOX</td><td>−2.7%</td><td>반도체 전반 조정</td></tr>
+          <tr><td>엔비디아</td><td>−2.9%</td><td>실적 앞 차익실현</td></tr>
+          <tr><td>마이크론</td><td>−5.8%</td><td>$910.43 · 메모리 조정 확대</td></tr>
+          <tr><td>샌디스크</td><td>−6.5%</td><td>$1,493.12 · AI 데이터센터 우려/차익실현</td></tr>
+          <tr><td>SK하이닉스 ADR (SKHY)</td><td>−4.9%</td><td>$155.37 · 한국 메모리에도 부담</td></tr>
+        </tbody>
+      </table>
+
+      <div class="grid">
+        <div class="card ok">
+          <div class="label">금리 · 유가 — 우호</div>
+          미 10년 4.704%(−3bp), 미 30년 5.234%(−4bp). TGA를 활용한 국채 바이백 재원 부각. WTI $85.01 / Brent $92.17 (−2.35%). 유가 하락은 인플레·PCE에 우호적. 이란 제재에도 유가는 차익실현.
+        </div>
+        <div class="card bad">
+          <div class="label">반도체 — 금리보다 AI 밸류에이션</div>
+          샌디스크 → 마이크론 → SKHY → 엔비디아 → SOX 순으로 차익실현. 하루 조정을 곧바로 AI CAPEX 둔화로 읽기는 이르다. 핵심 이벤트가 엔비디아 실적이기 때문.
+        </div>
+      </div>
+      <div class="card key">
+        현재 시장은 ‘금리 상승 리스크’보다 ‘AI 주가의 높은 기대치’를 시험하는 국면. 8/26 엔비디아 실적이 단기 방향성의 가장 중요한 변곡점.
+      </div>
+    </section>
+
+    <section id="liq">
+      <h2>3. 유동성 — TGA 바이백은 QE가 아니다</h2>
+      <p class="muted">원문 시각: 06:47 · 07:02 · 07:03 · 07:04 · 08:42</p>
+      <img class="chart" src="charts/06_tga_framework.png" alt="TGA 바이백 프레임" />
+      <p class="cap">신호는 중요하다. 규모와 재정적자는 한계다. 추적 대상은 바이백보다 TGA + bill issuance.</p>
+
+      <h3>TGA가 뭔가</h3>
+      <div class="card blue">
+        TGA = Treasury General Account. 미 재무부가 연준(Fed)에 보유한 정부 현금계좌. 세금·국채 발행으로 쌓이고, 정부 지출 때 빠진다. 최근 잔액이 약 $9,500억까지 늘었다. 정부의 은행계좌로 생각하면 된다.
+      </div>
+
+      <h3>무엇을 하는가 / 무엇을 하지 않는가</h3>
+      <div class="grid">
+        <div class="card ok">
+          <div class="label">하는 일</div>
+          이미 가진 TGA 현금으로 장기국채 수요를 만들어 금리를 낮추고 유동성 압력을 완화하는 <b>시장 안정화</b>. 8/19 장기채 바이백 확대 발표만으로 시장금리가 즉각 반응. “장기금리 상승을 방치하지 않겠다”는 신호가 진짜 투자 포인트.
+        </div>
+        <div class="card warn">
+          <div class="label">하지 않는 일</div>
+          Fed QE가 아니다. Fed가 국채를 사면 Fed 자산 + 은행 준비금이 늘어난다. 이번에는 재무부가 쌓아둔 현금을 쓰는 것. 이것을 QE와 동일시하는 것은 과장.
+        </div>
+      </div>
+
+      <h3>BofA식 라벨: QE5인가, Treasury Twist인가</h3>
+      <div class="card purple">
+        BofA가 2026년을 QE5로 붙인 것은, 정책당국이 시장의 duration 부담을 떠안기 시작했고 또 하나의 유동성/자산가격 사이클의 시작일 수 있다는 프레이밍. 그냥 Treasury Buyback이라고 쓸 수도 있었는데 QE5라고 쓴 것은 “금리가 너무 올라가면 재무부가 국채시장에 직접 들어온다”는 반응함수 변화를 각인시키려는 것. QE5 라벨은 Fed가 QE를 한다는 뜻보다 <b>정책당국이 장기금리와 duration을 직접 관리하기 시작했다</b>는 뜻으로 읽는 게 정확하다.
+      </div>
+
+      <h3>비판 논리 — 타당하지만, 임계를 막는 조치는 주식에 단기 긍정</h3>
+      <table>
+        <thead><tr><th>#</th><th>비판</th><th>요지</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>진짜 유동성 공급인가?</td><td>새 돈을 찍지 않는다. TGA 현금을 쓰는 것. Fed QE와 다르다.</td></tr>
+          <tr><td>2</td><td>규모가 작다</td><td>회당 수십억 달러 vs 연방부채 $40조+. Reuters도 효과가 일시적일 수 있다고 지적.</td></tr>
+          <tr><td>3</td><td>진짜 원인을 안 건드린다</td><td>재정적자 · 국채 발행 · 부채 · 인플레 · 텀프리미엄이면 조금 사준다고 안 풀린다. 가장 강한 반대 논리.</td></tr>
+          <tr><td>4</td><td>금융억압?</td><td>정부가 국채 가격을 관리하는 것 아니냐. financial repression 성격이라는 비판.</td></tr>
+          <tr><td>5</td><td>TGA를 너무 쓰면?</td><td>TGA는 현금 버퍼. 너무 낮추면 나중에 다시 국채를 발행해 채워야 하고, 그때 TGA↑ → 금융시스템 유동성↓가 재발할 수 있다. 전액 투입 여유자금이 아니다.</td></tr>
+        </tbody>
+      </table>
+      <div class="card key">
+        비판도 타당하다. 다만 이런 조치가 주식시장에 일단 단기적으로 긍정적인 것은 맞다. 조치가 임계점(국채금리 상승)을 막지 못하면 그때는 위기고, 이런 안정화 조치가 없었다면 주식시장에 좋았을 리 없다.
+      </div>
+      <div class="card warn">
+        <div class="label">추적 우선순위</div>
+        바이백 자체보다 <b>TGA 잔액과 bill issuance를 같이</b> 추적하는 것이 훨씬 중요하다. 바이백을 확대하는데 30년 금리가 떨어지지 않고 달러만 약해지면, 정책이 채권시장을 안정시킨 게 아니라 정책 자체가 fiscal risk premium을 높이고 있다는 신호일 수 있다. 미국 정부가 장기금리 상승에 어디까지 반응할 의지가 있는지를 시장이 발견하는 과정이다.
+      </div>
+    </section>
+
+    <section id="crypto">
+      <h2>4. 스테이블코인 · GENIUS · CLARITY</h2>
+      <p class="muted">원문 시각: 08:06 · 08:08 · 08:30 · 07:58</p>
+      <img class="chart" src="charts/07_genius_clarity.png" alt="GENIUS와 CLARITY" />
+      <p class="cap">GENIUS는 달러와 1:1인 디지털 화폐의 발행 규칙. CLARITY는 그 위에서 거래되는 자산 시장의 교통법규.</p>
+
+      <div class="card blue">
+        <div class="label">기사 프레임</div>
+        미국, 스테이블코인으로 국채 수요 확대 → 장기금리 안정 추진. 재무부는 단기국채 발행↑ + 장기국채 바이백↑으로 발행구조를 단기화한다. 늘어난 T-bill을 누가 사느냐의 해답으로 스테이블코인이 부상. GENIUS Act가 이 구조를 제도적으로 뒷받침. 원문: <a href="https://v.daum.net/v/20260825051507238">https://v.daum.net/v/20260825051507238</a>
+      </div>
+
+      <table>
+        <thead><tr><th></th><th>GENIUS Act</th><th>CLARITY Act</th></tr></thead>
+        <tbody>
+          <tr><td>역할</td><td>스테이블코인 법 · “돈의 레일”</td><td>디지털자산 시장구조 법 · “교통법규”</td></tr>
+          <tr><td>대상</td><td>Payment Stablecoin (USDC, USDT)</td><td>BTC, ETH, 토큰, 거래소·브로커</td></tr>
+          <tr><td>핵심</td><td>준비자산 1:1, 환매, 공시, 발행자 규제</td><td>SEC vs CFTC, Digital Commodity, CFTC 등록</td></tr>
+          <tr><td>시점</td><td>2025.7.18 법률 제정</td><td>2026 의회 심의 중</td></tr>
+          <tr><td>투자 함의</td><td>국채·스테이블에 직접적. T-bill 수요</td><td>Coinbase·거래소·DeFi·BTC/ETH에 더 직접적</td></tr>
+        </tbody>
+      </table>
+
+      <h3>규모</h3>
+      <ul>
+        <li>현재 스테이블코인 시장 약 <b>$3,000억</b></li>
+        <li>Citi 전망 2030년 약 <b>$4조</b></li>
+        <li>발행사들의 미 국채 관련 자산 약 <b>$1,776억</b></li>
+        <li>미 재무부 자문위: 빠르게 성장하면 단기국채 추가 수요 최대 <b>$9,000억</b></li>
+      </ul>
+
+      <div class="card warn">
+        <div class="label">과장하지 말 것</div>
+        “스테이블코인이 미국 국채 문제를 해결한다”는 것은 아직 과장. 발행사 국채 보유량은 전체 미 국채의 1% 미만. 기존 은행예금·MMF 자금이 이동하는 것이면 순수한 신규 수요가 아닐 수 있다. 국채금리에 의미 있는 영향을 주려면 시장이 상당히 더 커져야 한다.
+      </div>
+      <div class="card key">
+        연결고리: GENIUS → CLARITY → 크립토 제도화 → 스테이블 사용 확대 → T-bill 수요 증가 → 미국 장기금리 안정. 크립토 정책이 단순한 산업 육성이 아니라 <b>달러 패권 + 국채 수요 확보</b> 전략과 연결될 수 있다는 것이 기사의 핵심.
+      </div>
+    </section>
+
+    <section id="honam">
+      <h2>5. 호남 반도체 · 미국의 메모리 Fab 압박</h2>
+      <p class="muted">원문 시각: 10:27 · 10:36 · 10:40 · 10:42</p>
+      <img class="chart" src="charts/04_honam_ladder.png" alt="대미 메모리 타협 사다리" />
+      <p class="cap">미국이 원하는 것은 호남 철회가 아니라, 초대형 투자 중 일부를 미국으로 가져오는 것이다.</p>
+
+      <div class="card warn">
+        <div class="label">중국 매체 헤드라인</div>
+        “미국, 한국 반도체의 미국 내 공장 건설 압박…호남 반도체 클러스터 계획에 불만 표출.” 여당 관계자: 미국이 공급 안정을 위해 미국 내 메모리 공장 건설을 명확히 요구. 호남 발표 이후 압박이 강해졌고, 한국 기업의 미국 내 투자 계획이 실행되지 않고 있다고 지적. 한국 정부는 9월 중 대미 투자 프로젝트 1차 명단 발표 계획.<br />
+        <span class="src">출처: <a href="https://wallstreetcn.com/articles/3780198#from=ios">wallstreetcn.com/articles/3780198</a></span>
+      </div>
+
+      <h3>사실관계는 타당, “호남 때문에 미국이 화났다”는 과장</h3>
+      <div class="card ok">
+        <div class="label">1. 미국의 압박은 실제로 존재</div>
+        7월 하워드 러트닉 상무장관이 마이크론 행사에서 삼성전자와 SK하이닉스를 직접 거론하며 미국에 생산시설을 짓기를 원한다고 발언. 8월에는 “대미 투자 1호 사업으로 메모리를 달라”는 요구가 한국 정부 협상 과정에서 제기됐다는 보도. 미국 → 한국 메모리 기업의 미국 생산 확대 요구 자체는 신빙성이 높다.
+      </div>
+      <div class="card warn">
+        <div class="label">2. 호남 불만은 절반만 맞음</div>
+        미국이 호남에 특별히 화가 났다기보다 ① 공급망 안보 ② 미국 내 일자리·투자 ③ AI 데이터센터용 HBM 안정 공급 ④ 트럼프 리쇼어링이 먼저다. 한국이 용인+청주+호남에 수백조~1,100조 메모리 벨트를 발표하니 “그렇게 큰 돈을 한국에 쓰면서 왜 미국에는 메모리 생산능력을 더 안 가져오느냐”고 요구할 구조가 된 것. 한국 정부도 7월부터 인식. 김용범 정책실장은 국내 팹 증설은 국가 프로젝트라고 강조.
+      </div>
+      <div class="card blue">
+        <div class="label">3. 미국 논리는 강하다 — 특히 HBM</div>
+        미국 빅테크가 AI 인프라에 수천억 달러를 넣는 상황에서 HBM이 부족하면 미국 AI CAPEX 자체가 영향받는다. “AI 반도체의 핵심인 HBM을 한국에서만 생산하지 말고 미국에도 생산 기반을 만들어라.” 통상 압박보다 국가안보·AI 공급망 안보 논리가 붙기 때문에 강력하다.
+      </div>
+
+      <h3>기업 입장 — 미국 메모리 Fab은 경제성이 떨어진다</h3>
+      <table>
+        <thead><tr><th>회사</th><th>현재 미국 투자</th><th>성격</th><th>미국이 더 원하는 것</th></tr></thead>
+        <tbody>
+          <tr><td>삼성전자</td><td>텍사스 Taylor $17B 신규 Fab, 미국 투자 $37B+ 계획. Austin + Taylor 제조 기반</td><td>대부분 로직 파운드리. 삼성 미국 투자 ≠ 미국 메모리 Fab</td><td>기존 Taylor 인프라로 메모리 생산 추가 검토 여지가 하이닉스보다 큼</td></tr>
+          <tr><td>SK하이닉스</td><td>인디애나 웨스트라파예트 약 $4B, 2028 가동</td><td>HBM 후공정/패키징 + R&amp;D. 한국 용인·청주·호남과 보완 구조</td><td>한 단계 더 나아간 미국 내 메모리 웨이퍼 Fab. 중장기 CAPEX 배분이 바뀔 수 있음</td></tr>
+        </tbody>
+      </table>
+      <div class="card warn">
+        메모리는 원가 경쟁력 + 규모의 경제 + 클러스터 효과가 핵심. 한국에는 삼성·하이닉스·장비·소재·후공정·엔지니어·전력·용수·R&amp;D가 밀집. HBM은 DRAM → TSV → 적층 → 검사 → 패키징이 긴밀히 연결. 한국에서 라인을 추가하는 편이 미국에서 생태계를 새로 만드는 것보다 경제성이 높다. 이것이 한국 정부·기업이 버티는 가장 중요한 이유.
+      </div>
+
+      <h3>최종 타협안 — 가능성 높은 순서</h3>
+      <ol>
+        <li><b>미국 내 HBM 후공정/패키징 확대</b> — 가장 현실적. 현재 인디애나 방향.</li>
+        <li><b>미국 내 메모리 생산라인 일부 확보</b> — 완전한 대규모 DRAM Fab보다 특정 제품·공정 중심의 제한적 생산.</li>
+        <li><b>미국 Fab + 한국 Fab 이원화</b> — 미국 고객용 / 한국 글로벌 대량생산.</li>
+        <li><b>한국 생산 중심 유지</b> — 기업엔 가장 경제적, 미국 정부가 받아들이기 어려울 가능성 큼.</li>
+      </ol>
+
+      <div class="card key">
+        <div class="label">9월이 중요한 이유</div>
+        협상의 핵심은 “미국에 얼마를 투자할 것인가”가 아니라 <b>“어떤 반도체 생산능력을 미국에 줄 것인가”</b>. 미국이 메모리 Fab을 명시적으로 요구하면 삼성과 하이닉스의 대응은 상당히 달라질 수 있다. 9월 1차 명단에서 가장 주목할 것은 <b>SK하이닉스 미국 메모리 Fab 포함 여부</b>. 포함되면 국내 투자 축소 여부보다 추가 CAPEX와 HBM 공급능력 확대 효과를 먼저 봐야 한다.
+      </div>
+
+      <h3>투자자 결론</h3>
+      <div class="grid">
+        <div class="card ok">
+          <div class="label">단기 악재로 볼 필요 없음</div>
+          호남이 미국 때문에 무산되거나 크게 축소될 가능성은 낮다. 한국 정부는 호남·용인을 국가 메가프로젝트로 추진 중이고, 8월 산업부 업무계획에서도 용인 클러스터 완공을 대폭 앞당기는 정책을 공식화했다.<br /><br />
+          향후 구조: 한국 = 메모리 대량생산 중심 / 미국 = AI 고객 근접 생산 + 패키징 + 일부 메모리. 미국이 한국 메모리를 “뺏어가는가” — 그렇게 보지 않는다.
+        </div>
+        <div class="card blue">
+          <div class="label">장기적으로는 흥미로운 변화</div>
+          하이닉스: 한국 DRAM/HBM 대량생산 + 미국 패키징/R&amp;D 구조가 이미 만들어지고 있다. 압박이 강해지면 미국 내 HBM 생산 추가 가능. 단기 CAPEX 부담, 장기 미국 고객 lock-in.<br /><br />
+          삼성: 상대적으로 유리. 이미 Austin + Taylor. 요구 시 Taylor로 메모리 추가 검토 여지가 더 크다.
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="card bad">
+          <div class="label">분위기 자체는 주가에 부정 (10:40)</div>
+          미국 DRAM 추가인데 호남이 그대로이면, 현실성을 면밀히 따지기 전에 <b>언젠가 공급초과</b> 시나리오가 부상할 수 있다. 소부장에게는 good news.
+        </div>
+        <div class="card ok">
+          <div class="label">호남 과잉반응은 타당하지 않음 (10:42)</div>
+          호남은 당초 ~3년 내 단기 수급에 영향을 주는 프로젝트다. 그런 식의 과잉반응으로 빠지는 주가는 타당하지 않다고 본다.
+        </div>
+      </div>
+    </section>
+
+    <section id="hynix">
+      <h2>6. SK하이닉스 — 노조 부결, PS, 지배구조, IR</h2>
+      <p class="muted">원문 시각: 09:09 · 09:14 · 09:27 · 09:45 · 09:50 · 10:17</p>
+      <img class="chart" src="charts/03_hynix_ps.png" alt="하이닉스 PS 현금 구성" />
+      <p class="cap">40조 소각과 FCF 50%+ 원칙은 유지. 움직이는 것은 3분기 추가 환원의 현금/주식 믹스.</p>
+
+      <div class="card bad">
+        <div class="label">속보</div>
+        SK하이닉스 잠정합의안 노조 투표 부결. 반대 50.1%. 찬성 7,510 vs 반대 7,535, 불과 25표 차. 재투표 여부, 어디에서 얼마 이견인지도 지켜봐야.<br />
+        <span class="src">
+          <a href="https://www.yna.co.kr/view/AKR20260825041400003?section=industry/all&amp;site=topnews02">연합뉴스</a> ·
+          <a href="https://n.news.naver.com/mnews/article/374/0000529162?rc=N&amp;ntype=RANKING&amp;sid=101">임단협 부결 후폭풍</a>
+        </span>
+      </div>
+
+      <h3>“주주환원에 제동”은 절반만 맞는 표현</h3>
+      <ul>
+        <li>현재 진행 중인 <b>40조원 자사주 매입·소각에는 영향 없음</b></li>
+        <li>영향 가능성이 있다면 회사가 3분기 실발 때 발표하기로 한 <b>추가 주주환원</b></li>
+        <li>그 경우에도 <b>‘FCF의 50% 이상을 환원한다’</b> 원칙 자체에는 영향 없음</li>
+        <li>최종 환원<b>금액</b>이 얼마가 되느냐에 다소 영향 가능</li>
+        <li>추후 협상에서 현금 지급 비율이 증가하면 그만큼 직원보상용 자사주 매입 규모가 줄어듦</li>
+        <li>반대표 50.1%로 근소 → 큰 탈 없는 재협상은 가능하지 않을까</li>
+      </ul>
+
+      <h3>핵심 계산 — 2026 영업이익 260조 가정</h3>
+      <table>
+        <thead><tr><th>항목</th><th>숫자</th></tr></thead>
+        <tbody>
+          <tr><td>PS 재원</td><td>영업이익의 10% → 26조원</td></tr>
+          <tr><td>기존 체계</td><td>80% 현금 + 20% 현금 이연</td></tr>
+          <tr><td>잠정합의안</td><td>40% 현금 + 60% 자사주(주식)</td></tr>
+          <tr><td>당장 현금 비율</td><td>80% → 40%, 40%p 감소</td></tr>
+          <tr><td>현금 유출 감소</td><td>26조 × 40%p = <b>10.4조원</b> (당초 주주환원 예상의 5.4%)</td></tr>
+          <tr><td>재협상 시나리오</td><td>주식 60% → 40~50%가 중요한 시나리오</td></tr>
+          <tr><td>주식 비중 20%p↓ 마다</td><td>회사 현금 부담 <b>+5.2조</b> (환원 예상의 2.7%)</td></tr>
+        </tbody>
+      </table>
+      <div class="card key">주가는 그 5.4% / 2.7%를 가늠 중인 듯하다.</div>
+
+      <h3>지분율 올려야 하는 하닉 vs 지분 넘치면 안 되는 삼전</h3>
+      <img class="chart" src="charts/11_governance.png" alt="하이닉스 vs 삼성 지배구조" />
+      <p class="cap">같은 자사주 소각이 한쪽에선 일석이조, 한쪽에선 규제 위반 리스크다.</p>
+      <ul>
+        <li><b>SK하이닉스</b>: 공정거래법상 지주사 SK스퀘어는 자회사 지분 20% 이상. 지난달 미국 ADR 발행으로 20% 턱밑. 자사주 매입·소각 → 발행주식 수↓ → 지분율 자연 상승.</li>
+        <li><b>삼성전자</b>: 금산법상 금융회사는 비금융 계열사 지분 10% 초과 금지. 6월 말 삼성생명 8.51% + 삼성화재 1.49% = 정확히 10.00%. 대규모 소각 시 10% 초과 → 두 계열사가 삼성전자 주식을 시장에 내다 팔아야 하는 부담.</li>
+        <li><b>오너 현금흐름</b>: 하이닉스는 최태원 회장 등 오너 일가 직접 지분이 사실상 전무 → 배당 확대가 오너 현금흐름에 미미. 삼성은 이재용 1.67% 등 오너 일가가 직접 보유 → 배당 확대 시 직접 현금 유입.</li>
+      </ul>
+      <p class="src">출처: <a href="https://www.etoday.co.kr/news/view/2617536">etoday.co.kr/news/view/2617536</a></p>
+
+      <h3>IR 방식 논란</h3>
+      <div class="card warn">
+        “삼전닉스 IR 방식 글로벌 수준 못 미쳐”…반도체 투톱 큰폭 하락. 시장이 가장 궁금해하는 자사주 매입·소각 규모와 시기를 뒤로 미루며 해석 여지를 남긴 점이 아쉽다는 지적. 글로벌 넘버원 기업인 만큼 IR도 글로벌 스탠더드에 맞춰 구체적이고 예측 가능한 정보를 제공해야 한다는 논평.<br />
+        <span class="src"><a href="https://www.hankyung.com/article/2026082504946">hankyung.com/article/2026082504946</a></span>
+      </div>
+    </section>
+
+    <section id="nuke">
+      <h2>7. 미국 원전 르네상스 · 한국 밸류체인</h2>
+      <p class="muted">원문 시각: 09:45 · 11:24와 연결</p>
+      <img class="chart" src="charts/05_nuclear_pipeline.png" alt="미국 원전 파이프라인" />
+      <p class="cap">2026 하반기 = 정책·금융 설계에서 사업자·부지 확정, 실제 프로젝트 착수로 넘어가는 전환점.</p>
+
+      <div class="card key">
+        원전 관련주도 정책 기대감보다 <b>실제 기자재 발주/수주 확인</b>이 중요하다. KB증권은 미국 원전 시장의 구조적 확대와 한국 원전 밸류체인 경쟁력을 지속 강조.
+      </div>
+
+      <h3>트럼프 정부의 승부수: $175억 저리 대출</h3>
+      <ul>
+        <li>미국 정부 → 원전 공급망에 $17.5B 금융 지원</li>
+        <li>최대 웨스팅하우스 AP1000 10기 건설 지원</li>
+        <li>핵심은 발전소 건설비 자체보다 <b>장납기 기자재(Long Lead Equipment) 선구매</b></li>
+        <li>“발주가 없으니 공급망 투자가 없고 → 공급망이 없으니 발주가 어려운” 닭·달걀 문제를 정부 금융으로 풀겠다는 전략</li>
+        <li>2030년경 착공 목표로 프로젝트를 앞당기는 효과</li>
+        <li><b>투자 포인트: FID를 기다리지 않고 기자재 발주가 먼저 나올 수 있다</b></li>
+      </ul>
+
+      <h3>왜 미국이 지금 원전인가</h3>
+      <div class="grid3">
+        <div class="card blue"><div class="label">① AI·데이터센터</div>24시간 안정적인 대규모 전력</div>
+        <div class="card blue"><div class="label">② 에너지 안보</div>중국·러시아와의 원전 기술·공급망 경쟁</div>
+        <div class="card blue"><div class="label">③ 정치적 고용</div>건설기 수천 명, 운영기 수백 명 고임금. 2026 중간선거 전 발표 집중 가능</div>
+      </div>
+      <p>원전은 「전력 + 안보 + 일자리」를 동시에 해결하는 정책 카드.</p>
+
+      <h3>웨스팅하우스가 핵심인 이유</h3>
+      <div class="card">
+        정부 금융 → 전력사업자 프로젝트 → 웨스팅하우스 AP1000 공급 → 글로벌 공급망 발주 → 한국 기업에 기자재·EPC 기회. 웨스팅하우스는 한국 기업의 원자로 제작·건설 수행능력을 활용할 유인이 크다.
+      </div>
+      <div class="grid">
+        <div class="card ok">
+          <div class="label">두산에너빌리티</div>
+          가장 먼저 기자재 수주가 보일 가능성. FID 이전 장납기 기자재 선발주 정책의 직접 수혜. 원자로·터빈 등 핵심 기자재. 미국 프로젝트가 구체화될수록 수주 윤곽이 먼저.
+        </div>
+        <div class="card ok">
+          <div class="label">현대건설</div>
+          프로젝트 파이프라인 확대. 미국 전력사업자 주도 원전에서 EPC 기회. 기존 팀코리아 중심에서 글로벌 원전 EPC로 확장. 신규 미국 프로젝트 추가 가능성.
+        </div>
+      </div>
+    </section>
+
+    <section id="sds">
+      <h2>8. 삼성SDS — 공장 로봇의 총감독</h2>
+      <p class="muted">원문 시각: 08:42 · 08:44 · 08:47 · 08:48 · 중장기 관점 적절. 기본 용어는 SKIP 가능</p>
+      <img class="chart" src="charts/08_sds_stack.png" alt="SDS 로봇 오케스트레이션 스택" />
+      <p class="cap">SDS의 로봇 투자는 로봇 제조업이 아니라, 삼성 제조 생태계의 ‘로봇 OS’를 장악하려는 전략.</p>
+
+      <h3>사업의 본질</h3>
+      <ul>
+        <li>휴머노이드·AMR·협동로봇 등 이종 로봇 수천 대 통합 관제</li>
+        <li>MES와 연동 → 생산계획에 따라 로봇 임무를 실시간 배정</li>
+        <li>위치·상태 관제 / 충돌 방지 / 디지털트윈 사전검증</li>
+        <li>VLA AI 모델 업데이트 + 엣지 GPU 기반 저지연 제어</li>
+        <li>핵심 경쟁력 = 로봇 자체가 아니라 <b>‘누가 언제 무엇을 할지’ 결정하는 지휘권</b></li>
+        <li>삼성 제조 MES를 장기간 운영해온 SDS의 기존 고객·시스템 장악력이 진입장벽</li>
+      </ul>
+
+      <h3>용어 — MES</h3>
+      <div class="card blue">
+        MES = Manufacturing Execution System, 제조실행시스템. 공장에서 지금 무엇을, 언제, 어떤 순서로, 어떤 장비·작업자가 할지를 실시간 관리.<br /><br />
+        ERP = 회사 전체 경영·자원 계획 (“이번 달 반도체 100만 개 생산하자”).<br />
+        MES = 실제 공장의 생산 실행 지휘 (“지금 이 웨이퍼를 3번 장비로 보내고, 다음 공정은 5번 장비”).<br /><br />
+        ERP → MES → 로봇 오케스트레이션 → 로봇. SDS 로봇 오케스트레이션에서 MES 연동이 중요한 이유는, 로봇을 단순히 관제하는 것이 아니라 공장의 실제 생산계획과 직접 연결할 수 있기 때문.
+      </div>
+
+      <h3>그룹 역할 분담</h3>
+      <table>
+        <thead><tr><th>삼성전자</th><th>삼성SDS</th></tr></thead>
+        <tbody>
+          <tr><td>로봇의 몸</td><td>로봇의 지휘·운영 소프트웨어</td></tr>
+          <tr><td>레인보우로보틱스 / 휴머노이드 양산</td><td>로봇 오케스트레이션 / MES 연동</td></tr>
+          <tr><td>로봇 학습 데이터 / 제조 현장 적용</td><td>디지털트윈·GPU 인프라 / 중앙 관제·운영</td></tr>
+        </tbody>
+      </table>
+      <p>“삼성전자가 로봇을 만들고, SDS가 공장 전체를 움직인다.” 삼성전자가 로봇을 많이 만들수록 SDS 지휘 소프트웨어 가치가 커지는 구조.</p>
+
+      <h3>이미 나타난 시그널</h3>
+      <ul>
+        <li>SDS: 미국 Walden Robotics 전략투자</li>
+        <li>Walden: Toyota 북미 생산라인에서 로봇 실운용 레퍼런스</li>
+        <li>SDS 경영진: “다양한 로봇 통합·제어 + MES 연계” 사업 공식화</li>
+        <li>삼성전자: 레인보우로보틱스 최대주주 + 휴머노이드 제조현장 투입 추진</li>
+        <li>구미 투자: 휴머노이드 양산 + 로봇 데이터 팩토리 추진</li>
+        <li>캡티브 삼성 → Toyota 등 외부 제조사로 확장할 수 있는 구조</li>
+      </ul>
+
+      <h3>NVIDIA 피지컬 AI 생태계</h3>
+      <div class="card">
+        NVIDIA(GPU·Omniverse·Isaac) → 삼성전자(휴머노이드·제조 데이터) → 삼성SDS(오케스트레이션·MES·디지털트윈) → 스마트팩토리(수천 대 로봇). AI의 다음 성장축 = Physical AI. 로봇 보급↑ → 공장당 엣지 추론 GPU + 중앙 AI/디지털트윈 인프라 증가. 로봇 가격 하락 → 대수 증가 → 오케스트레이션의 경제적 가치 확대.
+      </div>
+
+      <h3>비즈니스 모델: 하드웨어가 아니라 반복 매출</h3>
+      <table>
+        <thead><tr><th>단계</th><th>내용</th><th>규모</th></tr></thead>
+        <tbody>
+          <tr><td>① 초기 구축</td><td>디지털트윈 + MES 연동 + 엣지 인프라</td><td>사이트당 300~500억원</td></tr>
+          <tr><td>② SaaS</td><td>로봇 관제·오케스트레이션</td><td>대당 월 구독료. 로봇 대수 증가 = 매출 자동 증가</td></tr>
+          <tr><td>③ MSP</td><td>엣지 GPU·디지털트윈 운영</td><td>연간 반복 매출</td></tr>
+        </tbody>
+      </table>
+      <p>일회성 SI → SaaS + MSP 반복매출로 사업구조 고도화. 현재 로봇 사업의 실적 기여는 미미. 향후 삼성 제조공장의 로봇 표준 플랫폼, 장기 Toyota 등 외부로 확장.</p>
+
+      <h3>강세 시나리오 2033~35</h3>
+      <div class="card purple">
+        삼성 그룹 제조 사이트 약 35곳 × 사이트당 휴머노이드 2,500대 = 약 8.8만 대 → SaaS 약 8,750억원/년 + MSP·구축·트윈 운영 + Toyota 등 외부 고객 → 총매출 약 2.5조원 / 영업이익 약 5,000억원. 반복매출 + 플랫폼 프리미엄 적용 시 사업가치 약 11조원.<br /><br />
+        vs 현재 삼성SDS 컨센서스 매출/영업이익 14.2조 / 8,279억의 <b>18% / 60%</b>.
+      </div>
+      <div class="card warn">
+        <div class="label">다음 확인할 3가지</div>
+        ① 구미 19조 투자에서 SDS의 구체적 역할·투자액 &nbsp; ② 하반기 삼성 휴머노이드의 실제 투입 팹·공정·대수 &nbsp; ③ Toyota 레퍼런스 이후 외부 고객 확보 여부
+      </div>
+    </section>
+
+    <section id="ai">
+      <h2>9. AI 조달 — 소프트뱅크 레버리지, 엔비디아의 앱 선점</h2>
+      <p class="muted">원문 시각: 07:12 (두 건) · 09:26</p>
+      <img class="chart" src="charts/09_ai_funding.png" alt="AI 조달 흐름" />
+      <p class="cap">수요는 실물로 보이지만, 약한 고리는 조달(레버리지)이다.</p>
+
+      <h3>소프트뱅크 1조엔 개인 엔화채</h3>
+      <ul>
+        <li>1조엔 ≈ 약 $63억 / 8.7조원. 개인투자자 대상. 7년 만기, 예상 금리 4.3~4.9%. 9월 4일 가격 결정</li>
+        <li>일본 기업의 개인 대상 회사채로는 사상 최대</li>
+        <li>용도: ① AI 관련 투자 ② 기존 채권 상환. 시장은 OpenAI 투자 확대와 AI 인프라 자금 조달에 주목</li>
+        <li>OpenAI 추가 투자: 2026년 2월 추가 $300억 확정. 3회 × $100억 — 1차 2026.4 / 2차 2026.7 / 3차 2026.10</li>
+        <li>3차까지 완료 시 누적 약 <b>$646억</b>, 지분율 약 <b>13%</b></li>
+        <li>2026년 3월 OpenAI 추가 투자 등을 위해 $400억 규모 브리지 파이낸싱도 확보</li>
+      </ul>
+      <div class="card warn">
+        단순히 “회사채를 발행한다”가 아니다. 소프트뱅크가 OpenAI 투자 → AI 데이터센터 → AI 인프라에 엄청난 자금을 투입하면서 레버리지까지 이용해 AI 생태계에 베팅하고 있다는 신호.
+      </div>
+
+      <h3>엔비디아 → 퍼플렉시티 투자 논의</h3>
+      <ul>
+        <li>Perplexity 기업가치 $300억 이상 신규 라운드 논의. 원화 약 42조원 이상</li>
+        <li>연환산 매출 $2.5억 미만 → $7.5억 이상으로 급증. 핵심은 Perplexity Computer라는 AI Agent 서비스</li>
+        <li>검색 → AI 검색 → AI Agent 전환의 초기 단계부터 지분 확보</li>
+        <li>별도: AI 코딩업체 Poolside에도 약 $10억 투자 논의/진행, 기업가치 약 $120억</li>
+      </ul>
+      <div class="card blue">
+        엔비디아는 GPU를 파는 회사에서 GPU → AI 모델 → AI Agent → AI 서비스 전체 생태계에 투자하는 방향으로 움직인다. Perplexity 투자의 의미는 “엔비디아가 AI 애플리케이션의 승자까지 선점하려 한다.”
+      </div>
+
+      <div class="card">
+        <div class="label">09:26 · 무엇을 준비 중인가?</div>
+        서프라이즈가 if any? 선물이어야 할 텐데요.<br />
+        <span class="src"><a href="https://n.news.naver.com/mnews/article/050/0000110070?rc=N&amp;ntype=RANKING&amp;sid=101">관련 기사</a></span>
+      </div>
+    </section>
+
+    <section id="check">
+      <h2>10. 앞으로 볼 것</h2>
+      <img class="chart" src="charts/10_checkpoints.png" alt="체크포인트" />
+      <p class="cap">오늘 조정이 차익실현인지 AI 투자 우려의 시작인지는 8/26이 판별한다.</p>
+      <table>
+        <thead><tr><th>때</th><th>이벤트</th><th>보면</th></tr></thead>
+        <tbody>
+          <tr><td>8/26</td><td>엔비디아 실적</td><td>데이터센터 성장률, 차기 분기 가이던스, Blackwell/Rubin 수요, HBM 공급</td></tr>
+          <tr><td>8/26</td><td>7월 PCE</td><td>Fed 금리인하 기대. 유가 하락은 PCE에 우호적</td></tr>
+          <tr><td>9월</td><td>대미 투자 1차 명단</td><td>하이닉스 미국 메모리 Fab 포함 여부. 한미 1호 = 에너지/원전인지</td></tr>
+          <tr><td>3분기 실발</td><td>하이닉스 추가 환원</td><td>재협상 현금/주식 비율. 삼성·하이닉스 IR의 자사주 규모·시기 구체성</td></tr>
+          <tr><td>상시</td><td>TGA · bill issuance · 30년 금리 · 달러</td><td>바이백 확대에도 30년↑·달러↓면 fiscal risk premium 신호</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="raw">
+      <h2>부록. 원문 Quick 코멘트 전체 (시간순)</h2>
+      <p class="muted">06:24 → 11:24. 위에서 주제별로 재배치한 원문을 빠짐없이 보관.</p>
+
+      <details class="raw" open>
+        <summary><span class="time">11:24</span> 순환매 장세 지속</summary>
+        <div class="body">
+          반도체 중심 갭하락 → 대형주 순환매로 6,600선 근접. 코스닥은 바이오·2차전지 등 전일 주도주 급락 → 전일 상승분 반납.<br /><br />
+          핵심 흐름: 지수 조정 ≠ 전면적 위험회피 → 자금이 반도체에서 금융·에너지·방산·화장품 등으로 이동.<br /><br />
+          시장의 핵심 변수 = 유동성 + 반도체.<br />
+          ① 유동성: 美 재무부 국채 바이백 확대. TGA를 통한 최대 9,500억 달러 재원 조달 가능성 보도. 장기금리 상승세 일부 진정 → 유동성 측면은 증시 하방을 완화하는 요인.<br />
+          ② 반도체: Nvidia 실적 대기. 삼성전자 주주환원 발표 이후 Sell-on. YMTC IPO 임박. 메모리주 급락. 오늘 조정의 중심은 반도체/AI 밸류체인.<br /><br />
+          반도체 약세에도 순환매는 뚜렷. 포트폴리오 밸런스 및 기민한 대응 필요 이유 — AI exposure vs Non AI (건설 화장품 조선 바이오 2차전지 등). 화장품, 금융, 건설/원전·에너지, 일부 소부장(심텍, HPSP 등) 강세, 실리콘투. → 반도체에서 빠진 자금이 다른 대형주·테마로 이동.<br /><br />
+          가장 주목할 부분: 한미 투자 → 에너지/원전. 다음 달 1호 대미투자 프로젝트 발표 예정. 시장은 에너지 분야에 주목. 두산에너빌리티 +5%, 대우건설 +7%, 현대건설 +11%. 한미 투자협력의 구체적인 프로젝트가 발표될 경우 → 원전·전력 인프라 관련주로 추가 순환매 가능.<br /><br />
+          대외변수: 현재는 시장 충격 제한적. 미국 → 이란 지원 금융기관 제재. 캐나다 → 자동차·부품/철강 50% 관세 갈등. 그러나 이란 제재의 구체적 시행 시점 불명확. 캐나다 관세는 내년 시행 → 당장 시장 충격은 제한적.
+        </div>
+      </details>
+
+      <details class="raw">
+        <summary><span class="time">10:42</span> 호남 과잉반응은 타당하지 않다</summary>
+        <div class="body">호남은 당초 ~3년 내 단기 수급에 영향을 주는 것이어서, 그런 식의 과잉반응으로 빠지는 주가는 타당하지 않다고 봅니다.</div>
+      </details>
+      <details class="raw">
+        <summary><span class="time">10:40</span> 분위기 자체는 주가에 부정 · 소부장은 good news</summary>
+        <div class="body">이런 분위기는 주가에는 부정적입니다. 미국 DRAM 추가인데 호남 그대로이면, 언젠가 공급초과 가능성 시나리오가 (실제 현실성 면밀히 따지기 전에) 부상할 수 있기 때문입니다. 소부장에게는 good news.</div>
+      </details>
+      <details class="raw">
+        <summary><span class="time">10:36</span> 호남·대미 Fab 이슈 전체 분석</summary>
+        <div class="body">
+          핵심 보도 자체는 상당히 타당성이 높습니다. 다만 중국 매체의 표현처럼 “미국이 호남 반도체 계획에 불만을 표시했다”는 부분은 한 단계 과장된 해석으로 보는 것이 좋겠습니다. 현재까지 확인되는 흐름을 보면, 이 이슈는 단순한 외교적 압박이라기보다 미국이 AI용 메모리 공급망까지 ‘미국 내 생산’으로 끌어들이려는 전략으로 보는 것이 정확합니다.<br /><br />
+          1. 사실관계: 미국의 압박은 실제로 존재. 7월 러트닉 상무장관이 마이크론 행사에서 삼성·하이닉스를 거론하며 미국 생산시설을 원한다고 발언. 8월에는 “대미 투자 1호 사업으로 메모리를 달라”는 요구가 협상 과정에서 제기됐다는 보도. 미국 → 한국 메모리 기업의 미국 생산 확대 요구 자체는 신빙성이 높음.<br /><br />
+          2. “호남 때문에 미국이 화났다”는 것은 절반만 맞음. 미국의 공급망 안보, 일자리·투자, AI용 HBM 안정 공급, 리쇼어링이 먼저. 한국이 용인+청주+호남 수백조~1,100조 벨트를 발표하니 “왜 미국에는 메모리 생산능력을 더 안 가져오느냐”고 요구할 구조. 김용범 정책실장은 국내 팹 증설은 국가 프로젝트라고 강조.<br /><br />
+          3. 미국 논리는 강함. HBM은 과거 일반 DRAM과 다름. 빅테크 AI CAPEX가 HBM 부족에 영향받을 수 있음. 국가안보·AI 공급망 안보 논리가 붙음.<br /><br />
+          4. 한국 기업 입장에서 미국 메모리 Fab은 쉽지 않음. 삼성 Taylor $17B는 대부분 로직 파운드리, 미국 투자 $37B+ 계획. 삼성 미국 투자 ≠ 미국 메모리 Fab. 하이닉스 인디애나 $4B는 HBM 패키징+R&amp;D, 2028 가동. 미국이 원하는 것은 미국 내 메모리 웨이퍼 Fab.<br /><br />
+          5. 미국 메모리 Fab 경제성이 떨어짐. 원가+규모+클러스터. HBM 공정이 긴밀히 연결. 한국 라인 추가가 미국에서 생태계를 새로 만드는 것보다 경제적. 하이닉스도 용인·청주·호남 + 인디애나 패키징 보완 구조.<br /><br />
+          6. 타협안 가능성 순: ① 미국 HBM 후공정/패키징 확대(가장 현실적) ② 미국 내 메모리 라인 일부 ③ 미국+한국 이원화 ④ 한국 생산 중심 유지(미국 수용 어려움).<br /><br />
+          7. 9월이 중요. “얼마를 투자할 것인가”보다 “어떤 반도체 생산능력을 미국에 줄 것인가.” 메모리 Fab을 명시 요구하면 삼성과 하이닉스 대응이 달라질 수 있음.<br /><br />
+          8. 투자자 결론: 단기 악재로 볼 필요 없음. 장기적으로 흥미로운 변화. 하이닉스 한국 대량생산 + 미국 패키징/R&amp;D. 압박 시 미국 HBM 생산 추가 가능(단기 CAPEX, 장기 lock-in). 삼성은 Austin+Taylor로 상대적으로 유리.<br /><br />
+          9. 미국이 한국 메모리를 뺏어가는가 — 그렇게 보지 않음. 한국=대량생산 중심, 미국=고객 근접+패키징+일부 메모리. 호남 무산·대폭 축소 가능성 낮음. 산업부도 용인 완공 앞당기기 공식화.<br /><br />
+          한 줄: “미국의 압박은 사실이고 앞으로 더 강해질 가능성이 높다. 그러나 미국이 원하는 것은 호남 투자의 철회가 아니라, 한국의 메모리 초대형 투자 중 일부를 미국으로 가져오는 것이다.” 하이닉스에 특히 중요 — 지금까지 미국 투자가 인디애나 패키징에 집중됐는데, 진짜 메모리 Fab을 요구하기 시작했다면 중장기 CAPEX 배분 자체가 바뀔 수 있음. 9월 1차 명단에서 가장 주목할 것은 하이닉스 미국 메모리 Fab 포함 여부. 포함되면 국내 투자 축소보다 추가 CAPEX와 HBM 공급능력 확대 효과를 먼저.
+        </div>
+      </details>
+      <details class="raw">
+        <summary><span class="time">10:27</span> 중국 매체 보도 요약</summary>
+        <div class="body">미국, 한국 반도체의 미국 내 공장 건설 압박…호남 계획에 불만 표출. 여당 관계자: 미국이 메모리 공장 건설을 명확히 요구. 호남 발표 이후 압박 강화, 한국 기업 미국 투자 계획 실행 부진. 정부는 9월 중 대미 투자 1차 명단 발표 계획. <a href="https://wallstreetcn.com/articles/3780198#from=ios">원문</a></div>
+      </details>
+      <details class="raw">
+        <summary><span class="time">10:17</span> PS 잠정합의안 계산</summary>
+        <div class="body">현재 잠정합의안은 PS의 40% 현금 + 60% 자사주. 2026 영업이익 260조 가정 시 PS 재원=영업이익 10%=26조. 기존 80% 현금+20% 현금 이연 → 잠정 40% 현금+60% 주식. 당장 현금 80%→40%, 40%p 감소. 26조×40%p=10.4조 현금 유출 감소. 부결이 7,510 vs 7,535, 25표 차. 재협상에서 60% 주식→40~50% 주식이 중요한 시나리오. 260조 OP 기준 주식 비중 20%p 낮아질 때마다 현금 부담 약 5.2조씩 증가. 10.4조면 당초 주주환원 예상의 5.4%, 5.2조면 2.7%. 주가는 그것을 가늠 중인 듯.</div>
+      </details>
+      <details class="raw">
+        <summary><span class="time">09:50</span> 노조 부결과 주주환원 — 절반만 맞다</summary>
+        <div class="body">주주환원에 제동이 걸렸다는 건 절반 정도만 맞는 표현. 진행 중인 40조 자사주 매입 소각에는 영향 없음. 영향 가능성이라면 3분기 실발 때 추가 주주환원. 그래도 FCF 50% 이상 환원 원칙에는 영향 없음. 최종 환원금액에 다소 영향 가능. 현금 지급 비율 증가 시 직원보상용 자사주 매입 규모 감소. 반대표 50.1%로 근소해서 큰 탈 없는 재협상은 가능하지 않을까.</div>
+      </details>
+      <details class="raw">
+        <summary><span class="time">09:45</span> 삼전닉스 IR 논평</summary>
+        <div class="body">“삼전닉스 IR 방식 글로벌 수준 못미쳐”…반도체 투톱 큰폭 하락. 자사주 매입·소각 규모와 시기를 뒤로 미루며 해석 여지를 남긴 점이 아쉽다는 지적. <a href="https://www.hankyung.com/article/2026082504946">한국경제</a></div>
+      </details>
+      <details class="raw">
+        <summary><span class="time">09:45</span> 미국 원전 르네상스 전체</summary>
+        <div class="body">
+          2026 하반기 = 미국 원전산업의 ‘정책 → 실제 프로젝트’ 전환점. 지난 1년은 정책·금융·발주 구조 설계, 이제부터 사업자·부지 확정 → 실제 프로젝트 착수. 관련주도 정책 기대감보다 실제 기자재 발주/수주 확인이 중요.<br /><br />
+          트럼프 승부수: $175억 저리 대출. 최대 AP1000 10기. 핵심은 장납기 기자재 선구매. 닭·달걀 문제를 정부 금융으로 풀겠다는 전략. 2030년경 착공 목표. FID를 기다리지 않고 기자재 발주가 먼저 나올 수 있다.<br /><br />
+          왜 지금 원전인가: ① AI·데이터센터 24시간 전력 ② 에너지 안보(중·러 경쟁) ③ 정치적 고용. 전력+안보+일자리. 중간선거 전 발표 집중 가능.<br /><br />
+          웨스팅하우스 AP1000이 중심축. 정부 금융 → 전력사 → AP1000 → 글로벌 발주 → 한국 기자재·EPC. 한국 기업의 원자로 제작·건설 능력을 활용할 유인.<br /><br />
+          두산에너빌리티: 가장 먼저 기자재 수주가 보일 가능성. 현대건설: 프로젝트 파이프라인 확대, 글로벌 원전 EPC.<br /><br />
+          파이프라인: ①정책✓ ②금융 $175억✓ ③사업자 🔜 ④선발주 두산 ⑤FID 🔜 ⑥EPC 현대건설 ⑦운영 한국 밸류체인.
+        </div>
+      </details>
+      <details class="raw">
+        <summary><span class="time">09:27 · 09:14</span> 하이닉스 임단협 부결 속보</summary>
+        <div class="body">잠정합의안 노조 투표 부결…반대 50.1%. 재투표하는지, 어디에서 얼마 이견인지도 지켜봐야. <a href="https://www.yna.co.kr/view/AKR20260825041400003?section=industry/all&amp;site=topnews02">연합</a> · <a href="https://n.news.naver.com/mnews/article/374/0000529162?rc=N&amp;ntype=RANKING&amp;sid=101">후폭풍</a></div>
+      </details>
+      <details class="raw">
+        <summary><span class="time">09:26</span> 무엇을 준비 중인가?</summary>
+        <div class="body">서프라이즈가 if any? 선물이어야 할 텐데요. <a href="https://n.news.naver.com/mnews/article/050/0000110070?rc=N&amp;ntype=RANKING&amp;sid=101">기사</a></div>
+      </details>
+      <details class="raw">
+        <summary><span class="time">09:09</span> 지분율 올려야 하는 하닉 vs 넘치면 안 되는 삼전</summary>
+        <div class="body">핵심 배경은 지배구조 규제. 하이닉스: SK스퀘어 지주사 20% 이상, ADR 이후 턱밑, 소각이 지분율 방어에 직결. 삼성: 금산법 10% 초과 금지, 생명 8.51%+화재 1.49%=10.00%, 대규모 소각 시 금융 계열사 매도 부담. 오너 지분: 하이닉스는 사실상 전무, 삼성은 이재용 1.67% 등 직접 보유. <a href="https://www.etoday.co.kr/news/view/2617536">이투데이</a></div>
+      </details>
+      <details class="raw">
+        <summary><span class="time">08:48 · 08:47 · 08:44 · 08:42</span> 삼성SDS 로봇 오케스트레이션 전체 + MES 용어</summary>
+        <div class="body">
+          MES=제조실행시스템. ERP=무엇을 얼마나, MES=공장에서 어떻게, 오케스트레이션=어떤 로봇이 어떤 일, 로봇=실행. SDS가 MES와 연동하는 이유는 관제가 아니라 생산계획과 직접 연결.<br /><br />
+          이 종목은 중장기 관점 적절. 본질은 공장 로봇의 총감독. 이종 로봇 수천 대 통합, MES 연동, 디지털트윈, VLA, 엣지 GPU. 핵심 경쟁력은 지휘권. 삼성 MES 장악력이 진입장벽.<br /><br />
+          전자=몸, SDS=지휘 SW. Walden 전략투자, Toyota 북미 레퍼런스, 구미 휴머노이드 양산+데이터 팩토리. NVIDIA 피지컬 AI 스택.<br /><br />
+          BM: 사이트당 구축 300~500억, SaaS 대당 월 구독, MSP 반복매출. 강세 시나리오 2033~35: 35곳×2,500대=8.8만, SaaS 8,750억/년, 총매출 2.5조, OP 5,000억, 사업가치 11조. vs 컨센 14.2조/8,279억의 18%/60%.<br /><br />
+          확인할 3가지: 구미 19조에서 SDS 역할·투자액, 하반기 휴머노이드 투입 팹·공정·대수, Toyota 이후 외부 고객. “SDS의 로봇 투자는 로봇 제조업이 아니라 삼성 제조 생태계의 로봇 OS를 장악하려는 전략.”
+        </div>
+      </details>
+      <details class="raw">
+        <summary><span class="time">08:42 · 08:30 · 08:08 · 08:06 · 07:58</span> QE5 / GENIUS / CLARITY / 스테이블·국채</summary>
+        <div class="body">
+          바이백보다 TGA 잔액과 bill issuance를 같이 추적. 바이백을 확대하는데 30년 금리가 떨어지지 않고 달러만 약해지면, 정책이 채권시장을 안정시킨 게 아니라 fiscal risk premium을 높이고 있다는 신호일 수 있음. 미국 정부가 장기금리 상승에 어디까지 반응할 의지가 있는지를 시장이 발견하는 과정.<br /><br />
+          BofA식 프레이밍이 2026년을 QE5로 붙인 것은, 정책당국이 duration 부담을 떠안기 시작했고 또 하나의 유동성/자산가격 사이클의 시작일 수 있다는 것. QE5 라벨은 Fed QE가 아니라 정책당국이 장기금리와 duration을 직접 관리하기 시작했다는 의미로 읽는 게 정확. Treasury Twist에 더 가깝다.<br /><br />
+          GENIUS Act = 스테이블코인 법 (USDC/USDT, 1:1 준비자산, 2025.7.18 법제화). CLARITY Act = BTC·ETH 등 디지털자산 시장구조 법 (2026 심의 중, SEC vs CFTC, Digital Commodity). GENIUS는 돈의 레일, CLARITY는 교통법규. GENIUS → T-bill 수요, CLARITY → Coinbase·거래소·DeFi에 더 직접적.<br /><br />
+          기사 프레임: 단기국채 발행↑ + 장기국채 바이백↑. 늘어난 T-bill을 누가 사나 → 스테이블. 시장 약 $3,000억, Citi 2030 $4조, 발행사 국채 관련 $1,776억, 자문위 추가 수요 최대 $9,000억. 한계: 국채 문제 해결은 과장, 보유 1% 미만, MMF 이동이면 신규 수요 아님. <a href="https://v.daum.net/v/20260825051507238">원문 기사</a>
+        </div>
+      </details>
+      <details class="raw">
+        <summary><span class="time">07:12</span> 소프트뱅크 1조엔 채권 · 엔비디아-퍼플렉시티</summary>
+        <div class="body">
+          소프트뱅크 1조엔(약 $63억 / 8.7조원) 개인 엔화채. 7년, 4.3~4.9%, 9/4 가격결정. 일본 개인 회사채 사상 최대. 용도 AI 투자 + 기존 채권 상환. OpenAI 추가 $300억(4·7·10월 각 $100억). 누적 약 $646억, 지분 약 13%. 3월 브리지 $400억도 확보. 레버리지로 AI 생태계에 베팅하는 신호.<br /><br />
+          엔비디아가 Perplexity 투자 논의. 기업가치 $300억+(약 42조+). 연환산 매출 $2.5억 미만 → $7.5억+. Perplexity Computer AI Agent. Poolside 약 $10억 / EV $120억. GPU → 모델 → Agent → 서비스 선점.
+        </div>
+      </details>
+      <details class="raw">
+        <summary><span class="time">07:04 · 07:03 · 07:02 · 06:47</span> TGA 비판 논리와 정의</summary>
+        <div class="body">
+          비판 ① 진짜 유동성 공급인가? 새 돈을 찍지 않음. Fed QE와 다름. ② 규모가 작다. 회당 수십억 vs 부채 $40조+. ③ 장기금리의 진짜 원인(적자·발행·인플레·텀프리미엄)을 안 건드림. ④ 금융억압 비판. 또 하나: TGA를 너무 쓰면 버퍼가 줄고 나중에 국채를 다시 찍어 채워야 함 → TGA↑ 때 유동성↓ 재발.<br /><br />
+          비판은 타당하지만, 이런 조치가 주식에 단기적으로 긍정인 것은 맞다. 임계점(국채금리 상승)을 못 막으면 그때는 위기. 안정화 조치가 없었다면 주식에 좋았을 리 없다.<br /><br />
+          TGA 바이백은 돈을 새로 찍어내는 QE라기보다, 쌓아둔 현금으로 장기국채 수요를 만들어 금리를 낮추고 유동성 압력을 완화하는 시장 안정화. 진짜 포인트는 “장기금리 상승을 방치하지 않겠다”는 신호. 8/19 발표만으로 금리 즉각 반응. 다만 적자·국채 공급 자체가 줄지 않으면 하락 효과는 제한적.<br /><br />
+          TGA = Treasury General Account. 재무부의 Fed 현금계좌. 최근 약 $9,500억. 정부의 은행계좌.
+        </div>
+      </details>
+      <details class="raw">
+        <summary><span class="time">06:24</span> 하룻밤 미국장 정리</summary>
+        <div class="body">
+          미 국채 장기금리 하락에도 AI·반도체주 중심으로 차익실현이 확대되며 나스닥·SOX 하락. 시장은 26일 엔비디아 실적과 7월 PCE를 대기.<br />
+          다우 +0.26% 상대적 방어. S&amp;P500 −0.28% 소폭 조정. 나스닥 −0.77% 기술주 약세. SOX −2.7% 반도체 전반. 엔비디아 −2.9% 실적 앞 차익실현. 마이크론 −5.8% $910.43. 샌디스크 −6.5% $1,493.12. SKHY −4.9% $155.37.<br /><br />
+          ① 금리: 10년 4.704%(−3bp), 30년 5.234%(−4bp). TGA 바이백 재원 부각. 금리 측면은 우호적이었지만 반도체 매도가 압도.<br />
+          ② 반도체: 금리보다 AI 투자/밸류에이션 부담. 하루 조정을 AI CAPEX 둔화로 읽기는 이르다. 핵심이 엔비디아 실적.<br />
+          ③ 8/26이 가장 중요. 엔비디아=AI 수요의 실물 확인, PCE=금리 방향 확인.<br />
+          ④ 유가: 이란 제재에도 하락. WTI $85.01 / Brent $92.17 (−2.35%). PCE에 우호적.<br /><br />
+          현재 시장은 금리 상승 리스크보다 AI 주가의 높은 기대치를 시험. 장기금리↓ 유가↓는 원래 기술주 우호인데 반도체↓↓↓. 초점이 엔비디아 실적/AI CAPEX로 이동. 체크포인트: 실적 + 데이터센터 성장률 + 가이던스 + Blackwell/Rubin + HBM 공급. 이 조정이 단순 차익실현인지 AI 투자 우려의 시작인지 판단할 핵심.
+        </div>
+      </details>
+
+    <footer class="note">
+      2026. 8. 25 Quick 코멘트 시각화 브리핑. 원문 시간을 주제별로 재배치하고, 부록에 06:24–11:24 전체를 보관했다. 차트 재생성: <code>python3 scripts/generate_aug25_quick_charts.py</code>. 매수·매도 추천이 아니다.
+    </footer>
+    </section>
+  </div>
+</body>
+</html>
