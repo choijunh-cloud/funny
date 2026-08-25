@@ -988,7 +988,7 @@ def build():
     # ── 부록 ──────────────────────────────────────────────
     n.h1("부록. 출처와 용어", num="A.")
     n.h2("A-1. [확인] 주요 출처")
-    n.bullet("8/25 상세 통합 아웃라인 — 정치 2×2, 신호판, 조건부 배분, 텍사스 DC 양면의 원 골격.")
+    n.bullet("제공 PDF: lectures/sources/20260825_market_strategy_report_korean_font_fixed.pdf — 정치 2×2, 신호판, 조건부 배분, 텍사스 DC 양면의 원 골격.")
     n.bullet("U.S. Treasury, 2026-08-19, SB0607 — 장기 명목 바이백 회당 최대 $2B → 최소 $4B, 9/9~11/4.")
     n.bullet("NVIDIA IR — FY27 2Q 공식 콜 2026-08-26 14:00 PT = 08-27 06:00 KST.")
     n.bullet("CNBC / Bloomberg, 2026-08-20 — 베선트, 회당 $4B 초과 가능. TGA 약 $950B~$1T, 바이백 재원 가능.")
