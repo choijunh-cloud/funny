@@ -101,6 +101,7 @@
     .blue { border-left: 6px solid var(--navy2); background: var(--blue-bg); }
     .purple { border-left: 6px solid var(--purple); background: var(--purple-bg); }
     .label { font-size: 12px; font-weight: 800; margin-bottom: 6px; letter-spacing: .02em; }
+    .scrollx { overflow-x: auto; -webkit-overflow-scrolling: touch; }
     table { width: 100%; border-collapse: collapse; background: #fff; font-size: 14px; margin: 10px 0 16px; }
     th { background: var(--navy); color: #fff; padding: 8px 10px; text-align: left; }
     td { padding: 8px 10px; border-bottom: 1px solid #e5eaf1; vertical-align: top; }
@@ -322,6 +323,7 @@
       <img class="chart" src="charts/21_gaap_nongaap.png" alt="GAAP과 Non-GAAP 순이익 비교" />
       <p class="cap">GAAP EPS $2.46 · Non-GAAP $2.22. 지분증권 평가이익을 빼면 Non-GAAP가 작아진다. 1Q 평가이익이 $15.9B라 GAAP 순이익 QoQ는 +2%에 그친다.</p>
 
+      <div class="scrollx">
       <table>
         <thead><tr><th>구분</th><th>GAAP 2Q</th><th>Non-GAAP 2Q</th><th>QoQ / YoY</th><th>읽는 법</th></tr></thead>
         <tbody>
@@ -335,6 +337,7 @@
           <tr><td>유효세율</td><td>16.5%</td><td>16.0%</td><td>FY27 가이던스 16–18%</td><td>매출 증가가 세율 상승의 주원인으로 설명</td></tr>
         </tbody>
       </table>
+      </div>
 
       <div class="grid">
         <div class="card warn">
@@ -351,6 +354,7 @@
       <img class="chart" src="charts/18_dc_history.png" alt="Data Center Hyperscale와 ACIE 분기 추이" />
       <p class="cap">FY25 Q1부터 10개 분기 누적. 2Q에 한 회사를 ACIE→Hyperscale로 재분류하고 과거를 재작성했다. 숫자는 재작성 후.</p>
 
+      <div class="scrollx">
       <table>
         <thead><tr><th>플랫폼</th><th>2Q FY27</th><th>1Q FY27</th><th>2Q FY26</th><th>QoQ</th><th>YoY</th></tr></thead>
         <tbody>
@@ -361,6 +365,7 @@
           <tr><td>합계</td><td>$96,221M</td><td>$81,615M</td><td>$46,743M</td><td>+18%</td><td>+106%</td></tr>
         </tbody>
       </table>
+      </div>
       <ul>
         <li>CFO: DC는 Blackwell Ultra 인프라 램프. Hyperscale는 전년 대비 두 배+, QoQ +13%. ACIE는 AI 네이티브·엔터프라이즈·소버린 + 하이퍼스케일러가 AI 클라우드를 쓰는 수요.</li>
         <li>중국향 Data Center Hopper 출하량은 DC 매출의 <b>1% 미만</b>. 3Q 가이던스도 중국 DC 컴퓨트 매출 0 가정.</li>
@@ -372,6 +377,7 @@
       <img class="chart" src="charts/19_commitments.png" alt="엔비디아 미래 약정 구조" />
       <p class="cap">1표 합계 $366B. 추가 약정(AI 클라우드 $36B + 제3자 DC 리스 $20B) $56B는 별표. 두 표를 더하면 약 $422B.</p>
 
+      <div class="scrollx">
       <table>
         <thead><tr><th>약정 (십억 달러)</th><th>잔여 FY27</th><th>FY28</th><th>FY29</th><th>FY30</th><th>FY31</th><th>FY32+</th><th>합계</th></tr></thead>
         <tbody>
@@ -386,6 +392,7 @@
           <tr><td><b>추가 약정</b></td><td>—</td><td>6</td><td>9</td><td>8</td><td>7</td><td>26</td><td><b>56</b></td></tr>
         </tbody>
       </table>
+      </div>
       <div class="grid">
         <div class="card warn">
           <div class="label">메모리 조달이 핵심</div>
