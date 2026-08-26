@@ -3,7 +3,8 @@
 **엔비디아 실적 + 공식 IR 심층 + Kimi K3**  
 01:25–22:32 전체 · 보도자료·CFO·IR 덱 한글 분석 · 매수·매도 추천 아님 · 증권사 후가 ≠ 필자 의견
 
-시각화 본문: `reports/2026-08-26-quick-comment-brief.html`
+시각화 본문: `reports/2026-08-26-quick-comment-brief.html`  
+**PDF:** `lectures/8월 26일 Quick 코멘트 시각화.pdf` · `reports/2026-08-26-quick-comment-brief.pdf` (A4 · 원문 부록은 HTML)
 
 ---
 
