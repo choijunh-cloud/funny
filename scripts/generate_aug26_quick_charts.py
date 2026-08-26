@@ -420,19 +420,171 @@ def chart_checkpoints():
     ax.set_xlim(0, 12)
     ax.set_ylim(0, 10)
     ax.axis("off")
-    ax.set_title("슈퍼위크 체크포인트  ·  숫자보다 수익성 메시지", loc="left", fontsize=13.5, color=NAVY)
+    ax.set_title("실적 이후 체크포인트  ·  숫자는 나왔다, 질과 수요 저변을 본다", loc="left", fontsize=13.2, color=NAVY)
 
-    _box(ax, 0.2, 5.2, 5.75, 4.45, "NVIDIA에서 볼 것",
-         "매출보다 GPM 가이던스\nAI 투자 수익성 논란 해소 여부\n순환금융 · $5,000억 플랫폼\n중국향 H200 출하\nRubin 양산 → HBM 물량",
+    _box(ax, 0.2, 5.2, 5.75, 4.45, "엔비디아 이후",
+         "FY28 +70% 공급 확신 vs 시장 +40%대\nDSO 45→60일 · AR $63.1B\n금융/보증/리스 관여 규모\nVera Rubin 재고 → 매출 전환\n3Q 가이던스 중국 DC 제외",
          fc=BLUE_BG, ec="#93C5FD", title_c=NAVY2, fs=12, bfs=9.0)
     _box(ax, 6.15, 5.2, 5.65, 4.45, "같은 주 다른 창구",
-         "7월 PCE + 2Q GDP 수정치\n8/27 한은 금통위\n8/27 Marvell FY2Q\nCustom $4B→$10B 경로 확인\nIONIQ 3 / 유럽은 4Q26 변수",
+         "8/27 한은 금통위\n8/27 Marvell FY2Q\n코스피 7,000 시도\nKimi K3 토큰 사용량·계약\nIONIQ 3 / 유럽은 4Q26",
          fc=WARN_BG, ec=GOLD, title_c=ORANGE, fs=12, bfs=9.0)
     _box(ax, 0.2, 0.25, 11.6, 4.6, "메모리로 연결하면",
-         "AI가 절감한 비용의 일부가 Cloud → GPU/ASIC → HBM/DRAM으로 흐른다.\n"
-         "Agentic AI는 HBM 용량 부족을 DRAM·CXL 수요로 바꾼다.  DRAM은 얼마까지 오를 수 있는가 — 강의에서.",
+         "Compute = 매출.  2.8T 모델 추론은 GPU뿐 아니라 HBM·DRAM.  Agentic KV + 오픈모델 Cloud 유통이 수요 저변.\n"
+         "관심은 수요가 꺾이는가가 아니라, 엔비디아가 그 수요를 위해 얼마나 신용·자본을 제공하는가.",
          fc=LIGHT, ec="#CBD5E1", title_c=NAVY, fs=12, bfs=9.2)
     _save(fig, "12_checkpoints.png")
+
+
+def chart_nvidia_print():
+    _font()
+    fig, axes = plt.subplots(1, 2, figsize=(12.2, 5.25), dpi=170, gridspec_kw={"width_ratios": [1.15, 1]})
+
+    ax = axes[0]
+    names = ["전사 매출", "Non-GAAP EPS", "Data Center", "Hyperscale", "AI Clouds 등", "3Q 가이던스"]
+    beats = [4.3, 6.2, 3.1, 11.6, -6.1, 3.0]
+    colors = [GREEN if v >= 0 else RED for v in beats]
+    y = np.arange(len(names))
+    ax.barh(y, beats, color=colors, height=0.58, zorder=2)
+    ax.axvline(0, color="#CBD5E1", lw=1)
+    ax.set_yticks(y, names)
+    ax.set_xlabel("컨센서스 대비 %")
+    ax.set_title("FY27 2Q vs FactSet  ·  매출 +4.3%  /  EPS +6.2%  (필자 정정 +18%는 별도)", loc="left", color=NAVY, fontsize=10.6)
+    ax.set_xlim(-8.5, 14)
+    ax.grid(axis="x", color="#EEF2F8", zorder=0)
+    notes = ["$96.22 vs $92.27B", "$2.22 vs $2.09", "$89.02 vs $86.33B", "$48.71 vs $43.63B", "$40.31 vs $42.94B", "$108 vs $104.86B"]
+    for i, (v, n) in enumerate(zip(beats, notes)):
+        ax.text(v + (0.25 if v >= 0 else -0.25), i, f"{v:+.1f}%", va="center",
+                ha="left" if v >= 0 else "right", fontsize=8.2, color=colors[i], fontweight="bold")
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+
+    ax2 = axes[1]
+    ax2.axis("off")
+    ax2.set_xlim(0, 10)
+    ax2.set_ylim(0, 10)
+    ax2.set_title("자신감 뿜뿜  ·  세 가지 메시지", loc="left", color=NAVY, fontsize=12)
+    _box(ax2, 0.1, 6.7, 9.7, 2.95, "① CAPEX의 질",
+         "인프라 → 서비스/생산성 → 실제 매출\n토큰이 생산적이고 수익성 있다.  컴퓨트 = 매출",
+         fc=OK_BG, ec="#86EFAC", title_c=GREEN, fs=11, bfs=8.8)
+    _box(ax2, 0.1, 3.45, 9.7, 2.95, "② 수요 저변",
+         "빅테크 + Frontier 연구소 + 스타트업\n+ 오픈모델 + Physical AI",
+         fc=BLUE_BG, ec="#93C5FD", title_c=NAVY2, fs=11, bfs=8.8)
+    _box(ax2, 0.1, 0.2, 9.7, 2.95, "③ Vera Rubin",
+         "Blackwell 공급 확대에서 차세대 양산으로\nFY28 +70%를 현 공급으로 confidently",
+         fc=WARN_BG, ec=GOLD, title_c=ORANGE, fs=11, bfs=8.8)
+    fig.tight_layout()
+    _save(fig, "13_nvidia_print.png")
+
+
+def chart_nvidia_cash():
+    _font()
+    fig, ax = plt.subplots(figsize=(12.2, 5.35), dpi=170)
+    ax.set_xlim(0, 12)
+    ax.set_ylim(0, 10)
+    ax.axis("off")
+    ax.set_title("현금흐름은 약했다  ·  영업 문제가 아니라 WC + Cash Tax", loc="left", fontsize=13.2, color=NAVY)
+
+    _box(ax, 0.2, 5.25, 3.75, 4.4, "FCF / OCF",
+         "OCF  $24.08B\n전분기 $50.34B에서 감소\nFCF  $21.34B\n전분기 $48.55B에서 감소\nYoY는 둘 다 증가",
+         fc=WARN_BG, ec=GOLD, title_c=ORANGE, fs=12, bfs=9.0)
+    _box(ax, 4.15, 5.25, 3.75, 4.4, "매출채권",
+         "AR  $63.1B\nDSO  45일 → 60일\nIG 고객 다분기 계약\n지불기간 연장\n매출은 잡히고 현금은 뒤로",
+         fc=BAD_BG, ec="#FCA5A5", title_c=RED, fs=12, bfs=9.0)
+    _box(ax, 8.1, 5.25, 3.7, 4.4, "재고 · 환원",
+         "재고  $25.8B → $31.6B\n3Q Vera Rubin 준비\n2Q 환원 약 $26.0B\n잔여 매입 한도  $99.0B",
+         fc=BLUE_BG, ec="#93C5FD", title_c=NAVY2, fs=12, bfs=9.0)
+    _box(ax, 0.2, 0.2, 11.6, 4.75, "그래서 다음에 볼 것",
+         "재무 위기나 현금 부족으로 보긴 어렵다.  다만 FCF가 영업이익을 못 따라가면 이익의 질 논란.\n"
+         "GPU 수요가 안 꺾이면, 관심은 엔비디아가 수요 실현을 위해 얼마나 많은 신용·자본·리스크를 지느냐.\n"
+         "일부 AI 클라우드 계약의 제3자 매출 공유 = 사업모델 확장 가능성.",
+         fc=LIGHT, ec="#CBD5E1", title_c=NAVY, fs=11.6, bfs=9.0)
+    _save(fig, "14_nvidia_cash.png")
+
+
+def chart_afterhours():
+    _font()
+    fig, axes = plt.subplots(1, 2, figsize=(12.2, 5.1), dpi=170, gridspec_kw={"width_ratios": [1.15, 1]})
+
+    ax = axes[0]
+    names = ["네비우스", "코어위브", "하이닉스 ADR", "마이크론", "샌디스크", "씨게이트", "WD 시간외"]
+    vals = [6.3, 5.0, 4.2, 3.6, 3.6, 3.0, 2.7]
+    y = np.arange(len(names))
+    ax.barh(y, vals, color=GREEN, height=0.62, zorder=2)
+    ax.set_yticks(y, names)
+    ax.set_xlabel("%  ·  대략 수준")
+    ax.set_title("시간외  ·  엔비디아 경쟁주 제외, 메모리·네오클라우드·스토리지", loc="left", color=NAVY, fontsize=11.2)
+    ax.set_xlim(0, 7.6)
+    ax.grid(axis="x", color="#EEF2F8", zorder=0)
+    for i, v in enumerate(vals):
+        ax.text(v + 0.12, i, f"{v:.1f}%대", va="center", fontsize=8.4, color=GREEN, fontweight="bold")
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+
+    ax2 = axes[1]
+    ax2.axis("off")
+    ax2.set_xlim(0, 10)
+    ax2.set_ylim(0, 10)
+    ax2.set_title("실적 전 본장 vs 실적 후", loc="left", color=NAVY, fontsize=12)
+    _box(ax2, 0.1, 5.35, 9.7, 4.3, "실적 전 눈치 (06:41)",
+         "다우 −0.21 / S&P −0.02 / 나스닥 −0.08\n10년 4.649%  ·  WTI $81  ·  원/달러 1,384\n엔비디아 −1.59  ·  EWY −0.54\n씨게이트 본장 +3.01  · ARM +3.93",
+         fc=WARN_BG, ec=GOLD, title_c=ORANGE, fs=11, bfs=8.8)
+    _box(ax2, 0.1, 0.25, 9.7, 4.8, "실적 후",
+         "엔비디아 시간외 약 +4%\n메모리·네오클라우드 동반 상승\n국내: 코스피 7,000 시도 가능\nPCE 코어는 예상 충족, 헤드라인 소폭 상회",
+         fc=OK_BG, ec="#86EFAC", title_c=GREEN, fs=11, bfs=8.8)
+    fig.tight_layout()
+    _save(fig, "15_afterhours.png")
+
+
+def chart_kimi():
+    _font()
+    fig, ax = plt.subplots(figsize=(12.2, 5.55), dpi=170)
+    ax.set_xlim(0, 12)
+    ax.set_ylim(0, 10)
+    ax.axis("off")
+    ax.set_title("Kimi K3  ·  중국 모델 × 미국 Cloud  ·  협상 초기, 규모 미확정", loc="left", fontsize=13.2, color=NAVY)
+
+    _box(ax, 0.2, 6.35, 3.75, 3.25, "① Open-weight ≠ 무료",
+         "가중치 공개여도 2.8T 직접 운영은\n막대한 GPU·인프라 비용\n현실: Azure/AWS/GCP 호스팅\n사용량 과금",
+         fc=BLUE_BG, ec="#93C5FD", title_c=NAVY2, fs=11.4, bfs=8.8)
+    _box(ax, 4.15, 6.35, 3.75, 3.25, "② 최대 30% Rev Share",
+         "Cloud가 GPU 임대료만 받는 게 아님\n모델 사용의 경제적 가치를\nMoonshot과 공유\n모델 → API/Cloud → 매출",
+         fc=OK_BG, ec="#86EFAC", title_c=GREEN, fs=11.4, bfs=8.8)
+    _box(ax, 8.1, 6.35, 3.7, 3.25, "③ Big Tech에도 매력",
+         "성능 + 낮은 가격 → 고객 유입\nCloud는 추가 토큰 수요\n중국 모델 ↔ 미국 Cloud\n이해관계 일치 구간",
+         fc=PURPLE_BG, ec="#D8B4FE", title_c=PURPLE, fs=11.4, bfs=8.8)
+    _box(ax, 0.2, 0.2, 11.6, 5.85, "메모리 시사점",
+         "2.8T 파라미터는 추론에서도 막대한 용량·대역폭.  글로벌 Token 사용량이 늘면 GPU뿐 아니라 HBM·DRAM.\n"
+         "다만 지금은 협상 초기.  계약 성사와 규모는 미확정.  핵심 추적은 실제 글로벌 Token 사용량.",
+         fc=WARN_BG, ec=GOLD, title_c=ORANGE, fs=12, bfs=9.2)
+    _save(fig, "16_kimi_k3.png")
+
+
+def chart_kv_formula():
+    _font()
+    fig, ax = plt.subplots(figsize=(12.2, 5.7), dpi=170)
+    ax.set_xlim(0, 12)
+    ax.set_ylim(0, 10)
+    ax.axis("off")
+    ax.set_title("왜 128K Context ≈ 40GB 인가  ·  KV = 2 × Layer × Head × Dim × Context × Bytes", loc="left",
+                 fontsize=12.4, color=NAVY)
+
+    items = [
+        (0.15, "Layer 80", "처리 단계 80번\nLayer마다 KV를 쌓음", BLUE_BG, NAVY2),
+        (2.5, "KV Head 8", "관심 영역 8개\nHead↑ → KV↑", OK_BG, GREEN),
+        (4.85, "Dim 128", "Head 하나 그릇\n128개 숫자", WARN_BG, ORANGE),
+        (7.2, "BF16 2B", "숫자 하나 = 2Byte\nBrain Float 16", LIGHT, NAVY),
+        (9.55, "128K Ctx", "약 131,072 token\n한 번에 참고하는 문맥", PURPLE_BG, PURPLE),
+    ]
+    for x, t, b, fc, c in items:
+        _box(ax, x, 5.55, 2.2, 4.1, t, b, fc=fc, ec="#E5E7EB", title_c=c, fs=11.2, bfs=8.6)
+
+    _box(ax, 0.15, 0.2, 11.7, 5.05, "도서관으로 보면",
+         "K = 어디를 찾아볼 것인가 (책의 색인/검색어)    V = 찾아낸 실제 정보 (책의 내용)\n"
+         "KV Cache = 검색을 빨리 하려고 만들어 둔 색인 + 관련 정보.\n"
+         "2(K+V) × 80 × 8 × 128 × 128K × 2B  ≈  40GB.  긴 Context를 80개 Layer에서 저장하기 때문에 커진다.\n"
+         "워드파일: <왜 128K Context가 약 40GB의 KV Cache가 되는가>",
+         fc=BLUE_BG, ec="#93C5FD", title_c=NAVY2, fs=12, bfs=9.0)
+    _save(fig, "17_kv_formula.png")
 
 
 def main():
@@ -448,6 +600,11 @@ def main():
     chart_cosmetics_socamm()
     chart_side_themes()
     chart_checkpoints()
+    chart_nvidia_print()
+    chart_nvidia_cash()
+    chart_afterhours()
+    chart_kimi()
+    chart_kv_formula()
     print("done", len(list(OUT_DIR.glob("*.png"))), "charts")
 
 
