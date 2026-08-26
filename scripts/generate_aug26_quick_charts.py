@@ -587,6 +587,104 @@ def chart_kv_formula():
     _save(fig, "17_kv_formula.png")
 
 
+def chart_dc_history():
+    _font()
+    fig, ax = plt.subplots(figsize=(12.2, 5.15), dpi=170)
+    labels = ["FY25\nQ1", "Q2", "Q3", "Q4", "FY26\nQ1", "Q2", "Q3", "Q4", "FY27\nQ1", "Q2"]
+    hs = [10.93, 13.42, 15.64, 19.95, 22.26, 24.17, 35.14, 42.21, 43.05, 48.71]
+    acie = [11.63, 12.85, 15.14, 15.63, 16.85, 16.93, 16.08, 20.10, 32.20, 40.31]
+    x = np.arange(len(labels))
+    ax.bar(x, hs, 0.62, color=NAVY2, label="Hyperscale")
+    ax.bar(x, acie, 0.62, bottom=hs, color=GOLD, label="ACIE")
+    ax.set_xticks(x, labels, fontsize=8.4)
+    ax.set_ylabel("십억 달러")
+    ax.set_title(_esc("Data Center  ·  Hyperscale + ACIE  =  $89.0B  (YoY +117%, QoQ +$13.8B)"), loc="left", color=NAVY, fontsize=12.2)
+    ax.legend(frameon=False, loc="upper left")
+    ax.set_ylim(0, 105)
+    ax.axhline(89.02, color="#CBD5E1", ls="--", lw=1)
+    ax.text(9.45, 91.2, "2Q DC $89.0B", fontsize=8, color=GRAY, ha="right")
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    _save(fig, "18_dc_history.png")
+
+
+def chart_commitments():
+    _font()
+    fig, ax = plt.subplots(figsize=(12.2, 5.35), dpi=170)
+    ax.set_xlim(0, 12)
+    ax.set_ylim(0, 10)
+    ax.axis("off")
+    ax.set_title(_esc("미래 약정 $366B + 추가 $56B  ·  공급 약정만 $119B → $279B (대부분 메모리)"), loc="left", fontsize=12.4, color=NAVY)
+
+    _box(ax, 0.15, 5.25, 3.8, 4.4, "공급·캐파  $279B",
+         "전분기 $119B에서 급증\n대부분 메모리 조달\n잔여 FY27 $92 / 28 $87\n29년 $88  ·  이후 소액",
+         fc=WARN_BG, ec=GOLD, title_c=ORANGE, fs=12, bfs=9.0)
+    _box(ax, 4.15, 5.25, 3.75, 4.4, "인프라 약정",
+         "클라우드 서비스 $29B\n미개시 DC 리스 $25B\n지분 투자 $25B\n설비투자 $8B",
+         fc=BLUE_BG, ec="#93C5FD", title_c=NAVY2, fs=12, bfs=9.0)
+    _box(ax, 8.1, 5.25, 3.7, 4.4, "추가 약정  $56B",
+         "AI 클라우드 계약 $36B\n제3자용 DC 리스 $20B\n선매출 + 조건 충족 시\n제3자 매출 공유",
+         fc=PURPLE_BG, ec="#D8B4FE", title_c=PURPLE, fs=12, bfs=9.0)
+    _box(ax, 0.15, 0.2, 11.65, 4.75, "읽는 법",
+         "공급 $279B는 ‘앞으로 살 부품’이고, 그 한가운데가 메모리.  한국 삼성·하이닉스 HBM/DRAM 물량과 직결.\n"
+         "AI 클라우드 $36B는 인프라를 먼저 팔고, 조건이 되면 네오클라우드의 제3자 매출까지 나누는 구조.",
+         fc=LIGHT, ec="#CBD5E1", title_c=NAVY, fs=12, bfs=9.0)
+    _save(fig, "19_commitments.png")
+
+
+def chart_guarantees():
+    _font()
+    fig, ax = plt.subplots(figsize=(12.2, 5.45), dpi=170)
+    ax.set_xlim(0, 12)
+    ax.set_ylim(0, 10)
+    ax.axis("off")
+    ax.set_title(_esc("보증 $108.5B  ·  SB Energy 오하이오 4.25GW = OpenAI 전용 NVIDIA 사이트"), loc="left", fontsize=12.6, color=NAVY)
+
+    _box(ax, 0.15, 5.35, 5.75, 4.3, "PORTS-Pike (오하이오)",
+         "4.25GW  ·  20년 리스  ·  임차인 OpenAI\n보증 한도 $105B  ·  조건 충족 시 단계 발효\n최초 ready는 FY2029\n+3.8GW 추가 옵션\n세대당 ≈ 150만 GPU\n세대당 NVIDIA 매출 ≈ $150~200B",
+         fc=WARN_BG, ec=GOLD, title_c=ORANGE, fs=12, bfs=8.8)
+    _box(ax, 6.15, 5.35, 5.65, 4.3, "그 외 보증 · 부채",
+         "AI 클라우드 토지·전력·셸 $3.5B\n보증 합계 $108.5B\n2Q 무담보 시니어노트 $25.0B 발행\n장기부채 $7.5B → $32.4B\n현금+단기채권 $56.6B",
+         fc=BLUE_BG, ec="#93C5FD", title_c=NAVY2, fs=12, bfs=8.8)
+    _box(ax, 0.15, 0.2, 11.65, 4.85, "핵심",
+         "수요가 밸런스시트를 앞지르니, 엔비디아가 토지·전력·셸을 보증하고 금융 플랫폼($5,000억)까지 짠다.\n"
+         "20년 동안 같은 사이트에서 인프라를 여러 번 교체하면 매출이 반복된다.  다만 보증이 현실화되면 우발부채.",
+         fc=LIGHT, ec="#CBD5E1", title_c=NAVY, fs=12, bfs=9.0)
+    _save(fig, "20_guarantees.png")
+
+
+def chart_gaap_nongaap():
+    _font()
+    fig, axes = plt.subplots(1, 2, figsize=(12.2, 5.15), dpi=170)
+
+    ax = axes[0]
+    cats = ["GAAP", "Non-GAAP"]
+    ni = [59.69, 53.95]
+    bars = ax.bar(cats, ni, 0.52, color=[NAVY2, GOLD])
+    ax.set_ylabel("순이익 (십억 달러)")
+    ax.set_ylim(0, 78)
+    ax.set_title(_esc("순이익  ·  GAAP $59.7B > Non-GAAP $54.0B"), loc="left", color=NAVY, fontsize=11.2)
+    for bar, v in zip(bars, ni):
+        ax.text(bar.get_x() + bar.get_width() / 2, v + 1.2, f"{v:.1f}", ha="center", fontsize=10, color=NAVY, fontweight="bold")
+    ax.text(0.5, 0.07, _esc("희석 EPS   GAAP $2.46   /   Non-GAAP $2.22"), transform=ax.transAxes, ha="center", fontsize=9.2, color=GRAY)
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+
+    ax2 = axes[1]
+    ax2.axis("off")
+    ax2.set_xlim(0, 10)
+    ax2.set_ylim(0, 10)
+    ax2.set_title("왜 GAAP 순이익 QoQ는 +2%뿐인가", loc="left", color=NAVY, fontsize=12)
+    _box(ax2, 0.15, 5.35, 9.6, 4.3, "지분증권 평가이익",
+         "2Q $7.8B  ·  1Q $15.9B\nGAAP 기타이익의 거의 전부\nNon-GAAP는 이 항목을 제외\nFY27부터 SBC도 Non-GAAP에 포함",
+         fc=WARN_BG, ec=GOLD, title_c=ORANGE, fs=11.4, bfs=8.8)
+    _box(ax2, 0.15, 0.25, 9.6, 4.8, "읽을 숫자",
+         "영업 체력 = Non-GAAP OP $64.0B / EPS $2.22\n재무 체력 = FCF $21.3B + 부채 $25B 발행\n투자 체력 = 유가증권·비상장 $94B",
+         fc=BLUE_BG, ec="#93C5FD", title_c=NAVY2, fs=11.4, bfs=8.8)
+    fig.tight_layout()
+    _save(fig, "21_gaap_nongaap.png")
+
+
 def main():
     chart_us_overnight()
     chart_korea_close()
@@ -605,6 +703,10 @@ def main():
     chart_afterhours()
     chart_kimi()
     chart_kv_formula()
+    chart_dc_history()
+    chart_commitments()
+    chart_guarantees()
+    chart_gaap_nongaap()
     print("done", len(list(OUT_DIR.glob("*.png"))), "charts")
 
 
