@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>엔비디아 FY27 2Q 컨콜 분석 · 2026.08.26</title>
+  <style>
+    :root {
+      --navy: #0f2043;
+      --navy2: #1e407c;
+      --gold: #b8943a;
+      --gray: #4b5563;
+      --bg: #f3f5fa;
+      --card: #ffffff;
+      --ok: #166534;
+      --ok-bg: #e8f5e9;
+      --warn: #7a5c12;
+      --warn-bg: #fff8e7;
+      --bad: #991b1b;
+      --bad-bg: #fdecea;
+      --blue: #1e407c;
+      --blue-bg: #e8f1fb;
+      --purple: #6b21a8;
+      --purple-bg: #f3e8ff;
+      --line: #d7deea;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", "WenQuanYi Micro Hei", sans-serif;
+      background: var(--bg);
+      color: #1a1a1a;
+      line-height: 1.58;
+    }
+    .top {
+      position: sticky; top: 0; z-index: 20;
+      background: var(--navy);
+      color: #fff;
+      box-shadow: 0 2px 10px rgba(15,32,67,.18);
+    }
+    .top-inner { max-width: 1080px; margin: 0 auto; padding: 10px 18px 12px; }
+    .brand { font-size: 12px; letter-spacing: .08em; opacity: .75; }
+    .brand b { font-size: 15px; letter-spacing: 0; opacity: 1; }
+    nav { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    nav a {
+      color: #dbe4f5; text-decoration: none;
+      font-size: 12px; font-weight: 700;
+      padding: 4px 8px; border-radius: 999px;
+      background: rgba(255,255,255,.08);
+    }
+    nav a:hover { background: var(--gold); color: var(--navy); }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 28px 18px 90px; }
+    header { text-align: center; margin: 8px 0 22px; }
+    h1 { color: var(--navy); font-size: 34px; margin: 6px 0 8px; letter-spacing: -0.03em; }
+    .sub { color: var(--navy2); font-weight: 800; font-size: 18px; }
+    .muted { color: var(--gray); font-size: 13.5px; }
+    h2 {
+      color: var(--navy);
+      border-bottom: 3px solid var(--navy);
+      padding-bottom: 6px;
+      margin-top: 46px;
+      font-size: 24px;
+    }
+    h3 { color: var(--navy2); margin-top: 22px; font-size: 17px; }
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin: 18px 0 8px;
+    }
+    .kpi {
+      background: #fff; border-radius: 12px;
+      padding: 12px 12px 14px;
+      border: 1px solid var(--line);
+    }
+    .kpi span { display: block; font-size: 12px; color: var(--gray); font-weight: 700; }
+    .kpi b { display: block; font-size: 20px; color: var(--navy); margin-top: 4px; letter-spacing: -0.03em; }
+    .kpi em { font-style: normal; font-size: 12px; color: var(--gray); }
+    .kpi.down b { color: var(--bad); }
+    .kpi.up b { color: var(--ok); }
+    .kpi.warn b { color: #c2410c; }
+    .card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 14px 16px;
+      box-shadow: 0 1px 2px rgba(15,32,67,.06);
+      margin: 12px 0;
+      border: 1px solid #eef1f6;
+    }
+    .key { border-left: 6px solid var(--navy); background: #eef2f8; }
+    .ok { border-left: 6px solid var(--ok); background: var(--ok-bg); }
+    .warn { border-left: 6px solid var(--gold); background: var(--warn-bg); }
+    .bad { border-left: 6px solid var(--bad); background: var(--bad-bg); }
+    .blue { border-left: 6px solid var(--navy2); background: var(--blue-bg); }
+    .purple { border-left: 6px solid var(--purple); background: var(--purple-bg); }
+    .label { font-size: 12px; font-weight: 800; margin-bottom: 6px; letter-spacing: .02em; }
+    .scrollx { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    table { width: 100%; border-collapse: collapse; background: #fff; font-size: 14px; margin: 10px 0 16px; }
+    th { background: var(--navy); color: #fff; padding: 8px 10px; text-align: left; }
+    td { padding: 8px 10px; border-bottom: 1px solid #e5eaf1; vertical-align: top; }
+    tr:nth-child(even) td { background: #f7f9fc; }
+    img.chart {
+      width: 100%;
+      border-radius: 12px;
+      background: #fff;
+      margin: 8px 0 4px;
+      border: 1px solid var(--line);
+    }
+    .cap { text-align: center; color: var(--gray); font-size: 12.5px; margin: 0 0 16px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+    .quote {
+      margin: 12px 0;
+      padding: 12px 16px;
+      background: #0f2043;
+      color: #e8eef8;
+      border-radius: 12px;
+      font-size: 14.5px;
+      line-height: 1.55;
+    }
+    .quote small { display: block; margin-top: 8px; opacity: .7; font-size: 12px; }
+    footer.note { color: var(--gray); font-size: 12.5px; margin-top: 36px; line-height: 1.55; }
+    @media (max-width: 820px) {
+      .kpis, .grid, .grid3 { grid-template-columns: 1fr 1fr; }
+      h1 { font-size: 26px; }
+    }
+    @media (max-width: 560px) {
+      .kpis, .grid, .grid3 { grid-template-columns: 1fr; }
+      nav a { font-size: 11px; }
+    }
+    .print-only { display: none; }
+    @media print {
+      @page { size: A4; margin: 11mm 10mm 13mm; }
+      html { scroll-behavior: auto; }
+      body { background: #fff; }
+      .top, nav { display: none; }
+      .print-only { display: block; color: var(--gray); font-size: 11.5px; text-align: center; margin: 0 0 10px; }
+      .wrap { max-width: none; padding: 0 0 6mm; }
+      header { margin: 0 0 10px; }
+      h1 { font-size: 24px; margin: 4px 0 6px; }
+      h2 { font-size: 17px; margin-top: 16px; break-after: avoid; page-break-after: avoid; }
+      h3 { font-size: 14px; break-after: avoid; page-break-after: avoid; }
+      .sub { font-size: 14px; }
+      .kpis { gap: 6px; margin: 8px 0 6px; }
+      .kpi { padding: 8px 8px 10px; break-inside: avoid; page-break-inside: avoid; }
+      .kpi b { font-size: 14px; }
+      .kpi em, .kpi span { font-size: 10.5px; }
+      .card { margin: 8px 0; padding: 10px 12px; }
+      .grid > .card, .grid3 > .card, .kpi { break-inside: avoid; page-break-inside: avoid; }
+      img.chart {
+        break-inside: avoid; page-break-inside: avoid;
+        max-height: 92mm; object-fit: contain; object-position: top;
+      }
+      table { font-size: 10.5px; }
+      th, td { padding: 4px 6px; }
+      a { color: inherit; text-decoration: none; }
+      footer.note { break-inside: avoid; font-size: 11px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="top">
+    <div class="top-inner">
+      <div class="brand">EARNINGS CALL BRIEF · 2026.08.26–27 · <b>엔비디아 FY27 2Q 컨콜</b></div>
+      <nav>
+        <a href="#thesis">한 줄</a>
+        <a href="#score">스코어</a>
+        <a href="#added">컨콜이 더한 것</a>
+        <a href="#acie">ACIE</a>
+        <a href="#fy28">+70%</a>
+        <a href="#gw">$/GW</a>
+        <a href="#gpm">마진</a>
+        <a href="#capital">밸런스시트</a>
+        <a href="#qa">Q&amp;A</a>
+        <a href="#korea">한국</a>
+        <a href="#watch">다음에</a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <p class="print-only">엔비디아 FY27 2Q 컨콜 분석 · 2026.08.26 17:00 EDT · Quartr 트랜스크립트 + 공식 보도자료 · 매수·매도 추천 아님</p>
+    <header>
+      <h1>엔비디아 FY27 2Q 컨콜 분석</h1>
+      <div class="sub">수요 100% · 공급 70% · 마진은 메모리가 리셋한다</div>
+      <p class="muted">
+        2026. 8. 26 17:00 EDT 컨퍼런스콜 (Quartr) + NVIDIA 보도자료·손익/재무 표.
+        8/26 Quick 코멘트의 공식 IR 심층(<code>$279B</code> 약정·<code>$108.5B</code> 보증)을 대체하지 않고, <b>콜에서만 열린 문장</b>을 한글로 푼다.
+        매수·매도 추천이 아니다.
+      </p>
+    </header>
+
+    <div class="kpis">
+      <div class="kpi up"><span>2Q 매출</span><b>$96.22B</b><em>+106% YoY · +18% QoQ</em></div>
+      <div class="kpi up"><span>3Q 가이던스</span><b>$108B ±2%</b><em>중국 DC 컴퓨트 = 0</em></div>
+      <div class="kpi up"><span>FY28 성장</span><b>+70%</b><em>공급제약 · 수요는 더블</em></div>
+      <div class="kpi warn"><span>GPM 바닥</span><b>4Q 71–72%</b><em>3Q 74% → FY28 72–73%</em></div>
+      <div class="kpi"><span>Data Center</span><b>$89.02B</b><em>HS $48.71 · ACIE $40.31</em></div>
+      <div class="kpi"><span>Vera Rubin 3Q</span><b>DC의 20%</b><em>8월 초 양산 · 사상 최속 램프</em></div>
+      <div class="kpi warn"><span>프론티어 랩</span><b>내년 ≈ 1/4</b><em>지분 ~$50B + 신용·사이트</em></div>
+      <div class="kpi"><span>주주환원 2Q</span><b>$26.0B</b><em>자사주 $20B · 배당 $6B</em></div>
+    </div>
+
+    <section id="thesis">
+      <h2>0. 한 줄</h2>
+      <div class="card key">
+        숫자는 이미 강했다. 컨콜이 새로 찍은 것은 세 개다.
+        <b>① 고객 수요는 내년 더블인데 회사는 공급으로 +70%만 자신한다</b> —
+        처음으로 1년 가이던스를 연 이유이기도 하다.
+        <b>② 총마진을 메모리 때문에 공개 리셋한다</b> — 질질 끌지 않겠다고 콜렛이 먼저 말했다.
+        <b>③ 순환금융 비판을 직접 받아쳤다</b> — 플랫폼 전환기이고, 출하분은 IG 또는 IG 백스톱 고객이 소비하며, 장비는 전용 가능하다는 주장.
+      </div>
+      <div class="grid">
+        <div class="card ok">
+          <div class="label">강함</div>
+          4분기 연속 성장 가속. ACIE가 DC의 절반으로 가고 연 100% 성장.
+          GW당 매출 기회가 Hopper $18B → Blackwell $25B → Rubin $40B.
+          AWS +200만 GPU, OpenAI 약 12GW, 네오클라우드 3→8GW.
+        </div>
+        <div class="card warn">
+          <div class="label">긴장</div>
+          GPM 75→71–72. DSO 45→60일, AR $63.1B.
+          프론티어 랩에 밸런스시트를 쓰는 매출이 내년 약 1/4.
+          중국은 전망에서 제거. 커스텀칩(Jalapeño 등)은 “플랫폼이 다르다”로 넘김.
+        </div>
+      </div>
+    </section>
+
+    <section id="score">
+      <h2>1. 스코어카드 — 공식 표</h2>
+      <p class="muted">콜은 반올림($96B, 재고 $32B). 아래는 보도자료 원표.</p>
+      <img class="chart" src="nvda-q2-call/charts/01_print.png" alt="실적과 컨콜이 더한 세 문장" />
+      <p class="cap">컨센 대비 매출·3Q 가이던스 상회. ACIE만 컨센($42.94B)을 하회($40.31B) — 콜 톤과 달리 숫자로는 유일한 흠.</p>
+
+      <div class="scrollx">
+        <table>
+          <thead>
+            <tr><th>항목</th><th>2Q FY27</th><th>1Q FY27</th><th>2Q FY26</th><th>QoQ / YoY</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>매출</td><td>$96.22B</td><td>$81.62B</td><td>$46.74B</td><td>+18% / +106%</td></tr>
+            <tr><td>GAAP / Non-GAAP GPM</td><td>75.0% / 75.0%</td><td>74.9% / 75.0%</td><td>72.4% / 72.5%</td><td>보합 / +2.5–2.6%p</td></tr>
+            <tr><td>GAAP 영업이익</td><td>$63.73B</td><td>$53.54B</td><td>$28.44B</td><td>+19% / +124%</td></tr>
+            <tr><td>GAAP 순이익 / EPS</td><td>$59.69B / $2.46</td><td>$58.32B / $2.39</td><td>$26.42B / $1.08</td><td>순이익 +2% (지분증권)</td></tr>
+            <tr><td>Non-GAAP 순이익 / EPS</td><td>$53.95B / $2.22</td><td>$45.55B / $1.87</td><td>$24.76B / $1.01</td><td>+18% / +120%</td></tr>
+            <tr><td>OCF / FCF</td><td>$24.08B / $21.34B</td><td>$50.34B / $48.55B</td><td>$15.37B / $13.45B</td><td>AR −$22.3B, 재고 −$5.8B</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card blue">
+        <div class="label">GAAP &gt; Non-GAAP인 이유</div>
+        기타이익 GAAP $7.77B 중 지분증권 평가이익 $7.77B를 Non-GAAP에서 뺀다.
+        FY27부터 Non-GAAP는 SBC를 다시 넣는다(2Q SBC $2.03B). 컨센 비교는 Non-GAAP EPS $2.22.
+      </div>
+    </section>
+
+    <section id="added">
+      <h2>2. 컨콜이 IR 표에 더한 것</h2>
+      <p class="muted">공식 가이던스 표는 3Q까지다. +70%·GPM 경로·랩 1/4·take-or-pay는 콜/코멘트.</p>
+      <div class="scrollx">
+        <table>
+          <thead>
+            <tr><th>주제</th><th>보도자료·IR 표</th><th>컨콜이 연 문장</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>FY28</td>
+              <td>표에는 없음</td>
+              <td>예비 +70%, 공급제약. 고객 포캐스트는 더블. 비제약은 “훨씬 큼”.</td>
+            </tr>
+            <tr>
+              <td>GPM 경로</td>
+              <td>3Q 74.0% ±50bp만</td>
+              <td>4Q 바닥 71–72%, FY28 72–73%. Q1에 이미 집행한 가격인상 반영.</td>
+            </tr>
+            <tr>
+              <td>Vera Rubin</td>
+              <td>양산, 파트너 가동</td>
+              <td>3Q DC 매출의 약 20%. 사상 최속 램프. 모든 메이저 HS·AI클라우드·OEM PO.</td>
+            </tr>
+            <tr>
+              <td>Q3 믹스</td>
+              <td>매출 $108B</td>
+              <td>순증은 주로 ACIE. 하이퍼스케일은 Q4·FY28에 공급이 늘며 재가속.</td>
+            </tr>
+            <tr>
+              <td>AWS</td>
+              <td>별도 보도자료</td>
+              <td>+200만 GPU, 이번 분기~FY29 2Q. Vera 단독/Rubin 결합. Bedrock Nemotron. 창고 로봇에 Omniverse·Cosmos·Isaac·Jetson.</td>
+            </tr>
+            <tr>
+              <td>순환금융</td>
+              <td>약정·보증 표</td>
+              <td>“some will call this circular financing. We see it differently.” 랩 관련 ≈ 내년 사업의 1/4.</td>
+            </tr>
+            <tr>
+              <td>네오클라우드</td>
+              <td>매출공유 $36B 표</td>
+              <td>take-or-pay 플로어 + 초과 렌탈 배분. “두 번 받는다”. 대출은 안 함. 3GW→8GW.</td>
+            </tr>
+            <tr>
+              <td>중국</td>
+              <td>전망에서 DC 컴퓨트 0</td>
+              <td>2Q 중국 Hopper &lt; DC의 1%. 현 Hopper는 전사 GPM 희석. 지정학 불확실.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="acie">
+      <h2>3. 수요 구조 — 하이퍼스케일은 절반만</h2>
+      <img class="chart" src="nvda-q2-call/charts/02_dc_mix.png" alt="Hyperscale vs ACIE" />
+      <p class="cap">DC $89.02B = Hyperscale $48.71B(+13%/+102%) + ACIE $40.31B(+25%/+138%). ACIE 비중 45%.</p>
+
+      <div class="quote">
+        Most people see just hyperscalers. That is half of the picture. The other half … they do not buy custom chips.
+        <small>Jensen Huang, Stacy Rasgon 질문에 대한 답</small>
+      </div>
+
+      <div class="grid">
+        <div class="card blue">
+          <div class="label">Hyperscale $48.7B</div>
+          Blackwell 지속. 클라우드 산업 백로그 &gt; $2T.
+          톱5 캡엑스 2026 ≈ $8,000억, 2027 ≈ $1.3조.
+          “GPU가 켜지면 그들의 매출·마진이 같이 올라간다” — 그래서 레이스.
+        </div>
+        <div class="card ok">
+          <div class="label">ACIE $40.3B</div>
+          네오클라우드 + 산업 + 엔터프라이즈.
+          하이퍼스케일러가 자체 빌드를 보완하려고 사는 용량도 포함.
+          DSX 레퍼런스로 더 싸고 빠르게 온라인.
+          소버린은 주로 지역 네오클라우드로, +35% QoQ · YoY 3배+.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="label">엔터프라이즈 TTM · 스타트업</div>
+        온프레미스 자동차 수직 $8B, 금융+제조+헬스케어 합산 $7B.
+        AI VC 자금 2026 상반기 $4,000억(2025년 전체 $2,650억 초과), 약 70%가 컴퓨트.
+        ARR $10억 이상 약 20개사(Cursor·Figma·Together AI 등; 콜 원문은 Cursor를 SpaceX 소유로 언급).
+        수직 엔터프라이즈 소프트웨어가 가장 빠른 성장.
+      </div>
+    </section>
+
+    <section id="fy28">
+      <h2>4. 왜 +70%인가 — 수요가 아니라 공급의 숫자</h2>
+      <img class="chart" src="nvda-q2-call/charts/05_70vs100.png" alt="수요 100 vs 공급 70" />
+      <p class="cap">조 무어(MS): 왜 1년 가이던스를 처음 열었고, 갭을 메울 수 있나.</p>
+
+      <div class="grid3">
+        <div class="card ok">
+          <div class="label">수요 쪽</div>
+          에이전트는 사람 대비 컴퓨트 15–100배.
+          모델은 더 크고, 추론·툴 사용이 여러 턴.
+          ACIE는 연 100%. 올해 YoY도 약 100%.
+        </div>
+        <div class="card blue">
+          <div class="label">가시성 쪽</div>
+          예전엔 “칩 회사가 왜 메모리 업체와 저녁을 먹나”.
+          지금은 발전기·토지·전력·셸까지.
+          파이프가 2–3년이라 1년 숫자를 걸 수 있다.
+        </div>
+        <div class="card warn">
+          <div class="label">병목 쪽</div>
+          슈나이더(GS)가 순위(전력/DRAM/웨이퍼)를 물었다.
+          젠슨은 특정 공급사를 찍지 않음.
+          “공급망 전부가 풀가동. 70%분 이상은 있지만 약 70%.”
+        </div>
+      </div>
+
+      <img class="chart" src="nvda-q2-call/charts/10_guide.png" alt="분기 경로와 백오브엔벨로프" />
+      <p class="cap">4Q $122B는 필자 가정. 공식 숫자는 3Q $108B ±2%와 FY28 +70%뿐.</p>
+
+      <div class="card warn">
+        <div class="label">백오브엔벨로프 · 투자 조언 아님</div>
+        H1 $177.8B + 3Q $108B = $285.8B. 4Q를 $118–125B로 두면 FY27 ≈ $404–411B.
+        그 위 +70%면 FY28 ≈ $687–699B, 한 해 증분 ≈ $280B대.
+        라스곤은 “기존 3년 $1T 대비 약 +$200B”로 들었다.
+        비제약 수요는 “훨씬 크다” — 회사가 숫자를 안 박았다.
+      </div>
+    </section>
+
+    <section id="gw">
+      <h2>5. $18B → $25B → $40B/GW</h2>
+      <img class="chart" src="nvda-q2-call/charts/03_gw_tam.png" alt="GW당 매출 기회" />
+      <p class="cap">레이커스(Wells): $40B가 $60–80B로 가나. 답: 목표는 1GW에 무한대.</p>
+
+      <div class="quote">
+        The perfect answer is actually infinity per gigawatt. If we could literally get $1 trillion of compute into 1 GW and one piece of Land, Power, and Shell, it would be a fantastic outcome.
+        <small>Aaron Rakers 질문. 마지막 답변은 트랜스크립트가 “producti”에서 끊김.</small>
+      </div>
+
+      <div class="card">
+        Vera Rubin = Vera CPU + Rubin GPU + NVLink + IB 또는 이더넷 + Groq LPU.
+        네트워킹만 스케일업·스케일아웃·보안·멀티캠퍼스까지 가면 “다섯 종류”라는 식.
+        GB Ultra 대비 <b>처리량/MW 30배, 토큰 비용 1/35</b>.
+        같은 땅의 달러 밀도가 올라가는 한, 고객은 다음 세대로 달려간다.
+        데이터센터 투자 규모 자체는 “5년 전 $30B/GW → 지금 $60B/GW”로도 말했다 — NVIDIA 매출 노출($40B)과 고객 총투자($60B)를 섞어 듣지 말 것.
+      </div>
+
+      <h3>커스텀칩과의 선 긋기</h3>
+      <div class="card purple">
+        아리아(BofA): OpenAI Jalapeño가 Blackwell보다 낫다고 했는데 왜 투자하나.
+        젠슨: XPU는 한 클라우드·한 서비스의 추론 특화. NVIDIA는 수명주기 전체·모든 클라우드의 공장 플랫폼.
+        “100% 확신한다. 안 넣은 게, 더 일찍 안 넣은 게 후회다. 두 곳은 곧 상장할 것.”
+        필자: 기술 우위를 숫자로 증명한 답은 아니다. 전략 포지션 답이다.
+      </div>
+    </section>
+
+    <section id="engines">
+      <h2>6. 세 엔진 + Groq는 볼트온</h2>
+      <img class="chart" src="nvda-q2-call/charts/06_engines.png" alt="세 엔진과 Groq" />
+      <div class="scrollx">
+        <table>
+          <thead><tr><th>엔진</th><th>콜 문장</th><th>왜 중요한가</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>모든 모델</td>
+              <td>Closed·Open, 소형·초대형, AR·확산, 클라우드·엣지, 학습·추론·에이전트.</td>
+              <td>오픈모델 확산을 “프론티어 랩에 부정”으로 보는 투자자에게 정면 반박 (아큐리).</td>
+            </tr>
+            <tr>
+              <td>풀스택 TAM</td>
+              <td>네트워킹 또 한 분기 최고, Spectrum-X 이더넷 YoY 2.6배. Grace TTM &gt; $5B. Vera 단독 출하 (OCI, SpaceXAI, AWS).</td>
+              <td>서버 CPU TAM ≈ $20B, FY28 CPU 매출 두 배 이상. GPU 밖 레버.</td>
+            </tr>
+            <tr>
+              <td>CUDA 바깥 시장</td>
+              <td>커스텀 실리콘 의사가 없는 소버린·네오클라우드·엔터.</td>
+              <td>ACIE ≈ DC 절반. 이 쪽이 안 보이면 수요를 하이퍼스케일 CAPEX로만 깎는다.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card blue">
+        <div class="label">추론 점유율 (뮤즈)</div>
+        수명주기가 데이터 준비 → 사전학습 → 사후학습 → 에이전트 추론 네 국면으로 복잡해졌다.
+        NVL72 3세대가 한 시스템으로 국면을 넘긴다. $60B급 자산을 한 모델·한 국면에 묶지 않는 것이 이점.
+        Groq 3 LPX는 초저지연·토큰 유기성. 토큰당 비용은 더 높고, 고마진 서비스에 붙인다.
+        <b>세상 데이터센터의 대다수는 Vera Rubin NVL72.</b>
+      </div>
+    </section>
+
+    <section id="gpm">
+      <h2>7. 마진 리셋 — 메모리를 숨기지 않음</h2>
+      <img class="chart" src="nvda-q2-call/charts/04_margin.png" alt="GPM 경로" />
+      <p class="cap">2Q 75%는 믹스 유사로 보합. 리셋은 가이던스부터.</p>
+
+      <div class="quote">
+        We want to be direct about this rather than let it linger as an open question. … Tighter memory supply is a symptom of the same demand surge that is driving our own growth.
+        <small>Colette Kress, prepared remarks</small>
+      </div>
+
+      <div class="grid">
+        <div class="card warn">
+          <div class="label">경로</div>
+          3Q 74.0% ±50bp → 4Q 바닥 71–72% → FY28 72–73%.
+          “이미 집행한 가격인상”이 Q1에 들어간다.
+          메모리 가격 상승폭이 기존 기대를 초과했고 내년에도 더 오른다.
+        </div>
+        <div class="card">
+          <div class="label">그 외 P&amp;L</div>
+          3Q OpEx GAAP $9.2B / Non-GAAP $9.0B.
+          FY OpEx 성장 low 50s — 포트폴리오 확대 + AI 툴이 엔지니어링 생산성을 올린다는 논리.
+          FY27 세율 16–18%. 2Q Non-GAAP 유효세율 16%.
+        </div>
+      </div>
+
+      <div class="card bad">
+        <div class="label">3Q 백오브엔벨로프 · 투자 조언 아님</div>
+        $108B × 74% ≈ 매출총이익 $80B − Non-GAAP OpEx $9.0B ≈ 영업이익 $71B.
+        2Q Non-GAAP OP $64.0B에서 한 단 위. 마진은 내려가도 절대 이익은 매출이 받친다 — <b>4Q 71%대까지 이 산술이 유지되는지가 다음 시험</b>.
+      </div>
+    </section>
+
+    <section id="capital">
+      <h2>8. 밸런스시트가 제품이다</h2>
+      <img class="chart" src="nvda-q2-call/charts/07_capital.png" alt="자본 스택" />
+      <p class="cap">$500B는 제3자 조달 목표(확정 전). $279B·$108.5B는 공식 IR. 2GW 신용보강은 달러가 아님.</p>
+      <img class="chart" src="nvda-q2-call/charts/12_deals.png" alt="AWS OpenAI 딜 맵" />
+
+      <h3>프론티어 랩 — “컴퓨트가 한계”</h3>
+      <div class="card key">
+        기술·고객 수요가 아니라 <b>대차대조표와 신용</b>이 한계라는 진단.
+        그래서 지분 약 $50B(같은 기간 FCF의 일부) + Apollo·BlackRock·Blackstone·Brookfield·GS·KKR로 제3자 자본 $5,000억+.
+        SoftBank Energy 오하이오 PORTS-Pike: 4.25GW, OpenAI 이용, 세대당 ≈ 150만 GPU, 20년 여러 교체.
+        OpenAI 기존+계획 ≈ <b>12GW</b>. 다른 랩에는 약 <b>2GW 선택적 신용보강</b> (자체 조달 분은 별도).
+      </div>
+
+      <div class="quote">
+        We recognize the scale of this support, and we know some will call this circular financing. We see it differently. … our risk is limited. The NVIDIA Compute platform is fungible and durable and can be redeployed.
+        <small>콜렛. 이어서: 밸런스시트를 쓰는 랩 수요 ≈ 내년 사업의 1/4. 출하분은 IG 또는 IG 백스톱 고객이 소비.</small>
+      </div>
+
+      <h3>네오클라우드 — 두 번 받기</h3>
+      <div class="card blue">
+        렌더는 단일 장기 offtake를 원한다. 엔비디아는 일부 용량에 take-or-pay 최저수익을 걸어 대출을 가능하게 하고, 플로어 위 렌탈을 나눈다.
+        “대출은 안 한다. 독립 자본이 건별로 심사한다.”
+        하드웨어 한 번 + 사용량 연동 수익 한 번. 중장기 billions 잠재.
+        공식 IR의 AI 클라우드 $36B(선매출+조건부 제3자 공유)와 같은 줄기.
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <div class="label">운전자본</div>
+          재고 $21.4B(FY26말)→$31.6B — Vera Rubin 준비. 콜은 $32B.
+          DSO 60일. 일부 IG 고객의 복수 분기 출하 + 연장 결제.
+          AR $63.1B. 2Q 매출채권 현금 환산 −$22.3B가 OCF를 짓밟음.
+        </div>
+        <div class="card">
+          <div class="label">환원 vs 전략</div>
+          2Q 환원 $26.0B(자사주 $19.7B + 배당 $6.0B). YTD FCF의 60%(정책 50%+).
+          “전략적 사용 후 초과 FCF를 더 돌려주겠다.”
+          시니어노트 $25B, Groq, Inc. 현금 −$2.94B. 잔여 자사주 한도 $99.0B.
+        </div>
+      </div>
+    </section>
+
+    <section id="qa">
+      <h2>9. Q&amp;A 8문 — 애널리스트가 판 구멍</h2>
+      <img class="chart" src="nvda-q2-call/charts/08_qa.png" alt="Q&A 8문" />
+      <div class="scrollx">
+        <table>
+          <thead>
+            <tr><th>#</th><th>누가</th><th>무엇을 찔렀나</th><th>답이 닫은 것 / 남긴 것</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Joseph Moore, MS</td>
+              <td>1년 가이던스의 자신감, 제약, 갭 축소</td>
+              <td>닫음: 가시성·같은 악보. 남김: 70%를 언제 어떻게 올릴지 일정 없음.</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>C.J. Muse, Cantor</td>
+              <td>추론 점유율, 에이전트, Groq, ACIE</td>
+              <td>닫음: 한 공장으로 네 국면. Groq는 볼트온. 남김: 추론 점유율 % 없음.</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Stacy Rasgon, Bernstein</td>
+              <td>+$200B 구성, 가격, 비제약 수요</td>
+              <td>닫음: ACIE + $/GW + 하이퍼스케일 동시. 남김: 비제약은 “훨씬 큼”뿐.</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Vivek Arya, BofA</td>
+              <td>$500B이 전부인가, FY28 현금, 커스텀칩</td>
+              <td>콜렛: 공급약정이 Rubin·내년 램프에 필수, 앞 3년에 몰림. 젠슨: 플랫폼 ≠ XPU. FY28 현금 유출 스케줄은 미제시.</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>Timothy Arcuri, UBS</td>
+              <td>오픈모델 = 프론티어 랩에 부정?</td>
+              <td>둘 다 폭증. 오픈은 스타트업·국가·사이버의 기반. “성공하는 모델이면 좋다.”</td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>Ben Reitzes, Melius</td>
+              <td>RSI · AGI가 수요를 꺾나</td>
+              <td>더 꺾인다. 에이전트가 상시 가동. AGI 이정표는 “이제 무의미”. 유용·흑자 토큰·더 많은 컴퓨트 세 조건.</td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>Jim Schneider, GS</td>
+              <td>전력·DRAM·웨이퍼 중 최악</td>
+              <td>특정 이름 거부(“저녁 상대 주가가 다음날 더블”). 전부 풀가동. 캐파는 매일 조금씩.</td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td>Aaron Rakers, Wells</td>
+              <td>$/GW가 60–80으로 가나, 공급이 선형인가</td>
+              <td>방향은 무한대/GW. 땅이 희소하므로 밀도. 트랜스크립트는 ROI&lt;1년 언급 중 절단.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>젠슨의 수요 철학 — 에이전트 이후</h3>
+      <div class="card ok">
+        “지난달에 넘어갔다. 이제 대부분의 AI는 에이전트다.”
+        직원 4만 → 에이전트 40만·400만. DGX Station에서 24/7.
+        매 턴 스킬 파일을 갱신하는 “거친 자기개선”.
+        업계에 남는 것은 세 조건뿐: <b>유용한 일, 흑자 토큰, 컴퓨트가 더 있으면 이익이 더 남</b>.
+        RSI/AGI는 수요를 꺾는 이벤트가 아니라 같은 플라이휠의 가속.
+      </div>
+    </section>
+
+    <section id="korea">
+      <h2>10. 한국으로 번역</h2>
+      <img class="chart" src="nvda-q2-call/charts/09_korea.png" alt="한국 메모리 시사점" />
+      <div class="grid">
+        <div class="card warn">
+          <div class="label">같은 현상의 반대 부호</div>
+          엔비디아 GPM 75→71–72% = 메모리 원가 충격.
+          삼성·하이닉스 = 가격·믹스 충격 (반대 부호).
+          콜렛 문장 그대로 메모리 부족은 AI 빌드아웃의 증상이지, 오프셋 없는 원가 항목이 아니다.
+        </div>
+        <div class="card blue">
+          <div class="label">공식 IR과 겹치는 곳</div>
+          공급·캐파 $119B→$279B, primarily memory, 잔여 FY27–29에 $92+$87+$88B.
+          SK hynix 다년 파트너십. SKT·NAVER·Brookfield GW급 소버린.
+          콜의 “3사와 캐파를 더 늘린다” = 국내 증설·HBM 협상의 수요 쪽 근거.
+        </div>
+      </div>
+      <div class="card key">
+        다음 협상은 물량 vs 가격이다. 엔비디아는 캐파를 더 원하고, 이미 판가 전가를 Q1에 넣어 두었다.
+        국내 메모리에 유리한 구간은 <b>엔비디아 마진 바닥(4Q–FY28 초)과 겹칠 수 있다</b>.
+        반대로 캐파가 갑자기 늘거나 AI 토큰 이익이 꺾이면, 이 대칭은 같이 무너진다.
+        워드: 〈엔비디아〉 · 〈AI돈벌어 VS 메모리 업체 추가 기대는 얼마나〉.
+      </div>
+    </section>
+
+    <section id="watch">
+      <h2>11. 체크리스트</h2>
+      <img class="chart" src="nvda-q2-call/charts/11_watch.png" alt="다음에 볼 것" />
+      <div class="scrollx">
+        <table>
+          <thead><tr><th>구분</th><th>내용</th></tr></thead>
+          <tbody>
+            <tr><td>확인</td><td>2Q $96.22B, 3Q $108B ±2%, 중국 0, Rubin 3Q DC 20%, AWS 200만, GPM 경로 공개, FY28 +70%는 공급 숫자.</td></tr>
+            <tr><td>3Q 실적에서</td><td>Rubin 믹스가 20%를 넘나. ACIE가 정말 순증의 주역인가. GPM이 73.5% 아래로 먼저 가나.</td></tr>
+            <tr><td>4Q</td><td>바닥 71–72%가 바닥인가, 통과점인가. 하이퍼스케일 재가속. 가격전가 프리뷰.</td></tr>
+            <tr><td>FY28</td><td>+70%를 올리거나 내리는 공급 업데이트. CPU 더블. 랩 1/4의 회수·전용.</td></tr>
+            <tr><td>깨짐</td><td>토큰 이익 소멸, IG 백스톱 약화, 메모리 캐파 비가동, 오하이오 보증 현실화, 커스텀칩이 학습까지 잠식.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card purple">
+        <div class="label">필자</div>
+        콜의 톤은 “자신감 뿜뿜”이 맞다. 다만 자신감의 대상이 수요가 아니라 <b>공급을 70%로 고정해도 되는 가시성</b>이다.
+        투자 논쟁은 이제 “AI가 쓰이나”가 아니라 “누가 신용을 대고, 마진을 누구에게 넘기나”로 이동했다.
+        매수·매도 추천이 아니다.
+      </div>
+    </section>
+
+    <section id="source">
+      <h2>출처 · 잘린 부분</h2>
+      <div class="card">
+        <ul>
+          <li>NVIDIA, <i>Announces Financial Results for Second Quarter Fiscal 2027</i>, 2026-08-26. 매출 $96,221M, DC $89.0B, 가이던스, 재무상태표·현금흐름.</li>
+          <li>Quartr 트랜스크립트, 2026-08-26 17:00 EDT. Toshiya Hari · Colette Kress · Jensen Huang + 애널리스트 8명.</li>
+          <li>CFO Commentary / IR 덱의 약정 $366B+$56B, 보증 $108.5B는 8/26 Quick 코멘트 IR 심층. 이 문서는 콜 문장 위주.</li>
+          <li>마지막 레이커스 답변은 “return on investment capital is now less than a year … $50 billion data centers. That tells you something about the producti”에서 절단.</li>
+        </ul>
+      </div>
+    </section>
+
+    <footer class="note">
+      2026. 8. 27 엔비디아 FY27 2Q 컨콜 한글 분석. 차트 12장.
+      재생성: <code>python3 scripts/generate_nvda_q2_call_charts.py</code>.
+      PDF: <code>python3 scripts/export_nvda_q2_call_pdf.py</code>.
+      매수·매도 추천이 아니다. 공식 표와 콜 발언, 필자 백오브엔벨로프를 섞어 읽지 말 것.
+    </footer>
+  </div>
+</body>
+</html>
