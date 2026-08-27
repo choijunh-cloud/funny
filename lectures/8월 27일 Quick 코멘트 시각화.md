@@ -3,6 +3,8 @@
 **엔비디아 실적 + ESS 전환 + 한미 비만 L/O**  
 01:25–09:48 전체 · 원문 7건 누락 없음 · 매수·매도 추천 아님 · 한미 섹션은 신한 조사분석자료(고객 한정, 재배포 제한)
 
+**핵심요약:** `reports/2026-08-27-quick-comment-core.html` · `lectures/8월 27일 Quick 코멘트 핵심요약.md`
+
 시각화 본문: `reports/2026-08-27-quick-comment-brief.html`  
 **PDF가 안 열리면:** `reports/2026-08-27-quick-comment-brief-pages.html`  
 **PDF:** `lectures/8월 27일 Quick 코멘트 시각화.pdf` · `reports/2026-08-27-quick-comment-brief.pdf`
