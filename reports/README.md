@@ -13,3 +13,17 @@ python3 scripts/generate_nvda_q2_call_charts.py
 python3 scripts/export_nvda_q2_call_pdf.py
 python3 scripts/rasterize_nvda_q2_call_pdf.py
 ```
+
+## 2026-08-27 삼전닉스 실적 추정 (NVIDIA 컨콜 기준)
+
+- HTML: `2026-08-27-samjeonnix-estimate.html`
+- 페이지 이미지: `2026-08-27-samjeonnix-estimate-pages.html`
+- PDF: `2026-08-27-samjeonnix-estimate.pdf`
+- 차트: `samjeonnix-estimate/charts/`
+- 강의 노트: `lectures/8월 27일 삼전닉스 실적 추정.md`
+
+```bash
+python3 scripts/generate_samjeonnix_estimate_charts.py
+python3 scripts/export_samjeonnix_estimate_pdf.py
+python3 scripts/rasterize_samjeonnix_estimate_pdf.py
+```
