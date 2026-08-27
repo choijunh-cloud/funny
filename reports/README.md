@@ -5,6 +5,7 @@
 ## 읽는 파일
 
 - **시각화 본문:** [2026-08-26-quick-comment-brief.html](2026-08-26-quick-comment-brief.html)
+- **PDF가 안 열리면:** [2026-08-26-quick-comment-brief-pages.html](2026-08-26-quick-comment-brief-pages.html) (27쪽을 이미지로 스크롤)
 - **PDF:** [2026-08-26-quick-comment-brief.pdf](2026-08-26-quick-comment-brief.pdf) · [../lectures/8월 26일 Quick 코멘트 시각화.pdf](../lectures/8월%2026일%20Quick%20코멘트%20시각화.pdf) (A4, 원문 부록은 HTML)
 - **복사·공유용 문안:** [../lectures/8월 26일 Quick 코멘트 시각화.md](../lectures/8월%2026일%20Quick%20코멘트%20시각화.md)
 - **차트:** `reports/charts/`

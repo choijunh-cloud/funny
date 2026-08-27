@@ -4,6 +4,7 @@
 01:25–22:32 전체 · 보도자료·CFO·IR 덱 한글 분석 · 매수·매도 추천 아님 · 증권사 후가 ≠ 필자 의견
 
 시각화 본문: `reports/2026-08-26-quick-comment-brief.html`  
+**PDF가 안 열리면:** `reports/2026-08-26-quick-comment-brief-pages.html` (27쪽 이미지)  
 **PDF:** `lectures/8월 26일 Quick 코멘트 시각화.pdf` · `reports/2026-08-26-quick-comment-brief.pdf` (A4 · 원문 부록은 HTML)
 
 ---
