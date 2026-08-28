@@ -9,6 +9,7 @@
 - **PDF가 안 열리면:** [2026-08-28-quick-comment-brief-pages.html](2026-08-28-quick-comment-brief-pages.html)
 - **PDF:** [2026-08-28-quick-comment-brief.pdf](2026-08-28-quick-comment-brief.pdf) · [../lectures/8월 28일 Quick 코멘트 시각화.pdf](../lectures/8월%2028일%20Quick%20코멘트%20시각화.pdf)
 - **복사·공유용 문안:** [../lectures/8월 28일 Quick 코멘트 시각화.md](../lectures/8월%2028일%20Quick%20코멘트%20시각화.md)
+- **8/28 방송 시간 동기화:** [2026-08-28-broadcast-brief.html](2026-08-28-broadcast-brief.html) · [2026-08-28-broadcast-brief-pages.html](2026-08-28-broadcast-brief-pages.html) · [../lectures/8월 28일 방송 코멘트 정리.md](../lectures/8월%2028일%20방송%20코멘트%20정리.md)
 - **차트:** `reports/charts/`
 
 ## 재생성
@@ -21,6 +22,11 @@ python3 scripts/check_aug28_coverage.py
 python3 scripts/export_aug28_brief_pdf.py
 python3 scripts/export_aug28_core_pdf.py
 python3 scripts/rasterize_aug28_brief_pdf.py
+python3 scripts/generate_aug28_broadcast_charts.py
+python3 scripts/build_aug28_broadcast_brief.py
+python3 scripts/check_aug28_broadcast_coverage.py
+python3 scripts/export_aug28_broadcast_pdf.py
+python3 scripts/rasterize_aug28_broadcast_pdf.py
 ```
 
 로컬에서 HTML을 보려면 `reports/`에서 정적 서버를 띄운다.
