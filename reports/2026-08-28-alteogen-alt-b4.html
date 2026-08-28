@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>알테오젠 ALT-B4 분석 · 왜 Enhanze 시밀러가 아닌가</title>
+  <style>
+    :root {
+      --navy: #0f2043;
+      --navy2: #1e407c;
+      --gold: #b8943a;
+      --gray: #4b5563;
+      --bg: #f3f5fa;
+      --card: #ffffff;
+      --ok: #166534;
+      --ok-bg: #e8f5e9;
+      --warn: #7a5c12;
+      --warn-bg: #fff8e7;
+      --bad: #991b1b;
+      --bad-bg: #fdecea;
+      --blue: #1e407c;
+      --blue-bg: #e8f1fb;
+      --purple: #6b21a8;
+      --purple-bg: #f3e8ff;
+      --line: #d7deea;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", "WenQuanYi Micro Hei", sans-serif;
+      background: var(--bg);
+      color: #1a1a1a;
+      line-height: 1.58;
+    }
+    .top {
+      position: sticky; top: 0; z-index: 20;
+      background: var(--navy);
+      color: #fff;
+      box-shadow: 0 2px 10px rgba(15,32,67,.18);
+    }
+    .top-inner { max-width: 1080px; margin: 0 auto; padding: 10px 18px 12px; }
+    .brand { font-size: 12px; letter-spacing: .08em; opacity: .75; }
+    .brand b { font-size: 15px; letter-spacing: 0; opacity: 1; }
+    nav { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    nav a {
+      color: #dbe4f5; text-decoration: none;
+      font-size: 12px; font-weight: 700;
+      padding: 4px 8px; border-radius: 999px;
+      background: rgba(255,255,255,.08);
+    }
+    nav a:hover { background: var(--gold); color: var(--navy); }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 28px 18px 90px; }
+    header { text-align: center; margin: 8px 0 22px; }
+    h1 { color: var(--navy); font-size: 32px; margin: 6px 0 8px; letter-spacing: -0.03em; }
+    .sub { color: var(--navy2); font-weight: 800; font-size: 18px; }
+    .muted { color: var(--gray); font-size: 13.5px; }
+    h2 {
+      color: var(--navy);
+      border-bottom: 3px solid var(--navy);
+      padding-bottom: 6px;
+      margin-top: 46px;
+      font-size: 24px;
+    }
+    h3 { color: var(--navy2); margin-top: 22px; font-size: 17px; }
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin: 18px 0 8px;
+    }
+    .kpi {
+      background: #fff; border-radius: 12px;
+      padding: 12px 12px 14px;
+      border: 1px solid var(--line);
+    }
+    .kpi span { display: block; font-size: 12px; color: var(--gray); font-weight: 700; }
+    .kpi b { display: block; font-size: 20px; color: var(--navy); margin-top: 4px; letter-spacing: -0.03em; }
+    .kpi em { font-style: normal; font-size: 12px; color: var(--gray); }
+    .kpi.up b { color: var(--ok); }
+    .kpi.warn b { color: #c2410c; }
+    .card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 14px 16px;
+      box-shadow: 0 1px 2px rgba(15,32,67,.06);
+      margin: 12px 0;
+      border: 1px solid #eef1f6;
+    }
+    .key { border-left: 6px solid var(--navy); background: #eef2f8; }
+    .ok { border-left: 6px solid var(--ok); background: var(--ok-bg); }
+    .warn { border-left: 6px solid var(--gold); background: var(--warn-bg); }
+    .bad { border-left: 6px solid var(--bad); background: var(--bad-bg); }
+    .blue { border-left: 6px solid var(--navy2); background: var(--blue-bg); }
+    .purple { border-left: 6px solid var(--purple); background: var(--purple-bg); }
+    .label { font-size: 12px; font-weight: 800; margin-bottom: 6px; letter-spacing: .02em; }
+    .scrollx { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    table { width: 100%; border-collapse: collapse; background: #fff; font-size: 14px; margin: 10px 0 16px; }
+    th { background: var(--navy); color: #fff; padding: 8px 10px; text-align: left; }
+    td { padding: 8px 10px; border-bottom: 1px solid #e5eaf1; vertical-align: top; }
+    tr:nth-child(even) td { background: #f7f9fc; }
+    img.chart {
+      width: 100%;
+      border-radius: 12px;
+      background: #fff;
+      margin: 8px 0 4px;
+      border: 1px solid var(--line);
+    }
+    .cap { text-align: center; color: var(--gray); font-size: 12.5px; margin: 0 0 16px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+    .tag {
+      display: inline-block; font-size: 11px; font-weight: 800;
+      padding: 1px 7px; border-radius: 999px; margin-right: 4px;
+    }
+    .t-ok { background: var(--ok-bg); color: var(--ok); }
+    .t-br { background: var(--blue-bg); color: var(--navy2); }
+    .t-as { background: var(--warn-bg); color: var(--warn); }
+    .t-bad { background: var(--bad-bg); color: var(--bad); }
+    .t-inv { background: var(--purple-bg); color: var(--purple); }
+    ul { padding-left: 20px; margin: 8px 0; }
+    ol { padding-left: 22px; margin: 8px 0; }
+    li { margin: 4px 0; }
+    details.raw {
+      background: #fff; border: 1px solid var(--line); border-radius: 12px;
+      margin: 8px 0; padding: 0 14px;
+    }
+    details.raw summary {
+      cursor: pointer; font-weight: 800; color: var(--navy);
+      padding: 12px 0;
+    }
+    details.raw .body { padding-bottom: 14px; color: #222; font-size: 14.5px; white-space: pre-wrap; }
+    .src { font-size: 13px; }
+    .src a { color: var(--navy2); }
+    footer.note {
+      margin-top: 48px; padding-top: 16px;
+      border-top: 1px solid var(--line);
+      color: var(--gray); font-size: 13px;
+    }
+    code { font-size: 12.5px; background: #eef2f8; padding: 1px 5px; border-radius: 4px; }
+    .flow {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 13px; line-height: 1.45;
+      background: #0f2043; color: #e8eef8;
+      padding: 14px 16px; border-radius: 12px; overflow-x: auto;
+      white-space: pre-wrap;
+    }
+    @media (max-width: 820px) {
+      .kpis, .grid, .grid3 { grid-template-columns: 1fr 1fr; }
+      h1 { font-size: 26px; }
+    }
+    @media (max-width: 560px) {
+      .kpis, .grid, .grid3 { grid-template-columns: 1fr; }
+      nav a { font-size: 11px; }
+    }
+    .print-only { display: none; }
+    @media print {
+      @page { size: A4; margin: 11mm 10mm 13mm; }
+      html { scroll-behavior: auto; }
+      body { background: #fff; }
+      .top, nav { display: none; }
+      .print-only { display: block; color: var(--gray); font-size: 11.5px; text-align: center; margin: 0 0 10px; }
+      .wrap { max-width: none; padding: 0 0 6mm; }
+      header { margin: 0 0 10px; }
+      h1 { font-size: 22px; margin: 4px 0 6px; }
+      h2 { font-size: 16px; margin-top: 14px; break-after: avoid; page-break-after: avoid; }
+      h3 { font-size: 13.5px; break-after: avoid; page-break-after: avoid; }
+      .sub { font-size: 13.5px; }
+      .kpis { gap: 6px; margin: 8px 0 6px; }
+      .kpi { padding: 8px 8px 10px; break-inside: avoid; page-break-inside: avoid; }
+      .kpi b { font-size: 13.5px; }
+      .kpi em, .kpi span { font-size: 10.5px; }
+      .card { margin: 8px 0; padding: 10px 12px; }
+      .grid > .card, .grid3 > .card, .kpi { break-inside: avoid; page-break-inside: avoid; }
+      img.chart {
+        break-inside: avoid; page-break-inside: avoid;
+        max-height: 88mm; object-fit: contain; object-position: top;
+      }
+      table { font-size: 10.5px; }
+      th, td { padding: 4px 6px; }
+      a { color: inherit; text-decoration: none; }
+      details.raw { border: none; padding: 0; break-inside: avoid; }
+      details.raw summary { display: block; padding: 6px 0 2px; }
+      details.raw .body { display: block; font-size: 11px; white-space: pre-wrap; }
+      footer.note { break-inside: avoid; font-size: 11px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="top">
+    <div class="top-inner">
+      <div class="brand">ALTEOGEN 196170 · ALT-B4 BRIEF · <b>8월 28일</b></div>
+      <nav>
+        <a href="#one">한 장</a>
+        <a href="#why">왜 ALT-B4</a>
+        <a href="#patent">특허</a>
+        <a href="#capa">37.5%</a>
+        <a href="#qlex">Qlex</a>
+        <a href="#after">8월 확인</a>
+        <a href="#check">체크</a>
+        <a href="#script">멘트</a>
+        <a href="#src">원문</a>
+      </nav>
+    </div>
+  </div>
+  <div class="wrap">
+    <p class="print-only">알테오젠 ALT-B4 분석 · 2026-08-28 · 매수·매도 추천 아님</p>
+    <header>
+      <div class="muted">2026. 8. 28. 강의노트  ·  하나증권 7/14 리포트 검증 + MSD 2Q26 이후 업데이트</div>
+      <div class="sub">시밀러가 아니라 ALT-B4를 쓴 이유</div>
+      <h1>알테오젠 ALT-B4 분석</h1>
+      <p class="muted">에피스 PCT는 새 효소가 아니라 Enhanze 계열 공정특허 · 빅파마는 차별화 특허를 산다</p>
+    </header>
+
+    <div class="kpis">
+      <div class="kpi up">
+        <span>Qlex 2Q26</span>
+        <b>$463mn</b>
+        <em>1Q $128mn → QoQ +262%</em>
+      </div>
+      <div class="kpi">
+        <span>미국 전환</span>
+        <b>두 자릿수</b>
+        <em>6월 ~9% → MSD 목표 30–40%</em>
+      </div>
+      <div class="kpi">
+        <span>8/5 L/O</span>
+        <b>$365mn</b>
+        <em>올해 3번째 빅파마 계약</em>
+      </div>
+      <div class="kpi warn">
+        <span>8/28 종가</span>
+        <b>320,000</b>
+        <em>7/14 279,500 → 하나 TP 58만</em>
+      </div>
+    </div>
+
+    <section id="one">
+      <h2>0. 오늘 한 장으로 보면</h2>
+      <div class="card key">
+        <div class="label">한 줄 결론</div>
+        <p>에피스 특허는 <b>새로운 히알루로니다제 물질이 아니다</b>. 대표청구항은 정제·제조방법이다. 시장이 흔들린 이유는 “자체 효소”라는 기사 문장이지, 청구항이 아니다. 빅파마가 ALT-B4를 사는 이유는 Enhanze 시밀러로는 <b>제품 차별화 특허가 안 생기기 때문</b>이다.</p>
+      </div>
+      <img class="chart" src="charts/01_misread.png" alt="시장 오해 vs 청구항" />
+      <p class="cap">도표 1. 기사가 만든 오해와, 양사 확인·청구항이 말하는 것</p>
+
+      <div class="scrollx">
+        <table>
+          <thead>
+            <tr><th>질문</th><th>짧은 답</th><th>확인</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>에피스가 새 효소를 만들었나</td>
+              <td>아니다. Enhanze 계열 시밀러 + CMC 공정</td>
+              <td><span class="tag t-ok">맞음</span> 하나·에피스·알테오젠 취지 일치</td>
+            </tr>
+            <tr>
+              <td>PCT 2건이 플랫폼 특허인가</td>
+              <td>아니다. WO299=제조, WO300=정제</td>
+              <td><span class="tag t-ok">맞음</span> 제목·대표청구항이 방법</td>
+            </tr>
+            <tr>
+              <td>unit당 항체 37.5% 더 많다</td>
+              <td>라벨 농도는 맞다. 전달 효율 입증은 아니다</td>
+              <td><span class="tag t-as">숫자 맞음 / 해석 주의</span></td>
+            </tr>
+            <tr>
+              <td>Qlex 바이오시밀러가 Enhanze로 되나</td>
+              <td>원료가 다르면 단순 BS 허가는 어렵다</td>
+              <td><span class="tag t-br">규제 논리</span> 임상 우회로는 남음</td>
+            </tr>
+            <tr>
+              <td>8월에 우려가 불식됐나</td>
+              <td>Qlex $463mn + $365mn 딜로 수요는 재확인</td>
+              <td><span class="tag t-ok">이벤트 발생</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="why">
+      <h2>1. 왜 시밀러가 아니라 ALT-B4인가</h2>
+      <p>하나증권 7/14 리포트의 핵심 문장은 이것이다. Enhanze와 <b>동일한 효소</b>로 SC를 만들면, 특허 장벽이 무너졌을 때 제품 차별화 요소가 없다. ALT-B4를 쓰면 물질이 다르니, 장벽이 깨져도(Enhanze BS 제품이 나와도) <b>물질특허 존속기간만큼은 차별화의 독점 기간</b>이 남는다.</p>
+      <img class="chart" src="charts/03_why_altb4.png" alt="왜 ALT-B4인가" />
+      <p class="cap">도표 2. 같은 효소 = 가격 경쟁, 다른 효소 = 차별화 특허</p>
+
+      <div class="grid">
+        <div class="card bad">
+          <div class="label">Enhanze / Enhanze 시밀러</div>
+          <ul>
+            <li>할로자임 물질특허: 미국 2027.9.23, 유럽 2029.3.6 전후 만료</li>
+            <li>만료 후 같은 PH20을 쓰면 SC 스토리가 같아진다</li>
+            <li>상대 제품 조성물 특허는 내 제품에 붙지 않는다</li>
+            <li>에피스 포지션: 자사 신약·BS에 SC를 붙이는 내재화. 플랫폼 사업 계획 없음</li>
+          </ul>
+        </div>
+        <div class="card ok">
+          <div class="label">ALT-B4 (berahyaluronidase alfa)</div>
+          <ul>
+            <li>PH20 계열이지만 <b>다른 서열의 재조합 효소</b></li>
+            <li>물질·조성물·용도·제조 특허. 미국 물질특허 ~2043 (회사·대표이사 발언)</li>
+            <li>2025 PTAB, 할로자임 IPR 기각 — 제조특허 방어</li>
+            <li>파트너: MSD(Qlex 상용화), AZ·다이이찌, 사노피, GSK/Tesaro, 바이오젠, Intas 등</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>규제 쪽 한 줄</h3>
+      <p>Qlex의 효소 원료는 berahyaluronidase alfa다. Enhanze(rHuPH20)나 그 시밀러는 <b>다른 원료</b>다. 알테오젠 7/14 입장: 규제 기준상 이를 적용한 제품이 Qlex의 바이오시밀러로 허가받기는 어렵다. 엔허투·듀피젠트 SC에도 같은 논리가 적용될 수 있다고 봤다.</p>
+      <div class="card warn">
+        <div class="label">남는 우회로</div>
+        키트루다 <b>IV 바이오시밀러</b>에 Enhanze/시밀러를 붙여 별도 SC를 개발하는 길은 열려 있다. 다만 그건 Qlex의 복제가 아니라 <b>신약에 준하는 임상</b>이다. 하나증권도 “같은 효소 양으로 Qlex BS에 성공할 것 같지 않다”고 썼다.
+      </div>
+    </section>
+
+    <section id="patent">
+      <h2>2. 에피스 특허를 읽는 법</h2>
+      <p>2026년 7월 초 WIPO에 공개된 삼성바이오에피스 PCT 2건이 “자체 히알루로니다제”로 기사화됐다. Businesskorea 등 일부 보도는 “할로자임·알테오젠과 다른 자체 효소, 배양·정제까지 독자 시스템”으로 썼다. 그게 주가 충격의 문장이다.</p>
+      <img class="chart" src="charts/02_claims.png" alt="청구항 비교" />
+      <p class="cap">도표 3. 새 효소를 청구하려면 대표청구항은 서열로 정의된 단백질이어야 한다</p>
+
+      <div class="scrollx">
+        <table>
+          <thead>
+            <tr><th>공개번호</th><th>영문 제목</th><th>대표청구항이 청구하는 것</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>WO2026/142299</code></td>
+              <td>Method for removing truncated hyaluronidase</td>
+              <td>절단·가수분해된 히알루로니다제를 제거하는 <b>제조방법</b> (및 그 결과물)</td>
+            </tr>
+            <tr>
+              <td><code>WO2026/142300</code></td>
+              <td>Method for removing impurities through caprylic acid and depth filtration</td>
+              <td>카프릴산 + 심층여과로 HCP 등 불순물을 제거하는 <b>정제방법</b></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card blue">
+        <div class="label">특허 독해 한 줄</div>
+        물질특허의 독립항 1번은 보통 “SEQ ID NO: X로 이루어지는 폴리펩타이드”다. 방법항이 1번이면, 그 출원의 중심은 공정이다. 하나증권이 양사에 확인한 말도 같다. <b>자체(새로운) 히알루로니다제가 아니라 Enhanze의 시밀러</b>다.
+      </div>
+
+      <h3>국제조사(ISA)가 더해 준 것</h3>
+      <p>팜이데일리(7/14): ISA는 실체 심사 대상 청구항 전부에서 신규성 또는 진보성을 인정하지 않았다.</p>
+      <ul>
+        <li>WO299: 핵심항 신규성이 휴온스랩 선행에 개시. MMC 청구항은 휴온스랩 + 알테오젠 결합으로 통상의 기술자가 도출 가능</li>
+        <li>WO300: 카프릴산 침전 + 심층여과는 2012 미국 특허에 개시. HCP 100 ppm 미만 물질항은 신규성 부정</li>
+      </ul>
+      <p>ISA 의견은 등록 거절이 확정된 것이 아니다. 다만 “새 플랫폼이 등장했다”는 해석을 약화시키는 1차 증거다.</p>
+
+      <h3>에피스 본인 스탠스</h3>
+      <p>메가경제 등: 에피스는 플랫폼 사업·별도 상업화 계획이 없다고 선을 그었다. “안정적 R&amp;D에 필요한 CMC 특허의 일부”, “어느 제품에 적용할지도 정해진 바 없다.” 하나증권 취지와 같다.</p>
+    </section>
+
+    <section id="capa">
+      <h2>3. 37.5% — 맞는 숫자, 과한 문장</h2>
+      <p>하나: Enhanze를 쓰는 Darzalex SC·Herceptin SC는 <b>120 mg / 2,000 units</b>, ALT-B4를 쓰는 Qlex는 <b>165 mg / 2,000 units</b>로 약 37.5% 더 많은 항체를 혈관으로 전달할 수 있다.</p>
+      <img class="chart" src="charts/04_capacity.png" alt="라벨 농도 비교" />
+      <p class="cap">도표 4. 라벨에 적힌 농도. 헤드투헤드 생체이용률 시험이 아니다</p>
+
+      <div class="scrollx">
+        <table>
+          <thead>
+            <tr><th>제품</th><th>효소</th><th>라벨 농도</th><th>1회 투여</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Herceptin Hylecta</td>
+              <td>rHuPH20 (Enhanze)</td>
+              <td>120 mg + 2,000 U / mL</td>
+              <td>600 mg / 10,000 U / 5 mL</td>
+            </tr>
+            <tr>
+              <td>Darzalex Faspro</td>
+              <td>rHuPH20 (Enhanze)</td>
+              <td>120 mg + 2,000 U / mL</td>
+              <td>1,800 mg / 30,000 U / 15 mL</td>
+            </tr>
+            <tr>
+              <td>Keytruda Qlex</td>
+              <td>berahyaluronidase alfa (ALT-B4)</td>
+              <td>165 mg + 2,000 U / mL</td>
+              <td>Q3W 395 mg / 4,800 U / 2.4 mL<br>Q6W 790 mg / 9,600 U / 4.8 mL</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="grid">
+        <div class="card ok">
+          <div class="label">맞는 부분</div>
+          120 → 165는 165/120 − 1 = 37.5%가 맞다. 세 제품 PI에 2,000 units/mL가 적혀 있다. “unit 대비 항체 capa”라는 표현의 숫자 근거는 라벨이다.
+        </div>
+        <div class="card warn">
+          <div class="label">과한 부분</div>
+          항체가 다르다(트라스투주맙 · 다라투무맙 · 펨브롤리주맙). 분자량·점도·주사 부피·적응증이 다르다. “혈관으로 37.5% 더 전달”은 농도 비율을 약동학 우위로 읽은 것이다. 하나 본문도 “항체가 달라 명확한 비교가 되지 않는다”고 적어 두었다.
+        </div>
+      </div>
+      <p>보관 안정성은 이 라벨 비교만으로는 검증되지 않는다. 파트너가 실제로 그 이유로 ALT-B4를 골랐는지는, Intas 등 BS 데이터나 추가 라벨이 나와야 숫자로 닫힌다.</p>
+    </section>
+
+    <section id="qlex">
+      <h2>4. Qlex — 7월에 기다리던 숫자가 나왔다</h2>
+      <p>하나 7/14: “근시일 내 MSD 2Q26 실적(8/4)으로 Qlex 매출 상승과 세일즈 마일스톤을 확인한다. 6월 전환율은 integrated WAC 기준 약 9%.”</p>
+      <img class="chart" src="charts/05_qlex.png" alt="Qlex 매출과 전환율" />
+      <p class="cap">도표 5. 8/4에 확인된 매출. 전환율은 글로벌과 미국을 섞으면 안 된다</p>
+
+      <div class="scrollx">
+        <table>
+          <thead>
+            <tr><th>항목</th><th>숫자</th><th>출처</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Keytruda 패밀리 2Q26</td>
+              <td>$8.366bn (+5%, ex-FX +4%)</td>
+              <td>Merck 8/4 보도자료</td>
+            </tr>
+            <tr>
+              <td>이 중 Qlex</td>
+              <td>$463mn (1Q $128mn, H1 $590mn)</td>
+              <td>동일 · 실적표</td>
+            </tr>
+            <tr>
+              <td>글로벌 패밀리 대비</td>
+              <td>463 / 8,366 = <b>5.5%</b></td>
+              <td>단순 나눗셈</td>
+            </tr>
+            <tr>
+              <td>미국 사업 대비</td>
+              <td>CFO: “미국 전체의 <b>두 자릿수</b>”. 하나 6월 ~9%</td>
+              <td>Reuters 인터뷰 · 하나 7/14</td>
+            </tr>
+            <tr>
+              <td>채택 트리거</td>
+              <td>4월 영구 J-code 이후 의사·환자 채택 증가. 초기에는 단독·경구 병용 중심</td>
+              <td>8/4 실적 콜</td>
+            </tr>
+            <tr>
+              <td>MSD 목표</td>
+              <td>미국 2027년 말 30–40% (IV 특허 만료 2028을 ‘언덕’으로)</td>
+              <td>경영진 기존 가이드 · Reuters</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card key">
+        <div class="label">알테오젠 실적으로의 연결</div>
+        대신증권(8월): 알테오젠 2Q 연결 매출 689억원(+270% YoY), 영업이익 342억원 흑전. 기술료 633억원에 Qlex <b>판매 마일스톤</b>과 사노피·AZ 개발 마일스톤이 포함. 일회성 계약금만이 아니라 상업화 제품의 반복 마일스톤이 시작된 분기라는 점이 리포트가 기다리던 이벤트다.
+      </div>
+    </section>
+
+    <section id="after">
+      <h2>5. 빅딜이 우려를 깨는가 — 8월 답</h2>
+      <p>하나 7/14: “하반기에도 빅파마 기술이전이 이어질 것이고, 그때 Enhanze BS로 ALT-B4 매력이 떨어질까 하는 우려를 불식시킬 것이다.”</p>
+      <img class="chart" src="charts/06_timeline.png" alt="7월에서 8월 타임라인" />
+      <p class="cap">도표 6. 리포트가 예고한 두 이벤트(Qlex 숫자, 추가 L/O)가 4주 안에 나왔다</p>
+
+      <div class="card ok">
+        <div class="label">8/4–5 공시 · 최대 $365mn</div>
+        <ul>
+          <li>계약일 8/4, 효력 8/5. 상대방·품목 비공개. 1개 품목 SC 개발·상업화 독점 라이선스</li>
+          <li>선급금+마일스톤 최대 $365mn (약 5,219억원, 8/4 환율 1,429.90). 판매 로열티 별도</li>
+          <li>선급금은 효력일로부터 30일 이내. 조건부(허가·임상 실패 시 축소·해지 가능)</li>
+          <li>올해 3번째: 1월 Tesaro/GSK ($20mn 업프론트, 마일스톤 최대 $265mn), 3월 바이오젠 ($20mn + 최대 $559mn), 8월 이번 건</li>
+        </ul>
+      </div>
+      <p>하나 8/6 후속: “Enhanze의 바이오시밀러가 나와도 ALT-B4 수요는 계속된다($365M 계약 추가).” 상대를 Lilly Taltz, UCB Bimzelx로 <b>추정</b>했으나 공시상 확인되지 않는다. 추정은 추정으로 남겨 둔다.</p>
+
+      <img class="chart" src="charts/07_price.png" alt="주가와 목표주가" />
+      <p class="cap">도표 7. 7/14 52주 저가권에서 8/28 32만원. 목표가 58만은 여전히 갭이 크다</p>
+
+      <div class="scrollx">
+        <table>
+          <thead>
+            <tr><th></th><th>2024</th><th>2025</th><th>2026F</th><th>2027F</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>매출 (십억원, 하나 7/14)</td><td>102.9</td><td>215.9</td><td>470.3</td><td>1,052.5</td></tr>
+            <tr><td>영업이익</td><td>25.4</td><td>106.9</td><td>246.1</td><td>608.7</td></tr>
+            <tr><td>지배주주순이익</td><td>62.3</td><td>141.7</td><td>233.0</td><td>493.3</td></tr>
+            <tr><td>EPS (원)</td><td>1,171</td><td>2,633</td><td>4,320</td><td>9,146</td></tr>
+            <tr><td>PER (배, 당시 주가 기준)</td><td>264</td><td>171</td><td>65</td><td>31</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="muted">컨센서스(하나 표): 2026–27 매출 467 / 807, OP 286 / 506. 회사 추정은 2027 매출을 컨센보다 높게 잡았다. 8/6 하나 후속에서 Qlex 추정을 상향했다고 보도됨. 위 표는 7/14 원문 기준.</p>
+    </section>
+
+    <section id="check">
+      <h2>6. 체크리스트 · 리스크</h2>
+      <img class="chart" src="charts/08_checkpoints.png" alt="확인 포인트" />
+      <p class="cap">도표 8. 오해는 풀렸고, 우위를 숫자로 닫는 일은 남았다</p>
+
+      <h3>Sandoz는 리포트보다 지저분하다</h3>
+      <p>하나 7/14는 “하반기 BS 목적 파트너십(Intas, Sandoz 등) 성과”를 기다린다. Intas는 2021.1.7 ALT-B4 2품목 계약(업프론트 $6mn, 마일스톤 최대 $109mn)으로 개발 5년 차 — 이 경로는 살아 있다.</p>
+      <div class="card warn">
+        <div class="label">Sandoz</div>
+        2022.12 ALT-B4 라이선스 → <b>2024.7 종료</b> 후 “ALT-B4와 다른 히알루로니다제” 공동개발로 재계약. 2026.8.17 Sandoz–Henlius 확대 계약에는 재조합 인간 히알루로니다제 옵션이 들어 있다. Sandoz를 ALT-B4 BS 피어로 그대로 쓰면 안 된다.
+      </div>
+
+      <h3>그래도 남는 리스크</h3>
+      <ul>
+        <li>Qlex 전환이 미국 30–40%에 못 미치면 세일즈 마일스톤·로열티 일정이 밀린다.</li>
+        <li>$365mn은 캡이다. 선급금 규모는 비공개. 임상·허가 실패 시 축소.</li>
+        <li>할로자임은 공동제형 특허·차세대 농축 기술로 2030년대까지 장벽을 쌓고 있다. Enhanze “시밀러”가 바로 자유롭게 쓰인다는 뜻은 아니다.</li>
+        <li>에피스가 나중에 진짜 신규 서열 효소를 출원할 여지는 남아 있다. 이번 2건이 그 증거가 아닐 뿐이다.</li>
+        <li>밸류: 8/28 32만원은 7/14 대비 회복이지만, 하나 58만·2027 PER 가정은 딜·Qlex 궤적이 계속된다는 전제다.</li>
+      </ul>
+    </section>
+
+    <section id="script">
+      <h2>7. 녹화용 멘트</h2>
+      <div class="card key">
+        <div class="label">오프닝</div>
+        오늘은 알테오젠입니다. 질문이 하나예요. 할로자임 Enhanze의 시밀러가 나오는데, 빅파마는 왜 굳이 ALT-B4를 삽니까. 7월에 에피스 특허가 “새로운 효소”로 기사화되면서 이 질문이 주가를 눌렀습니다. 결론부터 말하면, 그 특허는 새 효소가 아닙니다.
+      </div>
+      <div class="card">
+        <div class="label">본문 세 문장</div>
+        <ol>
+          <li>PCT 두 건의 1번 청구항은 단백질 정제와 제조방법입니다. 새 효소를 청구하려면 아미노산 서열이 1번에 와야 합니다.</li>
+          <li>같은 효소로 SC를 만들면 특허가 깨진 뒤 차별화가 없습니다. ALT-B4는 물질이 다르니, 물질특허가 살아있는 동안 차별화의 독점이 남습니다.</li>
+          <li>8월 4일 MSD는 Qlex 매출 4억 6,300만 달러를 공개했고, 그다음 날 비공개 빅파마와 최대 3억 6,500만 달러 계약을 공시했습니다. 시밀러 우려가 수요를 끊지 못했습니다.</li>
+        </ol>
+      </div>
+      <div class="card">
+        <div class="label">클로징</div>
+        37.5%는 라벨 농도입니다. 항체가 달라 약동학 우위로 닫히지 않습니다. 진짜 비교는 Intas 같은 BS 데이터가 같은 unit에서 얼마나 항체를 넣느냐입니다. 오해는 풀렸고, 우위는 아직 숫자로 닫히는 중입니다.
+      </div>
+    </section>
+
+    <section id="src">
+      <h2>8. 출처 · 원문</h2>
+      <ul class="src">
+        <li>하나증권 기업분석, 김선아·이희경, 알테오젠(196170), 2026-07-14 (사용자 제공 원문). BUY, TP 580,000, 당시 종가 279,500</li>
+        <li>조선비즈 영문 요약, 2026-07-15 — 하나 리포트 취지</li>
+        <li>WIPO 공개: WO2026/142299, WO2026/142300 (2026-07-02 전후). 제목·청구항 성격은 더바이오·딜사이트·팜이데일리</li>
+        <li>에피스 스탠스: 메가경제. 알테오젠 입장: 더바이오 7/14, 전태연 대표 팜이데일리</li>
+        <li>Merck 2Q26 보도자료·콜, 2026-08-04. Reuters CFO 인터뷰(미국 두 자릿수)</li>
+        <li>Keytruda Qlex / Darzalex Faspro / Herceptin Hylecta Prescribing Information</li>
+        <li>알테오젠 8/5 공시, $365mn 라이선스. 한국경제·이데일리·서울경제 공시 전문</li>
+        <li>Halozyme 10-K: ENHANZE 물질특허 미국 2027, 유럽 2029</li>
+        <li>Sandoz: 코리아바이오메드 2024.7 계약 변경, 2026.8.17 Henlius 확대</li>
+        <li>주가: 네이버 금융 2026-08-28 종가 320,000 (+2.73%)</li>
+      </ul>
+
+      <details class="raw">
+        <summary>하나증권 7/14 원문 (제공본, 재무표 제외 핵심)</summary>
+        <div class="body">시밀러가 아닌 ALT-B4를 쓴 이유가 있지 않겠습니까
+새로운 효소가 아니라 할로자임 Enhanze의 시밀러
+“미국 할로자임, 국내 알테오젠이 사용 중인 히알루로니다제와 다른 자체 히알루로니다제를 사용”했다는 기사로 인해 시장의 오해가 있었던 것 같다. 양사 측에 확인한 바로는 자체(새로운) 히알루로니다제가 아닌 Enhanze의 시밀러이다. 에피스의 특허라고 하는 PCT특허출원 WO2026/142300과 WO2026/142299의 대표청구항도 각각 단백질 정제방법과 제조방법을 청구한다. 만약 새로운 효소를 청구하고자 하였다면, 대표 청구항은 특정 아미노산 서열로 정의된 단백질 내지 펩타이드여야 한다. 아울러 에피스는 별도의 플랫폼 사업으로 추진하려는 것도 아니고, 향후 신약이나 바이오시밀러를 개발하는 과정에서 SC제형을 적용할 수 있도록 기술을 확보하는 차원임을 밝혔다.
+
+Enhanze가 적용된 바이오시밀러가 등장하면 오히려 우수성 입증할 기회가 될 것
+Enhanze와 동일한 효소를 써서 SC 제형을 개발하게 되면, 개발사가 완전한 특허 장벽을 형성하는데 실패하였을 때 제품 차별화 요소가 없다. 반면 ALT-B4를 이용하게 되면, ALT-B4가 갖는 Enhanze대비 우수성(unit 대비 항체 capa, 보관 안정성 등)으로 제품 차별화 요소를 가져갈 수 있다. 완전한 특허 장벽을 형성하는데 실패하여도 ALT-B4의 물질특허가 그 존속기간만큼은 파트너십이 제품 차별화 요소의 독점 기간을 갖도록 보장해 준다.
+
+Enhanze를 쓰는 Darzalex SC와 Herceptin SC는 120 mg/2,000 units인데, ALT-B4를 쓰는 Qlex는 165 mg/2,000 units로 약 37.5% 더 많은 항체를 혈관으로 전달할 수 있다. (항체가 달라 명확한 비교가 되지 않음)
+
+BUY 유지, 목표주가 580,000원, 현재주가(7.14) 279,500원</div>
+      </details>
+    </section>
+
+    <footer class="note">
+      이 문서는 공개 자료와 제공된 리포트를 강의용으로 재구성한 것이다. 매수·매도 추천이 아니다. 마일스톤·로열티·허가 일정은 공시와 임상 결과에 따라 달라진다.
+      · <a href="2026-08-28-alteogen-alt-b4-core.html">핵심요약</a>
+      · <a href="2026-08-28-alteogen-alt-b4-pages.html">PDF 페이지</a>
+    </footer>
+  </div>
+</body>
+</html>
