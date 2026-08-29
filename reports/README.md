@@ -4,12 +4,11 @@
 
 ## 읽는 파일
 
-- **핵심요약 (한 장):** [2026-08-28-quick-comment-core.html](2026-08-28-quick-comment-core.html) · [../lectures/8월 28일 Quick 코멘트 핵심요약.md](../lectures/8월%2028일%20Quick%20코멘트%20핵심요약.md)
-- **시각화 본문:** [2026-08-28-quick-comment-brief.html](2026-08-28-quick-comment-brief.html)
-- **PDF가 안 열리면:** [2026-08-28-quick-comment-brief-pages.html](2026-08-28-quick-comment-brief-pages.html)
-- **PDF:** [2026-08-28-quick-comment-brief.pdf](2026-08-28-quick-comment-brief.pdf) · [../lectures/8월 28일 Quick 코멘트 시각화.pdf](../lectures/8월%2028일%20Quick%20코멘트%20시각화.pdf)
-- **복사·공유용 문안:** [../lectures/8월 28일 Quick 코멘트 시각화.md](../lectures/8월%2028일%20Quick%20코멘트%20시각화.md)
-- **8/28 방송 시간 동기화:** [2026-08-28-broadcast-brief.html](2026-08-28-broadcast-brief.html) · [2026-08-28-broadcast-brief-pages.html](2026-08-28-broadcast-brief-pages.html) · [../lectures/8월 28일 방송 코멘트 정리.md](../lectures/8월%2028일%20방송%20코멘트%20정리.md)
+- **PDF가 코드처럼 보이면 (이걸 여세요):** [../lectures/8월 28일 Quick 코멘트 시각화.md](../lectures/8월%2028일%20Quick%20코멘트%20시각화.md) · [2026-08-28-quick-comment-brief-pages.html](2026-08-28-quick-comment-brief-pages.html) · [../열어보기.md](../열어보기.md)
+- **핵심요약:** [2026-08-28-quick-comment-core.html](2026-08-28-quick-comment-core.html) · [../lectures/8월 28일 Quick 코멘트 핵심요약.md](../lectures/8월%2028일%20Quick%20코멘트%20핵심요약.md)
+- **시각화 본문 HTML:** [2026-08-28-quick-comment-brief.html](2026-08-28-quick-comment-brief.html)
+- **PDF (미리보기/Acrobat/Chrome용, Cursor에서는 코드처럼 보임):** [2026-08-28-quick-comment-brief.pdf](2026-08-28-quick-comment-brief.pdf)
+- **8/28 방송:** [../lectures/8월 28일 방송 코멘트 정리.md](../lectures/8월%2028일%20방송%20코멘트%20정리.md) · [2026-08-28-broadcast-brief-pages.html](2026-08-28-broadcast-brief-pages.html)
 - **차트:** `reports/charts/`
 
 ## 재생성
@@ -27,6 +26,7 @@ python3 scripts/build_aug28_broadcast_brief.py
 python3 scripts/check_aug28_broadcast_coverage.py
 python3 scripts/export_aug28_broadcast_pdf.py
 python3 scripts/rasterize_aug28_broadcast_pdf.py
+python3 scripts/build_openable_viewers.py
 ```
 
 로컬에서 HTML을 보려면 `reports/`에서 정적 서버를 띄운다.
