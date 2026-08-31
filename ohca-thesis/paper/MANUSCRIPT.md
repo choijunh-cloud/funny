@@ -12,11 +12,11 @@ Every p-value below is either (i) taken from the original thesis tables / 2026 r
 
 **Background.** After resuscitation from out-of-hospital cardiac arrest (OHCA), a single emergency-department troponin is often used to guess whether a coronary occlusion caused the arrest. That use conflicts with the fourth universal definition of myocardial infarction, which requires a rise and/or fall, and with the fact that ischemia–reperfusion itself releases troponin.
 
-**Methods.** Retrospective single-center cohort of adults with OHCA who achieved ROSC, were admitted to ICU, and underwent coronary angiography (CAG) between 1 January 2019 and 31 December 2021 (N=107). The reference standard was a CAG culprit lesion (n=67) versus no culprit (n=40). Discrimination was assessed with Mann–Whitney tests and ROC AUC for initial and serial CK-MB and cardiac troponin I (cTnI), and with logistic models of age, sex, and an initial shockable rhythm, with and without CK-MB change. The prespecified clinically relevant subgroup was patients without ST-segment elevation (Non-STEMI, n=63).
+**Methods.** Retrospective single-center cohort of adults with OHCA who achieved ROSC, were admitted to ICU, and underwent coronary angiography (CAG) between 1 January 2019 and 31 December 2021 (N=107). The reference standard was a CAG culprit lesion (n=67) versus no culprit (n=40). Discrimination was assessed with Mann–Whitney tests and ROC AUC for initial and serial CK-MB and cardiac troponin I (cTnI). In Non-STEMI, age was modelled as a continuous variable; an exploratory three-variable logistic model (age, shockable rhythm, sex) is specified without CK-MB and will be re-fit on the individual data. The prespecified clinically relevant subgroup was patients without ST-segment elevation (Non-STEMI, n=63).
 
-**Results.** Initial cTnI did not discriminate a culprit lesion (AUC 0.572, p=0.218). Serial CK-MB did in the whole cohort (Δ CK-MB AUC 0.737, p=0.001) and collapsed in Non-STEMI (AUC 0.552, p=0.621). Age (p=0.020) and male sex (OR 3.07, 95% CI 1.21–7.82, p=0.030) were significant. In Non-STEMI, age was the only significant univariable marker (AUC 0.693, p=0.009). A three-variable logistic model of age, sex, and shockable rhythm had an apparent AUC of 0.808. That figure is not an integer-score AUC.
+**Results.** Initial cTnI did not discriminate a culprit lesion (AUC 0.572, p=0.218). Serial CK-MB did in the whole cohort (Δ CK-MB AUC 0.737, p=0.001) and collapsed in Non-STEMI (AUC 0.552, p=0.621). Age (p=0.020) and male sex (OR 3.07, 95% CI 1.21–7.82, p=0.030) were significant. In Non-STEMI, age was the only significant univariable marker (AUC 0.693, p=0.009). All biomarker AUCs in that subgroup were 0.48–0.55.
 
-**Conclusions.** Do not use a single ED troponin to decide that OHCA was caused by coronary occlusion. Serial CK-MB helps only while STEMI cases remain in the sample. In Non-STEMI, a single enzyme is not needed; age and the initial rhythm carry more information than troponin. An integer map of those coefficients is exploratory and is not an indication for CAG.
+**Conclusions.** In Non-STEMI OHCA, a single enzyme does not help identify a culprit lesion. Age and the initial rhythm matter more. A higher pre-test probability of a lesion does not, in these data, prove a prognostic benefit from immediate angiography.
 
 **Keywords.** out-of-hospital cardiac arrest; CK-MB; troponin I; coronary angiography; Non-STEMI
 
@@ -34,7 +34,7 @@ This re-analysis therefore tests three statements, all of which can be answered 
 
 1. Serial (second or delta) CK-MB discriminates a CAG culprit in the whole cohort (expected p<0.05).
 2. That discrimination does not survive restriction to Non-STEMI.
-3. Age, and a model of age + sex + shockable rhythm + CK-MB Δ, do survive (p<0.05).
+3. In Non-STEMI, age (and not a single enzyme) is the univariable signal that reaches p<0.05.
 
 ---
 
@@ -50,9 +50,11 @@ CK-MB (ng/mL) and cTnI (pg/mL; Atellica IM 300; upper reference limit 45.43 pg/m
 
 ### 2.3 Statistics
 
-Continuous variables: median (IQR), Shapiro–Wilk, Mann–Whitney U. Categorical variables: χ² or Fisher exact; odds ratios with Wald 95% CIs recomputed from cell counts. Discrimination: ROC AUC and Youden cutoffs. Multivariable logistic regression used standardized coefficients for CK-MB Δ, age, sex, and shockable rhythm. Two-sided α=0.05. Software of the source analyses: SAS 9.4 and MedCalc. Odds ratios in Table 3 of this draft were recomputed with SciPy (Fisher and uncorrected χ²).
+Continuous variables: median (IQR), Shapiro–Wilk, Mann–Whitney U. Categorical variables: χ² or Fisher exact; odds ratios with Wald 95% CIs recomputed from cell counts. Discrimination: ROC AUC. Age in Non-STEMI is analysed first as a continuous variable; a Youden dichotomy at 59 years is a sensitivity analysis only, not a locked cutoff. Two-sided α=0.05. Software of the source analyses: SAS 9.4 and MedCalc. Odds ratios in Table 3 of this draft were recomputed with SciPy (Fisher and uncorrected χ²).
 
 Propensity-score matching from the thesis is not used. After matching, age and sex still had |SMD| > 0.25 and p=0.035, so the match did not do the job it claimed.
+
+An exploratory three-variable logistic model — age (continuous), initial shockable rhythm, and sex, **without CK-MB** — is specified for the Non-STEMI subgroup. That model has not been re-fit on the individual records. Nested AUCs reported from the 2026 re-analysis still contain CK-MB Δ and are therefore not the performance of the three-variable model. Apparent discrimination from any training-set logistic model (30 events, three predictors; events-per-variable ≈ 10) will not be quoted as a fixed result. Integer point weights are not locked: the 3–2–1 split was scaled from four-variable standardized coefficients that included CK-MB and must be redrawn from the re-fit three-variable β. A named score is created only if optimism-corrected AUC exceeds 0.70; otherwise the multivariable table stands alone. Sex may drop out of any integer map if its re-fit coefficient is small.
 
 ---
 
@@ -91,38 +93,28 @@ STEMI was present in 37/67 culprit cases and 7/40 non-culprit cases (OR 5.81, 95
 | CK-MB Δ | 0.737 | 0.552 | 0.621 |
 | **Age** | 0.637 (p=0.018) | **0.693** | **0.009** |
 
-Second cTnI medians in Non-STEMI were 1,048 pg/mL (culprit) vs 1,665 pg/mL (no culprit). The whole-cohort “second troponin works” result is a STEMI effect (STEMI-culprit median 25,000 pg/mL).
+Second cTnI medians in Non-STEMI were 1,048 pg/mL (culprit) vs 1,665 pg/mL (no culprit). The whole-cohort “second troponin works” result is a STEMI effect (STEMI-culprit median 25,000 pg/mL). Culprit patients were older (median 66 vs 56 years). A Youden split at ≥59 years (sensitivity 83.3%, specificity 54.5%) is reported only as a sensitivity analysis.
 
-Age cutoff in Non-STEMI, Youden optimum ≥59 years: sensitivity 83.3%, specificity 54.5%. Culprit patients were older (median 66 vs 56 years).
+### 3.5 Nested models that still contain CK-MB (not a Door score)
 
-### 3.5 Multivariable model — the result that remains useful when STEMI is gone
+The 2026 re-analysis added variables onto CK-MB Δ. Those AUCs are apparent, nested, and still include the enzyme.
 
-| Model | All-comer AUC | Non-STEMI AUC |
+| Nested addition | All-comer AUC | Non-STEMI AUC |
 |---|---:|---:|
 | CK-MB Δ alone | 0.737 | 0.552 |
 | + age | 0.829 | 0.766 |
 | + sex | 0.838 | 0.808 |
-| + shockable rhythm | **0.849** | **0.832** |
+| + shockable rhythm | 0.849 | 0.832 |
 
-Non-STEMI operating point: sensitivity 84.6%, specificity 72.7%. Standardized coefficients: age β=1.01, shockable 0.53, CK-MB Δ 0.40, sex 0.32. Age is the dominant term. The enzyme that looked strongest in the univariable all-comer analysis is the weakest term once ST elevation is removed.
+The Non-STEMI value 0.808 is CK-MB Δ + age + sex, not age + rhythm + sex. Standardized coefficients on that four-variable path were age 1.01, shockable 0.53, CK-MB Δ 0.40, sex 0.32. They are not weights for a three-variable Door model. Apparent discrimination is not quoted as a result.
 
 ### 3.6 What is not significant (and should stay in the paper)
 
 CPR time, defibrillation energy and count, hypertension, diabetes, and prior CAD were not associated with a culprit lesion. Spearman correlations of CPR time and defibrillation with initial cTnI were all r<0.14 and not significant. Troponin release after OHCA is not explained by “how hard we compressed.”
 
-### 3.7 Integer conversion (exploratory; not a bedside rule)
+### 3.7 Exploratory three-variable model (one paragraph)
 
-The Non-STEMI three-variable logistic model (age, shockable rhythm, male sex; apparent AUC 0.808) can be written as integers by dividing standardized coefficients by 0.32 (Sullivan / Framingham point method): age ≥59 years = 3, shockable = 2, male = 1 (range 0–6). We call this working draft **OHCA-ARS**. It is not a clinical score.
-
-CK-MB Δ is **not** in this draft. The 21.4 ng/mL Youden cutoff came from the mixed STEMI/Non-STEMI sample (N=107). In Non-STEMI, CK-MB Δ had AUC 0.552, p=0.621, and was missing in 28 of 63 patients. The four-variable apparent AUC 0.832 is therefore not used as a score.
-
-We do **not** publish Low/Intermediate/High bands. No patient has been rescored with the integers; likelihood ratios for 0–2 / 3–4 / 5–7 do not exist. A “high” band would collapse to age ≥59 plus a shockable rhythm — a heuristic many centres already use. The additional information in a named score is small.
-
-The apparent AUC 0.808 is a training-set logistic AUC (30 events, three predictors, no bootstrap optimism). Integerization usually lowers discrimination. If optimism-corrected AUC falls below ~0.70, scoring should be abandoned.
-
-The paper’s claim is not that a score should decide CAG. It is that in Non-STEMI OHCA a single enzyme is not needed, and that age and the first rhythm carry more information than troponin. COACT, TOMAHAWK, and TARGET-CTCA already caution that a higher pre-test probability of a lesion does not prove that immediate angiography reduces events. STEMI remains out of scope: do not score it. The name ACES was retired (clash with CODE ACES 2 and Canadian syndromic surveillance).
-
-Until the 63 Non-STEMI patients are rescored, this integer map stays in the laboratory notebook.
+In Non-STEMI we specify, but have not yet re-fit, a logistic model of continuous age, shockable rhythm, and sex, without CK-MB. Integer 3–2–1 points scaled from the four-variable β are leftover arithmetic and are not locked. Age dichotomized at 59 years is a sensitivity analysis. A named score is kept only if optimism-corrected AUC exceeds 0.70; if sex is weak, a multivariable table without a score is the honest report. This paragraph is exploratory and is not a CAG rule.
 
 ---
 
@@ -136,15 +128,17 @@ First, **time**. CK-MB at the second draw, and the change from the first, separa
 
 Second, **STEMI**. Once ST elevation is set aside, every enzyme — including the CK-MB change — returns to chance. The all-comer p-values were carried by patients whose ECG had already answered the question. Publishing only the all-comer AUC would repeat that illusion.
 
-Third, **age**. In the subgroup where a test is actually needed, age is the only univariable marker with p<0.05 (p=0.009, AUC 0.693). Adding sex and a shockable rhythm lifts the apparent logistic AUC to 0.808. That is demographic information, not a laboratory cutoff, and not yet an integer rule.
+Third, **age**. In the subgroup where a test is actually needed, age is the only univariable marker with p<0.05 (p=0.009, AUC 0.693). That is demographic information, not a laboratory cutoff, and not yet an integer rule.
 
-The practical sentence is therefore not “enzymes are useless,” not “CK-MB replaces angiography,” and not “a multivariable score should decide CAG.” It is: **in Non-STEMI OHCA a single enzyme is not needed; age and the initial rhythm matter more than troponin.**
+The sentence that matches these data is: **In Non-STEMI OHCA, a single enzyme does not help identify a culprit lesion. Age and the initial rhythm matter more. A higher pre-test probability of a lesion does not, in these data, prove a prognostic benefit from immediate angiography.**
 
-This is consistent with COACT and TOMAHAWK. Those trials did not find a benefit of immediate CAG in Non-STEMI OHCA. A higher probability of a culprit — even if a future validated score provided one — would not by itself prove that more angiograms prevent events (the TARGET-CTCA logic).
+This is consistent with COACT, TOMAHAWK, and TARGET-CTCA. Those studies already caution that finding more lesions is not the same as preventing events.
 
 ### Limitations
 
-Single center, CAG-only sample (spectrum bias: angiography was ordered when coronary disease was already plausible; cardiologists were not blinded to the first enzyme). Serial intervals were irregular. STEMI coding in the thesis text (95.5%) disagrees with the stratification used here (55.2% of culprits); the ECG list must be re-counted before journal submission. Multivariable AUCs (0.808 without CK-MB, 0.832 with) are apparent, not cross-validated, and will shrink; 30 events cannot carry four predictors. An integer map of those coefficients has not been rescored on the 63 patients and is not a decision rule. The 132-patient extract used for peak CK-MB is a wider pull from the same study, not the locked 107-patient set. CK-MB is reported in ng/mL and cTnI in pg/mL.
+This analysis is exploratory. It is a single-center CAG-selected sample. There is no external validation. It is not an indication for coronary angiography.
+
+Additional data notes: cardiologists were not blinded to the first enzyme; serial intervals were irregular; STEMI coding in the thesis text (95.5%) disagrees with the stratification used here (55.2% of culprits) and must be re-counted; nested AUCs from the 2026 re-analysis still contain CK-MB and are apparent only; the 132-patient extract is a wider pull from the same study. CK-MB is reported in ng/mL and cTnI in pg/mL.
 
 ---
 
@@ -156,9 +150,9 @@ In resuscitated OHCA patients who undergo CAG:
 2. Serial CK-MB does, in the whole cohort (Δ AUC 0.737, p=0.001).
 3. That enzyme signal disappears in Non-STEMI (AUC 0.552, p=0.621).
 4. Age remains significant in Non-STEMI (AUC 0.693, p=0.009).
-5. Age, sex, and a shockable rhythm give an apparent logistic AUC of 0.808 in Non-STEMI. That figure is not an integer-score AUC, not optimism-corrected, and not an indication for CAG.
+5. A named integer score is not a result of this draft.
 
-The cutoff the original paper could not find should not be sought again. After STEMI is removed, the result that still meets p<0.05 is age. The honest clinical sentence is that a single enzyme is unnecessary in Non-STEMI OHCA, not that a new score should send patients to the laboratory.
+In Non-STEMI OHCA, a single enzyme does not help identify a culprit lesion. Age and the initial rhythm matter more. A higher pre-test probability of a lesion does not, in these data, prove a prognostic benefit from immediate angiography.
 
 ---
 

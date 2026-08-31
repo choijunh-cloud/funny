@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OHCA-ARS — 탐색적 초안 (임상 사용 금지)</title>
+<title>잔여 가중치 확인 — 임상 사용 금지</title>
 <style>
 :root{--navy:#0f2043;--bg:#f4f6fb;--card:#fff;--ink:#1a1a1a;--mut:#4b5563;--line:#e5e7eb;--red:#991b1b;--redbg:#fdecea}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -38,14 +38,13 @@ th,td{border-bottom:1px solid var(--line);padding:7px 6px;text-align:left}
 <body>
 <div class="wrap">
 <div class="ban">
-  임상 사용 금지. 포켓 카드 아님. Low/High 층을 붙이지 않습니다.
-  이것은 미검증 로지스틱 모형을 정수로 옮긴 연구 초안입니다. CAG·PCI 결정에 쓰지 마십시오.
+  연구용 산술 · 임상 사용 금지 · 층 없음 · 3–2–1은 최종 배점이 아님.<br>
+  CK-MB가 들어 있던 4변수 β의 잔여입니다. 3변수(나이 연속 + 리듬 + 성별)를 다시 적합하기 전에는 잠그지 않습니다.
 </div>
 <header>
-  <h1>OHCA-ARS (탐색적) · Door 0–6</h1>
-  <p>Age 3 + shockable Rhythm 2 + Sex 1. STEMI 제외. 초기 트로포닌 제외. CK-MB 제외.<br>
-  0.808은 연속 로지스틱의 학습 표본 겉보기 AUC입니다. 정수 점수의 성능이 아닙니다.
-  예전 이름 ACES는 폐기했습니다.</p>
+  <h1>잔여 가중치 확인 (점수 아님)</h1>
+  <p>STEMI 제외. 초기 트로포닌 제외. CK-MB 제외. 나이 59세 이분은 민감도 분석용.<br>
+  0.808은 CK-MB Δ+나이+성별 중첩 AUC입니다. Door 3변수 성능이 아닙니다. 예전 이름 ACES는 폐기했습니다.</p>
 </header>
 
 <div class="grid">
@@ -78,9 +77,9 @@ th,td{border-bottom:1px solid var(--line);padding:7px 6px;text-align:left}
     </div>
   </div>
   <div class="card">
-    <h2>Door 합 (층 없음)</h2>
+    <h2>잔여 합 (층 없음 · 잠정치 아님)</h2>
     <div class="big" id="total">6</div>
-    <p class="sub" id="note">0–6 정수 · 위험층·확률을 부여하지 않음</p>
+    <p class="sub" id="note">4변수 β의 잔여 산술 · 위험층·확률 없음</p>
     <div class="bar"><span>Age ≥59</span><div class="track"><div class="fill" id="bA"></div></div><span id="pA">3</span></div>
     <div class="bar"><span>Shockable</span><div class="track"><div class="fill" id="bE"></div></div><span id="pE">2</span></div>
     <div class="bar"><span>Male</span><div class="track"><div class="fill" id="bS"></div></div><span id="pS">1</span></div>
@@ -92,8 +91,8 @@ th,td{border-bottom:1px solid var(--line);padding:7px 6px;text-align:left}
   <h2>왜 CK-MB와 층을 뺐는가</h2>
   <ul>
     <li>CK-MB Δ 컷오프 21.4 ng/mL은 STEMI 포함 107명의 Youden. Non-STEMI AUC 0.552, p=0.621. Δ 있는 환자 35/63.</li>
-    <li>0.832 Full AUC는 2차 효소를 찍은 쪽에 치우쳤을 수 있음. Door 0.808이 더 정직.</li>
-    <li>0–2 / 3–4 / 5–7은 채점된 우도비가 없음. High는 사실상 59세 + shockable.</li>
+    <li>0.808은 CK-MB Δ+나이+성별이다. Age+rhythm+sex 성능이 아님. 3변수는 다시 적합해야 함.</li>
+    <li>3–2–1은 4변수 β 잔여. 재적합 전 최종 배점이 아님. 성별 1점은 사라질 수 있음.</li>
     <li>점수와 즉시 CAG를 묶으면 COACT·TOMAHAWK와 충돌. 사전확률 ≠ 검사 이득.</li>
   </ul>
 </div>
@@ -101,11 +100,11 @@ th,td{border-bottom:1px solid var(--line);padding:7px 6px;text-align:left}
 <div class="card" style="margin-top:14px">
   <h2>원자료가 오면</h2>
   <ol>
-    <li>Non-STEMI 63명에게 이 0–6만 다시 채점.</li>
-    <li>점식별 culprit 비율, ROC, Youden, 우도비. 층은 그때 만든다.</li>
-    <li>Bootstrap 보정 AUC·optimism. 0.70 미만이면 점수화를 접는다.</li>
+    <li>Non-STEMI에서 Age(연속)+shockable+sex만 다시 적합. 3–2–1을 잠그지 않음.</li>
+    <li>그때의 β로 정수를 다시 매김. 59세는 민감도 분석.</li>
+    <li>Bootstrap 보정 AUC. 0.70 미만이거나 성별이 약하면 점수 없이 다변량 표로 끝냄.</li>
     <li>CK-MB는 Non-STEMI에서 유의하지 않으면 계속 제외.</li>
-    <li>본문: 탐색적, 외부 검증 전, CAG 적응 지침 아님.</li>
+    <li>본문 제한 네 줄: 탐색적, 단일기관, 외부 검증 없음, CAG 적응 지침 아님.</li>
   </ol>
   <table>
     <tr><th>산술 예시 (확률 아님)</th><th>점</th></tr>
@@ -146,8 +145,8 @@ function calc(){
     return;
   }
   document.getElementById('total').textContent=door;
-  document.getElementById('note').textContent='Door '+door+' / 6  ·  층·확률 없음  ·  겉보기 모델 AUC 0.808을 이 정수에 붙이지 말 것';
-  document.getElementById('msg').textContent='산술 확인용입니다. 이 합이 그 환자의 culprit 확률이 아닙니다. 63명 재채점 전에는 치료에 쓰지 않습니다.';
+  document.getElementById('note').textContent='잔여 합 '+door+'  ·  3–2–1 미잠금  ·  0.808을 이 숫자에 붙이지 말 것';
+  document.getElementById('msg').textContent='산술 확인용입니다. 3변수 재적합 전의 잔여 가중치이며 그 환자의 culprit 확률이 아닙니다.';
 }
 calc();
 </script>

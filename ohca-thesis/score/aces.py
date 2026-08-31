@@ -1,6 +1,6 @@
-"""ACES is retired. Run ars.py (OHCA-ARS door score 0-6)."""
+"""ACES name is retired. Leftover arithmetic lives in ars.py and is not a score."""
 
 raise SystemExit(
-    "ACES is retired (name clash with CODE ACES 2 / Canadian ACES; "
-    "CK-MB point and Low/High bands withdrawn). Use score/ars.py"
+    "ACES is retired. 3-2-1 is leftover from a 4-variable beta and is not locked. "
+    "See score/OHCA_ARS.md and score/ars.py"
 )

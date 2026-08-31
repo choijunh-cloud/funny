@@ -18,14 +18,11 @@
 - `paper/figures/` — AUC·OR·CK-MB·나이 컷오프 그림
 - 환자 단위 값을 만들어 내지 않음. 기존 코호트의 유의 결과만 사용.
 
-## 정수 초안 (임상 점수 아님)
+## 탐색적 세 변수 가설 (점수 아님)
 
-이전 ACES(포켓 카드, Low/High, CK-MB 1점)는 폐기했습니다. 이름은 CODE ACES 2·캐나다 ACES와 겹치고, 정수 성능·층 우도비가 없으며 CK-MB 1점은 Non-STEMI에서 근거가 없습니다.
+ACES·포켓 카드·층·CK-MB 1점은 폐기했습니다. 3–2–1은 4변수 β의 잔여이며 **최종 배점이 아닙니다.** 0.808은 CK-MB가 들어 있는 중첩 AUC이지 Door 성능이 아닙니다.
 
-남은 것은 **OHCA-ARS** Door 0–6 (나이 3, shockable 2, 남성 1)입니다. 탐색적 산술입니다. 층을 붙이지 않습니다.
+원자료가 오면 Age(연속)+shockable+sex를 다시 적합합니다. 보정 AUC가 0.70을 넘을 때만 점수를 남깁니다.
 
 - [score/OHCA_ARS.md](score/OHCA_ARS.md)
-- [dashboards/OHCA_ARS_draft.html](dashboards/OHCA_ARS_draft.html) — 연구용, 임상 사용 금지
-- `score/ars.py`
-
-다음 작업은 Non-STEMI 63명을 이 0–6으로 다시 채점하는 것입니다. 원자료가 필요합니다.
+- [dashboards/OHCA_ARS_draft.html](dashboards/OHCA_ARS_draft.html) — 연구용 산술, 임상 사용 금지, 층 없음
