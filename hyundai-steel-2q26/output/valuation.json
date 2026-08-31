@@ -1,0 +1,437 @@
+{
+  "meta": {
+    "ticker": "004020",
+    "name": "현대제철",
+    "as_of": "2026-08-31",
+    "report_date": "2026-08-04",
+    "price_report": 24800,
+    "price_latest": 31000,
+    "price_latest_date": "2026-08-28",
+    "shares": 133445785,
+    "treasury_shares": 1900046,
+    "bps_2025a": 145158,
+    "high_52w": 50400,
+    "low_52w": 23650,
+    "foreign_pct": 16.17,
+    "dps_2026e": 500,
+    "mobis_stake_krw_bn": 2700,
+    "investment_assets_2025_krw_bn": 2706,
+    "net_debt_2025_krw_bn": 7522,
+    "fnguide_consensus_tp": 44182,
+    "fnguide_consensus_n": 17,
+    "fnguide_consensus_eps": 821,
+    "market_cap_latest_bn": 41368.0,
+    "pbr_latest_12mf": 0.205,
+    "pbr_report_12mf": 0.164,
+    "pbr_latest_2025": 0.214
+  },
+  "blend": {
+    "q3_op": 114.2,
+    "q4_op": 158.3,
+    "fy26_op": 353.4,
+    "fy26_op_from_quarters": 345.9,
+    "fy27_op": 608.1,
+    "fy26_np": 122.0,
+    "fy27_np": 295.4,
+    "fy26_eps": 914,
+    "fy27_eps": 2214,
+    "fy26_bps": 146444,
+    "fy27_bps": 149380,
+    "bps_12mf": 151551,
+    "fy26_ebitda": 2088.0,
+    "fy26_nd": 8110.0,
+    "fy26_op_street": [
+      333.0,
+      351.0,
+      353.4,
+      376.0,
+      426.8
+    ],
+    "fy27_op_street": [
+      556.0,
+      557.5,
+      647.0,
+      672.0,
+      951.0
+    ]
+  },
+  "methods": [
+    {
+      "id": "pbr",
+      "name": "12mf PBR",
+      "source": "키움 프레임 + iM 배수 절충",
+      "low": 33341,
+      "mid": 42434,
+      "high": 48496,
+      "weight": 0.35,
+      "inputs": {
+        "bps_12mf": 151551,
+        "target_pbr": 0.28,
+        "kiwoom_implied_bps": 153333,
+        "im_bps": 152918,
+        "interpolated_bps": 148401
+      },
+      "note": "밸류업·저PBR 명단은 0.30x, 현재 ROE 1.6%는 0.25x. 촉매는 있으나 실적 회복은 더뎌 0.28x."
+    },
+    {
+      "id": "peer_pbr",
+      "name": "피어조정 PBR",
+      "source": "대신 산식, 2027 ROE는 컨센 1.6% 사용",
+      "low": 32864,
+      "mid": 41826,
+      "high": 44814,
+      "weight": 0.0,
+      "inputs": {
+        "bps_2027e": 149380,
+        "peer_roe": 7.2,
+        "peer_pbr": 0.7,
+        "company_roe_daishin": 2.8,
+        "company_roe_blend": 1.6,
+        "mechanical_pbr": 0.156
+      },
+      "note": "대신 공식 0.7×(ROE/7.2)는 순환업 저점에서 0.16x로 붕괴. 산식의 뼈대만 취하고 배수는 0.28x."
+    },
+    {
+      "id": "sotp",
+      "name": "SOTP",
+      "source": "iM 모비스 지분 + 제철 장부",
+      "low": 36031,
+      "mid": 42594,
+      "high": 49158,
+      "weight": 0.25,
+      "inputs": {
+        "investment_per_share": 20278,
+        "steel_bps": 131273,
+        "steel_pbr": 0.17,
+        "mobis_krw_bn": 2700
+      },
+      "note": "시총이 모비스 지분(2.7조)에 제철 본업을 거의 얹지 않는 구조를 분리 평가."
+    },
+    {
+      "id": "ev_ebitda",
+      "name": "EV/EBITDA",
+      "source": "국내 중기 배수, 미국 7.1x 배제",
+      "low": 25284,
+      "mid": 36236,
+      "high": 45625,
+      "weight": 0.15,
+      "inputs": {
+        "ebitda_2026e": 2088.0,
+        "net_debt_2026e": 8110.0,
+        "multiple": 6.2,
+        "equity_krw_bn": 4835.6
+      },
+      "note": "미국 전기로 투자로 순차입금이 늘어 EV 방식은 가장 보수적. 가중치는 낮춤."
+    },
+    {
+      "id": "broker_qw",
+      "name": "증권사 품질가중",
+      "source": "2Q 추정 정확도 + 산식 공개 여부",
+      "low": 40000,
+      "mid": 43870,
+      "high": 50000,
+      "weight": 0.25,
+      "inputs": {
+        "simple_avg": 44720,
+        "simple_median": 44600,
+        "fnguide": 44182,
+        "weights": {
+          "키움증권": 0.2,
+          "한화투자증권": 0.25,
+          "하나증권": 0.1,
+          "대신증권": 0.2,
+          "iM증권": 0.25
+        }
+      },
+      "note": "한화·iM에 가중(추정 정확 / 유일한 하향). 하나 5만원은 가중 축소."
+    }
+  ],
+  "target": {
+    "tp": 42000,
+    "raw_weighted": 41903,
+    "expected_value": 41200,
+    "upside_vs_latest": 35.5,
+    "upside_vs_report": 69.4,
+    "rating": "BUY",
+    "target_pbr": 0.277,
+    "div_yield": 1.61
+  },
+  "scenarios": [
+    {
+      "id": "bear",
+      "name": "약세",
+      "prob": 0.2,
+      "tp": 28000,
+      "pbr": 0.185,
+      "thesis": "중국 수출 재확대, 차강판·후판 인상 실패, 밸류업이 선언에 그침"
+    },
+    {
+      "id": "base",
+      "name": "기본",
+      "prob": 0.55,
+      "tp": 42000,
+      "pbr": 0.277,
+      "thesis": "3Q부터 고로 스프레드 회복, 3~4Q 주주환원 윤곽, PBR 0.28x 재평가"
+    },
+    {
+      "id": "bull",
+      "name": "강세",
+      "prob": 0.25,
+      "tp": 50000,
+      "pbr": 0.33,
+      "thesis": "밸류업+자사주, 3Q 서프라이즈, AIDC·팹 물량 가시화. 하나 TP와 수렴"
+    }
+  ],
+  "q_path": {
+    "labels": [
+      "1Q26",
+      "2Q26",
+      "3Q26E",
+      "4Q26E"
+    ],
+    "actual_or_blend": [
+      15.7,
+      57.7,
+      114.2,
+      158.3
+    ],
+    "brokers": {
+      "키움증권": [
+        null,
+        57.7,
+        113.4,
+        166.7
+      ],
+      "한화투자증권": [
+        null,
+        57.7,
+        116.7,
+        143.0
+      ],
+      "하나증권": [
+        null,
+        57.7,
+        115.6,
+        237.9
+      ],
+      "대신증권": [
+        null,
+        57.7,
+        111.3,
+        166.4
+      ],
+      "iM증권": [
+        null,
+        57.7,
+        146.0,
+        157.0
+      ]
+    }
+  },
+  "brokers": [
+    {
+      "id": "kiwoom",
+      "name": "키움증권",
+      "analyst": "이종형",
+      "date": "2026-08-04",
+      "rating": "BUY",
+      "tp": 46000,
+      "tp_action": "재개",
+      "method": "12mf PBR 0.30x",
+      "target_pbr": 0.3,
+      "bps_used": 153333,
+      "q3_op": 113.4,
+      "q4_op": 166.7,
+      "y2026": {
+        "revenue": 24190.5,
+        "op": 353.4,
+        "np_ctrl": 159.5,
+        "eps": 1196,
+        "bps": 150253,
+        "roe": 0.8,
+        "ebitda": 2088,
+        "net_debt": 7615
+      },
+      "y2027": {
+        "revenue": 25053.0,
+        "op": 557.5,
+        "np_ctrl": 311.8,
+        "eps": 2336,
+        "bps": 156488,
+        "roe": 1.5,
+        "ebitda": 2416
+      },
+      "op_2q_est": 185.0,
+      "strength": "12mf PBR 프레임과 저PBR·밸류업 촉매를 가장 선명하게 연결",
+      "weakness": "2Q 영업이익 추정치 1,850억원(실제 577억, -69%) — 커버리지 재개 직후 신뢰도 낮음",
+      "weight_broker": 0.2
+    },
+    {
+      "id": "hanwha",
+      "name": "한화투자증권",
+      "analyst": "권지우",
+      "date": "2026-08-04",
+      "rating": "Buy",
+      "tp": 43000,
+      "tp_action": "유지",
+      "method": "PBR 밴드 + 하반기 판가 가시성",
+      "target_pbr": 0.294,
+      "bps_used": 145984,
+      "q3_op": 116.7,
+      "q4_op": 143.0,
+      "y2026": {
+        "revenue": 24092.0,
+        "op": 333.0,
+        "np_ctrl": 69.0,
+        "eps": 528,
+        "bps": 145984,
+        "roe": 0.4,
+        "ebitda": 2033,
+        "net_debt": 9151
+      },
+      "y2027": {
+        "revenue": 24912.0,
+        "op": 647.0,
+        "np_ctrl": 311.0,
+        "eps": 2362,
+        "bps": 147820,
+        "roe": 1.6,
+        "ebitda": 2347
+      },
+      "op_2q_est": 72.8,
+      "strength": "판재·봉형강·자회사 분해가 가장 정교하고 2Q 추정치가 실제에 가장 근접",
+      "weakness": "목표주가 산식이 불투명하고 2026 지배순이익 690억은 과도하게 보수적",
+      "weight_broker": 0.25
+    },
+    {
+      "id": "hana",
+      "name": "하나증권",
+      "analyst": "박성봉",
+      "date": "2026-08-04",
+      "rating": "BUY",
+      "tp": 50000,
+      "tp_action": "유지",
+      "method": "스프레드 회복 + PBR 하단 탈피",
+      "target_pbr": 0.341,
+      "bps_used": 146444,
+      "q3_op": 115.6,
+      "q4_op": 237.9,
+      "y2026": {
+        "revenue": 23953.6,
+        "op": 426.8,
+        "np_ctrl": 125.0,
+        "eps": 936,
+        "bps": 146444,
+        "roe": 0.64,
+        "ebitda": 2212,
+        "net_debt": 8687
+      },
+      "y2027": {
+        "revenue": 24957.3,
+        "op": 672.0,
+        "np_ctrl": 306.0,
+        "eps": 2293,
+        "bps": 147998,
+        "roe": 1.57,
+        "ebitda": 2538
+      },
+      "op_2q_est": null,
+      "strength": "고로·전기로 ASP/투입원가 분해와 3Q 스프레드 확대 경로가 가장 구체적",
+      "weakness": "2Q 미스 이후에도 TP 5만원을 유지하고 4Q 영업이익 2,379억은 영웅적 가정",
+      "weight_broker": 0.1
+    },
+    {
+      "id": "daishin",
+      "name": "대신증권",
+      "analyst": "강민아",
+      "date": "2026-08-04",
+      "rating": "BUY",
+      "tp": 44600,
+      "tp_action": "유지",
+      "method": "2027E BPS × Target P/B 0.30x (피어 ROE 조정)",
+      "target_pbr": 0.3,
+      "bps_used": 149380,
+      "q3_op": 111.3,
+      "q4_op": 166.4,
+      "y2026": {
+        "revenue": 23995.0,
+        "op": 351.0,
+        "np_ctrl": 112.0,
+        "eps": 840,
+        "bps": 145628,
+        "roe": 0.6,
+        "ebitda": 2100,
+        "net_debt": 8110
+      },
+      "y2027": {
+        "revenue": 26410.0,
+        "op": 951.0,
+        "np_ctrl": 550.0,
+        "eps": 4121,
+        "bps": 149380,
+        "roe": 2.8,
+        "ebitda": 2701
+      },
+      "op_2q_est": 103.5,
+      "strength": "유일한 명시적 산식(피어 ROE 7.2%·P/B 0.7x 대비 할인)과 컨콜 Q&A 정리",
+      "weakness": "2027 영업이익 9,510억·ROE 2.8%는 5사 중 뚜렷한 아웃라이어",
+      "weight_broker": 0.2
+    },
+    {
+      "id": "im",
+      "name": "iM증권",
+      "analyst": "김윤상",
+      "date": "2026-08-04",
+      "rating": "Buy",
+      "tp": 40000,
+      "tp_action": "하향",
+      "method": "12mf BPS × Target PBR 0.25x (ROE 1.6%)",
+      "target_pbr": 0.25,
+      "bps_used": 152918,
+      "q3_op": 146.0,
+      "q4_op": 157.0,
+      "y2026": {
+        "revenue": 23709.0,
+        "op": 376.0,
+        "np_ctrl": 129.0,
+        "eps": 963,
+        "bps": 150021,
+        "roe": 0.7,
+        "ebitda": 2014,
+        "net_debt": 6784
+      },
+      "y2027": {
+        "revenue": 23931.0,
+        "op": 556.0,
+        "np_ctrl": 253.0,
+        "eps": 1896,
+        "bps": 155815,
+        "roe": 1.2,
+        "ebitda": 2178
+      },
+      "op_2q_est": null,
+      "strength": "유일하게 TP를 5만→4만으로 하향. 모비스 지분 2.7조 SOTP와 역사적 PBR/ROE 밴드",
+      "weakness": "3Q 영업이익 1,460억은 컨센 클러스터(1,110~1,170억) 대비 공격적",
+      "weight_broker": 0.25
+    }
+  ],
+  "actual_2q26": {
+    "revenue": 6107.3,
+    "op": 57.7,
+    "opm": 0.9,
+    "pretax": -0.6,
+    "np": 12.1,
+    "np_ctrl": 8.4,
+    "standalone_op": 11.1,
+    "volume_kt": 4421,
+    "plate_kt": 3021,
+    "long_kt": 1400,
+    "plate_rev": 3346.6,
+    "long_rev": 1491.3
+  },
+  "consensus_2q26": {
+    "revenue": 6146.1,
+    "op": 75.9,
+    "np_ctrl": 16.6
+  }
+}
