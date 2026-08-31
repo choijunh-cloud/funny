@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OHCA Cardiac Origin 감별 지표 종합 분석</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#0f172a;color:#e2e8f0;padding:20px;max-width:1400px;margin:0 auto}
+h1{text-align:center;font-size:1.5rem;margin-bottom:6px;color:#f1f5f9}
+.sub{text-align:center;color:#94a3b8;margin-bottom:20px;font-size:.85rem}
+.grid{display:grid;gap:14px;margin-bottom:14px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:1fr 1fr 1fr}
+.g4{grid-template-columns:1fr 1fr 1fr 1fr}
+.card{background:#1e293b;border-radius:10px;padding:16px;border:1px solid #334155}
+.card h3{font-size:.75rem;color:#94a3b8;margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px}
+.kpi{font-size:1.8rem;font-weight:700}
+.kpi-s{font-size:.73rem;color:#64748b;margin-top:3px}
+.cc{background:#1e293b;border-radius:10px;padding:16px;border:1px solid #334155}
+.cc h3{font-size:.9rem;color:#f1f5f9;margin-bottom:10px}
+.st{font-size:1.05rem;color:#f1f5f9;margin:20px 0 10px;padding-bottom:5px;border-bottom:2px solid #3b82f6}
+.sig{color:#34d399;font-weight:700}
+.ns{color:#f87171;font-weight:700}
+.warn{color:#fbbf24;font-weight:600}
+table{width:100%;border-collapse:collapse;font-size:.78rem}
+th{background:#334155;color:#cbd5e1;padding:6px 8px;text-align:center;font-weight:600}
+td{padding:5px 8px;border-bottom:1px solid #334155;text-align:center}
+tr:hover td{background:#334155}
+canvas{max-height:280px}
+.verdict{border-radius:10px;padding:20px;margin:14px 0}
+.v-red{background:linear-gradient(135deg,#1e293b,#2d1b1b);border:2px solid #f87171}
+.v-green{background:linear-gradient(135deg,#1e293b,#1a2e22);border:2px solid #34d399}
+.v-blue{background:linear-gradient(135deg,#1e293b,#1a2440);border:2px solid #60a5fa}
+.verdict h2{font-size:1.05rem;margin-bottom:8px}
+.verdict p{line-height:1.7;font-size:.85rem;margin-bottom:3px}
+@media(max-width:900px){.g2,.g3,.g4{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<h1>OHCA에서 Cardiac vs Non-cardiac Origin 감별 지표 종합 순위</h1>
+<p class="sub">33개 변수 · 단변량 + 다변량 분석 · 전체(N=107) + Non-STEMI 하위군(N=63) · Mann-Whitney U / Chi-square / ROC / Logistic Regression</p>
+
+<!-- 핵심 결론 3개 -->
+<div class="verdict v-green">
+  <h2 style="color:#34d399">결론 1: 다변량 모델이 최우수 — AUC 0.832 (Non-STEMI에서도)</h2>
+  <p><strong>CK-MB 변화량 + 나이 + 성별 + Shockable rhythm</strong> 조합 시 Non-STEMI에서도 AUC <span class="sig">0.832</span>, 민감도 84.6%, 특이도 72.7%</p>
+  <p>회귀계수: <span class="warn">나이(β=1.01)</span> > Shockable(β=0.53) > CKMB변화량(β=0.40) > 성별(β=0.32)</p>
+</div>
+
+<div class="verdict v-blue">
+  <h2 style="color:#60a5fa">결론 2: Non-STEMI에서 유일한 단독 유의 변수는 "나이"</h2>
+  <p>Non-STEMI 63명에서 <strong>나이만 유일하게 유의</strong>: AUC <span class="sig">0.693</span>, p=0.009 (Cardiac 중앙값 66세 vs Non-cardiac 56세)</p>
+  <p>바이오마커(cTnI, CK-MB)는 Non-STEMI에서 <span class="ns">전부 유의하지 않음</span></p>
+</div>
+
+<div class="verdict v-red">
+  <h2 style="color:#f87171">결론 3: cTnI는 어떤 형태로든 감별력 없음</h2>
+  <p>첫째 cTnI (AUC 0.572, NS) / cTnI 변화량 (AUC 0.530, NS) / Non-STEMI에서 둘째 cTnI AUC <span class="ns">0.478 (방향 역전)</span></p>
+</div>
+
+<!-- KPI -->
+<div class="st">1. 최우수 지표 핵심 수치</div>
+<div class="grid g4">
+  <div class="card">
+    <h3>1위: 다변량 모델</h3>
+    <div class="kpi sig">0.832</div>
+    <div class="kpi-s">Non-STEMI AUC · 민감도 84.6%</div>
+  </div>
+  <div class="card">
+    <h3>유일한 단독 유의변수</h3>
+    <div class="kpi warn">나이</div>
+    <div class="kpi-s">Non-STEMI p=0.009 · AUC 0.693</div>
+  </div>
+  <div class="card">
+    <h3>전체 1위 (단변량)</h3>
+    <div class="kpi" style="color:#a78bfa">CK-MB Δ</div>
+    <div class="kpi-s">전체 AUC 0.737 · p=0.001</div>
+  </div>
+  <div class="card">
+    <h3>cTnI 최고 성적</h3>
+    <div class="kpi ns">0.548</div>
+    <div class="kpi-s">Non-STEMI 첫째 cTnI · NS</div>
+  </div>
+</div>
+
+<!-- 전체 vs Non-STEMI AUC 비교 -->
+<div class="st">2. 전체 vs Non-STEMI: AUC 비교 (단변량)</div>
+<div class="grid g2">
+  <div class="cc">
+    <h3>연속형 변수 AUC 비교</h3>
+    <canvas id="aucCompare"></canvas>
+  </div>
+  <div class="cc">
+    <h3>전체 단변량 결과표</h3>
+    <table>
+      <tr><th>순위</th><th>변수</th><th>전체 AUC</th><th>전체 p</th><th>Non-STEMI AUC</th><th>Non-STEMI p</th></tr>
+      <tr><td>1</td><td style="text-align:left">CK-MB 변화량</td><td class="sig">0.737</td><td class="sig">0.001</td><td class="ns">0.552</td><td class="ns">0.621</td></tr>
+      <tr><td>2</td><td style="text-align:left">cTnI 채취간격</td><td class="sig">0.737</td><td class="sig">&lt;0.001</td><td>0.637</td><td>0.082</td></tr>
+      <tr><td>3</td><td style="text-align:left">나이</td><td>0.637</td><td>0.018</td><td class="sig">0.693</td><td class="sig">0.009</td></tr>
+      <tr><td>4</td><td style="text-align:left">CK-MB 둘째값</td><td>0.657</td><td>0.007</td><td class="ns">0.581</td><td class="ns">0.273</td></tr>
+      <tr><td>5</td><td style="text-align:left">둘째 cTnI</td><td>0.631</td><td>0.023</td><td class="ns">0.478</td><td class="ns">0.767</td></tr>
+      <tr><td>6</td><td style="text-align:left">CK-MB 첫째값</td><td>0.616</td><td>0.045</td><td>0.614</td><td>0.123</td></tr>
+      <tr><td>7</td><td style="text-align:left">첫째 cTnI</td><td class="ns">0.572</td><td class="ns">0.218</td><td class="ns">0.548</td><td class="ns">0.518</td></tr>
+      <tr><td>8</td><td style="text-align:left">cTnI 변화량</td><td class="ns">0.530</td><td class="ns">0.676</td><td class="ns">0.524</td><td class="ns">0.786</td></tr>
+    </table>
+    <p style="margin-top:8px;font-size:.75rem;color:#fbbf24">⚠️ 나이만 Non-STEMI에서 AUC가 오히려 상승 (0.637→0.693)</p>
+  </div>
+</div>
+
+<!-- 다변량 모델 -->
+<div class="st">3. 다변량 조합: 단독 무용 → 조합 시 유용</div>
+<div class="grid g2">
+  <div class="cc">
+    <h3>다변량 모델 AUC 비교</h3>
+    <canvas id="multivariate"></canvas>
+  </div>
+  <div class="cc">
+    <h3>최적 모델: CK-MB변화량 + 나이 + 성별 + Shockable</h3>
+    <div style="padding:8px 0">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+        <div style="text-align:center;background:#334155;padding:10px;border-radius:8px">
+          <div style="font-size:.7rem;color:#94a3b8">Non-STEMI AUC</div>
+          <div style="font-size:1.8rem;font-weight:700;color:#34d399">0.832</div>
+        </div>
+        <div style="text-align:center;background:#334155;padding:10px;border-radius:8px">
+          <div style="font-size:.7rem;color:#94a3b8">민감도 / 특이도</div>
+          <div style="font-size:1.8rem;font-weight:700;color:#60a5fa">84.6 / 72.7%</div>
+        </div>
+      </div>
+      <h3 style="font-size:.85rem;margin-bottom:8px">회귀계수 (표준화 β) 기여도</h3>
+      <canvas id="coefChart" style="max-height:160px"></canvas>
+      <p style="margin-top:10px;font-size:.8rem;color:#94a3b8;line-height:1.5">
+        <span class="warn">나이가 β=1.01로 가장 큰 기여</span> → 고령일수록 cardiac origin 확률 ↑<br>
+        단독으로 무력한 CK-MB(β=0.40), 성별(β=0.32), shockable(β=0.53)이 조합 시 시너지
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Non-STEMI: 나이 분석 -->
+<div class="st">4. Non-STEMI 유일한 유의 변수: "나이" 상세 분석</div>
+<div class="grid g2">
+  <div class="cc">
+    <h3>나이 컷오프별 민감도 vs 특이도</h3>
+    <canvas id="ageCutoff"></canvas>
+  </div>
+  <div class="cc">
+    <h3>상세 성능표</h3>
+    <table>
+      <tr><th>컷오프</th><th>민감도</th><th>특이도</th></tr>
+      <tr><td>≥ 50세</td><td>90.0%</td><td>30.3%</td></tr>
+      <tr><td>≥ 55세</td><td>86.7%</td><td>45.5%</td></tr>
+      <tr style="background:#334155"><td class="warn">≥ 59세 (최적)*</td><td class="warn">83.3%</td><td class="warn">54.5%</td></tr>
+      <tr><td>≥ 60세</td><td>80.0%</td><td>57.6%</td></tr>
+      <tr><td>≥ 65세</td><td>56.7%</td><td>66.7%</td></tr>
+      <tr><td>≥ 70세</td><td>40.0%</td><td>78.8%</td></tr>
+    </table>
+    <p style="margin-top:8px;font-size:.78rem;color:#94a3b8">* Youden's J index 최적<br>해석: 59세 이상 Non-STEMI OHCA 환자는 cardiac origin 가능성이 더 높다</p>
+    <div style="margin-top:12px;background:#1a2e22;border:1px solid #34d399;border-radius:8px;padding:10px">
+      <p style="font-size:.82rem;color:#34d399;font-weight:600">임상적 의미</p>
+      <p style="font-size:.78rem;color:#cbd5e1;margin-top:4px;line-height:1.5">Non-STEMI OHCA에서 cTnI/CK-MB 단독은 무용하지만, <strong>60세 이상 + 남성 + Shockable rhythm</strong>이면 다변량 모델로 AUC 0.83 수준의 감별이 가능</p>
+    </div>
+  </div>
+</div>
+
+<!-- 범주형 변수 -->
+<div class="st">5. 범주형 변수 감별력</div>
+<div class="grid g2">
+  <div class="cc">
+    <h3>범주형 변수: Odds Ratio (전체)</h3>
+    <canvas id="orChart"></canvas>
+  </div>
+  <div class="cc">
+    <h3>범주형 결과표</h3>
+    <table>
+      <tr><th>변수</th><th>Cardiac(%)</th><th>Non-card(%)</th><th>OR</th><th>전체 p</th><th>NS p</th></tr>
+      <tr><td>STEMI</td><td>55.2%</td><td>17.5%</td><td class="sig">5.81</td><td class="sig">&lt;0.001</td><td>-</td></tr>
+      <tr><td>성별(남)</td><td>85.1%</td><td>65.0%</td><td>3.07</td><td>0.030</td><td class="ns">0.181</td></tr>
+      <tr><td>Shockable</td><td>80.6%</td><td>67.5%</td><td>2.00</td><td class="ns">0.195</td><td class="ns">0.550</td></tr>
+      <tr><td>HTN</td><td>47.8%</td><td>40.0%</td><td>1.37</td><td class="ns">0.562</td><td class="ns">1.000</td></tr>
+      <tr><td>DM</td><td>19.4%</td><td>22.5%</td><td>0.83</td><td class="ns">0.892</td><td class="ns">0.202</td></tr>
+      <tr><td>CAOD</td><td>13.4%</td><td>15.0%</td><td>0.88</td><td class="ns">1.000</td><td class="ns">0.862</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- 최종 요약 -->
+<div class="st">6. 논문 활용 최종 요약</div>
+<div class="grid g2">
+  <div class="cc" style="border-color:#f87171">
+    <h3 style="color:#f87171">Negative Finding (단변량)</h3>
+    <div style="font-size:.85rem;line-height:1.8;padding:6px 0">
+      <p>🔴 <strong>cTnI</strong>: 어떤 형태(첫째/둘째/변화량)로든 Non-STEMI에서 감별 불가</p>
+      <p>🔴 <strong>CK-MB</strong>: 전체에서 유의(AUC 0.737)하지만 Non-STEMI에서 붕괴(0.552)</p>
+      <p>🔴 <strong>CPR시간, 제세동에너지/횟수</strong>: 전부 유의하지 않음</p>
+      <p>🔴 <strong>기저질환(HTN, DM, CAOD)</strong>: 전부 유의하지 않음</p>
+      <p>🟡 <strong>나이만 유일하게 유의</strong> (p=0.009, AUC 0.693)</p>
+    </div>
+  </div>
+  <div class="cc" style="border-color:#34d399">
+    <h3 style="color:#34d399">Positive Finding (다변량)</h3>
+    <div style="font-size:.85rem;line-height:1.8;padding:6px 0">
+      <p>🟢 <strong>나이 + CK-MB변화량 + 성별 + Shockable</strong> 조합 시</p>
+      <p style="margin-left:16px">→ Non-STEMI에서도 AUC <span class="sig">0.832</span></p>
+      <p style="margin-left:16px">→ 민감도 84.6%, 특이도 72.7%</p>
+      <p style="margin-top:8px">📌 "단독 바이오마커의 한계를 극복하려면<br>　임상 변수(나이, 성별, 초기리듬)와의<br>　<strong>다변량 스코어링</strong>이 필요하다"</p>
+    </div>
+  </div>
+</div>
+
+<script>
+Chart.defaults.color='#94a3b8';Chart.defaults.borderColor='#334155';Chart.defaults.font.family="'Segoe UI',Arial";
+
+// AUC 비교 (전체 vs Non-STEMI)
+new Chart(document.getElementById('aucCompare'),{
+  type:'bar',
+  data:{
+    labels:['CK-MB Δ','cTnI 간격','나이','CK-MB\n둘째값','둘째\ncTnI','CK-MB\n첫째값','첫째\ncTnI','cTnI Δ'],
+    datasets:[
+      {label:'전체 AUC',data:[0.737,0.737,0.637,0.657,0.631,0.616,0.572,0.530],backgroundColor:'#3b82f6',borderRadius:3},
+      {label:'Non-STEMI AUC',data:[0.552,0.637,0.693,0.581,0.478,0.614,0.548,0.524],backgroundColor:'#f87171',borderRadius:3}
+    ]
+  },
+  options:{plugins:{legend:{position:'top',labels:{font:{size:11}}}},scales:{y:{min:0.35,max:0.8,title:{display:true,text:'AUC'}}}}
+});
+
+// 다변량 모델
+new Chart(document.getElementById('multivariate'),{
+  type:'bar',
+  data:{
+    labels:['CK-MB Δ\n단독','CK-MB Δ\n+ 나이','+ 나이\n+ 성별','+ 나이 +성별\n+ Shockable'],
+    datasets:[
+      {label:'전체',data:[0.737,0.829,0.838,0.849],backgroundColor:'#3b82f6',borderRadius:3},
+      {label:'Non-STEMI',data:[0.552,0.766,0.808,0.832],backgroundColor:'#34d399',borderRadius:3}
+    ]
+  },
+  options:{plugins:{legend:{position:'top',labels:{font:{size:11}}}},scales:{y:{min:0.4,max:0.9,title:{display:true,text:'AUC'}}}}
+});
+
+// 회귀계수
+new Chart(document.getElementById('coefChart'),{
+  type:'bar',
+  data:{
+    labels:['나이 (β=1.01)','Shockable (β=0.53)','CK-MB Δ (β=0.40)','성별 (β=0.32)'],
+    datasets:[{data:[1.01,0.534,0.399,0.323],backgroundColor:['#fbbf24','#34d399','#a78bfa','#60a5fa'],borderRadius:4}]
+  },
+  options:{indexAxis:'horizontal',plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,title:{display:true,text:'표준화 β'}}}}
+});
+
+// 나이 컷오프
+new Chart(document.getElementById('ageCutoff'),{
+  type:'line',
+  data:{
+    labels:['50','55','59*','60','65','70'],
+    datasets:[
+      {label:'민감도',data:[90,86.7,83.3,80,56.7,40],borderColor:'#60a5fa',backgroundColor:'#60a5fa20',fill:true,tension:0.3},
+      {label:'특이도',data:[30.3,45.5,54.5,57.6,66.7,78.8],borderColor:'#fb923c',backgroundColor:'#fb923c20',fill:true,tension:0.3}
+    ]
+  },
+  options:{plugins:{legend:{position:'top'}},scales:{x:{title:{display:true,text:'나이 컷오프 (세)'}},y:{min:0,max:100,title:{display:true,text:'%'}}}}
+});
+
+// OR 차트
+new Chart(document.getElementById('orChart'),{
+  type:'bar',
+  data:{
+    labels:['STEMI','성별(남)','Shockable','HTN','CAOD','DM'],
+    datasets:[{
+      label:'Odds Ratio',
+      data:[5.81,3.07,2.00,1.37,0.88,0.83],
+      backgroundColor:['#f87171','#fbbf24','#fb923c','#64748b','#64748b','#64748b'],
+      borderRadius:4
+    }]
+  },
+  options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,title:{display:true,text:'Odds Ratio'}}}}
+});
+</script>
+
+</body>
+</html>
