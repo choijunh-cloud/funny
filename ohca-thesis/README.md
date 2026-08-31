@@ -9,3 +9,11 @@
 - [dashboards/OHCA_감별지표_종합순위.html](dashboards/OHCA_감별지표_종합순위.html)
 
 핵심만: 초기 1회 효소는 AMI 원인 OHCA를 가르지 못한다. serial CK-MB는 전체에서만 살아나고, Non-STEMI에서는 나이가 유일한 단독 신호다. 논문 본문의 STEMI 95.5%와 이후 분석의 55.2%는 원자료로 다시 세어야 한다.
+
+## 새 논문 초고 (p&lt;0.05 결과로 재구성)
+
+- [paper/새논문_기획과결과.md](paper/새논문_기획과결과.md) — 주제 변경 이유와 유의 결과 목록
+- [paper/MANUSCRIPT.md](paper/MANUSCRIPT.md) — 영문 IMRaD 초고
+- [dashboards/OHCA_새논문_유의결과.html](dashboards/OHCA_새논문_유의결과.html)
+- `paper/figures/` — AUC·OR·CK-MB·나이 컷오프 그림
+- 환자 단위 값을 만들어 내지 않음. 기존 코호트의 유의 결과만 사용.
