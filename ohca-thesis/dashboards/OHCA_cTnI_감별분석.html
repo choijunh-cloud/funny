@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OHCA: cTnI로 Cardiac vs Non-cardiac Origin 감별 가능성 분석</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #0f172a; color: #e2e8f0; padding: 20px; }
+h1 { text-align: center; font-size: 1.6rem; margin-bottom: 6px; color: #f1f5f9; }
+.subtitle { text-align: center; color: #94a3b8; margin-bottom: 24px; font-size: 0.9rem; }
+.grid { display: grid; gap: 16px; margin-bottom: 16px; }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+.card { background: #1e293b; border-radius: 12px; padding: 18px; border: 1px solid #334155; }
+.card h3 { font-size: 0.8rem; color: #94a3b8; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+.kpi { font-size: 2rem; font-weight: 700; }
+.kpi-sub { font-size: 0.78rem; color: #64748b; margin-top: 4px; }
+.chart-card { background: #1e293b; border-radius: 12px; padding: 18px; border: 1px solid #334155; }
+.chart-card h3 { font-size: 0.95rem; color: #f1f5f9; margin-bottom: 12px; }
+.section-title { font-size: 1.15rem; color: #f1f5f9; margin: 24px 0 12px; padding-bottom: 6px; border-bottom: 2px solid #3b82f6; }
+.sig { color: #34d399; font-weight: 700; }
+.ns { color: #f87171; font-weight: 700; }
+table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+th { background: #334155; color: #cbd5e1; padding: 8px 10px; text-align: center; font-weight: 600; }
+td { padding: 7px 10px; border-bottom: 1px solid #334155; text-align: center; }
+tr:hover td { background: #334155; }
+.highlight { color: #fbbf24; font-weight: 600; }
+canvas { max-height: 300px; }
+.verdict { background: linear-gradient(135deg, #1e3a5f, #1e293b); border: 2px solid #3b82f6; border-radius: 12px; padding: 24px; margin: 16px 0; }
+.verdict h2 { color: #60a5fa; font-size: 1.2rem; margin-bottom: 12px; }
+.verdict p { line-height: 1.7; font-size: 0.9rem; margin-bottom: 6px; }
+.pval { font-family: monospace; font-weight: 600; }
+@media (max-width: 900px) {
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3, .grid-2 { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<h1>OHCA에서 cTnI를 이용한 Cardiac vs Non-cardiac Origin 감별 분석</h1>
+<p class="subtitle">N=107 (Cardiac origin 67명 vs Non-cardiac origin 40명) · Mann-Whitney U, ROC, Youden's J</p>
+
+<!-- 핵심 결론 -->
+<div class="verdict">
+  <h2>핵심 결론: cTnI 단독으로는 감별력이 제한적</h2>
+  <p>🔴 <strong>첫번째 cTnI 절대값</strong>: AUC = 0.572, p = 0.218 → <span class="ns">통계적으로 유의하지 않음</span></p>
+  <p>🟡 <strong>두번째 cTnI 절대값</strong>: AUC = 0.631, p = 0.023 → <span class="sig">유의하지만 감별력 약함</span></p>
+  <p>🔴 <strong>cTnI 변화량 (delta)</strong>: AUC = 0.530, p = 0.676 → <span class="ns">유의하지 않음</span></p>
+  <p>🟢 <strong>CK-MB 변화량</strong>: AUC = 0.737, p = 0.001 → <span class="sig">cTnI보다 유의미하게 우수</span></p>
+  <p style="margin-top:12px; color:#fbbf24">⚠️ 이유: Non-cardiac OHCA 환자도 심근 손상으로 cTnI가 높게 상승 (Non-cardiac의 77.5%가 cTnI > 기준치)</p>
+</div>
+
+<!-- KPI -->
+<div class="grid grid-4">
+  <div class="card">
+    <h3>첫번째 cTnI AUC</h3>
+    <div class="kpi ns">0.572</div>
+    <div class="kpi-sub">p = 0.218 (NS)</div>
+  </div>
+  <div class="card">
+    <h3>두번째 cTnI AUC</h3>
+    <div class="kpi" style="color:#fbbf24">0.631</div>
+    <div class="kpi-sub">p = 0.023 *</div>
+  </div>
+  <div class="card">
+    <h3>cTnI 변화량 AUC</h3>
+    <div class="kpi ns">0.530</div>
+    <div class="kpi-sub">p = 0.676 (NS)</div>
+  </div>
+  <div class="card">
+    <h3>CK-MB 변화량 AUC</h3>
+    <div class="kpi sig">0.737</div>
+    <div class="kpi-sub">p = 0.001 ***</div>
+  </div>
+</div>
+
+<!-- Section: 마커별 비교 -->
+<div class="section-title">1. Cardiac vs Non-cardiac: 바이오마커 비교 (중앙값)</div>
+<div class="grid grid-2">
+  <div class="chart-card">
+    <h3>cTnI 1차 → 2차 채취값</h3>
+    <canvas id="ctniCompare"></canvas>
+  </div>
+  <div class="chart-card">
+    <h3>CK-MB 1차 → 2차 채취값</h3>
+    <canvas id="ckmbCompare"></canvas>
+  </div>
+</div>
+
+<!-- Section: AUC 비교 -->
+<div class="section-title">2. AUC 비교: 어떤 마커가 가장 유용한가?</div>
+<div class="grid grid-2">
+  <div class="chart-card">
+    <h3>바이오마커별 AUC (Cardiac origin 예측)</h3>
+    <canvas id="aucCompare"></canvas>
+  </div>
+  <div class="chart-card">
+    <h3>통계 검정 결과 요약</h3>
+    <table>
+      <tr><th>바이오마커</th><th>AUC</th><th>p-value</th><th>판정</th><th>Cohen's d</th></tr>
+      <tr><td>첫번째 cTnI</td><td>0.572</td><td class="pval">0.218</td><td class="ns">NS</td><td>0.31 (small)</td></tr>
+      <tr><td>두번째 cTnI</td><td class="highlight">0.631</td><td class="pval sig">0.023</td><td class="sig">*</td><td>0.48 (small)</td></tr>
+      <tr><td>cTnI 변화량</td><td>0.530</td><td class="pval">0.676</td><td class="ns">NS</td><td>-</td></tr>
+      <tr><td>CK-MB 변화량</td><td class="highlight">0.737</td><td class="pval sig">0.001</td><td class="sig">***</td><td>-</td></tr>
+    </table>
+    <p style="margin-top:12px;font-size:0.82rem;color:#94a3b8">* Mann-Whitney U test (양측검정)<br>AUC: Area Under the ROC Curve</p>
+  </div>
+</div>
+
+<!-- Section: 최적 컷오프 -->
+<div class="section-title">3. ROC 기반 최적 컷오프 (Youden's J Index)</div>
+<div class="grid grid-2">
+  <div class="chart-card">
+    <h3>마커별 최적 컷오프 지점</h3>
+    <canvas id="cutoffChart"></canvas>
+  </div>
+  <div class="chart-card">
+    <h3>두번째 cTnI: 다양한 컷오프별 성능</h3>
+    <table>
+      <tr><th>컷오프</th><th>민감도</th><th>특이도</th><th>PPV</th><th>NPV</th></tr>
+      <tr><td>≥ 1,000</td><td>76.1%</td><td>40.0%</td><td>68.0%</td><td>50.0%</td></tr>
+      <tr><td>≥ 2,000</td><td>68.7%</td><td>52.5%</td><td>70.8%</td><td>50.0%</td></tr>
+      <tr><td>≥ 5,000</td><td>64.2%</td><td>67.5%</td><td>76.8%</td><td>52.9%</td></tr>
+      <tr style="background:#334155"><td class="highlight">≥ 8,445*</td><td class="highlight">58.2%</td><td class="highlight">75.0%</td><td class="highlight">79.6%</td><td class="highlight">51.7%</td></tr>
+      <tr><td>≥ 10,000</td><td>53.7%</td><td>75.0%</td><td>78.3%</td><td>49.2%</td></tr>
+      <tr><td>≥ 15,000</td><td>47.8%</td><td>77.5%</td><td>78.0%</td><td>47.0%</td></tr>
+      <tr><td>≥ 20,000</td><td>44.8%</td><td>80.0%</td><td>78.9%</td><td>46.4%</td></tr>
+    </table>
+    <p style="margin-top:8px;font-size:0.78rem;color:#94a3b8">* Youden's J index 최적 컷오프</p>
+  </div>
+</div>
+
+<!-- Section: 왜 cTnI가 안 되는가? -->
+<div class="section-title">4. cTnI 감별력이 제한적인 이유</div>
+<div class="grid grid-2">
+  <div class="chart-card">
+    <h3>첫번째 cTnI > 기준치(40 ng/mL) 비율</h3>
+    <canvas id="elevatedChart"></canvas>
+  </div>
+  <div class="chart-card">
+    <h3>핵심 메커니즘</h3>
+    <div style="padding:10px 0; line-height:1.9; font-size:0.88rem;">
+      <p style="color:#f87171;font-weight:600;margin-bottom:8px">OHCA 자체가 심근 손상을 유발</p>
+      <p>🔸 Non-cardiac OHCA 환자의 <span class="highlight">77.5%</span>가 cTnI > 기준치</p>
+      <p>🔸 Cardiac OHCA 환자는 <span class="highlight">86.6%</span>가 cTnI > 기준치</p>
+      <p>🔸 두 군 모두 cTnI가 높아서 절대값으로 감별이 어려움</p>
+      <p style="margin-top:12px;color:#60a5fa;font-weight:600">가능한 논문 방향:</p>
+      <p>🔹 <strong>CK-MB 변화량</strong>이 cTnI보다 감별력 우수 (AUC 0.737 vs 0.530)</p>
+      <p>🔹 <strong>두번째 cTnI 절대값</strong>만 유의 (p=0.023), 시간 경과 후 차이 벌어짐</p>
+      <p>🔹 cTnI의 <strong>"rising pattern"</strong>(상승 속도/패턴)이 감별에 더 유용할 수 있음</p>
+      <p>🔹 <strong>채취 시간간격 표준화</strong> 필요 (r=0.268, p=0.027으로 시간과 상관)</p>
+    </div>
+  </div>
+</div>
+
+<!-- CKMB vs cTnI 비교 -->
+<div class="section-title">5. CK-MB가 cTnI보다 우수한 이유</div>
+<div class="grid grid-2">
+  <div class="chart-card">
+    <h3>CK-MB 변화량: Cardiac vs Non-cardiac</h3>
+    <canvas id="ckmbDelta"></canvas>
+  </div>
+  <div class="chart-card">
+    <h3>CK-MB 최적 컷오프 성능</h3>
+    <div style="padding:16px 0;">
+      <div style="font-size:2rem;font-weight:700;color:#34d399;text-align:center">컷오프: 21.4 ng/mL</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;">
+        <div style="text-align:center;background:#334155;padding:12px;border-radius:8px;">
+          <div style="font-size:0.8rem;color:#94a3b8">민감도</div>
+          <div style="font-size:1.6rem;font-weight:700;color:#60a5fa">66.7%</div>
+        </div>
+        <div style="text-align:center;background:#334155;padding:12px;border-radius:8px;">
+          <div style="font-size:0.8rem;color:#94a3b8">특이도</div>
+          <div style="font-size:1.6rem;font-weight:700;color:#fb923c">84.6%</div>
+        </div>
+      </div>
+      <p style="margin-top:16px;font-size:0.85rem;color:#94a3b8;line-height:1.6">
+        CK-MB는 심근에 더 특이적이어서, OHCA로 인한 비특이적 상승이 cTnI보다 적음.
+        따라서 cardiac origin에서 CK-MB의 변화량이 더 극적으로 나타남 (중앙값 70.0 vs 3.3, <strong>21.2배 차이</strong>)
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+Chart.defaults.color = '#94a3b8';
+Chart.defaults.borderColor = '#334155';
+Chart.defaults.font.family = "'Segoe UI', Arial";
+
+// cTnI 비교
+new Chart(document.getElementById('ctniCompare'), {
+  type: 'bar',
+  data: {
+    labels: ['1차 채취','2차 채취'],
+    datasets: [
+      { label: 'Cardiac (중앙값)', data: [395, 12974], backgroundColor: '#3b82f6', borderRadius: 4 },
+      { label: 'Non-cardiac (중앙값)', data: [255.3, 1847], backgroundColor: '#fb923c', borderRadius: 4 }
+    ]
+  },
+  options: { plugins:{legend:{position:'top'}}, scales:{y:{beginAtZero:true,title:{display:true,text:'ng/mL'}}} }
+});
+
+// CKMB 비교
+new Chart(document.getElementById('ckmbCompare'), {
+  type: 'bar',
+  data: {
+    labels: ['1차 채취','2차 채취'],
+    datasets: [
+      { label: 'Cardiac (중앙값)', data: [5.6, 70.0], backgroundColor: '#3b82f6', borderRadius: 4 },
+      { label: 'Non-cardiac (중앙값)', data: [2.9, 3.3], backgroundColor: '#fb923c', borderRadius: 4 }
+    ]
+  },
+  options: { plugins:{legend:{position:'top'}}, scales:{y:{beginAtZero:true,title:{display:true,text:'ng/mL'}}} }
+});
+
+// AUC 비교
+new Chart(document.getElementById('aucCompare'), {
+  type: 'bar',
+  data: {
+    labels: ['첫번째\ncTnI','두번째\ncTnI','cTnI\n변화량','CK-MB\n변화량'],
+    datasets: [{
+      data: [0.572, 0.631, 0.530, 0.737],
+      backgroundColor: ['#ef4444','#fbbf24','#ef4444','#34d399'],
+      borderRadius: 6, barThickness: 60
+    }]
+  },
+  options: {
+    plugins:{
+      legend:{display:false},
+      annotation:{}
+    },
+    scales:{
+      y:{min:0.4,max:0.85,title:{display:true,text:'AUC'},
+        ticks:{callback:v=>v.toFixed(1)}
+      }
+    }
+  }
+});
+
+// 컷오프 차트
+new Chart(document.getElementById('cutoffChart'), {
+  type: 'bar',
+  data: {
+    labels: ['첫번째 cTnI\n(669.0)','두번째 cTnI\n(8,445)','cTnI 변화량\n(4,782)','CK-MB 변화량\n(21.4)'],
+    datasets: [
+      { label: '민감도(%)', data: [38.8, 58.2, 25.0, 66.7], backgroundColor: '#60a5fa', borderRadius: 4 },
+      { label: '특이도(%)', data: [77.5, 75.0, 93.8, 84.6], backgroundColor: '#fb923c', borderRadius: 4 }
+    ]
+  },
+  options: { plugins:{legend:{position:'top'}}, scales:{y:{beginAtZero:true,max:100,title:{display:true,text:'%'}}} }
+});
+
+// Elevated 비율
+new Chart(document.getElementById('elevatedChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Cardiac','Non-cardiac'],
+    datasets: [{
+      label: 'cTnI > 기준치 비율',
+      data: [86.6, 77.5],
+      backgroundColor: ['#3b82f6','#fb923c'],
+      borderRadius: 6, barThickness: 80
+    }]
+  },
+  options: {
+    plugins:{legend:{display:false}},
+    scales:{y:{beginAtZero:true,max:100,title:{display:true,text:'%'}}}
+  }
+});
+
+// CKMB delta
+new Chart(document.getElementById('ckmbDelta'), {
+  type: 'bar',
+  data: {
+    labels: ['Cardiac','Non-cardiac'],
+    datasets: [{
+      label: 'CK-MB 변화량 (중앙값)',
+      data: [70.0, 3.3],
+      backgroundColor: ['#f87171','#60a5fa'],
+      borderRadius: 6, barThickness: 80
+    }]
+  },
+  options: {
+    plugins:{
+      legend:{display:false},
+      tooltip:{callbacks:{label: ctx => ctx.parsed.y + ' ng/mL'}}
+    },
+    scales:{y:{beginAtZero:true,title:{display:true,text:'ng/mL'}}}
+  }
+});
+</script>
+
+</body>
+</html>

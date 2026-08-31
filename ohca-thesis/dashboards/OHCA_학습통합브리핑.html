@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OHCA 심장효소 논문 — 학습 통합 브리핑</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#0f172a;color:#e2e8f0;padding:20px;max-width:1400px;margin:0 auto}
+h1{text-align:center;font-size:1.45rem;margin-bottom:6px;color:#f1f5f9}
+.sub{text-align:center;color:#94a3b8;margin-bottom:20px;font-size:.85rem}
+.grid{display:grid;gap:14px;margin-bottom:14px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:1fr 1fr 1fr}
+.g4{grid-template-columns:1fr 1fr 1fr 1fr}
+.card{background:#1e293b;border-radius:10px;padding:16px;border:1px solid #334155}
+.card h3{font-size:.75rem;color:#94a3b8;margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px}
+.kpi{font-size:1.7rem;font-weight:700}
+.kpi-s{font-size:.73rem;color:#64748b;margin-top:3px}
+.cc{background:#1e293b;border-radius:10px;padding:16px;border:1px solid #334155}
+.cc h3{font-size:.9rem;color:#f1f5f9;margin-bottom:10px}
+.st{font-size:1.05rem;color:#f1f5f9;margin:20px 0 10px;padding-bottom:5px;border-bottom:2px solid #3b82f6}
+.sig{color:#34d399;font-weight:700}
+.ns{color:#f87171;font-weight:700}
+.warn{color:#fbbf24;font-weight:600}
+table{width:100%;border-collapse:collapse;font-size:.78rem}
+th{background:#334155;color:#cbd5e1;padding:6px 8px;text-align:center;font-weight:600}
+td{padding:5px 8px;border-bottom:1px solid #334155;text-align:center}
+tr:hover td{background:#334155}
+canvas{max-height:280px}
+.verdict{border-radius:10px;padding:18px;margin:12px 0}
+.v-red{background:linear-gradient(135deg,#1e293b,#2d1b1b);border:2px solid #f87171}
+.v-green{background:linear-gradient(135deg,#1e293b,#1a2e22);border:2px solid #34d399}
+.v-blue{background:linear-gradient(135deg,#1e293b,#1a2440);border:2px solid #60a5fa}
+.v-amber{background:linear-gradient(135deg,#1e293b,#2d2410);border:2px solid #fbbf24}
+.verdict h2{font-size:1.02rem;margin-bottom:8px}
+.verdict p{line-height:1.7;font-size:.85rem;margin-bottom:3px}
+.left{text-align:left}
+@media(max-width:900px){.g2,.g3,.g4{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<h1>OHCA 심장효소 논문 — 학습 통합 브리핑</h1>
+<p class="sub">Choi et al. 2023 원문 + 2026 재분석 2종 + HTML 대시보드 3종 교차검증 · 학습일 2026-08-31</p>
+
+<div class="verdict v-green">
+  <h2 style="color:#34d399">학습 결론: 초기 1회는 실패, serial CK-MB는 전체에서만 성공, Non-STEMI는 나이가 답</h2>
+  <p>논문 공식 결론(“ER 초기 cTnI/CK-MB로 AMI cut-off를 찾지 못했다”)은 <strong>초기값에 한해 맞다</strong> (AUC 0.54–0.58, 검정력 ≈24%).</p>
+  <p>같은 데이터에서 peak/Δ CK-MB는 전체 AUC <span class="sig">0.74</span>까지 살아나지만, STEMI를 빼면 바이오마커는 <span class="ns">전부 붕괴</span>한다.</p>
+  <p>Non-STEMI에서 남는 단독 신호는 <span class="warn">나이(AUC 0.693)</span>이고, 나이+성별+shockable+CK-MB Δ는 AUC <span class="sig">0.832</span>.</p>
+</div>
+
+<div class="verdict v-amber">
+  <h2 style="color:#fbbf24">투고 전 반드시 원자료로 확인할 충돌: STEMI 95.5% vs 55.2%</h2>
+  <p>논문 본문: AMI 67명 중 <strong>64명(95.5%)</strong>이 ST 상승. HTML 층화: STEMI 44명 = AMI 37 + non-AMI 7 → AMI 중 STEMI <strong>55.2%</strong>.</p>
+  <p>non-AMI ST 상승 17.5%(7/40)는 양쪽이 같다. 64와 37은 동시에 참일 수 없다. Non-STEMI 논문 스토리의 전제.</p>
+</div>
+
+<div class="st">1. 코호트 한눈에</div>
+<div class="grid g4">
+  <div class="card"><h3>OHCA → CAG</h3><div class="kpi">107</div><div class="kpi-s">1,092 → 625 심인성 → 121 ICU</div></div>
+  <div class="card"><h3>AMI : non-AMI</h3><div class="kpi">67 : 40</div><div class="kpi-s">CAG culprit lesion</div></div>
+  <div class="card"><h3>논문 초기 AUC</h3><div class="kpi ns">0.54 / 0.58</div><div class="kpi-s">cTnI / CK-MB · 둘 다 NS</div></div>
+  <div class="card"><h3>재분석 넓은셋</h3><div class="kpi">132</div><div class="kpi-s">논문과 동일 모집단, 다른 추출</div></div>
+</div>
+
+<div class="st">2. 전체 vs Non-STEMI vs 다변량</div>
+<div class="grid g2">
+  <div class="cc">
+    <h3>단변량 AUC가 STEMI 제거 후 무너지는 모습</h3>
+    <canvas id="aucCollapse"></canvas>
+  </div>
+  <div class="cc">
+    <h3>조합하면 Non-STEMI에서도 회복</h3>
+    <canvas id="multi"></canvas>
+    <p style="margin-top:8px;font-size:.78rem;color:#94a3b8">β 기여: 나이 1.01 &gt; shockable 0.53 &gt; CK-MB Δ 0.40 &gt; 성별 0.32</p>
+  </div>
+</div>
+
+<div class="st">3. 숫자 대조표 (논문 vs 재분석 vs HTML)</div>
+<div class="cc">
+  <table>
+    <tr><th class="left">항목</th><th>논문 107</th><th>재분석 132</th><th>HTML 107</th></tr>
+    <tr><td class="left">군 정의</td><td>culprit ±</td><td>≥1VD proxy</td><td>culprit ±</td></tr>
+    <tr><td class="left">AMI : non-AMI</td><td>67 : 40</td><td>86 : 46</td><td>67 : 40</td></tr>
+    <tr><td class="left">초기 CK-MB (AMI/non)</td><td>5.8 / 3.9 *</td><td>5.3 / 3.4 *</td><td>5.6 / 2.9</td></tr>
+    <tr><td class="left">초기 cTnI (AMI/non)</td><td>395 / 255</td><td>10.3 / 14.1 ⚠</td><td>395 / 255</td></tr>
+    <tr><td class="left">초기 AUC CK-MB / cTnI</td><td>0.583 / 0.535</td><td>0.61 / 0.49</td><td>— / 0.572</td></tr>
+    <tr><td class="left">serial 최고 AUC</td><td>본문만 서술</td><td>peak CK-MB 0.74</td><td>CK-MB Δ 0.737</td></tr>
+    <tr><td class="left">Shockable AMI/non</td><td>80.6 / 67.5%</td><td>76.7 / 65.2%</td><td>(동일 코호트)</td></tr>
+    <tr><td class="left">STEMI in AMI</td><td class="ns">95.5% (64)</td><td>—</td><td class="warn">55.2% (37)</td></tr>
+  </table>
+  <p style="margin-top:8px;font-size:.75rem;color:#94a3b8">* 중앙값 근접 → 같은 연구. ⚠ 132명 cTnI 열 식별 불확실(리포트도 인정). cTnI 단위는 pg/mL(ng/L)가 맞고 HTML의 ng/mL 라벨은 오류.</p>
+</div>
+
+<div class="st">4. 논문 방법의 약점 (이미 표에 있는 사실)</div>
+<div class="grid g3">
+  <div class="cc">
+    <h3>PSM 균형 실패</h3>
+    <p style="font-size:.82rem;line-height:1.7">자기 기준 |SMD|&lt;0.25인데 Age 0.518, Sex 0.435, CK-MB 0.324. 매칭 후에도 Age·Sex p=0.035. 31명을 버리고 교란은 남음.</p>
+  </div>
+  <div class="cc">
+    <h3>매칭 후 cTnI 역전</h3>
+    <p style="font-size:.82rem;line-height:1.7">AMI cTnI 395 → 242.5로 non-AMI(255)보다 낮아짐. n=38에서 트로포닌 높은 AMI가 탈락한 잡음.</p>
+  </div>
+  <div class="cc">
+    <h3>검정력 부족을 ‘무용’으로 읽음</h3>
+    <p style="font-size:.82rem;line-height:1.7">AUC 0.58을 n=40 vs 67에서 잡을 사후 검정력 ≈24%. “cut-off를 못 찾았다”가 “없다”보다 정확.</p>
+  </div>
+</div>
+
+<div class="st">5. 임상 문장으로 고정</div>
+<div class="grid g2">
+  <div class="verdict v-red" style="margin:0">
+    <h2 style="color:#f87171">하지 말 것</h2>
+    <p>ROSC 후, 특히 Non-STEMI에서 “cTnI가 올랐으니 AMI”로 CAG를 결정하지 않는다. Non-cardiac의 70%대가 이미 양성이다.</p>
+    <p>초기 1회 효소로 원인을 가르려 하지 않는다. 4th UD도 rise-and-fall을 요구한다.</p>
+  </div>
+  <div class="verdict v-green" style="margin:0">
+    <h2 style="color:#34d399">할 수 있는 것</h2>
+    <p>STEMI는 ECG. 효소의 자리는 Non-STEMI인데, 그곳의 단독 마커는 실패한다.</p>
+    <p>60세 전후 + 남성 + shockable을 묶으면 다변량으로 AUC 0.83 수준. 외부검증 전제.</p>
+  </div>
+</div>
+
+<div class="st">6. 다음 논문 스토리 (STEMI 코딩 확정 후)</div>
+<div class="cc">
+  <p style="font-size:.85rem;line-height:1.8">
+    <strong style="color:#60a5fa">서론</strong> — Non-STEMI OHCA에서 효소를 믿어도 되는가?<br>
+    <strong style="color:#fbbf24">결과</strong> — 전체 유의는 STEMI 착시. Non-STEMI 63명에서 마커 AUC 0.48–0.55, 둘째 cTnI 방향 역전. 나이 단독 0.69, 다변량 0.83.<br>
+    <strong style="color:#f87171">고찰</strong> — 전신 허혈-재관류 위양성. COACT/TOMAHAWK와 맞물려 “효소로 조기 CAG를 결정하지 마라”.<br>
+    <strong style="color:#34d399">결론</strong> — 음성 근거 + 제한적 다변량 스코어. 불필요한 CAG 감소가 임상 기여.
+  </p>
+</div>
+
+<script>
+Chart.defaults.color='#94a3b8';Chart.defaults.borderColor='#334155';Chart.defaults.font.family="'Segoe UI',Arial";
+new Chart(document.getElementById('aucCollapse'),{
+  type:'bar',
+  data:{
+    labels:['첫째 cTnI','둘째 cTnI','cTnI Δ','CK-MB Δ','나이'],
+    datasets:[
+      {label:'전체 N=107',data:[0.572,0.631,0.530,0.737,0.637],backgroundColor:'#3b82f6',borderRadius:3},
+      {label:'Non-STEMI N=63',data:[0.548,0.478,0.524,0.552,0.693],backgroundColor:'#f87171',borderRadius:3}
+    ]
+  },
+  options:{plugins:{legend:{position:'top'}},scales:{y:{min:0.4,max:0.85,title:{display:true,text:'AUC'}}}}
+});
+new Chart(document.getElementById('multi'),{
+  type:'bar',
+  data:{
+    labels:['CK-MB Δ','+나이','+성별','+shockable'],
+    datasets:[
+      {label:'전체',data:[0.737,0.829,0.838,0.849],backgroundColor:'#3b82f6',borderRadius:3},
+      {label:'Non-STEMI',data:[0.552,0.766,0.808,0.832],backgroundColor:'#34d399',borderRadius:3}
+    ]
+  },
+  options:{plugins:{legend:{position:'top'}},scales:{y:{min:0.45,max:0.9,title:{display:true,text:'AUC'}}}}
+});
+</script>
+</body>
+</html>

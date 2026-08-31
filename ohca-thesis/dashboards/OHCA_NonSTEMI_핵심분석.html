@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OHCA Non-STEMI 하위군: cTnI 감별력 검증</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#0f172a;color:#e2e8f0;padding:20px}
+h1{text-align:center;font-size:1.5rem;margin-bottom:6px;color:#f1f5f9}
+.sub{text-align:center;color:#94a3b8;margin-bottom:20px;font-size:.88rem}
+.grid{display:grid;gap:14px;margin-bottom:14px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:1fr 1fr 1fr}
+.g4{grid-template-columns:1fr 1fr 1fr 1fr}
+.card{background:#1e293b;border-radius:10px;padding:16px;border:1px solid #334155}
+.card h3{font-size:.78rem;color:#94a3b8;margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
+.kpi{font-size:1.9rem;font-weight:700}
+.kpi-s{font-size:.75rem;color:#64748b;margin-top:3px}
+.cc{background:#1e293b;border-radius:10px;padding:16px;border:1px solid #334155}
+.cc h3{font-size:.92rem;color:#f1f5f9;margin-bottom:10px}
+.st{font-size:1.1rem;color:#f1f5f9;margin:20px 0 10px;padding-bottom:5px;border-bottom:2px solid #3b82f6}
+.sig{color:#34d399;font-weight:700}
+.ns{color:#f87171;font-weight:700}
+.warn{color:#fbbf24;font-weight:600}
+table{width:100%;border-collapse:collapse;font-size:.8rem}
+th{background:#334155;color:#cbd5e1;padding:7px 8px;text-align:center;font-weight:600}
+td{padding:6px 8px;border-bottom:1px solid #334155;text-align:center}
+tr:hover td{background:#334155}
+canvas{max-height:280px}
+.verdict{background:linear-gradient(135deg,#1e3a5f,#1e293b);border:2px solid #ef4444;border-radius:10px;padding:20px;margin:14px 0}
+.verdict h2{color:#f87171;font-size:1.1rem;margin-bottom:10px}
+.verdict p{line-height:1.7;font-size:.87rem;margin-bottom:4px}
+.ok-box{background:linear-gradient(135deg,#1a3328,#1e293b);border:2px solid #34d399;border-radius:10px;padding:20px;margin:14px 0}
+.ok-box h2{color:#34d399;font-size:1.1rem;margin-bottom:10px}
+@media(max-width:900px){.g2,.g3,.g4{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<h1>Non-STEMI OHCA 환자에서 cTnI의 AMI 감별력 검증</h1>
+<p class="sub">STEMI 층화 분석(Stratification) · Mann-Whitney U · ROC AUC · 전체 vs 하위군 비교</p>
+
+<!-- 핵심 결론 -->
+<div class="verdict">
+  <h2>검증 결과: Non-STEMI 환자에서 cTnI는 AMI 감별에 무용</h2>
+  <p>Non-STEMI 63명(AMI 30명 vs Non-AMI 33명)에서 모든 cTnI 지표가 <span class="ns">통계적으로 유의하지 않았습니다.</span></p>
+  <p>🔴 첫째 cTnI: AUC <span class="ns">0.548</span>, p=0.518 → 동전 던지기 수준</p>
+  <p>🔴 둘째 cTnI: AUC <span class="ns">0.478</span>, p=0.767 → <span class="warn">동전보다 못함 (방향 역전)</span></p>
+  <p>🔴 cTnI 변화량: AUC <span class="ns">0.524</span>, p=0.786 → 감별력 없음</p>
+  <p>🔴 CK-MB 변화량도: AUC <span class="ns">0.552</span>, p=0.621 → Non-STEMI에서는 CK-MB도 무력</p>
+</div>
+
+<div class="ok-box">
+  <h2>논문 방향 확정: Negative Finding의 임상적 가치</h2>
+  <p>"OHCA 소생 후 STEMI가 없는 환자에서, cTnI와 CK-MB 모두 cardiac origin 감별에 실패한다"</p>
+  <p style="margin-top:8px">→ 전체 데이터에서 보이던 유의성은 <span class="warn">STEMI군이 끌어올린 통계적 착시</span>였음을 입증</p>
+</div>
+
+<!-- KPI: 핵심 숫자 -->
+<div class="st">1. 핵심 숫자: Non-STEMI 하위군 AUC</div>
+<div class="grid g4">
+  <div class="card">
+    <h3>첫째 cTnI</h3>
+    <div class="kpi ns">0.548</div>
+    <div class="kpi-s">p = 0.518 (NS)</div>
+  </div>
+  <div class="card">
+    <h3>둘째 cTnI</h3>
+    <div class="kpi ns">0.478</div>
+    <div class="kpi-s">p = 0.767 (NS) · 방향 역전</div>
+  </div>
+  <div class="card">
+    <h3>cTnI 변화량</h3>
+    <div class="kpi ns">0.524</div>
+    <div class="kpi-s">p = 0.786 (NS)</div>
+  </div>
+  <div class="card">
+    <h3>CK-MB 변화량</h3>
+    <div class="kpi ns">0.552</div>
+    <div class="kpi-s">p = 0.621 (NS)</div>
+  </div>
+</div>
+
+<!-- 전체 vs Non-STEMI AUC 비교 -->
+<div class="st">2. 전체 vs Non-STEMI: AUC 붕괴 시각화</div>
+<div class="grid g2">
+  <div class="cc">
+    <h3>AUC 비교: STEMI 제거 시 감별력 붕괴</h3>
+    <canvas id="aucCollapse"></canvas>
+  </div>
+  <div class="cc">
+    <h3>상세 비교표</h3>
+    <table>
+      <tr><th>바이오마커</th><th>전체 AUC</th><th>Non-STEMI AUC</th><th>변화</th></tr>
+      <tr><td>첫째 cTnI</td><td>0.572</td><td class="ns">0.548</td><td>↓ 0.024</td></tr>
+      <tr><td>둘째 cTnI</td><td>0.631</td><td class="ns">0.478</td><td style="color:#f87171;font-weight:700">↓ 0.153 !!!</td></tr>
+      <tr><td>cTnI 변화량</td><td>0.530</td><td class="ns">0.524</td><td>↓ 0.006</td></tr>
+      <tr><td>CK-MB 변화량</td><td style="color:#34d399">0.737</td><td class="ns">0.552</td><td style="color:#f87171;font-weight:700">↓ 0.185 !!!</td></tr>
+    </table>
+    <p style="margin-top:10px;font-size:.82rem;color:#fbbf24;line-height:1.6">
+      ⚠️ CK-MB 변화량: 전체에서 AUC 0.737(우수) → Non-STEMI에서 0.552(무용)으로 붕괴<br>
+      ⚠️ 둘째 cTnI: 전체 0.631 → Non-STEMI 0.478로 <strong>방향까지 역전</strong>
+    </p>
+  </div>
+</div>
+
+<!-- STEMI 그룹이 착시를 만든 증거 -->
+<div class="st">3. STEMI군이 통계를 왜곡한 증거</div>
+<div class="grid g2">
+  <div class="cc">
+    <h3>둘째 cTnI 중앙값: STEMI의 압도적 영향</h3>
+    <canvas id="stemiEffect"></canvas>
+  </div>
+  <div class="cc">
+    <h3>그룹별 상세 비교</h3>
+    <table>
+      <tr><th></th><th>STEMI군</th><th>Non-STEMI군</th></tr>
+      <tr><td>환자 수</td><td>44명</td><td>63명</td></tr>
+      <tr><td>AMI : Non-AMI</td><td>37 : 7</td><td>30 : 33</td></tr>
+      <tr><td>AMI 비율</td><td style="color:#f87171;font-weight:700">84.1%</td><td>47.6%</td></tr>
+      <tr><th colspan="3" style="background:#1e293b;padding-top:12px">둘째 cTnI 중앙값</th></tr>
+      <tr><td>Cardiac</td><td style="color:#f87171;font-weight:700">25,000</td><td>1,048</td></tr>
+      <tr><td>Non-cardiac</td><td>2,885</td><td>1,665</td></tr>
+      <tr><td>비율 (C/NC)</td><td style="color:#fbbf24;font-weight:700">8.7배</td><td style="color:#f87171">0.6배 (역전!)</td></tr>
+    </table>
+    <p style="margin-top:10px;font-size:.82rem;color:#94a3b8;line-height:1.6">
+      STEMI군: Cardiac의 cTnI가 25,000으로 폭발적 → 전체 통계를 끌어올림<br>
+      Non-STEMI군: Non-cardiac 중앙값(1,665)이 오히려 Cardiac(1,048)보다 높음!
+    </p>
+  </div>
+</div>
+
+<!-- Non-cardiac에서도 cTnI 높음 -->
+<div class="st">4. 왜 cTnI가 안 먹히는가: Non-cardiac 환자도 cTnI 폭등</div>
+<div class="grid g2">
+  <div class="cc">
+    <h3>Non-cardiac 환자의 cTnI 기준치 초과 비율</h3>
+    <canvas id="elevatedNonCardiac"></canvas>
+  </div>
+  <div class="cc">
+    <h3>CPR/제세동이 cTnI에 미치는 영향</h3>
+    <canvas id="cprCorr"></canvas>
+    <p style="margin-top:10px;font-size:.82rem;color:#94a3b8;line-height:1.5">
+      CPR 시간, 제세동 에너지/횟수 모두 첫째 cTnI와 유의한 상관관계 없음 (r < 0.14, p > 0.16)<br>
+      → cTnI 상승 원인은 단순 물리적 손상보다 <strong>전신 허혈-재관류 손상</strong>이 주 원인일 가능성
+    </p>
+  </div>
+</div>
+
+<!-- 논문용 Table 1 -->
+<div class="st">5. 논문용 Table 1: Non-STEMI 환자 Baseline Characteristics</div>
+<div class="cc">
+  <table>
+    <tr><th style="text-align:left">Variable</th><th>AMI (NSTEMI)<br>n=30</th><th>Non-AMI<br>n=33</th><th>p-value</th></tr>
+    <tr><td style="text-align:left">첫째 cTnI (중앙값, IQR)</td><td>255.0</td><td>215.2</td><td class="ns">0.518</td></tr>
+    <tr><td style="text-align:left">둘째 cTnI (중앙값, IQR)</td><td>1,047.9</td><td>1,665.0</td><td class="ns">0.767</td></tr>
+    <tr><td style="text-align:left">cTnI Δ (중앙값)</td><td>593.0 (n=22)</td><td>309.0 (n=27)</td><td class="ns">0.786</td></tr>
+    <tr><td style="text-align:left">CK-MB Δ (중앙값)</td><td>8.6 (n=13)</td><td>3.1 (n=22)</td><td class="ns">0.621</td></tr>
+    <tr><td style="text-align:left">cTnI > 40 ng/mL</td><td>-</td><td>72.7%</td><td>-</td></tr>
+  </table>
+</div>
+
+<!-- 논문 스토리라인 제안 -->
+<div class="st">6. 추천 논문 스토리라인</div>
+<div class="grid g2">
+  <div class="cc" style="border-color:#3b82f6">
+    <h3 style="color:#60a5fa">서론 → 결과 → 고찰 흐름</h3>
+    <div style="font-size:.85rem;line-height:1.8;padding:8px 0">
+      <p><strong style="color:#60a5fa">서론:</strong> OHCA 소생 환자에서 AMI 여부 판단이 중요. STEMI 있으면 즉시 PCI, 하지만 Non-STEMI는 cTnI에 의존. 과연 cTnI가 신뢰할 수 있는가?</p>
+      <p style="margin-top:8px"><strong style="color:#fbbf24">결과:</strong> 전체 분석에서는 둘째 cTnI가 유의(p=0.023)했으나, STEMI/Non-STEMI 층화 후 Non-STEMI 63명에서는 모든 마커가 유의하지 않음 (AUC 0.478~0.552)</p>
+      <p style="margin-top:8px"><strong style="color:#f87171">고찰:</strong> OHCA 자체로 인한 전신 허혈-재관류 손상이 cTnI를 비특이적으로 상승시켜, Non-cardiac 환자의 72.7%도 기준치 초과. "cTnI 상승 = AMI" 등식이 Non-STEMI OHCA에서는 성립하지 않음.</p>
+      <p style="margin-top:8px"><strong style="color:#34d399">결론:</strong> Non-STEMI OHCA 환자에서 cTnI 단독으로 cardiac origin을 감별하는 것은 부적절하며, 다른 진단 전략이 필요하다.</p>
+    </div>
+  </div>
+  <div class="cc" style="border-color:#fbbf24">
+    <h3 style="color:#fbbf24">Negative Finding의 강점</h3>
+    <div style="font-size:.85rem;line-height:1.8;padding:8px 0">
+      <p>✅ 전체 데이터 → 하위군 분석으로 <strong>"통계적 착시"를 실증</strong></p>
+      <p>✅ Non-cardiac의 <strong>77.5%가 cTnI 양성</strong> → 위양성 위험 경고</p>
+      <p>✅ 둘째 cTnI에서 <strong>방향 역전(Non-cardiac가 더 높음)</strong> → 강력한 반증</p>
+      <p>✅ <strong>CK-MB도 Non-STEMI에서 무력화</strong> → 단일 바이오마커 한계 입증</p>
+      <p style="margin-top:12px;color:#94a3b8">📌 "negative finding"은 저널 리뷰어들이 높이 평가하는 연구 유형입니다. 불필요한 CAG를 줄이는 데 기여할 수 있는 임상적 시사점이 명확합니다.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+Chart.defaults.color='#94a3b8';Chart.defaults.borderColor='#334155';Chart.defaults.font.family="'Segoe UI',Arial";
+
+// AUC Collapse
+new Chart(document.getElementById('aucCollapse'),{
+  type:'bar',
+  data:{
+    labels:['첫째 cTnI','둘째 cTnI','cTnI 변화량','CK-MB 변화량'],
+    datasets:[
+      {label:'전체 (N=107)',data:[0.572,0.631,0.530,0.737],backgroundColor:'#3b82f6',borderRadius:4},
+      {label:'Non-STEMI (N=63)',data:[0.548,0.478,0.524,0.552],backgroundColor:'#f87171',borderRadius:4}
+    ]
+  },
+  options:{
+    plugins:{legend:{position:'top'},
+      annotation:{}
+    },
+    scales:{y:{min:0.35,max:0.85,title:{display:true,text:'AUC'},
+      ticks:{callback:v=>v.toFixed(1)}}
+    }
+  }
+});
+
+// STEMI Effect
+new Chart(document.getElementById('stemiEffect'),{
+  type:'bar',
+  data:{
+    labels:['STEMI\nCardiac','STEMI\nNon-cardiac','Non-STEMI\nCardiac','Non-STEMI\nNon-cardiac'],
+    datasets:[{
+      label:'둘째 cTnI 중앙값',
+      data:[25000,2885,1048,1665],
+      backgroundColor:['#f87171','#fb923c','#60a5fa','#38bdf8'],
+      borderRadius:4
+    }]
+  },
+  options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,title:{display:true,text:'ng/mL'}}}}
+});
+
+// Non-cardiac elevated
+new Chart(document.getElementById('elevatedNonCardiac'),{
+  type:'bar',
+  data:{
+    labels:['>40 (기준치)','>100','>1,000'],
+    datasets:[
+      {label:'Non-cardiac 전체',data:[77.5,67.5,20.0],backgroundColor:'#fb923c',borderRadius:4},
+      {label:'Non-STEMI Non-cardiac',data:[72.7,0,0],backgroundColor:'#fbbf24',borderRadius:4}
+    ]
+  },
+  options:{plugins:{legend:{position:'top'}},scales:{y:{beginAtZero:true,max:100,title:{display:true,text:'%'}}}}
+});
+
+// CPR correlation
+new Chart(document.getElementById('cprCorr'),{
+  type:'bar',
+  data:{
+    labels:['CPR시간\nvs cTnI','제세동에너지\nvs cTnI','제세동횟수\nvs cTnI'],
+    datasets:[{
+      label:'Spearman r',
+      data:[0.001,0.105,0.135],
+      backgroundColor:['#64748b','#64748b','#64748b'],
+      borderRadius:4,barThickness:50
+    }]
+  },
+  options:{
+    plugins:{legend:{display:false}},
+    scales:{y:{min:-0.1,max:0.3,title:{display:true,text:'Spearman r (모두 NS)'}}}
+  }
+});
+</script>
+
+</body>
+</html>

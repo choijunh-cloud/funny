@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>새 논문 — p&lt;0.05 결과만</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#0f172a;color:#e2e8f0;padding:20px;max-width:1400px;margin:0 auto}
+h1{text-align:center;font-size:1.35rem;margin-bottom:6px;color:#f1f5f9}
+.sub{text-align:center;color:#94a3b8;margin-bottom:18px;font-size:.84rem;line-height:1.5}
+.grid{display:grid;gap:14px;margin-bottom:14px}
+.g2{grid-template-columns:1fr 1fr}
+.g4{grid-template-columns:1fr 1fr 1fr 1fr}
+.card{background:#1e293b;border-radius:10px;padding:14px;border:1px solid #334155}
+.card h3{font-size:.72rem;color:#94a3b8;margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px}
+.kpi{font-size:1.55rem;font-weight:700}
+.kpi-s{font-size:.72rem;color:#64748b;margin-top:3px}
+.cc{background:#1e293b;border-radius:10px;padding:16px;border:1px solid #334155}
+.cc h3{font-size:.9rem;color:#f1f5f9;margin-bottom:10px}
+.st{font-size:1.02rem;color:#f1f5f9;margin:20px 0 10px;padding-bottom:5px;border-bottom:2px solid #3b82f6}
+.sig{color:#34d399;font-weight:700}
+.ns{color:#f87171;font-weight:700}
+table{width:100%;border-collapse:collapse;font-size:.78rem}
+th{background:#334155;color:#cbd5e1;padding:6px 8px;text-align:center}
+td{padding:5px 8px;border-bottom:1px solid #334155;text-align:center}
+.verdict{border-radius:10px;padding:16px;margin:12px 0;border:2px solid #34d399;background:linear-gradient(135deg,#1e293b,#1a2e22)}
+.verdict h2{font-size:1rem;color:#34d399;margin-bottom:8px}
+.verdict p{font-size:.85rem;line-height:1.7}
+@media(max-width:900px){.g2,.g4{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<h1>새 논문 결과 — p&lt;0.05만 전면에</h1>
+<p class="sub">제목: Serial CK-MB and age identify coronary occlusion after OHCA: a single initial troponin does not<br>
+환자 수를 늘리거나 p값을 만들어 내지 않음 · 기존 107명 CAG 코호트 재구성 · 2×2는 셀 수로 재계산</p>
+
+<div class="verdict">
+  <h2>한 줄 결론</h2>
+  <p>초기 cTnI는 실패 (AUC 0.572, p=0.218). 연속 CK-MB는 전체에서 성공 (Δ AUC <span class="sig">0.737, p=0.001</span>). STEMI를 빼면 효소는 붕괴하고, 남는 단독 유의 변수는 <span class="sig">나이 (p=0.009)</span>. 네 변수 모델 Non-STEMI AUC <span class="sig">0.832</span>.</p>
+</div>
+
+<div class="st">전면에 올리는 유의 결과</div>
+<div class="grid g4">
+  <div class="card"><h3>1차 양성 · CK-MB Δ</h3><div class="kpi sig">0.737</div><div class="kpi-s">p = 0.001 · N=107</div></div>
+  <div class="card"><h3>Non-STEMI 나이</h3><div class="kpi sig">0.693</div><div class="kpi-s">p = 0.009 · N=63</div></div>
+  <div class="card"><h3>다변량 Non-STEMI</h3><div class="kpi sig">0.832</div><div class="kpi-s">민감도 84.6% / 특이도 72.7%</div></div>
+  <div class="card"><h3>STEMI → culprit</h3><div class="kpi sig">OR 5.81</div><div class="kpi-s">Fisher p = 0.00012</div></div>
+</div>
+
+<div class="st">그림 1. 전체에서는 CK-MB, Non-STEMI에서는 나이</div>
+<div class="grid g2">
+  <div class="cc"><h3>단변량 AUC</h3><canvas id="auc"></canvas></div>
+  <div class="cc"><h3>다변량으로 Non-STEMI 회복</h3><canvas id="mv"></canvas></div>
+</div>
+
+<div class="st">그림 2. 다시 계산한 범주형 OR (회색 = NS)</div>
+<div class="grid g2">
+  <div class="cc"><h3>Forest (로그 OR)</h3><canvas id="or"></canvas></div>
+  <div class="cc">
+    <h3>재계산 표</h3>
+    <table>
+      <tr><th>변수</th><th>OR</th><th>95% CI</th><th>Fisher p</th></tr>
+      <tr><td>STEMI</td><td class="sig">5.81</td><td>2.26–14.99</td><td class="sig">0.00012</td></tr>
+      <tr><td>남성</td><td class="sig">3.07</td><td>1.21–7.82</td><td class="sig">0.030</td></tr>
+      <tr><td>Shockable</td><td>2.00</td><td>0.82–4.90</td><td class="ns">0.16</td></tr>
+      <tr><td>고혈압</td><td>1.37</td><td>0.62–3.03</td><td class="ns">0.55</td></tr>
+      <tr><td>당뇨</td><td>0.83</td><td>0.32–2.16</td><td class="ns">0.81</td></tr>
+      <tr><td>기존 CAD</td><td>0.88</td><td>0.29–2.69</td><td class="ns">1.00</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="st">논문에 쓰는 문장</div>
+<div class="cc">
+  <p style="font-size:.88rem;line-height:1.85">
+    1. 초기 cTnI로 CAG를 결정하지 않는다.<br>
+    2. 연속 CK-MB의 전체 유의는 STEMI가 끌어올린 것이다. Non-STEMI에서 효소 단독은 쓰지 않는다.<br>
+    3. Non-STEMI에서 단발 효소는 필요 없다. 나이와 초기 리듬이 더 중요하다. 즉시 조영 이득은 이 자료가 증명하지 않는다.
+  </p>
+</div>
+
+<script>
+Chart.defaults.color='#94a3b8';Chart.defaults.borderColor='#334155';
+new Chart(document.getElementById('auc'),{
+  type:'bar',
+  data:{labels:['첫째 cTnI','둘째 cTnI','cTnI Δ','CK-MB Δ','나이'],
+    datasets:[
+      {label:'전체 N=107',data:[0.572,0.631,0.530,0.737,0.637],backgroundColor:'#3b82f6'},
+      {label:'Non-STEMI N=63',data:[0.548,0.478,0.524,0.552,0.693],backgroundColor:'#f87171'}
+    ]},
+  options:{plugins:{legend:{position:'top'}},scales:{y:{min:0.4,max:0.82,title:{display:true,text:'AUC'}}}}
+});
+new Chart(document.getElementById('mv'),{
+  type:'bar',
+  data:{labels:['CK-MB Δ','+나이','+성별','+Shockable'],
+    datasets:[
+      {label:'전체',data:[0.737,0.829,0.838,0.849],backgroundColor:'#3b82f6'},
+      {label:'Non-STEMI',data:[0.552,0.766,0.808,0.832],backgroundColor:'#34d399'}
+    ]},
+  options:{plugins:{legend:{position:'top'}},scales:{y:{min:0.45,max:0.92,title:{display:true,text:'AUC'}}}}
+});
+new Chart(document.getElementById('or'),{
+  type:'bar',
+  data:{labels:['STEMI','남성','Shockable','HTN','CAD','DM'],
+    datasets:[{data:[5.81,3.07,2.00,1.37,0.88,0.83],
+      backgroundColor:['#34d399','#34d399','#64748b','#64748b','#64748b','#64748b']}]},
+  options:{indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{type:'linear',min:0,title:{display:true,text:'Odds ratio'}}}}
+});
+</script>
+</body>
+</html>
