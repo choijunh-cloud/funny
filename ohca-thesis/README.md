@@ -18,13 +18,14 @@
 - `paper/figures/` — AUC·OR·CK-MB·나이 컷오프 그림
 - 환자 단위 값을 만들어 내지 않음. 기존 코호트의 유의 결과만 사용.
 
-## ACES 점수 (침상용)
+## 정수 초안 (임상 점수 아님)
 
-Non-STEMI OHCA에서 culprit 가능성을 Age 3 + shockable 2 + 남성 1 + CK-MB Δ 1로 근사한 점수입니다. STEMI는 적용하지 않습니다.
+이전 ACES(포켓 카드, Low/High, CK-MB 1점)는 폐기했습니다. 이름은 CODE ACES 2·캐나다 ACES와 겹치고, 정수 성능·층 우도비가 없으며 CK-MB 1점은 Non-STEMI에서 근거가 없습니다.
 
-- [score/ACES_SCORE.md](score/ACES_SCORE.md) — 배점 근거
-- [dashboards/OHCA_ACES_calculator.html](dashboards/OHCA_ACES_calculator.html) — 계산기
-- [score/ACES_pocket_card.png](score/ACES_pocket_card.png)
-- `score/aces.py` — 같은 규칙의 함수
+남은 것은 **OHCA-ARS** Door 0–6 (나이 3, shockable 2, 남성 1)입니다. 탐색적 산술입니다. 층을 붙이지 않습니다.
 
-정수 점수의 AUC는 아직 환자 단위로 다시 구하지 않았습니다. 외부검증 전입니다.
+- [score/OHCA_ARS.md](score/OHCA_ARS.md)
+- [dashboards/OHCA_ARS_draft.html](dashboards/OHCA_ARS_draft.html) — 연구용, 임상 사용 금지
+- `score/ars.py`
+
+다음 작업은 Non-STEMI 63명을 이 0–6으로 다시 채점하는 것입니다. 원자료가 필요합니다.

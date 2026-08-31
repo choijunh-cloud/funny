@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OHCA-ARS — 탐색적 초안 (임상 사용 금지)</title>
+<style>
+:root{--navy:#0f2043;--bg:#f4f6fb;--card:#fff;--ink:#1a1a1a;--mut:#4b5563;--line:#e5e7eb;--red:#991b1b;--redbg:#fdecea}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Segoe UI","Apple SD Gothic Neo",sans-serif;background:var(--bg);color:var(--ink);padding:20px}
+.wrap{max-width:980px;margin:0 auto}
+.ban{background:var(--redbg);border:2px solid var(--red);color:var(--red);border-radius:12px;padding:14px 16px;margin-bottom:14px;font-size:.92rem;line-height:1.55;font-weight:600}
+header{background:var(--navy);color:#fff;border-radius:14px;padding:20px 22px;margin-bottom:14px}
+header h1{font-size:1.3rem}
+header p{opacity:.88;margin-top:8px;font-size:.88rem;line-height:1.55}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:800px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+h2{font-size:.95rem;color:var(--navy);margin-bottom:10px}
+label{display:block;font-size:.78rem;color:var(--mut);margin-bottom:4px;font-weight:600}
+.row{margin-bottom:12px}
+input[type=number]{width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:1rem}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.btn{border:1px solid #cbd5e1;background:#fff;padding:10px;border-radius:8px;cursor:pointer;font-weight:600;font-size:.88rem}
+.btn.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.btn.warn.on{background:var(--red);border-color:var(--red)}
+.big{font-size:3.4rem;font-weight:800;line-height:1;color:var(--navy);text-align:center}
+.sub{text-align:center;color:var(--mut);font-size:.85rem;margin:8px 0 14px}
+.bar{display:grid;grid-template-columns:120px 1fr 24px;gap:8px;align-items:center;margin-bottom:8px;font-size:.82rem}
+.track{background:#eef2f8;height:10px;border-radius:99px;overflow:hidden}
+.fill{height:100%;background:#1e407c}
+ol,ul{margin:6px 0 0 18px;font-size:.85rem;line-height:1.65}
+.foot{font-size:.75rem;color:var(--mut);line-height:1.55;margin-top:10px}
+table{width:100%;border-collapse:collapse;font-size:.82rem;margin-top:8px}
+th,td{border-bottom:1px solid var(--line);padding:7px 6px;text-align:left}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="ban">
+  임상 사용 금지. 포켓 카드 아님. Low/High 층을 붙이지 않습니다.
+  이것은 미검증 로지스틱 모형을 정수로 옮긴 연구 초안입니다. CAG·PCI 결정에 쓰지 마십시오.
+</div>
+<header>
+  <h1>OHCA-ARS (탐색적) · Door 0–6</h1>
+  <p>Age 3 + shockable Rhythm 2 + Sex 1. STEMI 제외. 초기 트로포닌 제외. CK-MB 제외.<br>
+  0.808은 연속 로지스틱의 학습 표본 겉보기 AUC입니다. 정수 점수의 성능이 아닙니다.
+  예전 이름 ACES는 폐기했습니다.</p>
+</header>
+
+<div class="grid">
+  <div class="card">
+    <h2>산술 확인 (확률이 아님)</h2>
+    <div class="row">
+      <label>ST 상승</label>
+      <div class="seg" id="stemi">
+        <button type="button" class="btn on" data-v="0">없음</button>
+        <button type="button" class="btn warn" data-v="1">STEMI → 적용 안 함</button>
+      </div>
+    </div>
+    <div class="row">
+      <label>나이 (세)</label>
+      <input id="age" type="number" min="19" max="110" value="66">
+    </div>
+    <div class="row">
+      <label>성별</label>
+      <div class="seg" id="sex">
+        <button type="button" class="btn on" data-v="1">남성 (+1)</button>
+        <button type="button" class="btn" data-v="0">여성 (0)</button>
+      </div>
+    </div>
+    <div class="row">
+      <label>초기 리듬</label>
+      <div class="seg" id="rhythm">
+        <button type="button" class="btn on" data-v="1">VF/pVT (+2)</button>
+        <button type="button" class="btn" data-v="0">PEA/asystole (0)</button>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Door 합 (층 없음)</h2>
+    <div class="big" id="total">6</div>
+    <p class="sub" id="note">0–6 정수 · 위험층·확률을 부여하지 않음</p>
+    <div class="bar"><span>Age ≥59</span><div class="track"><div class="fill" id="bA"></div></div><span id="pA">3</span></div>
+    <div class="bar"><span>Shockable</span><div class="track"><div class="fill" id="bE"></div></div><span id="pE">2</span></div>
+    <div class="bar"><span>Male</span><div class="track"><div class="fill" id="bS"></div></div><span id="pS">1</span></div>
+    <p class="foot" id="msg"></p>
+  </div>
+</div>
+
+<div class="card" style="margin-top:14px">
+  <h2>왜 CK-MB와 층을 뺐는가</h2>
+  <ul>
+    <li>CK-MB Δ 컷오프 21.4 ng/mL은 STEMI 포함 107명의 Youden. Non-STEMI AUC 0.552, p=0.621. Δ 있는 환자 35/63.</li>
+    <li>0.832 Full AUC는 2차 효소를 찍은 쪽에 치우쳤을 수 있음. Door 0.808이 더 정직.</li>
+    <li>0–2 / 3–4 / 5–7은 채점된 우도비가 없음. High는 사실상 59세 + shockable.</li>
+    <li>점수와 즉시 CAG를 묶으면 COACT·TOMAHAWK와 충돌. 사전확률 ≠ 검사 이득.</li>
+  </ul>
+</div>
+
+<div class="card" style="margin-top:14px">
+  <h2>원자료가 오면</h2>
+  <ol>
+    <li>Non-STEMI 63명에게 이 0–6만 다시 채점.</li>
+    <li>점식별 culprit 비율, ROC, Youden, 우도비. 층은 그때 만든다.</li>
+    <li>Bootstrap 보정 AUC·optimism. 0.70 미만이면 점수화를 접는다.</li>
+    <li>CK-MB는 Non-STEMI에서 유의하지 않으면 계속 제외.</li>
+    <li>본문: 탐색적, 외부 검증 전, CAG 적응 지침 아님.</li>
+  </ol>
+  <table>
+    <tr><th>산술 예시 (확률 아님)</th><th>점</th></tr>
+    <tr><td>66세 남성 VF</td><td>3+2+1 = 6</td></tr>
+    <tr><td>62세 남성 PEA</td><td>3+0+1 = 4</td></tr>
+    <tr><td>70세 여성 VF</td><td>3+2+0 = 5</td></tr>
+    <tr><td>45세 여성 PEA</td><td>0</td></tr>
+  </table>
+  <p class="foot">시약 단위: cTnI pg/mL, CK-MB ng/mL. 점수에는 나이·리듬·성별만 들어갑니다.</p>
+</div>
+</div>
+<script>
+const st={stemi:0,sex:1,rhythm:1};
+function bind(id,key){
+  const box=document.getElementById(id);
+  box.querySelectorAll('.btn').forEach(b=>{
+    b.onclick=()=>{
+      box.querySelectorAll('.btn').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on'); st[key]=Number(b.dataset.v); calc();
+    };
+  });
+}
+bind('stemi','stemi');bind('sex','sex');bind('rhythm','rhythm');
+document.getElementById('age').addEventListener('input',calc);
+function calc(){
+  const age=Number(document.getElementById('age').value);
+  const pA=age>=59?3:0, pE=st.rhythm?2:0, pS=st.sex?1:0, door=pA+pE+pS;
+  document.getElementById('bA').style.width=(100*pA/3)+'%';
+  document.getElementById('bE').style.width=(100*pE/2)+'%';
+  document.getElementById('bS').style.width=(100*pS/1)+'%';
+  document.getElementById('pA').textContent=pA;
+  document.getElementById('pE').textContent=pE;
+  document.getElementById('pS').textContent=pS;
+  if(st.stemi){
+    document.getElementById('total').textContent='—';
+    document.getElementById('note').textContent='STEMI는 이 초안의 대상이 아님';
+    document.getElementById('msg').textContent='ST 상승이면 정수 초안을 적용하지 않습니다. ECG가 이미 답을 줍니다.';
+    return;
+  }
+  document.getElementById('total').textContent=door;
+  document.getElementById('note').textContent='Door '+door+' / 6  ·  층·확률 없음  ·  겉보기 모델 AUC 0.808을 이 정수에 붙이지 말 것';
+  document.getElementById('msg').textContent='산술 확인용입니다. 이 합이 그 환자의 culprit 확률이 아닙니다. 63명 재채점 전에는 치료에 쓰지 않습니다.';
+}
+calc();
+</script>
+</body>
+</html>
