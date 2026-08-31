@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACES score — Non-STEMI OHCA culprit 점수</title>
+<style>
+:root{
+  --navy:#0f2043;--navy2:#1e407c;--gold:#b8943a;--bg:#f4f6fb;--card:#fff;
+  --ink:#1a1a1a;--mut:#4b5563;--line:#e5e7eb;--low:#166534;--mid:#92400e;--high:#991b1b;
+  --lowbg:#e8f5e9;--midbg:#fff8e7;--highbg:#fdecea;--na:#334155;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Segoe UI","Apple SD Gothic Neo",sans-serif;background:var(--bg);color:var(--ink);padding:20px}
+.wrap{max-width:1100px;margin:0 auto}
+header{background:var(--navy);color:#fff;border-radius:14px;padding:22px 24px;margin-bottom:16px}
+header h1{font-size:1.45rem;letter-spacing:.02em}
+header p{opacity:.85;margin-top:6px;font-size:.9rem;line-height:1.55}
+.badge{display:inline-block;background:var(--gold);color:var(--navy);font-weight:700;font-size:.72rem;padding:3px 8px;border-radius:999px;margin-bottom:8px}
+.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+h2{font-size:.95rem;color:var(--navy);margin-bottom:12px}
+label{display:block;font-size:.78rem;color:var(--mut);margin-bottom:4px;font-weight:600}
+.row{margin-bottom:12px}
+input[type=number],select{width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:1rem}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.seg3{grid-template-columns:1fr 1fr 1fr}
+.btn{border:1px solid #cbd5e1;background:#fff;padding:10px;border-radius:8px;cursor:pointer;font-weight:600;font-size:.9rem}
+.btn.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.btn.warn.on{background:#991b1b;border-color:#991b1b}
+.hint{font-size:.75rem;color:var(--mut);margin-top:4px}
+.scorebox{text-align:center;padding:8px 8px 16px}
+.big{font-size:4.2rem;font-weight:800;line-height:1;color:var(--navy)}
+.layer{display:inline-block;margin-top:8px;padding:6px 14px;border-radius:999px;font-weight:800;letter-spacing:.04em}
+.l-low{background:var(--lowbg);color:var(--low)}
+.l-mid{background:var(--midbg);color:var(--mid)}
+.l-high{background:var(--highbg);color:var(--high)}
+.l-na{background:#e2e8f0;color:var(--na)}
+.bars{margin-top:14px}
+.bar{display:grid;grid-template-columns:110px 1fr 28px;gap:8px;align-items:center;margin-bottom:7px;font-size:.8rem}
+.track{background:#eef2f8;height:10px;border-radius:99px;overflow:hidden}
+.fill{height:100%;background:var(--navy2);border-radius:99px}
+.interp{font-size:.88rem;line-height:1.65;margin-top:12px}
+table{width:100%;border-collapse:collapse;font-size:.82rem;margin-top:8px}
+th,td{border-bottom:1px solid var(--line);padding:7px 6px;text-align:left}
+th{color:var(--mut);font-size:.72rem}
+.ex{font-size:.8rem;line-height:1.55;color:var(--mut);padding:8px 0}
+.foot{margin-top:14px;font-size:.75rem;color:var(--mut);line-height:1.55}
+.points td:last-child,.points th:last-child{text-align:right;font-weight:700}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="badge">DERIVATION ONLY · 외부검증 전</div>
+  <h1>ACES score</h1>
+  <p>Non-STEMI OHCA에서 관상동맥 culprit 가능성 · Age 3점 · shockable ECG 2점 · 남성 1점 · CK-MB Δ 1점 (0–7)<br>
+  문앞 세 변수만으로도 Non-STEMI AUC 0.808 · 2차 효소를 더하면 0.832 · 초기 트로포닌은 넣지 않음</p>
+</header>
+
+<div class="grid">
+  <div class="card">
+    <h2>1. 환자 입력</h2>
+    <div class="row">
+      <label>ST 상승 (STEMI)</label>
+      <div class="seg" id="stemi">
+        <button type="button" class="btn on" data-v="0">없음 (Non-STEMI)</button>
+        <button type="button" class="btn warn" data-v="1">있음 → 점수 비적용</button>
+      </div>
+    </div>
+    <div class="row">
+      <label>나이 (세)</label>
+      <input id="age" type="number" min="19" max="110" value="66" />
+      <div class="hint">≥59세 = 3점 (Non-STEMI Youden 컷오프)</div>
+    </div>
+    <div class="row">
+      <label>성별</label>
+      <div class="seg" id="sex">
+        <button type="button" class="btn on" data-v="1">남성 (+1)</button>
+        <button type="button" class="btn" data-v="0">여성 (0)</button>
+      </div>
+    </div>
+    <div class="row">
+      <label>초기 리듬</label>
+      <div class="seg" id="rhythm">
+        <button type="button" class="btn on" data-v="1">Shockable VF/pVT (+2)</button>
+        <button type="button" class="btn" data-v="0">Non-shockable PEA/asystole (0)</button>
+      </div>
+    </div>
+    <div class="row">
+      <label>CK-MB 1차 → 2차 (ng/mL), 없으면 비워 두기</label>
+      <div class="seg">
+        <input id="ck1" type="number" min="0" step="0.1" placeholder="1차" />
+        <input id="ck2" type="number" min="0" step="0.1" placeholder="2차" />
+      </div>
+      <div class="hint" id="ckhint">2차 − 1차 ≥ 21.4 ng/mL 이면 +1 · 없으면 Door 점수만</div>
+    </div>
+  </div>
+
+  <div class="card scorebox">
+    <h2 style="text-align:left">2. 점수</h2>
+    <div class="big" id="total">6</div>
+    <div class="layer l-high" id="layer">HIGH</div>
+    <p class="interp" id="msg"></p>
+    <div class="bars">
+      <div class="bar"><span>Age ≥59</span><div class="track"><div class="fill" id="bA"></div></div><span id="pA">3</span></div>
+      <div class="bar"><span>Shockable</span><div class="track"><div class="fill" id="bE"></div></div><span id="pE">2</span></div>
+      <div class="bar"><span>Male</span><div class="track"><div class="fill" id="bS"></div></div><span id="pS">1</span></div>
+      <div class="bar"><span>CK-MB Δ</span><div class="track"><div class="fill" id="bC"></div></div><span id="pC">0</span></div>
+    </div>
+    <p class="hint" style="margin-top:12px" id="doorline"></p>
+  </div>
+</div>
+
+<div class="card" style="margin-top:14px">
+  <h2>배점표</h2>
+  <table class="points">
+    <tr><th>항목</th><th>기준</th><th>점수</th><th>근거</th></tr>
+    <tr><td>A Age</td><td>≥ 59세</td><td>3</td><td>β 1.01 · Youden 컷오프, p=0.009</td></tr>
+    <tr><td>E ECG</td><td>초기 shockable</td><td>2</td><td>β 0.53</td></tr>
+    <tr><td>S Sex</td><td>남성</td><td>1</td><td>β 0.32</td></tr>
+    <tr><td>C CK-MB Δ</td><td>≥ 21.4 ng/mL</td><td>1</td><td>β 0.40 · 문앞 모델에 +0.024 AUC</td></tr>
+    <tr><td>합</td><td>Door 0–6 / Full 0–7</td><td></td><td>High는 사실상 59세 이상이 필요</td></tr>
+  </table>
+  <table style="margin-top:14px">
+    <tr><th>점수</th><th>층</th><th>해석 (정수 점수는 미검증)</th></tr>
+    <tr><td>0–2</td><td>Low</td><td>Culprit 가능성 낮음. 트로포닌 한 값으로 CAG를 밀지 말 것.</td></tr>
+    <tr><td>3–4</td><td>Intermediate</td><td>나이 또는 조합. 점수만으로 결정하지 말 것.</td></tr>
+    <tr><td>5–7</td><td>High</td><td>고령 + shockable이 전형. 신경예후를 보고 CAG를 논의.</td></tr>
+  </table>
+</div>
+
+<div class="card" style="margin-top:14px">
+  <h2>계산 예시 (배점 확인용, 확률이 아님)</h2>
+  <div class="ex">
+    66세 남성 VF, CK-MB 5.6 → 70 → <strong>3+2+1+1 = 7 High</strong><br>
+    62세 남성 PEA, 2차 효소 없음 → <strong>3+0+1+0 = 4 Intermediate</strong> (Door)<br>
+    70세 여성 VF, 2차 효소 없음 → <strong>3+2+0+0 = 5 High</strong><br>
+    45세 여성 PEA, CK-MB 2.9 → 3.3 → <strong>0 Low</strong>
+  </div>
+  <p class="foot">
+    유도: 원주세브란스 OHCA CAG 코호트, Non-STEMI n=63, 다변량 AUC 0.832 (겉보기 값).
+    표준화 β를 최소 계수 0.32로 나누고 반올림 (Sullivan 점수화).
+    정수 ACES의 민감도·특이도는 아직 환자 단위로 다시 구하지 않음.
+    STEMI, 외상, CAG 미시행 환자에게 쓰지 말 것. PCI 지시 점수가 아님.
+  </p>
+</div>
+</div>
+
+<script>
+const st={stemi:0,sex:1,rhythm:1};
+function bind(id,key){
+  const box=document.getElementById(id);
+  box.querySelectorAll('.btn').forEach(b=>{
+    b.onclick=()=>{
+      box.querySelectorAll('.btn').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on');
+      st[key]=Number(b.dataset.v);
+      calc();
+    };
+  });
+}
+bind('stemi','stemi');bind('sex','sex');bind('rhythm','rhythm');
+['age','ck1','ck2'].forEach(id=>document.getElementById(id).addEventListener('input',calc));
+
+function calc(){
+  const age=Number(document.getElementById('age').value);
+  const ck1=document.getElementById('ck1').value;
+  const ck2=document.getElementById('ck2').value;
+  const hasCk=ck1!==''&&ck2!=='';
+  const dlt=hasCk?Number(ck2)-Number(ck1):null;
+  document.getElementById('ckhint').textContent = hasCk
+    ? ('Δ = '+dlt.toFixed(1)+' ng/mL  ·  컷오프 21.4')
+    : '2차 − 1차 ≥ 21.4 ng/mL 이면 +1 · 없으면 Door 점수만';
+
+  const pA=(age>=59)?3:0;
+  const pE=st.rhythm?2:0;
+  const pS=st.sex?1:0;
+  const pC=(hasCk && dlt>=21.4)?1:0;
+  const door=pA+pE+pS;
+  const full=door+pC;
+  const use=hasCk?full:door;
+
+  const setw=(id,pts,max)=>{document.getElementById(id).style.width=(100*pts/max)+'%';};
+  setw('bA',pA,3);setw('bE',pE,2);setw('bS',pS,1);setw('bC',pC,1);
+  document.getElementById('pA').textContent=pA;
+  document.getElementById('pE').textContent=pE;
+  document.getElementById('pS').textContent=pS;
+  document.getElementById('pC').textContent=hasCk?pC:'–';
+
+  const layer=document.getElementById('layer');
+  const total=document.getElementById('total');
+  const msg=document.getElementById('msg');
+  if(st.stemi){
+    total.textContent='N/A';
+    layer.className='layer l-na';layer.textContent='STEMI · 점수 비적용';
+    msg.textContent='ST 상승이면 ACES를 계산하지 않습니다. 가이드라인대로 즉시 혈관조영을 고려하십시오.';
+    document.getElementById('doorline').textContent='';
+    return;
+  }
+  total.textContent=use;
+  let band,cls,text;
+  if(use<=2){band='LOW';cls='l-low';text='Culprit 가능성이 낮습니다. 초기 트로포닌이 올랐다는 이유만으로 CAG를 밀지 마십시오.';}
+  else if(use<=4){band='INTERMEDIATE';cls='l-mid';text='중간층입니다. 나이 또는 인자 조합이 있으나, 이 점수만으로 가거나 가지 말라고 하지 마십시오.';}
+  else {band='HIGH';cls='l-high';text='고령과 shockable(또는 동등한 2점)이 겹친 고위험 쪽입니다. 신경예후를 보고 CAG를 논의하십시오. PCI 지시가 아닙니다.';}
+  layer.className='layer '+cls;layer.textContent=band+' · '+use+' / '+(hasCk?7:6);
+  msg.textContent=text;
+  document.getElementById('doorline').textContent = hasCk
+    ? ('Door '+door+'/6  →  Full '+full+'/7  (CK-MB Δ '+(pC?'+1':'0')+')')
+    : ('ACES-Door '+door+'/6  ·  2차 CK-MB가 있으면 Full(최대 7)로 갱신');
+}
+calc();
+</script>
+</body>
+</html>

@@ -110,6 +110,22 @@ Non-STEMI operating point: sensitivity 84.6%, specificity 72.7%. Standardized co
 
 CPR time, defibrillation energy and count, hypertension, diabetes, and prior CAD were not associated with a culprit lesion. Spearman correlations of CPR time and defibrillation with initial cTnI were all r<0.14 and not significant. Troponin release after OHCA is not explained by “how hard we compressed.”
 
+### 3.7 Proposed bedside score (ACES) — derivation, not a validated rule
+
+The Non-STEMI model was converted to an integer score by dividing each standardized coefficient by the smallest (0.32) and rounding (Sullivan et al. method):
+
+| Item | Threshold | Points |
+|---|---|---:|
+| Age | ≥59 years (Youden in Non-STEMI) | 3 |
+| Initial shockable rhythm | VF / pVT | 2 |
+| Male sex | — | 1 |
+| CK-MB Δ | ≥21.4 ng/mL | 1 |
+| Total | Door 0–6; after serial CK-MB 0–7 | |
+
+High (≥5) cannot be reached without age ≥59. CK-MB, sex, and rhythm together max out at 4. That matches the coefficients. The door version (no enzyme) corresponds to the three-variable AUC 0.808; adding CK-MB Δ corresponds to 0.832.
+
+Bands: 0–2 low, 3–4 intermediate, 5–7 high. These bands have not been re-tested as an integer score on the 63 patients. Do not call ACES a clinical decision rule until that is done. STEMI is out of scope: do not score it.
+
 ---
 
 ## 4. Discussion
