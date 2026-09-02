@@ -287,6 +287,10 @@ MD = """# 9월 2일 모닝미팅 정리
 
 원문: 9월 2일 모닝미팅 · FEAR에서 오래있으면 · TalkFile_공포, 거래대금, 자사주, 삼성전기, 휴머노이드로봇
 
+페이지 그림: `reports/sep02-pages/`
+
+![한 장·유가·ISM](../reports/sep02-pages/brief_overview_oil_ism.png)
+
 ---
 
 ## 한 장
@@ -328,7 +332,17 @@ MD = """# 9월 2일 모닝미팅 정리
 3. 자사주 43조와 Dell 백로그 $950억은 수급·전방 안전판. 단기 주가와 업황을 같은 시계로 읽지 않는다.
 4. 삼성전기는 플랫폼 LTA로 물량·가격을 동시에 잡았다. 휴머노이드 10억 대의 병목은 전력이다.
 
+## 페이지 그림
+
 매수·매도 권유가 아닙니다.
+
+![Fear 수익률](../reports/sep02-pages/brief_fear_returns.png)
+
+![자사주](../reports/sep02-pages/brief_buybacks.png)
+
+![Dell](../reports/sep02-pages/brief_dell.png)
+
+![삼성전기](../reports/sep02-pages/brief_semco_mlcc.png)
 """
 
 
