@@ -1,0 +1,212 @@
+"""9월 2일 모닝미팅 + TalkFile 숫자. 원문 PDF 기준, 검산은 assert_all()."""
+
+from __future__ import annotations
+
+# ── 유가·금리·증시 ─────────────────────────────────────────
+OIL_PCT = 0.05
+SOX_PCT = -0.021
+NASDAQ_PCT = -0.0103
+UST10Y_NEAR = 0.048
+FOMC_HIKE_1W = 0.40
+FOMC_HIKE_NOW = 0.682
+OIL_WATCH_LO = 90
+OIL_WATCH_HI = 95
+
+# ── ISM ────────────────────────────────────────────────────
+ISM_PMI_PATH = (47.9, 52.6, 54.0, 55.6, 54.6)
+ISM_JUL = 55.6
+ISM_AUG = 54.6
+ISM_ABOVE_50_MONTHS = 8
+ISM_GDP_JUL = 0.028
+ISM_GDP_AUG = 0.024
+ISM_PRICES = 71.1
+ISM_NEW_ORDERS_P = -3.0
+ISM_BACKLOG_P = -3.2
+ISM_EMP_P = -1.6
+COMMODITY_UP_MONTHS = 23
+
+# ── JOLTS (만 명) ──────────────────────────────────────────
+JOLTS_OPEN_JUN_FIRST = 735.9
+JOLTS_OPEN_JUN = 718.2
+JOLTS_UNEMP_JUN = 709.4
+JOLTS_OPEN_JUL = 727.1
+JOLTS_UNEMP_JUL = 691.6
+JOLTS_HIRE_JUN = 533.0
+JOLTS_HIRE_JUL = 505.0
+JOLTS_HIRE_DELTA = -27.8
+JOLTS_LAYOFF_JUN = 177.0
+JOLTS_LAYOFF_JUL = 167.0
+HIRE_RATE_JUN = 0.034
+HIRE_RATE_JUL = 0.032
+LAYOFF_RATE_JUN = 0.011
+LAYOFF_RATE_JUL = 0.010
+UNEMP_RATE = 0.041
+DURABLE_OPEN_LO = 7.6
+DURABLE_OPEN_HI = 7.9
+
+# ── Fear 센티먼트 (KOSPI 평균 수익률) ───────────────────────
+FEAR = {"1M": -0.003, "3M": -0.014, "6M": -0.057, "12M": 0.046}
+EXTREME_FEAR = {"1M": -0.017, "3M": -0.034, "6M": -0.086, "12M": -0.092}
+GREED = {"1M": 0.022, "3M": 0.036, "6M": 0.119, "12M": 0.167}
+EXTREME_GREED = {"1M": 0.022, "3M": 0.086, "6M": 0.393, "12M": 0.511}
+NORMAL = {"1M": 0.0, "3M": 0.048, "6M": 0.054, "12M": 0.156}
+FEAR_STREAK_MONTHS = 3
+
+# ── 수급 ───────────────────────────────────────────────────
+KOSPI_HIGH = 9385.6
+KOSPI_LOW = 5200
+TURNOVER_PEAK_JO = 50.0
+TURNOVER_AUG_JO = 25.8
+TURNOVER_RATE = 0.0054
+DEPOSIT_JUN_JO = 140.0
+DEPOSIT_NOW_JO = 96.7
+MMF_WEEK_JO = 1.6
+SAFE_ASSET_JO = 3.3
+KODEX_MM_UK = 2941
+RISE_MM_UK = 1438
+US_STOCK_JUL_USD_UK = 1715
+US_STOCK_AUG_USD_UK = 1867
+VKOSPI_JUN = 97
+VKOSPI_AUG = 50
+
+# ── 자사주 (조원, 만주) ────────────────────────────────────
+BUYBACK_SKH_JO = 40.0
+BUYBACK_SEC_JO = 15.0
+BUYBACK_SKH_SHARES_MAN = 2407.0
+BUYBACK_SEC_SHARES_MAN = 5329.0
+BUYBACK_SKH_DONE_JO = 8.78
+BUYBACK_SEC_DONE_JO = 3.54
+# 원문은 합계 11.84조. 3.54+8.78=12.32라 0.48조 갭이 있다. 소진률·잔여는 원문 합계를 따른다.
+BUYBACK_DONE_JO = 11.84
+BUYBACK_REMAIN_JO = 43.2
+BUYBACK_BURN = 0.215
+BUYBACK_SKH_DONE_MAN = 520.0
+BUYBACK_SKH_AVG_MANWON = 168.9
+BUYBACK_SKH_DAILY_MAN = 65.0
+BUYBACK_SKH_PCT_OF_SO = 0.033
+BUYBACK_WINDOW = "8/20–11/19"
+BUYBACK_PACE_DATE = "10/16"
+
+# ── Dell ($억, 별도 표기는 B) ──────────────────────────────
+DELL_REV = 469.7
+DELL_REV_CONS = 447.84
+DELL_OP = 59.3
+DELL_OP_CONS = 41.76
+DELL_EPS = 7.04
+DELL_EPS_CONS = 4.90
+DELL_REV_YOY = 0.577
+DELL_REV_QOQ = 0.071
+DELL_OP_YOY = 1.994
+DELL_OP_QOQ = 0.503
+DELL_ISG = 317.8
+DELL_ISG_CONS = 295.8
+DELL_ISG_YOY = 0.892
+DELL_ISG_QOQ = 0.096
+DELL_AI = 164.0
+DELL_AI_CONS = 160.4
+DELL_AI_YOY = 0.998
+DELL_TRAD = 105.3
+DELL_TRAD_CONS = 92.8
+DELL_TRAD_YOY = 1.224
+DELL_STOR = 48.5
+DELL_STOR_CONS = 43.3
+DELL_STOR_YOY = 0.258
+DELL_CSG = 150.3
+DELL_CSG_CONS = 149.93
+DELL_CSG_YOY = 0.202
+DELL_CSG_QOQ = 0.029
+DELL_ORDERS = 60.9  # $B
+DELL_BACKLOG = 95.0
+DELL_Q3_REV_LO = 485.0
+DELL_Q3_REV_HI = 495.0
+DELL_Q3_REV_CONS = 419.07
+DELL_Q3_EPS = 6.5
+DELL_Q3_EPS_CONS = 4.55
+DELL_FY_REV = 1920.0
+DELL_FY_REV_BAND = 200.0
+DELL_FY_LIFT = 250.0
+DELL_FY_YOY = 0.69
+DELL_AI_FY = 740.0
+DELL_AI_FY_YOY = 2.00
+DELL_REG_PCT = -0.068
+DELL_AH_PCT = 0.068
+
+# ── 삼성전기 MLCC ──────────────────────────────────────────
+SEMCO_LTA_JUN_UK = 4540
+SEMCO_LTA_JUL_UK = 2951
+SEMCO_LTA_NEW_JO = 1.07
+SEMCO_LTA_CUM_JO = 1.82
+SEMCO_REV_SHARE = 0.17
+SEMCO_OP_SHARE = 0.186
+SEMCO_OPM = 0.30
+SEMCO_OP_UK = 5464
+SEMCO_GENERIC_UK = 3000  # 억개
+SEMCO_CAPA_JO = 1.3  # 조개
+SEMCO_LTA_CAPA_SHARE = 0.23
+SEMCO_ASP = 7.5
+SEMCO_ASP_YOY = 0.27
+SEMCO_SHIP_YOY = 0.12
+
+# ── 휴머노이드 ─────────────────────────────────────────────
+HUMANOID_UNITS_UK = 10  # 억 대
+HUMANOID_YEARS = 10
+HUMANOID_PROD_X = 5
+
+
+def _close(a: float, b: float, tol: float = 0.03) -> None:
+    if abs(a - b) > tol:
+        raise AssertionError(f"{a} != {b} (tol={tol})")
+
+
+def assert_all() -> None:
+    # 자사주
+    _close(BUYBACK_SKH_JO + BUYBACK_SEC_JO, 55.0, 0.01)
+    _close(BUYBACK_DONE_JO, 11.84, 0.01)
+    _close(55.0 - BUYBACK_DONE_JO, BUYBACK_REMAIN_JO, 0.05)
+    _close(BUYBACK_DONE_JO / 55.0, BUYBACK_BURN, 0.002)
+    # 개별 합(12.32)과 원문 합계(11.84)는 다름. 원문 합계를 사용.
+    _close(BUYBACK_SKH_DONE_MAN / BUYBACK_SKH_SHARES_MAN, 0.216, 0.002)
+    remain_man = BUYBACK_SKH_SHARES_MAN - BUYBACK_SKH_DONE_MAN
+    _close(remain_man, 1887.0, 0.5)
+    spent = BUYBACK_SKH_DONE_MAN * BUYBACK_SKH_AVG_MANWON / 100.0  # 만주×만원 → 조원? 만주*만원=억원, /100=조
+    # 520만주 × 168.9만원 = 520만 × 168.9만 = 8.7828조
+    _close(BUYBACK_SKH_DONE_MAN * 1e4 * BUYBACK_SKH_AVG_MANWON * 1e4 / 1e12, 8.7828, 0.02)
+    _close(remain_man * 1e4 * BUYBACK_SKH_AVG_MANWON * 1e4 / 1e12, 31.87, 0.05)
+    _close(remain_man / BUYBACK_SKH_DAILY_MAN, 29.03, 0.2)
+
+    # JOLTS
+    _close(JOLTS_OPEN_JUL / JOLTS_UNEMP_JUL, 1.051, 0.002)
+    _close(JOLTS_OPEN_JUN / JOLTS_UNEMP_JUN, 1.012, 0.002)
+    _close(JOLTS_UNEMP_JUN - JOLTS_UNEMP_JUL, 17.8, 0.05)
+    _close(JOLTS_OPEN_JUL - JOLTS_OPEN_JUN, 8.9, 0.05)
+    _close(JOLTS_HIRE_JUL - JOLTS_HIRE_JUN, -28.0, 0.3)
+    _close(JOLTS_HIRE_DELTA, -27.8, 0.05)
+
+    # 수급
+    _close(TURNOVER_AUG_JO / TURNOVER_PEAK_JO, 0.516, 0.02)
+    _close(DEPOSIT_JUN_JO - DEPOSIT_NOW_JO, 43.3, 0.2)
+    _close(US_STOCK_AUG_USD_UK - US_STOCK_JUL_USD_UK, 152.0, 0.1)
+    _close(US_STOCK_AUG_USD_UK / US_STOCK_JUL_USD_UK - 1, 0.0886, 0.002)
+
+    # Dell
+    _close(DELL_REV / DELL_REV_CONS - 1, 0.0488, 0.003)
+    _close(DELL_EPS / DELL_EPS_CONS - 1, 0.4367, 0.005)
+    _close(DELL_Q3_EPS / DELL_Q3_EPS_CONS - 1, 0.4286, 0.005)
+    mid_q3 = (DELL_Q3_REV_LO + DELL_Q3_REV_HI) / 2
+    _close(mid_q3 / DELL_Q3_REV_CONS - 1, 0.1693, 0.01)
+    _close(DELL_FY_REV - DELL_FY_LIFT, 1670.0, 1.0)
+    _close(DELL_AI + DELL_TRAD + DELL_STOR, DELL_ISG, 0.2)
+    _close(DELL_ISG + DELL_CSG, DELL_REV, 2.0)  # 기타/조정 있음
+
+    # 삼성전기
+    lta_uk = SEMCO_LTA_JUN_UK + SEMCO_LTA_JUL_UK + SEMCO_LTA_NEW_JO * 10000
+    _close(lta_uk / 10000, SEMCO_LTA_CUM_JO, 0.02)
+    _close(SEMCO_LTA_CUM_JO * SEMCO_OPM * 10000, SEMCO_OP_UK, 10)
+    _close(SEMCO_GENERIC_UK / (SEMCO_CAPA_JO * 10000), SEMCO_LTA_CAPA_SHARE, 0.005)
+    _close(ISM_AUG, ISM_PMI_PATH[-1], 0.01)
+    _close(ISM_JUL, ISM_PMI_PATH[-2], 0.01)
+
+
+if __name__ == "__main__":
+    assert_all()
+    print("sep02_morning_data: ok")
