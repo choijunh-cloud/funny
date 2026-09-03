@@ -11,7 +11,7 @@
 
 ```bash
 python3 -m hybrid_synthesis --all-scenarios
-python3 -m unittest hybrid_synthesis.tests.test_model hybrid_synthesis.tests.test_portfolio
+python3 -m unittest hybrid_synthesis.tests.test_model hybrid_synthesis.tests.test_portfolio hybrid_synthesis.tests.test_ranking
 ```
 
 투자 참고용 · 투자 권유 아님

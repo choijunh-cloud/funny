@@ -7,6 +7,7 @@ from pathlib import Path
 
 from hybrid_synthesis.model import HybridSnapshot, Scenario
 from hybrid_synthesis.portfolio import Portfolio, SLEEVE_ORDER
+from hybrid_synthesis.ranking import rank_h2
 
 SLEEVE_KO = {
     "CORE_SEMI": "코어 반도체",
@@ -141,7 +142,83 @@ def _phase_cards() -> str:
     return "\n".join(cards)
 
 
-def render_html(portfolio: Portfolio, scenarios: dict[str, HybridSnapshot]) -> str:
+def _ranking_rows(rows: list[dict], *, score_key: str = "pw_return") -> str:
+    out = []
+    for item in rows:
+        out.append(
+            "<tr>"
+            f"<td class='num'><b>{item['rank']}</b></td>"
+            f"<td class='mono'>{item['ticker']}</td>"
+            f"<td>{item['name']}</td>"
+            f"<td>T{item['tier']}</td>"
+            f"<td>{item['conviction']}</td>"
+            f"<td class='num'>{item['spot']:,.0f}</td>"
+            f"<td class='num'>{item['yearend_target']:,.0f}</td>"
+            f"<td class='num'>{item['fair_value']:,.0f}</td>"
+            f"<td class='num'>{item[score_key] * 100:+.1f}%</td>"
+            f"<td class='num'>{item['ease_return'] * 100:+.1f}%</td>"
+            f"<td>{item['now_action']}</td>"
+            "</tr>"
+        )
+    return "\n".join(out)
+
+
+def _ranking_section(ranking: dict | None) -> str:
+    if not ranking:
+        return ""
+    boxed_up = " > ".join(ranking["boxed_upside"])
+    boxed_new = " > ".join(ranking["boxed_new_money"])
+    drop_rows = "".join(
+        "<tr>"
+        f"<td class='mono'>{item['ticker']}</td>"
+        f"<td>{item['name']}</td>"
+        f"<td>{item['reason']}</td>"
+        "</tr>"
+        for item in ranking["dropped"]
+    )
+    return f"""
+<section>
+  <h2>0. 하반기 KOSPI Top 10 — 세 의견을 하나로</h2>
+  <p class="callout">공식 순위는 <b>확률가중 기대(PW)</b>다. 완화 천장만 보면 두산이 올라오고, 이미 삼성·하이닉스를 들고 있으면
+  신규 자금 순은 한국금융지주가 1위가 된다. 심텍·티엘비·디아이·삼성E&amp;A는 넣지 않는다.</p>
+  <p>PW = 0.35×완화 + 0.50×기본 + 0.15×하드랜딩. 품질점수 = 실적가시성 35 + 밸류·환원 25 + 매크로 15 + 하반기 촉매 15 + 수급 10.</p>
+  <table>
+    <thead>
+      <tr>
+        <th class="num">#</th><th>코드</th><th>종목</th><th>티어</th><th>확신</th>
+        <th class="num">9/3 종가</th><th class="num">연말 1차</th><th class="num">6–12M 적정</th>
+        <th class="num">PW</th><th class="num">완화</th><th>지금</th>
+      </tr>
+    </thead>
+    <tbody>{_ranking_rows(ranking["top10"])}</tbody>
+  </table>
+  <p><b>절대 업사이드 5:</b> <span class="mono">{boxed_up}</span><br/>
+  <b>신규 자금 5:</b> <span class="mono">{boxed_new}</span></p>
+  <h3>신규 자금 순 (반도체 중복 페널티 후)</h3>
+  <table>
+    <thead>
+      <tr>
+        <th class="num">#</th><th>코드</th><th>종목</th><th>티어</th><th>확신</th>
+        <th class="num">9/3 종가</th><th class="num">연말 1차</th><th class="num">6–12M 적정</th>
+        <th class="num">신규점수</th><th class="num">완화</th><th>지금</th>
+      </tr>
+    </thead>
+    <tbody>{_ranking_rows(ranking["new_money_order"][:10], score_key="new_money_score")}</tbody>
+  </table>
+  <h3>합성에서 뺀 것</h3>
+  <table>
+    <thead><tr><th>코드</th><th>종목</th><th>이유</th></tr></thead>
+    <tbody>{drop_rows}</tbody>
+  </table>
+</section>
+"""
+
+
+def render_html(
+    portfolio: Portfolio,
+    scenarios: dict[str, HybridSnapshot],
+    ranking: dict | None = None,
+) -> str:
     snap = portfolio.snapshot
     f = snap.formula_terms()
     kospi = snap.kospi
@@ -153,6 +230,7 @@ def render_html(portfolio: Portfolio, scenarios: dict[str, HybridSnapshot]) -> s
     landing = "하드랜딩 트리거 활성" if snap.hard_landing else "하드랜딩 미발동"
     ref = portfolio.reference_krw
 
+    ranking_html = _ranking_section(ranking)
     sleeve_bars = []
     for sleeve in SLEEVE_ORDER:
         weight = snap.sleeves[sleeve] * snap.equity_weight
@@ -271,7 +349,7 @@ footer {{ margin-top: 28px; color: var(--muted); font-size: 12px; }}
 </div>
 
 <p class="lead">{snap.phase_narrative}</p>
-
+{ranking_html}
 <section>
   <h2>1. 원인 → 결과 논리</h2>
   <div class="logic">
@@ -357,7 +435,11 @@ footer {{ margin-top: 28px; color: var(--muted); font-size: 12px; }}
 """
 
 
-def render_markdown(portfolio: Portfolio, scenarios: dict[str, HybridSnapshot]) -> str:
+def render_markdown(
+    portfolio: Portfolio,
+    scenarios: dict[str, HybridSnapshot],
+    ranking: dict | None = None,
+) -> str:
     snap = portfolio.snapshot
     f = snap.formula_terms()
     lines = [
@@ -369,8 +451,46 @@ def render_markdown(portfolio: Portfolio, scenarios: dict[str, HybridSnapshot]) 
         f"- 코스피 추정: **{snap.kospi['expected']:.0f}** (밴드 {snap.kospi['band_low']:.0f}–{snap.kospi['band_high']:.0f})",
         f"- 자산배분: 주식 {_pct(snap.equity_weight)} / 채권·현금 {_pct(1 - snap.equity_weight)}",
         "",
-        "## 편입 종목",
-        "",
+    ]
+    if ranking:
+        lines += [
+            "## 하반기 KOSPI Top 10 (확률가중)",
+            "",
+            "| # | 코드 | 종목 | 티어 | 확신 | 9/3 종가 | 연말 1차 | 6–12M 적정 | PW | 완화 | 지금 |",
+            "|---:|---|---|---|---|---:|---:|---:|---:|---:|---|",
+        ]
+        for item in ranking["top10"]:
+            lines.append(
+                f"| {item['rank']} | {item['ticker']} | {item['name']} | T{item['tier']} | {item['conviction']} | "
+                f"{item['spot']:,.0f} | {item['yearend_target']:,.0f} | {item['fair_value']:,.0f} | "
+                f"{item['pw_return']*100:+.1f}% | {item['ease_return']*100:+.1f}% | {item['now_action']} |"
+            )
+        lines += [
+            "",
+            f"- 절대 업사이드 5: `{' > '.join(ranking['boxed_upside'])}`",
+            f"- 신규 자금 5: `{' > '.join(ranking['boxed_new_money'])}`",
+            "",
+            "## 신규 자금 순",
+            "",
+            "| # | 코드 | 종목 | 신규점수 | PW | 기존비중 |",
+            "|---:|---|---|---:|---:|---:|",
+        ]
+        for item in ranking["new_money_order"][:10]:
+            lines.append(
+                f"| {item['rank']} | {item['ticker']} | {item['name']} | {item['new_money_score']*100:+.1f}% | "
+                f"{item['pw_return']*100:+.1f}% | {item['existing_weight']*100:.1f}% |"
+            )
+        lines += [
+            "",
+            "## 합성에서 뺀 것",
+            "",
+        ]
+        for item in ranking["dropped"]:
+            lines.append(f"- `{item['ticker']}` {item['name']}: {item['reason']}")
+        lines += ["", "## 편입 종목 (Phase 1 전략 북)", ""]
+    else:
+        lines += ["## 편입 종목 (Phase 1 전략 북)", ""]
+    lines += [
         "| 코드 | 종목 | 슬리브 | 총비중 | 점수 | 논리 |",
         "|---|---|---|---:|---:|---|",
     ]
@@ -391,11 +511,7 @@ def render_markdown(portfolio: Portfolio, scenarios: dict[str, HybridSnapshot]) 
             f"| {key} | {item.phase_name} | {item.relief['R']:.3f} | {item.expansion['A']:.3f} | "
             f"{item.defense['D']:.3f} | {item.momentum:.3f} | {item.kospi['expected']:.0f} | {_pct(item.equity_weight)} |"
         )
-    lines += [
-        "",
-        "## 배제",
-        "",
-    ]
+    lines += ["", "## 배제", ""]
     for item in portfolio.avoid:
         lines.append(f"- `{item.ticker}` {item.name}: {item.thesis}")
     for item in portfolio.excluded_non_kospi:
@@ -420,12 +536,14 @@ def write_reports(
     json_path = out_dir / f"{as_of}-hybrid-synthesis.json"
     readme_path = out_dir / "README.md"
 
+    ranking = rank_h2(portfolio.snapshot, portfolio)
     payload = {
         "portfolio": portfolio.to_dict(),
         "scenarios": {key: item.to_dict() for key, item in scenarios.items()},
+        "ranking": ranking,
     }
-    html_path.write_text(render_html(portfolio, scenarios), encoding="utf-8")
-    md_path.write_text(render_markdown(portfolio, scenarios), encoding="utf-8")
+    html_path.write_text(render_html(portfolio, scenarios, ranking), encoding="utf-8")
+    md_path.write_text(render_markdown(portfolio, scenarios, ranking), encoding="utf-8")
     json_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     csv_path = out_dir / f"{as_of}-hybrid-portfolio.csv"
     csv_lines = ["ticker,name,sleeve,action,score,weight_total,weight_equity,amount_krw"]
@@ -453,7 +571,7 @@ def write_reports(
                 "",
                 "```bash",
                 "python3 -m hybrid_synthesis --all-scenarios",
-                "python3 -m unittest hybrid_synthesis.tests.test_model hybrid_synthesis.tests.test_portfolio",
+                "python3 -m unittest hybrid_synthesis.tests.test_model hybrid_synthesis.tests.test_portfolio hybrid_synthesis.tests.test_ranking",
                 "```",
                 "",
                 "투자 참고용 · 투자 권유 아님",

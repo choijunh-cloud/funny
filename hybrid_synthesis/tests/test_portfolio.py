@@ -79,6 +79,12 @@ class PortfolioConstructionTests(unittest.TestCase):
         self.assertNotIn("402340", self.tickers)
         self.assertNotIn("090430", self.tickers)
         self.assertNotIn("051900", self.tickers)
+        # Ranking overlay names. They must not rewrite the Phase 1 60/40 book.
+        self.assertNotIn("071050", self.tickers)
+        self.assertNotIn("035420", self.tickers)
+        self.assertNotIn("012330", self.tickers)
+        self.assertNotIn("028260", self.tickers)
+        self.assertNotIn("278470", self.tickers)
 
     def test_all_holdings_are_kospi_universe_members(self) -> None:
         kospi = {stock.ticker for stock in KOSPI_UNIVERSE}

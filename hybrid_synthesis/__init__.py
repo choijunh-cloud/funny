@@ -11,6 +11,7 @@ from hybrid_synthesis.model import (
     scenario_inputs,
 )
 from hybrid_synthesis.portfolio import Portfolio, build_portfolio
+from hybrid_synthesis.ranking import rank_h2
 from hybrid_synthesis.universe import KOSPI_UNIVERSE, NON_KOSPI_EXCLUSIONS
 
 __all__ = [
@@ -25,5 +26,6 @@ __all__ = [
     "baseline_inputs",
     "build_portfolio",
     "evaluate",
+    "rank_h2",
     "scenario_inputs",
 ]

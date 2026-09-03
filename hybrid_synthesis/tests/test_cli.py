@@ -42,6 +42,11 @@ class CliTests(unittest.TestCase):
             html_text = html.read_text(encoding="utf-8")
             self.assertIn("M = (매크로 압박 해소율 R)", html_text)
             self.assertIn("삼성전자", html_text)
+            self.assertIn("ranking", payload)
+            self.assertEqual(payload["ranking"]["top10"][0]["ticker"], "000660")
+            self.assertNotIn("003160", [row["ticker"] for row in payload["ranking"]["top10"]])
+            self.assertIn("하반기 KOSPI Top 10", html_text)
+            self.assertIn("한국금융지주", html_text)
 
 
 if __name__ == "__main__":

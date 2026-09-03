@@ -8,8 +8,9 @@ from dataclasses import replace
 from datetime import date
 from pathlib import Path
 
-from hybrid_synthesis.model import Scenario, baseline_inputs, evaluate, evaluate_all_scenarios
+from hybrid_synthesis.model import HybridInputs, Scenario, baseline_inputs, evaluate, evaluate_all_scenarios
 from hybrid_synthesis.portfolio import build_portfolio
+from hybrid_synthesis.ranking import rank_h2
 from hybrid_synthesis.report import write_reports
 
 
@@ -65,6 +66,7 @@ def main() -> None:
     payload = {
         "portfolio": portfolio.to_dict(),
         "scenarios": {key: item.to_dict() for key, item in scenarios.items()},
+        "ranking": rank_h2(snapshot, portfolio),
     }
     if args.json_only:
         json_path = args.out / "hybrid-synthesis.json"
