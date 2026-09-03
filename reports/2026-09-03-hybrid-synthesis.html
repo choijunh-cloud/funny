@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>통합 하이브리드 추정 모형 · 코스피 포트폴리오</title>
+<style>
+:root {
+  --navy: #0f2043;
+  --navy2: #1e407c;
+  --gold: #b8943a;
+  --paper: #f6f3ea;
+  --ink: #1a1a1a;
+  --muted: #5b6472;
+  --line: #d7d0c3;
+  --good: #166534;
+  --bad: #991b1b;
+  --warn: #7a5c12;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font-family: "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
+  line-height: 1.55;
+}
+.wrap { max-width: 1180px; margin: 0 auto; padding: 28px 20px 64px; }
+header.hero {
+  background: linear-gradient(135deg, var(--navy), #16325c 60%, #2a4d86);
+  color: #f8f4ea; border-radius: 18px; padding: 28px 28px 24px;
+  box-shadow: 0 16px 40px rgba(15,32,67,.18);
+}
+header.hero p.kicker { letter-spacing: .12em; font-size: 12px; color: #e6d7a2; margin: 0 0 8px; }
+header.hero h1 { margin: 0 0 10px; font-size: 30px; line-height: 1.25; }
+header.hero .formula {
+  font-family: ui-serif, Georgia, serif; font-size: 18px; color: #f3e6c0; margin: 8px 0 14px;
+}
+.meta { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill {
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.14);
+  border-radius: 999px; padding: 4px 10px; font-size: 12px;
+}
+.grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 18px 0; }
+.card {
+  background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 14px 14px 12px;
+}
+.card .lbl { color: var(--muted); font-size: 12px; }
+.card .val { font-size: 28px; font-weight: 700; color: var(--navy); }
+.card .sub { font-size: 12px; color: var(--muted); }
+section h2 {
+  margin: 28px 0 10px; color: var(--navy); border-left: 5px solid var(--gold);
+  padding-left: 10px; font-size: 22px;
+}
+p.lead { color: #333; }
+table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 12px; overflow: hidden; }
+th, td { border-bottom: 1px solid #eee; padding: 8px 8px; text-align: left; font-size: 13px; vertical-align: top; }
+th { background: var(--navy); color: #fff; font-weight: 600; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.proxy { color: var(--muted); font-size: 11px; }
+.tag { background: #f3e6c0; color: #6a4f12; border-radius: 6px; padding: 1px 6px; font-size: 11px; }
+.phases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.phase, .thesis { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 14px; }
+.phase-kicker { color: var(--gold); font-weight: 700; letter-spacing: .08em; font-size: 12px; }
+.phase h3 { margin: 4px 0 6px; color: var(--navy); }
+.window, .sleeves { color: var(--muted); font-size: 12px; }
+.theses { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.thesis h4 { margin: 0 0 6px; color: var(--navy); }
+.thesis h4 em { float: right; color: var(--gold); font-style: normal; }
+.bar-row { display: grid; grid-template-columns: 150px 1fr 56px; gap: 8px; align-items: center; margin: 6px 0; font-size: 13px; }
+.bar { background: #ece6d8; border-radius: 99px; height: 10px; overflow: hidden; }
+.bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--navy2), var(--gold)); }
+.callout {
+  background: #fff8e7; border: 1px solid #e6d7a2; border-radius: 12px; padding: 12px 14px; color: #5a4710;
+}
+.logic { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.logic article { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+.logic h3 { margin: 0 0 6px; font-size: 16px; color: var(--navy2); }
+footer { margin-top: 28px; color: var(--muted); font-size: 12px; }
+@media (max-width: 900px) {
+  .grid, .phases, .theses, .logic { grid-template-columns: 1fr; }
+  header.hero h1 { font-size: 24px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+  <p class="kicker">HYBRID SYNTHESIS MODEL · KOSPI ONLY · 2026-09-03</p>
+  <h1>통합 하이브리드 추정 모형으로 짠 코스피 포트폴리오</h1>
+  <p class="formula">시장 모멘텀 M = (매크로 압박 해소율 R) × (AI 이익 팽창 계수 A) + (국내 수급 방어력 D)</p>
+  <div class="meta">
+    <span class="pill">Phase 1 · 고통의 수렴 및 바닥 테스트</span>
+    <span class="pill">2026-09-03 ~ 2026-10-08</span>
+    <span class="pill">R 0.155 · A 1.262 · D 0.312 · M 0.508</span>
+    <span class="pill">주식 60.0% / 채권·현금 40.0%</span>
+    <span class="pill">구조적 인하 불가 (역전) · PCE 부분 룸 닫힘 · 하드랜딩 미발동</span>
+  </div>
+</header>
+
+<div class="grid">
+  <div class="card"><div class="lbl">매크로 해소율 R</div><div class="val">0.155</div><div class="sub">실질정책 +0.05% vs 실질중립 +1.10% · 유효 10년물 4.91%</div></div>
+  <div class="card"><div class="lbl">AI 팽창 계수 A</div><div class="val">1.262</div><div class="sub">기타수요 44.9% · NVL72 61%→90% · FCF 0.86</div></div>
+  <div class="card"><div class="lbl">국내 방어력 D</div><div class="val">0.312</div><div class="sub">ISA 0.000 · 배당 0.172 · 한전/인프라 0.140</div></div>
+  <div class="card"><div class="lbl">코스피 추정</div><div class="val">6,600</div><div class="sub">밴드 6,400–6,600 · 선행PE 5.79배</div></div>
+</div>
+
+<p class="lead">10년물 4.8%, 유가 $90, 9월 FOMC 동결. 외국인 파생 매도가 지수를 억누르지만 반도체 선행 P/E 5.7배와 자사주 매입이 6,400~6,600 하단을 지킨다.</p>
+
+<section>
+  <h2>0. 하반기 KOSPI Top 10 — 세 의견을 하나로</h2>
+  <p class="callout">공식 순위는 <b>확률가중 기대(PW)</b>다. 완화 천장만 보면 두산이 올라오고, 이미 삼성·하이닉스를 들고 있으면
+  신규 자금 순은 한국금융지주가 1위가 된다. 심텍·티엘비·디아이·삼성E&amp;A는 넣지 않는다.</p>
+  <p>PW = 0.35×완화 + 0.50×기본 + 0.15×하드랜딩. 품질점수 = 실적가시성 35 + 밸류·환원 25 + 매크로 15 + 하반기 촉매 15 + 수급 10.</p>
+  <table>
+    <thead>
+      <tr>
+        <th class="num">#</th><th>코드</th><th>종목</th><th>티어</th><th>확신</th>
+        <th class="num">9/3 종가</th><th class="num">연말 1차</th><th class="num">6–12M 적정</th>
+        <th class="num">PW</th><th class="num">완화</th><th>지금</th>
+      </tr>
+    </thead>
+    <tbody><tr><td class='num'><b>1</b></td><td class='mono'>000660</td><td>SK하이닉스</td><td>T1</td><td>A</td><td class='num'>1,596,000</td><td class='num'>2,053,600</td><td class='num'>2,300,000</td><td class='num'>+21.4%</td><td class='num'>+44.1%</td><td>홀드 · 10월 전 확대 금지</td></tr>
+<tr><td class='num'><b>2</b></td><td class='mono'>402340</td><td>SK스퀘어</td><td>T1</td><td>B+</td><td class='num'>981,000</td><td class='num'>1,207,850</td><td class='num'>1,330,000</td><td class='num'>+16.4%</td><td class='num'>+35.6%</td><td>홀드 · 삼성·닉스와 합산 한도</td></tr>
+<tr><td class='num'><b>3</b></td><td class='mono'>071050</td><td>한국금융지주</td><td>T1</td><td>A-</td><td class='num'>186,600</td><td class='num'>224,560</td><td class='num'>245,000</td><td class='num'>+14.9%</td><td class='num'>+31.3%</td><td>분할 매수 1순위</td></tr>
+<tr><td class='num'><b>4</b></td><td class='mono'>005930</td><td>삼성전자</td><td>T1</td><td>A</td><td class='num'>250,000</td><td class='num'>295,500</td><td class='num'>320,000</td><td class='num'>+13.1%</td><td class='num'>+28.0%</td><td>홀드 · 10월 전 확대 금지</td></tr>
+<tr><td class='num'><b>5</b></td><td class='mono'>015760</td><td>한국전력</td><td>T1</td><td>A</td><td class='num'>32,450</td><td class='num'>38,202</td><td class='num'>41,300</td><td class='num'>+12.8%</td><td class='num'>+27.3%</td><td>분할 · 약한 조정</td></tr>
+<tr><td class='num'><b>6</b></td><td class='mono'>035420</td><td>NAVER</td><td>T1</td><td>B+</td><td class='num'>207,500</td><td class='num'>244,875</td><td class='num'>265,000</td><td class='num'>+12.7%</td><td class='num'>+27.7%</td><td>분할 · 약한 조정</td></tr>
+<tr><td class='num'><b>7</b></td><td class='mono'>005935</td><td>삼성전자우</td><td>T2</td><td>A</td><td class='num'>184,100</td><td class='num'>214,195</td><td class='num'>230,400</td><td class='num'>+11.9%</td><td class='num'>+25.1%</td><td>홀드 · 삼성·닉스와 합산 한도</td></tr>
+<tr><td class='num'><b>8</b></td><td class='mono'>034020</td><td>두산에너빌리티</td><td>T2</td><td>B-</td><td class='num'>79,200</td><td class='num'>84,920</td><td class='num'>88,000</td><td class='num'>+11.3%</td><td class='num'>+36.4%</td><td>관망 · 추격 금지</td></tr>
+<tr><td class='num'><b>9</b></td><td class='mono'>012330</td><td>현대모비스</td><td>T2</td><td>B+</td><td class='num'>423,500</td><td class='num'>489,475</td><td class='num'>525,000</td><td class='num'>+11.1%</td><td class='num'>+24.0%</td><td>분할 · 약한 조정</td></tr>
+<tr><td class='num'><b>10</b></td><td class='mono'>003490</td><td>대한항공</td><td>T2</td><td>B</td><td class='num'>29,150</td><td class='num'>32,628</td><td class='num'>34,500</td><td class='num'>+11.0%</td><td class='num'>+25.9%</td><td>분할 · 약한 조정</td></tr></tbody>
+  </table>
+  <p><b>절대 업사이드 5:</b> <span class="mono">SK하이닉스 > SK스퀘어 > 한국금융지주 > 삼성전자 > 한국전력</span><br/>
+  <b>신규 자금 5:</b> <span class="mono">한국금융지주 > NAVER > 현대모비스 > 한국전력 > 삼성물산</span></p>
+  <h3>신규 자금 순 (반도체 중복 페널티 후)</h3>
+  <table>
+    <thead>
+      <tr>
+        <th class="num">#</th><th>코드</th><th>종목</th><th>티어</th><th>확신</th>
+        <th class="num">9/3 종가</th><th class="num">연말 1차</th><th class="num">6–12M 적정</th>
+        <th class="num">신규점수</th><th class="num">완화</th><th>지금</th>
+      </tr>
+    </thead>
+    <tbody><tr><td class='num'><b>1</b></td><td class='mono'>071050</td><td>한국금융지주</td><td>T1</td><td>A-</td><td class='num'>186,600</td><td class='num'>224,560</td><td class='num'>245,000</td><td class='num'>+14.4%</td><td class='num'>+31.3%</td><td>분할 매수 1순위</td></tr>
+<tr><td class='num'><b>2</b></td><td class='mono'>035420</td><td>NAVER</td><td>T1</td><td>B+</td><td class='num'>207,500</td><td class='num'>244,875</td><td class='num'>265,000</td><td class='num'>+12.7%</td><td class='num'>+27.7%</td><td>분할 · 약한 조정</td></tr>
+<tr><td class='num'><b>3</b></td><td class='mono'>012330</td><td>현대모비스</td><td>T2</td><td>B+</td><td class='num'>423,500</td><td class='num'>489,475</td><td class='num'>525,000</td><td class='num'>+11.1%</td><td class='num'>+24.0%</td><td>분할 · 약한 조정</td></tr>
+<tr><td class='num'><b>4</b></td><td class='mono'>015760</td><td>한국전력</td><td>T1</td><td>A</td><td class='num'>32,450</td><td class='num'>38,202</td><td class='num'>41,300</td><td class='num'>+10.7%</td><td class='num'>+27.3%</td><td>분할 · 약한 조정</td></tr>
+<tr><td class='num'><b>5</b></td><td class='mono'>028260</td><td>삼성물산</td><td>T2</td><td>B+</td><td class='num'>372,000</td><td class='num'>416,200</td><td class='num'>440,000</td><td class='num'>+10.6%</td><td class='num'>+26.3%</td><td>분할 · 약한 조정</td></tr>
+<tr><td class='num'><b>6</b></td><td class='mono'>003490</td><td>대한항공</td><td>T2</td><td>B</td><td class='num'>29,150</td><td class='num'>32,628</td><td class='num'>34,500</td><td class='num'>+10.2%</td><td class='num'>+25.9%</td><td>분할 · 약한 조정</td></tr>
+<tr><td class='num'><b>7</b></td><td class='mono'>034020</td><td>두산에너빌리티</td><td>T2</td><td>B-</td><td class='num'>79,200</td><td class='num'>84,920</td><td class='num'>88,000</td><td class='num'>+8.9%</td><td class='num'>+36.4%</td><td>관망 · 추격 금지</td></tr>
+<tr><td class='num'><b>8</b></td><td class='mono'>267260</td><td>HD현대일렉트릭</td><td>T2</td><td>B+</td><td class='num'>706,000</td><td class='num'>806,100</td><td class='num'>860,000</td><td class='num'>+8.0%</td><td class='num'>+21.8%</td><td>분할 · 약한 조정</td></tr>
+<tr><td class='num'><b>9</b></td><td class='mono'>278470</td><td>에이피알</td><td>T3</td><td>B</td><td class='num'>406,000</td><td class='num'>463,850</td><td class='num'>495,000</td><td class='num'>+7.1%</td><td class='num'>+21.9%</td><td>분할 · 약한 조정</td></tr>
+<tr><td class='num'><b>10</b></td><td class='mono'>402340</td><td>SK스퀘어</td><td>T1</td><td>B+</td><td class='num'>981,000</td><td class='num'>1,207,850</td><td class='num'>1,330,000</td><td class='num'>+6.5%</td><td class='num'>+35.6%</td><td>홀드 · 삼성·닉스와 합산 한도</td></tr></tbody>
+  </table>
+  <h3>합성에서 뺀 것</h3>
+  <table>
+    <thead><tr><th>코드</th><th>종목</th><th>이유</th></tr></thead>
+    <tbody><tr><td class='mono'>042700</td><td>한미반도체</td><td>선행/후행 멀티플이 게이트(50배)를 넘음</td></tr><tr><td class='mono'>028050</td><td>삼성E&A</td><td>faded_theme / 중동 재건 소멸</td></tr><tr><td class='mono'>222800</td><td>심텍</td><td>코스닥. 이수페타시스·삼성전기로 치환</td></tr><tr><td class='mono'>356860</td><td>티엘비</td><td>코스닥. 이수페타시스·코리아써키트로 치환</td></tr><tr><td class='mono'>003160</td><td>디아이</td><td>코스닥. 한미반도체는 멀티플 게이트로 탈락</td></tr><tr><td class='mono'>298040</td><td>효성중공업</td><td>산업은 맞지만 보수 목표가 대비 이미 비싼 구간</td></tr><tr><td class='mono'>066970</td><td>엘앤에프</td><td>2차전지 소재. 이익 가시성 부족</td></tr><tr><td class='mono'>277810</td><td>레인보우로보틱스</td><td>휴머노이드 테마. 상용화 전</td></tr></tbody>
+  </table>
+</section>
+
+<section>
+  <h2>1. 원인 → 결과 논리</h2>
+  <div class="logic">
+    <article>
+      <h3>금리 역전 = 9월 인하 구조적 불가</h3>
+      <p>실질 정책금리 3.75 − PCE 3.70 = <b>+0.05%</b>.
+      실질 중립 3.10 − 목표 2.00 = <b>+1.10%</b>.
+      갭 -1.05%p로 역전 상태다. 케빈 워시류 매파 발언은 인상 예고가 아니라 기대 인플레를 꺾는 조본잉이다.
+      4분기 PCE가 3.5% 아래로 내려와야 부분 룸이 열린다.</p>
+    </article>
+    <article>
+      <h3>10년물 폭등 = 물가가 아니라 공급</h3>
+      <p>빅테크 AI 설비투자 회사채 220억 달러 + 바이트댄스 대출 30억 달러가
+      국채보다 0.5~1.0%p 높은 이자로 자금을 빨아들인다. 유효 10년물 4.91%.
+      명목 5.0%는 위험자산 10~15% 하드랜딩 임계치.</p>
+    </article>
+    <article>
+      <h3>AI 피크아웃은 숫자와 반대로 움직임</h3>
+      <p>엔비디아 DC 89B 중 기타 수요 40B(44.9%).
+      하이퍼스케일러 의존 탈피. 랙 통판 61%→90%.
+      자체 ASIC 외부 판매가 2027년 2~3분기에 FCF를 플러스로 돌리면 무용론은 소멸한다.</p>
+    </article>
+    <article>
+      <h3>CXMT는 허상, YMTC는 진짜, ISA는 댐</h3>
+      <p>CXMT HBM(15~16nm DUV, EUV 없음)은 웨이퍼를 3배 소모해 한국 범용 D램을 역설적으로 방어한다
+      (방어항 +0.063). YMTC 낸드 점유 14%는 중장기 위협
+      (드래그 −0.120). 생산적 금융 ISA 40조·삼성 특별배당·한전 선납이 외국인 매도를 받친다.</p>
+    </article>
+  </div>
+</section>
+
+<section>
+  <h2>2. 3단계 궤적</h2>
+  <div class="phases"><article class='phase'><div class='phase-kicker'>Phase 1</div><h3>고통의 수렴 및 바닥 테스트</h3><p class='window'>2026-09-03 ~ 2026-10-08 · 밴드 6,400–6,600</p><p>10년물 4.8%, 유가 $90, 9월 FOMC 동결. 외국인 파생 매도가 지수를 억누르지만 반도체 선행 P/E 5.7배와 자사주 매입이 6,400~6,600 하단을 지킨다.</p><p class='sleeves'>코어 반도체 50% / AI 넥스트 소부장 25% / 매크로 헷지·인프라 15% / 데이터 스윙 화장품 10%</p></article>
+<article class='phase'><div class='phase-kicker'>Phase 2</div><h3>매크로 피벗 & 밸류에이션 정상화</h3><p class='window'>2026-4Q ~ 2027-1Q · 밴드 7,800–9,200</p><p>유가 $80대, 4분기 PCE 3.5% 하회로 인하 룸 오픈. 삼성 특별배당과 ISA 40조가 숏커버를 부르며 반도체 P/E가 7.5배로 리레이팅된다.</p><p class='sleeves'>코어 반도체 52% / AI 넥스트 소부장 23% / 매크로 헷지·인프라 15% / 데이터 스윙 화장품 10%</p></article>
+<article class='phase'><div class='phase-kicker'>Phase 3</div><h3>FCF 흑자 전환 & AI 슈퍼 사이클</h3><p class='window'>2027-2Q 이후 · 밴드 8,800–10,500</p><p>하이퍼스케일러 ASIC 외부 판매로 AI FCF가 플러스 전환. NVL72·HBM4가 열리며 병목이 연산에서 연결(CPO·FC-BGA·스위치)로 이동한다.</p><p class='sleeves'>코어 반도체 42% / AI 넥스트 소부장 38% / 매크로 헷지·인프라 12% / 데이터 스윙 화장품 8%</p></article></div>
+</section>
+
+<section>
+  <h2>3. 시나리오 비교</h2>
+  <table>
+    <thead><tr><th>시나리오</th><th>국면</th><th class="num">R</th><th class="num">A</th><th class="num">D</th><th class="num">M</th><th class="num">코스피 기대</th><th class="num">밴드</th><th class="num">주식 비중</th></tr></thead>
+    <tbody><tr><td>기본 (현재)</td><td>고통의 수렴 및 바닥 테스트</td><td class='num'>0.155</td><td class='num'>1.262</td><td class='num'>0.312</td><td class='num'>0.508</td><td class='num'>6,600</td><td class='num'>6,400–6,600</td><td class='num'>60.0%</td></tr>
+<tr><td>조본잉 강화</td><td>고통의 수렴 및 바닥 테스트</td><td class='num'>0.134</td><td class='num'>1.262</td><td class='num'>0.312</td><td class='num'>0.481</td><td class='num'>6,582</td><td class='num'>6,400–6,600</td><td class='num'>60.0%</td></tr>
+<tr><td>10년물 5.0% 하드랜딩</td><td>고통의 수렴 및 바닥 테스트</td><td class='num'>0.095</td><td class='num'>1.262</td><td class='num'>0.312</td><td class='num'>0.431</td><td class='num'>5,688</td><td class='num'>5,525–5,850</td><td class='num'>45.0%</td></tr>
+<tr><td>조기 피벗</td><td>매크로 피벗 & 밸류에이션 정상화</td><td class='num'>0.509</td><td class='num'>1.262</td><td class='num'>0.546</td><td class='num'>1.189</td><td class='num'>8,518</td><td class='num'>7,800–9,200</td><td class='num'>65.0%</td></tr>
+<tr><td>FCF 흑자 전환</td><td>FCF 흑자 전환 & AI 슈퍼 사이클</td><td class='num'>0.631</td><td class='num'>2.148</td><td class='num'>0.810</td><td class='num'>2.166</td><td class='num'>9,861</td><td class='num'>8,800–10,500</td><td class='num'>70.0%</td></tr></tbody>
+  </table>
+</section>
+
+<section>
+  <h2>4. 실전 자산 배분 (기준 100,000,000원)</h2>
+  <p class="callout">방향이 흐린 장에서는 종목 교체보다 비율 조절이 생존 규칙이다. 주식 60.0% / 채권·현금 40.0%.
+  주식 내부는 코어 반도체 50.0% · AI 소부장 25.0% · 헷지 15.0% · 화장품 10.0%.</p>
+  <div class='bar-row'><span>코어 반도체</span><div class='bar'><i style='width:30.0%'></i></div><em>30.0%</em></div><div class='bar-row'><span>AI 넥스트 소부장</span><div class='bar'><i style='width:15.0%'></i></div><em>15.0%</em></div><div class='bar-row'><span>매크로 헷지·인프라</span><div class='bar'><i style='width:9.0%'></i></div><em>9.0%</em></div><div class='bar-row'><span>데이터 스윙 화장품</span><div class='bar'><i style='width:6.0%'></i></div><em>6.0%</em></div>
+  <p>채권·현금 버킷 40.0% = 40,000,000원 (단기 국채·MMF·예수금).</p>
+</section>
+
+<section>
+  <h2>5. 코스피 편입 종목</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>코드</th><th>종목</th><th>슬리브</th><th>행동</th>
+        <th class="num">점수</th><th class="num">총비중</th><th class="num">주식내</th><th class="num">금액</th><th>코스닥 대체</th>
+      </tr>
+    </thead>
+    <tbody><tr><td class='mono'>005930</td><td>삼성전자</td><td>코어 반도체</td><td>핵심 보유</td><td class='num'>92.5</td><td class='num'>16.5%</td><td class='num'>27.5%</td><td class='num'>16,500,000원</td><td class='proxy'>—</td></tr>
+<tr><td class='mono'>000660</td><td>SK하이닉스</td><td>코어 반도체</td><td>핵심 보유</td><td class='num'>88.1</td><td class='num'>13.5%</td><td class='num'>22.5%</td><td class='num'>13,500,000원</td><td class='proxy'>—</td></tr>
+<tr><td class='mono'>009150</td><td>삼성전기</td><td>AI 넥스트 소부장</td><td>분할 매수</td><td class='num'>63.7</td><td class='num'>3.3%</td><td class='num'>5.5%</td><td class='num'>3,310,000원</td><td class='proxy'>222800, 356860</td></tr>
+<tr><td class='mono'>042700</td><td>한미반도체</td><td>AI 넥스트 소부장</td><td>분할 매수</td><td class='num'>62.5</td><td class='num'>3.2%</td><td class='num'>5.4%</td><td class='num'>3,240,000원</td><td class='proxy'>003160</td></tr>
+<tr><td class='mono'>007660</td><td>이수페타시스</td><td>AI 넥스트 소부장</td><td>분할 매수</td><td class='num'>57.9</td><td class='num'>3.0%</td><td class='num'>5.0%</td><td class='num'>3,000,000원</td><td class='proxy'>222800, 356860</td></tr>
+<tr><td class='mono'>353200</td><td>대덕전자</td><td>AI 넥스트 소부장</td><td>분할 매수</td><td class='num'>53.7</td><td class='num'>2.8%</td><td class='num'>4.6%</td><td class='num'>2,790,000원</td><td class='proxy'>222800</td></tr>
+<tr><td class='mono'>007810</td><td>코리아써키트</td><td>AI 넥스트 소부장</td><td>분할 매수</td><td class='num'>51.2</td><td class='num'>2.7%</td><td class='num'>4.4%</td><td class='num'>2,660,000원</td><td class='proxy'>356860</td></tr>
+<tr><td class='mono'>034020</td><td>두산에너빌리티</td><td>매크로 헷지·인프라</td><td>헷지</td><td class='num'>54.9</td><td class='num'>2.5%</td><td class='num'>4.2%</td><td class='num'>2,520,000원</td><td class='proxy'>—</td></tr>
+<tr><td class='mono'>105560</td><td>KB금융</td><td>매크로 헷지·인프라</td><td>헷지</td><td class='num'>48.5</td><td class='num'>2.2%</td><td class='num'>3.6%</td><td class='num'>2,160,000원</td><td class='proxy'>—</td></tr>
+<tr><td class='mono'>015760</td><td>한국전력</td><td>매크로 헷지·인프라</td><td>헷지</td><td class='num'>54.8</td><td class='num'>1.8%</td><td class='num'>3.0%</td><td class='num'>1,800,000원</td><td class='proxy'>—</td></tr>
+<tr><td class='mono'>055550</td><td>신한지주</td><td>매크로 헷지·인프라</td><td>헷지</td><td class='num'>46.4</td><td class='num'>1.4%</td><td class='num'>2.4%</td><td class='num'>1,440,000원</td><td class='proxy'>—</td></tr>
+<tr><td class='mono'>003490</td><td>대한항공</td><td>매크로 헷지·인프라</td><td>헷지</td><td class='num'>28.9</td><td class='num'>1.1%</td><td class='num'>1.8%</td><td class='num'>1,080,000원</td><td class='proxy'>—</td></tr>
+<tr><td class='mono'>161890</td><td>한국콜마</td><td>데이터 스윙 화장품</td><td>스윙</td><td class='num'>23.9</td><td class='num'>3.1%</td><td class='num'>5.1%</td><td class='num'>3,060,000원</td><td class='proxy'>—</td></tr>
+<tr><td class='mono'>192820</td><td>코스맥스</td><td>데이터 스윙 화장품</td><td>스윙</td><td class='num'>22.9</td><td class='num'>2.9%</td><td class='num'>4.9%</td><td class='num'>2,940,000원</td><td class='proxy'>—</td></tr></tbody>
+  </table>
+  <div class="theses" style="margin-top:12px"><article class='thesis'><h4><span class='mono'>005930</span> 삼성전자<em>16.5%</em></h4><p>D램·모바일·낸드 두 자릿수 인상과 LTA 70%가 마진을 지킨다. 10% 룰 때문에 자사주가 막히면 3Q/4Q 주당 4,000~4,800원 특별배당으로 우회할 확률이 높다. 4분기 배당/소각 발표 전까지 핵심 코어 매도 금지.</p></article>
+<article class='thesis'><h4><span class='mono'>000660</span> SK하이닉스<em>13.5%</em></h4><p>HBM4 양산과 엔비디아 랙 시스템 잠금이 직접 연결된다. CXMT가 DUV로 HBM을 억지 생산할수록 중국 레거시 D램이 빠지며 범용 D램 가격을 방어한다. ADR 수급과 외평 개입은 단기 노이즈일 뿐 실적 궤적을 바꾸지 않는다.</p></article>
+<article class='thesis'><h4><span class='mono'>009150</span> 삼성전기<em>3.3%</em></h4><p>서버·데이터센터 FC-BGA가 풀가동이고 수요가 캐파를 50% 초과한다. 칩 단품이 아니라 기판이 AI 랙의 병목이다. 심텍/티엘비의 코스피 1순위 대체.</p></article>
+<article class='thesis'><h4><span class='mono'>042700</span> 한미반도체<em>3.2%</em></h4><p>HBM4 본딩 장비는 NVL72 랙 확대의 물리적 전제다. 코스피에서 거의 유일한 AI 전공정 장비 순수 노출. 밸류에이션은 비싸므로 추격보다 비중 한도를 지킨다.</p></article>
+<article class='thesis'><h4><span class='mono'>007660</span> 이수페타시스<em>3.0%</em></h4><p>AI 가속기용 고다층 PCB. 영상이 지목한 심텍·티엘비와 같은 '연결성' 버킷의 코스피 순수 플레이.</p></article>
+<article class='thesis'><h4><span class='mono'>353200</span> 대덕전자<em>2.8%</em></h4><p>FC-BGA 증설과 장기계약 선수금이 확인된 기판주. 2027년 분기 캐파 Ramp가 Phase 3 연결 사이클과 맞닿는다.</p></article>
+<article class='thesis'><h4><span class='mono'>007810</span> 코리아써키트<em>2.7%</em></h4><p>브로드컴향 FC-BGA와 PCIe 스위치 기판. 영상이 말한 '스위치 칩'을 코스피에서 기판으로 구현하는 종목.</p></article>
+<article class='thesis'><h4><span class='mono'>034020</span> 두산에너빌리티<em>2.5%</em></h4><p>한미 대미투자 1호 텍사스 가스복합이 $250억 규모로 증액. 원전·가스터빈이 엔지니어링 레버리지.</p></article>
+<article class='thesis'><h4><span class='mono'>105560</span> KB금융<em>2.2%</em></h4><p>원화 강세 전환 시 BIS 개선 → 주주환원. 전고점 추격은 하지 않고 헷지 한도 안에서만 담는다.</p></article>
+<article class='thesis'><h4><span class='mono'>015760</span> 한국전력<em>1.8%</em></h4><p>한전채 한도 때문에 삼성 20조·SK 5조 전기료 5년 선납을 요구. 송전망 투자와 원화 강세의 이중 수혜.</p></article>
+<article class='thesis'><h4><span class='mono'>055550</span> 신한지주<em>1.4%</em></h4><p>KB와 함께 은행 바스켓의 두 번째 축. 금리 피벗 전 자본비율 여력이 환원으로 연결된다.</p></article>
+<article class='thesis'><h4><span class='mono'>003490</span> 대한항공<em>1.1%</em></h4><p>엔/원 왜곡이 풀리고 원화가 강하면 유류비·외화부채가 동시에 가벼워진다. 매크로 트레이딩 한도.</p></article>
+<article class='thesis'><h4><span class='mono'>161890</span> 한국콜마<em>3.1%</em></h4><p>P/E 15~20배권의 수출 ODM. 매월 화장품 수출 통계에 맞춰 눌림목만 스윙한다. 코어가 아니다.</p></article>
+<article class='thesis'><h4><span class='mono'>192820</span> 코스맥스<em>2.9%</em></h4><p>콜마와 같은 수출 통계 스윙 바스켓. 중국 회복보다 미국·유럽 ODM 믹스가 포인트.</p></article></div>
+</section>
+
+<section>
+  <h2>6. 절대 배제 · 코스닥 필터</h2>
+  <p>유니버스에 코스닥이 들어오면 점수가 높아도 포트폴리오에 넣지 않는다. 심텍·티엘비·디아이는 코스피 기판/장비로 치환했다.</p>
+  <table>
+    <thead><tr><th>코드</th><th>종목</th><th>플래그</th><th>이유</th></tr></thead>
+    <tbody><tr><td class='mono'>373220</td><td>LG에너지솔루션</td><td>battery_high_pbr</td><td>실적 대비 고PBR 2차전지. 단기 반등은 현금화 구간.</td></tr>
+<tr><td class='mono'>006400</td><td>삼성SDI</td><td>battery_high_pbr</td><td>셀 업황 회복 이전의 고평가 구간. 하이브리드 모형의 어떤 슬리브에도 넣지 않는다.</td></tr>
+<tr><td class='mono'>003670</td><td>포스코퓨처엠</td><td>battery_high_pbr</td><td>소재 고PBR. 엘앤에프와 같은 배제 논리의 코스피 버전.</td></tr>
+<tr><td class='mono'>028050</td><td>삼성E&A</td><td>faded_theme</td><td>중동 전황 악화로 재건 모멘텀이 소멸. 건설/플랜트 테마 배제.</td></tr>
+<tr><td class='mono'>000720</td><td>현대건설</td><td>faded_theme</td><td>재건·중동 테마 소멸. 인프라 노출은 두산에너빌리티·한전으로 충분하다.</td></tr>
+<tr><td class='mono'>006360</td><td>GS건설</td><td>faded_theme</td><td>주택/해외 수주 모멘텀이 모형 트리거와 무관하다.</td></tr>
+<tr><td class='mono'>222800</td><td>심텍 <span class='tag'>KOSDAQ</span></td><td>non_kospi</td><td>FC-BGA/모듈 PCB이나 코스닥. 코스피 대체: 삼성전기·이수페타시스·대덕전자.</td></tr>
+<tr><td class='mono'>356860</td><td>티엘비 <span class='tag'>KOSDAQ</span></td><td>non_kospi</td><td>서버 PCB. 코스피 대체: 이수페타시스·코리아써키트.</td></tr>
+<tr><td class='mono'>003160</td><td>디아이 <span class='tag'>KOSDAQ</span></td><td>non_kospi</td><td>전공정 검사장비. 코스피 대체: 한미반도체(HBM 장비).</td></tr>
+<tr><td class='mono'>066970</td><td>엘앤에프 <span class='tag'>KOSDAQ</span></td><td>non_kospi</td><td>PBR 7배권 2차전지 소재. 절대 배제. 코스피 동류(포스코퓨처엠)도 배제.</td></tr>
+<tr><td class='mono'>247540</td><td>에코프로비엠 <span class='tag'>KOSDAQ</span></td><td>non_kospi</td><td>2차전지 소재. 절대 배제.</td></tr>
+<tr><td class='mono'>277810</td><td>레인보우로보틱스 <span class='tag'>KOSDAQ</span></td><td>non_kospi</td><td>휴머노이드. 원가·자유도·보험 책임 미비. 영상용 테마 접근 금지.</td></tr>
+<tr><td class='mono'>454910</td><td>두산로보틱스 <span class='tag'>KOSDAQ</span></td><td>non_kospi</td><td>휴머노이드/협동로봇. 상용화 기회비용. 두산 노출은 에너빌리티로만.</td></tr></tbody>
+  </table>
+</section>
+
+<footer>
+  이 보고서는 2026-09-03 다섯 편 심층 영상의 미시 데이터와 거시 논리를 하나의 추정 모형으로 묶은 연구 노트다.
+  투자 권유가 아니며, 입력값(금리, PCE, 유가, ISA 유입)이 바뀌면 <span class="mono">python3 -m hybrid_synthesis</span>로 다시 돌린다.
+</footer>
+</div>
+</body>
+</html>
