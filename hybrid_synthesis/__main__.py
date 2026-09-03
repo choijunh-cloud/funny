@@ -29,6 +29,7 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--as-of", type=str, help="YYYY-MM-DD")
     parser.add_argument("--reference-krw", type=float, default=100_000_000.0)
     parser.add_argument("--json-only", action="store_true")
+    parser.add_argument("--doc4", action="store_true", help="Write document 4 (절단된 사슬 / v2)")
     return parser.parse_args()
 
 
@@ -56,6 +57,14 @@ def _apply_overrides(args: argparse.Namespace) -> HybridInputs:
 
 def main() -> None:
     args = _parse_args()
+    if args.doc4:
+        from hybrid_synthesis.severed_chain import write_v2_reports
+
+        args.out.mkdir(parents=True, exist_ok=True)
+        for path in write_v2_reports(args.out):
+            print(path)
+        return
+
     inputs = _apply_overrides(args)
     scenario = Scenario(args.scenario)
     snapshot = evaluate(inputs, scenario=scenario)

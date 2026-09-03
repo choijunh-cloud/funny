@@ -1,0 +1,278 @@
+<div class="mast"><div class="wrap">
+  <div class="eyebrow">
+    <span><b>SOURCE</b> 방송 11편 · 타 AI 4종 · 2026-09-02~05</span>
+    <span><b>METHOD</b> 하이브리드 전이 모형 v2</span>
+    <span><b>BASE</b> KOSPI 6,579.19 (9/3)</span>
+    <span><b>SERIES</b> 통합 4호</span>
+  </div>
+  <h1>연준이 유가를<br>물가에서 <em>잘라냈다</em></h1>
+  <p class="thesis">지난 모형의 척추는 <b>유가 → PCE → 연준</b>이었다. 9/4~9/5 방송에서 월러·윌리엄스가
+  “에너지와 관세는 지속적 물가압력이 아니다”라고 명시했다. 브렌트가 96달러인 채로 그렇게 말했다.
+  <b>데이터가 아니라 정책 쪽에서 사슬이 끊겼다.</b> 인상확률은 63%에서 50%로 되돌아왔고,
+  지수 기대값은 7,338 → <b>7,383</b>으로 올랐다. 그런데 같은 재가중이
+  <b>내가 짠 포트폴리오의 초과수익을 두 단계로 깎았다 — 재가중만으로 +1.09%p → +0.84%p,
+  유가 경로 절단까지 반영하면 +0.24%p.</b> 꼬리가 얇아지면 헤지의 값어치도 같이 얇아진다.
+  남은 것은 초과수익이 아니라 하방 방어 +2.15%p다.</p>
+  <div class="kpis" id="kpis"></div>
+</div></div>
+
+<div class="wrap">
+
+<section class="sec"><div class="sech"><span class="n">00</span><h2>이틀 만에 무엇이 바뀌었나</h2>
+<span class="d">9/2~9/3 표본 위에 9/4~9/5 방송 5편을 얹었다. 바뀐 것은 세 개, 바뀌지 않은 것은 하나.</span></div>
+
+<div class="grid">
+ <div class="card"><h3><span class="num">00·1</span>지배 변수 다섯 개 중 셋이 움직였고, 방향은 모두 완화 쪽이다</h3>
+  <div class="scrollx"><div id="c-delta"></div></div>
+  <div class="why">전: 9/2~9/3 방송 · 후: 9/4~9/5 방송 <span class="tag t-br">방송</span> · 지수 레벨은 원장 <span class="tag t-lg">원장</span></div></div>
+
+ <div class="card"><h3><span class="num">00·2</span>인상확률은 시장이 표본 쪽으로 13%p 걸어온 뒤, 월러 한 마디에 되돌아갔다</h3>
+  <div class="scrollx"><div id="c-hikepath"></div></div>
+  <div class="why">FedWatch 기준 <span class="tag t-br">방송</span> · 시점 라벨은 방송 발화 순서에서 복원 <span class="tag t-inf">INF</span></div></div>
+
+ <div class="card"><h3><span class="num">00·3</span>지난 문서의 주장 6건을 자기채점하면 3승 2패 1미결이다</h3>
+  <div class="scrollx"><div id="c-selfscore"></div></div>
+  <div class="why">문서1·2·3의 명시적 예측만 채점. 사후 재해석 금지 <span class="tag t-cl">계산</span></div></div>
+
+ <div class="card"><h3><span class="num">00·4</span>바뀌지 않은 하나 — 브렌트는 여전히 96달러다</h3>
+  <div class="scrollx"><div id="c-oilstuck"></div></div>
+  <div class="why">이란의 쿠웨이트 타격 <span class="tag t-br">방송</span> · PCE 전이계수는 문서1 계승 <span class="tag t-inf">INF</span></div></div>
+</div>
+
+<div class="callout c3" style="margin-top:16px"><b>모형이 아니라 모형의 척추가 수정된다.</b>
+문서1의 4층 전이모형은 <span class="mono">촉발(유가) → 전이(PCE) → 가격(EPS×PER) → 진폭(수급)</span>이었다.
+9/4~9/5 방송은 1층과 2층 사이의 배선을 끊었다. 유가는 여전히 96달러지만, 연준이 그 숫자를 정책 함수에서 제외했다.
+따라서 <b>유가는 여전히 기업 원가에 작용하고, 더 이상 금리에 작용하지 않는다.</b>
+이 한 줄이 시나리오 확률·버킷 계수·종목 비중 세 곳을 동시에 바꾼다.</div>
+</section>
+
+<section class="sec"><div class="sech"><span class="n">01</span><h2>무엇으로 만들었는가</h2>
+<span class="d">방송 11편 + 타 AI 4종 + 누적 원장. 출처마다 다른 축을 담당한다.</span></div>
+
+<div class="grid">
+ <div class="card"><h3><span class="num">01·1</span>11편의 방송은 네 개의 축에 고르지 않게 분포한다 — 수급 축이 가장 얇다</h3>
+  <div class="scrollx"><div id="c-srcmap"></div></div>
+  <div class="why">발화 분량이 아니라 <b>검증 가능한 숫자를 제시한 횟수</b>로 집계 <span class="tag t-cl">계산</span></div></div>
+
+ <div class="card"><h3><span class="num">01·2</span>현금 비중 권고는 10%에서 70%까지 벌어져 있다 — 합의는 없다</h3>
+  <div class="scrollx"><div id="c-cash"></div></div>
+  <div class="why">각 발화자의 명시적 현금·주식 배분 발언 <span class="tag t-br">방송</span></div></div>
+</div>
+</section>
+
+<section class="sec"><div class="sech"><span class="n">02</span><h2>절단된 사슬</h2>
+<span class="d">유가 → PCE → 연준. 이 배선이 어디서 어떻게 끊겼는지, 그리고 그것이 반증 가능한 형태인지.</span></div>
+
+<div class="grid one">
+ <div class="card"><h3><span class="num">02·1</span>전이 모형 v2 — 1층과 2층 사이가 데이터가 아니라 정책으로 끊겼다</h3>
+  <div class="scrollx"><div id="c-chain"></div></div>
+  <div class="why">구조는 문서1 계승 · 절단 표시는 월러·윌리엄스 발언 <span class="tag t-br">방송</span> · 감쇄율은 내 추정 <span class="tag t-inf">INF</span></div></div>
+</div>
+
+<div class="grid">
+ <div class="card"><h3><span class="num">02·2</span>월러의 발언은 조건문이다 — 코어 2.8%가 문턱이고, 그 문턱은 이미 가깝다</h3>
+  <div class="scrollx"><div id="c-waller"></div></div>
+  <div class="why">“코어가 2.8%로 나오면 9월 동결 지지” <span class="tag t-br">방송</span> · 현재값 대비 거리는 계산 <span class="tag t-cl">계산</span></div></div>
+
+ <div class="card"><h3><span class="num">02·3</span>어느 물가지표를 쓰느냐가 결론을 결정한다 — 절사평균은 이미 인하 조건을 넘었다</h3>
+  <div class="scrollx"><div id="c-pce"></div></div>
+  <div class="why">실질중립 3.1−2.0=1.10% → 인하 문턱 π&lt;2.65% <span class="tag t-cl">계산</span> · 프레임 의존성 5회차 검출</div></div>
+
+ <div class="card"><h3><span class="num">02·4</span>워시 의장 체제에서 매파가 이기려면 이사 3명이 의장에게 반대표를 던져야 한다</h3>
+  <div class="scrollx"><div id="c-vote"></div></div>
+  <div class="why">12표 중 7표 필요, 7월 반대 3인은 모두 지역총재 <span class="tag t-br">방송</span> · 산술은 계산 <span class="tag t-cl">계산</span></div></div>
+
+ <div class="card"><h3><span class="num">02·5</span>잭슨홀 매파 전환과 월러·윌리엄스 비둘기 발언은 같은 주에 나왔다 — 하나는 틀렸다</h3>
+  <div class="scrollx"><div id="c-clash"></div></div>
+  <div class="why">동일 표본 내 상충. 어느 쪽이 틀렸는지는 코어 PCE 발표가 판정 <span class="tag t-inf">INF</span></div></div>
+</div>
+</section>
+
+<section class="sec"><div class="sech"><span class="n">03</span><h2>모형 v2 — 재가중</h2>
+<span class="d">확률 넷과 레벨 둘이 움직인다. 레벨은 임의로 깎지 않고 PER에서 유도했다.</span></div>
+
+<div class="grid">
+ <div class="card"><h3><span class="num">03·1</span>꼬리(S3)를 20%에서 13%로 줄이고, 그만큼 S1과 S4로 나눠 보냈다</h3>
+  <div class="scrollx"><div id="c-scen"></div></div>
+  <div class="why">확률 이동 근거는 월러 발언 + FedWatch 13%p <span class="tag t-br">방송</span> · 배분 비율은 내 판단 <span class="tag t-inf">INF</span></div></div>
+
+ <div class="card"><h3><span class="num">03·2</span>160조 매물벽은 S1 상단을 8,255에서 7,960으로 깎는다 — 임의 삭감이 아니라 PER 유도</h3>
+  <div class="scrollx"><div id="c-wall"></div></div>
+  <div class="why">160조·2.4일치 거래대금 <span class="tag t-br">방송</span> · 출회율 40%·흡수율 25%·0.06x/일은 내 계수 <span class="tag t-inf">INF</span></div></div>
+
+ <div class="card"><h3><span class="num">03·3</span>확률가중 연말은 7,338에서 7,383으로 올라가지만, 상단은 오히려 낮아졌다</h3>
+  <div class="scrollx"><div id="c-fan"></div></div>
+  <div class="why">v2 확률·레벨 <span class="tag t-cl">계산</span> · 경로 형태는 예시이며 예측이 아님 <span class="tag t-inf">INF</span></div></div>
+
+ <div class="card"><h3><span class="num">03·4</span>6주 내렸으면 12~18주 오른다는 경험칙은 11월 26일 또는 1월 7일을 가리킨다</h3>
+  <div class="scrollx"><div id="c-recover"></div></div>
+  <div class="why">“6주 하락 → 12~18주 회복” <span class="tag t-br">방송</span> · 기산일 9/3 및 날짜 환산 <span class="tag t-cl">계산</span></div></div>
+</div>
+</section>
+
+<section class="sec"><div class="sech"><span class="n">04</span><h2>반도체 축 — 전력이 수요를 만든다</h2>
+<span class="d">9/4~9/5 방송의 절반이 여기에 있었다. 숫자가 가장 많고, 따라서 검증도 가장 많다.</span></div>
+
+<div class="grid">
+ <div class="card"><h3><span class="num">04·1</span>서버랙 전력이 10kW에서 600kW로 — 8년 만에 60배가 된다</h3>
+  <div class="scrollx"><div id="c-power"></div></div>
+  <div class="why">Rubin Ultra NVL576까지의 랙 전력 사다리 <span class="tag t-br">방송</span> · 배수는 계산 <span class="tag t-cl">계산</span></div></div>
+
+ <div class="card"><h3><span class="num">04·2</span>AI 인프라 지출에서 메모리 몫이 10%대 초반에서 30%로 — 디코드 단계가 범인이다</h3>
+  <div class="scrollx"><div id="c-memshare"></div></div>
+  <div class="why">방송은 “10%대 초반 → 30%”라 말했다. 좌측 13%는 그 표현을 내가 수치화한 값 <span class="tag t-ey">눈대중</span> · 30%와 경로는 방송 <span class="tag t-br">방송</span></div></div>
+
+ <div class="card"><h3><span class="num">04·3</span>CXMT는 위협적이다 — 다만 유효 생산능력은 명목의 40%다</h3>
+  <div class="scrollx"><div id="c-cxmt"></div></div>
+  <div class="why">매출 29조·순익 15조·capa 30→36만장·굿다이 마이크론 대비 40% <span class="tag t-br">방송</span></div></div>
+
+ <div class="card"><h3><span class="num">04·4</span>원가가 30% 비싼데도 흑자다 — 이건 기술이 아니라 품귀의 증거다</h3>
+  <div class="scrollx"><div id="c-cxecon"></div></div>
+  <div class="why">DDR5 원가 +30%, OPM 약 50% vs 빅3 76~80% <span class="tag t-br">방송</span> · 갭 계산 <span class="tag t-cl">계산</span></div></div>
+
+ <div class="card"><h3><span class="num">04·5</span>HBM 점유율 합계가 114%다 — 세 숫자 중 최소 하나는 분기·기준이 다르다</h3>
+  <div class="scrollx"><div id="c-hbm"></div></div>
+  <div class="why">삼성 21%→30%대 중반, SK 58%, 마이크론 21% <span class="tag t-br">방송</span> · 합계 초과는 계산으로 검출 <span class="tag t-cl">계산</span></div></div>
+
+ <div class="card"><h3><span class="num">04·6</span>NVHBM은 적층을 8단에 묶고 핀 속도를 17~18Gbps로 요구한다 — 승부처가 베이스 다이로 옮겨간다</h3>
+  <div class="scrollx"><div id="c-nvhbm"></div></div>
+  <div class="why">프로토콜 요구치 및 3사 베이스다이 조달 구조 <span class="tag t-br">방송</span> · 격차율 계산 <span class="tag t-cl">계산</span></div></div>
+</div>
+
+<div class="callout c2" style="margin-top:16px"><b>이 축에서 방향이 하나 바뀐다.</b>
+문서2·3에서 삼성전자는 SK하이닉스의 아래 칸이었다. 근거는 HBM 점유율 열위였다.
+9/4~9/5 방송은 그 근거를 세 군데서 흔든다 — ① 점유율이 한 분기에 21%→30%대 중반,
+② NVHBM이 승부처를 적층에서 <b>베이스 다이 파운드리</b>로 옮기는데 삼성만 자사 4nm로 자급,
+③ Groq 인수 경로로 엔비디아 물량이 삼성 4nm에 얹힌다.
+다만 이는 <b>상대 격차 축소</b>이지 역전이 아니다. 순위는 유지하고 비중만 동률로 맞춘다.</div>
+</section>
+
+<section class="sec"><div class="sech"><span class="n">05</span><h2>수급 — 벽, 흡수, 그리고 원인 없는 급락</h2>
+<span class="d">가격 모형이 놓친 층. 9/4는 이 층에서만 설명된다.</span></div>
+
+<div class="grid">
+ <div class="card"><h3><span class="num">05·1</span>7,000pt 위에 개인이 160조를 묻었다 — 시총의 2.95%, 8월 거래대금 2.4일치</h3>
+  <div class="scrollx"><div id="c-buried"></div></div>
+  <div class="why">160조·5,424조·2.4일치 <span class="tag t-br">방송</span> · 비율 계산 <span class="tag t-cl">계산</span></div></div>
+
+ <div class="card"><h3><span class="num">05·2</span>9월 4일 14시 — 개인·기관·외국인이 동시에 팔았고 기타법인이 다 받았다</h3>
+  <div class="scrollx"><div id="c-3sellers"></div></div>
+  <div class="why">3주체 동시 순매도를 기타법인이 흡수 <span class="tag t-br">방송</span> · 자사주 성격은 방송 해석 <span class="tag t-br">방송</span></div></div>
+
+ <div class="card"><h3><span class="num">05·3</span>급락에 펀더멘털 원인이 없다 — 후보 넷 중 셋이 기각된다</h3>
+  <div class="scrollx"><div id="c-crash"></div></div>
+  <div class="why">6,400 박스권 하단 방어, 외인 개별선물 +20만 계약 순매수 <span class="tag t-br">방송</span> · 기각 판정은 내 판단 <span class="tag t-inf">INF</span></div></div>
+
+ <div class="card"><h3><span class="num">05·4</span>신용잔고 33조 × 9% = 연 2.97조 — 증권주는 거래대금이 아니라 금리 플레이다</h3>
+  <div class="scrollx"><div id="c-credit"></div></div>
+  <div class="why">잔고 33조·이자율 9% <span class="tag t-br">방송</span> · 연이자 및 민감도 계산 <span class="tag t-cl">계산</span></div></div>
+</div>
+</section>
+
+<section class="sec"><div class="sech"><span class="n">06</span><h2>종목 v3 — 이름은 그대로, 무게만 움직인다</h2>
+<span class="d">이틀치 방송으로 종목을 갈아치우는 것은 모형이 아니라 뉴스추종이다. 규칙을 깬 이름이 없으므로 교체도 없다.</span></div>
+
+<div class="grid one">
+ <div class="card"><h3><span class="num">06·1</span>열 종목 전부 유지 — 유가 버킷만 20%에서 10%로 반토막 난다</h3>
+  <div class="scrollx"><div id="c-rank"></div></div>
+  <div class="why">가격·2026E EPS는 봇C 2차출처 <span class="tag t-bot">봇</span>, 독립 재확인 안 함 · 비중은 버킷 배분에서 유도 <span class="tag t-cl">계산</span></div></div>
+</div>
+
+<div class="grid">
+ <div class="card"><h3><span class="num">06·2</span>월러가 에너지를 정책변수에서 빼는 순간, 유가 버킷의 기대수익이 절반이 된다</h3>
+  <div class="scrollx"><div id="c-oilbucket"></div></div>
+  <div class="why">정책 레버리지 감쇄계수 0.55는 내 가정 <span class="tag t-inf">INF</span> · 원 계수는 문서2 계승</div></div>
+
+ <div class="card"><h3><span class="num">06·3</span>가중 후보 넷을 비교하면 C가 유일하게 기대수익과 하방을 동시에 이긴다</h3>
+  <div class="scrollx"><div id="c-cands"></div></div>
+  <div class="why">v2 확률 · 유가 감쇄 반영 <span class="tag t-cl">계산</span></div></div>
+
+ <div class="card"><h3><span class="num">06·4</span>반도체 상한 46.9%는 재가중에도 변하지 않았다 — 이 숫자는 확률이 아니라 계수에서 나온다</h3>
+  <div class="scrollx"><div id="c-semicap"></div></div>
+  <div class="why">v1·v2 양쪽에서 동일 상한 검출 <span class="tag t-cl">계산</span> · 베타 일관 스케일링의 구조적 귀결</div></div>
+
+ <div class="card"><h3><span class="num">06·5</span>재가중이 내 포트폴리오의 초과수익을 깎았다 — 꼬리가 얇아지면 헤지값도 얇아진다</h3>
+  <div class="scrollx"><div id="c-vsidx"></div></div>
+  <div class="why">문서3 합성포트를 v2로 이전 <span class="tag t-cl">계산</span> · 배율은 지수 시나리오수익률 비로 고정</div></div>
+
+ <div class="card"><h3><span class="num">06·6</span>PBR 프레임과 PER 프레임이 만난다 — SK하이닉스는 밴드 안, 삼성전자는 밴드 아래다</h3>
+  <div class="scrollx"><div id="c-pbr"></div></div>
+  <div class="why">현재 PBR 1.5·1.7, 호황 밴드 2.0~2.5배 <span class="tag t-br">방송</span> · BPS 역산 및 봇C 목표가 대입 <span class="tag t-cl">계산</span></div></div>
+</div>
+
+<div class="callout c4" style="margin-top:16px"><b>두 숫자를 헷갈리지 말 것 — 초과수익은 두 번 깎였다.</b>
+06·5의 <b>+0.84%p</b>는 시나리오 확률만 v2로 바꿨을 때의 초과수익이다.
+06·3의 <b>+0.24%p</b>는 거기에 더해 유가 버킷의 정책 레버리지까지 제거한 뒤의 값이다.
+전자는 “세상이 바뀌었다”, 후자는 “세상이 바뀐 걸 내 포트폴리오에 반영했다”에 해당한다. <b>채택값은 후자다.</b><br>
+그래서 이 세트가 지수 대비 파는 상품은 더 이상 초과수익이 아니다 — 기대에서는 +0.24%p로 사실상 동률이고,
+<b>S3에서 지수보다 2.15%p 덜 빠지는 것</b>이 남은 전부다. 지수 ETF 한 장으로 충분한 사람에게
+이 열 종목은 수고 대비 이득이 크지 않다는 뜻이기도 하다.</div>
+</section>
+
+<section class="sec"><div class="sech"><span class="n">07</span><h2>누적 판정과 자기수정</h2>
+<span class="d">틀린 것을 세는 칸이 없는 모형은 모형이 아니다.</span></div>
+
+<div class="grid one">
+ <div class="card"><h3><span class="num">07·1</span>누적 검증 21건 — 확정 9, 부분 6, 기각 3, 미확인 3</h3>
+  <div class="scrollx"><div id="c-ledger"></div></div>
+  <div class="why">문서1의 14건에 9/4~9/5분 7건 추가 <span class="tag t-cl">계산</span></div></div>
+</div>
+
+<div class="grid">
+ <div class="card"><h3><span class="num">07·2</span>내가 고친 것 다섯 개 — 그중 둘은 이번 회차에서 나왔다</h3>
+  <div class="scrollx"><div id="c-selfcorr"></div></div>
+  <div class="why">문서3의 3건 + 이번 2건 <span class="tag t-cl">계산</span></div></div>
+
+ <div class="card"><h3><span class="num">07·3</span>반복 검출되는 오류 유형 — 프레임 의존이 다섯 번째다</h3>
+  <div class="scrollx"><div id="c-errtype"></div></div>
+  <div class="why">기각·부분·미확인 12건을 유형별로 집계, 중복 계상 허용 <span class="tag t-cl">계산</span></div></div>
+</div>
+</section>
+
+<section class="sec"><div class="sech"><span class="n">08</span><h2>일정과 반증 조건</h2>
+<span class="d">언제, 어떤 숫자가 나오면 이 모형이 틀렸다고 말할 수 있는가.</span></div>
+
+<div class="grid one">
+ <div class="card"><h3><span class="num">08·1</span>연말까지 이 모형을 죽일 수 있는 날은 여섯 번뿐이다</h3>
+  <div class="scrollx"><div id="c-cal"></div></div>
+  <div class="why">일정은 통상 발표 주기에서 복원 <span class="tag t-inf">INF</span> · 방송에서 언급된 날짜는 별도 표시 <span class="tag t-br">방송</span></div></div>
+</div>
+
+<div class="grid one">
+ <div class="card"><h3><span class="num">08·2</span>반증 조건 — 이 여덟 줄 중 하나라도 참이면 모형을 다시 짠다</h3>
+  <div id="c-falsify"></div>
+  <div class="why">각 조건은 관측 가능하고 날짜가 붙어 있어야 한다는 규칙을 스스로에게 적용 <span class="tag t-inf">INF</span></div></div>
+</div>
+</section>
+
+<section class="sec"><div class="sech"><span class="n">09</span><h2>마지막으로, 짧게</h2><span class="d"></span></div>
+<div class="metaphor">
+  <div class="lead">Metaphor</div>
+  <p>지난번엔 조수와 뻘 이야기를 했다. 물이 빠지면 뻘이 드러나고, 배는 뻘의 모양대로 앉는다고.</p>
+  <p>이번 주에 바뀐 건 물의 높이가 아니다. <b>달이 바뀌었다.</b>
+  유가는 그대로 96달러에 떠 있는데, 연준이 “저 달은 우리 조수와 관계없다”고 선언했다.
+  물을 끌어당기던 힘 하나가 계산에서 빠진 것이다.
+  그러면 조수는 얕아지고, 예측은 쉬워지고 — 그리고 <b>얕은 물에서는 깊은 배가 필요 없어진다.</b>
+  내가 공들여 만든 헤지가 값어치를 잃은 이유가 그것이다.</p>
+  <p>다만 7,000pt 위에 개인이 묻어둔 160조는 여전히 뻘 속에 박힌 닻이다.
+  물이 다시 차올라도 그 닻줄 길이만큼만 배가 뜬다.
+  달이 바뀐 것은 좋은 소식이고, 닻은 그대로인 것은 나쁜 소식이다. 둘을 더하면 7,383이다.</p>
+</div>
+</section>
+</div>
+
+<footer><div class="wrap">
+<b>출처</b> 방송 11편(2026-09-02~05) · 타 AI 4종 산출물 · 문서1~3 누적 원장 ·
+<b>태그</b> <span class="tag t-br">방송</span> 방송 발화 그대로 ·
+<span class="tag t-lg">원장</span> 누적 원장 대조 ·
+<span class="tag t-cl">계산</span> 내가 계산 ·
+<span class="tag t-inf">INF</span> 내 추론(문맥 밖) ·
+<span class="tag t-ex">외부</span> 외부 지식 ·
+<span class="tag t-bot">봇</span> 타 AI 2차출처 ·
+<span class="tag t-ey">눈대중</span> 근사<br>
+<b>고지</b> 나는 투자자문업자가 아니고 이 문서는 매수 권유가 아니다.
+가격과 2026E EPS는 타 AI(봇C)에서 온 <b>2차 출처</b>이며 원출처를 독립적으로 재확인하지 않았다 — 실행 전 반드시 직접 확인할 것.
+시나리오 확률, 버킷 계수, 매물 출회율(40%)·흡수율(25%)·멀티플 감쇄(0.06x/일)는 전부 <b>내가 정한 가정</b>이며 시장 컨센서스가 아니다.
+방송 발화는 사실 확인 없이 인용되었고, HBM 점유율처럼 합이 맞지 않는 숫자는 본문에 그대로 표시했다.<br>
+<b>계보</b> 문서1 「조수와 뻘」 → 문서2 「뻘 위의 열 척」 → 문서3 「해도 다섯 장」 → <b>문서4 「절단된 사슬」</b>
+</div></footer>

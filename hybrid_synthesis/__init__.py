@@ -13,6 +13,7 @@ from hybrid_synthesis.model import (
 from hybrid_synthesis.portfolio import Portfolio, build_portfolio
 from hybrid_synthesis.ranking import rank_h2
 from hybrid_synthesis.universe import KOSPI_UNIVERSE, NON_KOSPI_EXCLUSIONS
+from hybrid_synthesis.v2 import snapshot as v2_snapshot
 
 __all__ = [
     "PHASES",
@@ -28,4 +29,5 @@ __all__ = [
     "evaluate",
     "rank_h2",
     "scenario_inputs",
+    "v2_snapshot",
 ]

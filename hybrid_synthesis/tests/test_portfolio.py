@@ -85,6 +85,7 @@ class PortfolioConstructionTests(unittest.TestCase):
         self.assertNotIn("012330", self.tickers)
         self.assertNotIn("028260", self.tickers)
         self.assertNotIn("278470", self.tickers)
+        self.assertNotIn("079550", self.tickers)
 
     def test_all_holdings_are_kospi_universe_members(self) -> None:
         kospi = {stock.ticker for stock in KOSPI_UNIVERSE}

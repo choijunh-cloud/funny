@@ -49,5 +49,30 @@ class CliTests(unittest.TestCase):
             self.assertIn("한국금융지주", html_text)
 
 
+    def test_doc4_writes_severed_chain(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            env = os.environ.copy()
+            env["PYTHONPATH"] = str(ROOT) + os.pathsep + env.get("PYTHONPATH", "")
+            proc = subprocess.run(
+                [sys.executable, "-m", "hybrid_synthesis", "--doc4", "--out", tmp],
+                cwd=ROOT,
+                env=env,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            html = Path(tmp) / "2026-09-05-severed-chain.html"
+            js = Path(tmp) / "2026-09-05-severed-chain.json"
+            self.assertTrue(html.is_file(), proc.stdout)
+            self.assertTrue(js.is_file())
+            text = html.read_text(encoding="utf-8")
+            self.assertIn("절단된 사슬", text)
+            self.assertIn("7,383", text)
+            self.assertIn('id="c-delta"', text)
+            payload = json.loads(js.read_text(encoding="utf-8"))
+            self.assertEqual(payload["chain_cut"]["policy_path"], "cut")
+            self.assertAlmostEqual(payload["index"]["expected_v2"], 7383.21, places=2)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -1,0 +1,295 @@
+{
+  "as_of": "2026-09-05",
+  "title": "절단된 사슬",
+  "series": "통합 4호",
+  "method": "하이브리드 전이 모형 v2",
+  "index_spot": 6579.19,
+  "oil_brent": 96.0,
+  "chain_cut": {
+    "policy_path": "cut",
+    "cost_path": "live",
+    "hike_path": [
+      0.35,
+      0.63,
+      0.5
+    ],
+    "waller_core": 2.8,
+    "cut_threshold_pi": 2.65,
+    "oil_pce_transfer_pp": 0.7349999999999999,
+    "residual_gap_pp": 0.3150000000000004,
+    "pce": {
+      "headline": 3.7,
+      "core": 3.3,
+      "median_cpi": 2.7,
+      "trimmed": 2.2
+    }
+  },
+  "scenarios": [
+    {
+      "key": "S1",
+      "name": "데탕트",
+      "p_v1": 0.3,
+      "p_v2": 0.34,
+      "level_v1": 8255.0,
+      "level_v2": 7960.0,
+      "index_return_v2": 0.20987537979599313
+    },
+    {
+      "key": "S2",
+      "name": "지연",
+      "p_v1": 0.35,
+      "p_v2": 0.36,
+      "level_v1": 7250.0,
+      "level_v2": 7250.0,
+      "index_return_v2": 0.10195935973881287
+    },
+    {
+      "key": "S3",
+      "name": "스태그",
+      "p_v1": 0.2,
+      "p_v2": 0.13,
+      "level_v1": 6000.0,
+      "level_v2": 6100.0,
+      "index_return_v2": -0.07283419387492984
+    },
+    {
+      "key": "S4",
+      "name": "공급함정",
+      "p_v1": 0.15,
+      "p_v2": 0.17,
+      "level_v1": 7493.0,
+      "level_v2": 7493.0,
+      "index_return_v2": 0.13889399758936904
+    }
+  ],
+  "index": {
+    "expected_v1": 7337.95,
+    "expected_v2": 7383.21,
+    "return_v2": 0.12220653302306217,
+    "s3_return_v2": -0.07283419387492984,
+    "s1_ceiling_v2": 7960.0,
+    "skew": 2.8815501158204504
+  },
+  "supply_wall": {
+    "released_tn": 64.0,
+    "absorb_per_day_tn": 16.675,
+    "days": 3.83808095952024,
+    "per_cut": 0.2302848575712144,
+    "per_v2": 6.1197151424287854,
+    "per_implied": 6.123076923076923,
+    "s1_level_v2": 7960.0,
+    "s1_level_v1": 8255.0
+  },
+  "oil_bucket": {
+    "decay": 0.55,
+    "v1": {
+      "S1": 30.9,
+      "S2": 5.0,
+      "S3": -18.2,
+      "S4": 8.0
+    },
+    "v2": {
+      "S1": 17.0,
+      "S2": 2.8,
+      "S3": -18.2,
+      "S4": 8.0
+    },
+    "expected_v1": 11.3,
+    "expected_v2": 5.782
+  },
+  "book_c": {
+    "buckets": {
+      "SEMI": 0.44999999999999996,
+      "SHORT_DURATION": 0.25,
+      "OIL_DOWN": 0.1,
+      "HEDGE": 0.2
+    },
+    "weights": {
+      "000660": 0.135,
+      "005930": 0.135,
+      "071050": 0.09,
+      "402340": 0.09,
+      "105560": 0.125,
+      "012330": 0.125,
+      "267260": 0.12,
+      "079550": 0.08,
+      "003490": 0.055,
+      "015760": 0.045
+    },
+    "returns": {
+      "S1": 20.97,
+      "S2": 11.4,
+      "S3": -5.13,
+      "S4": 11.2
+    },
+    "expected": 12.47,
+    "s3": -5.13,
+    "excess_vs_index": 0.24934669769378282,
+    "downside_defense": 2.153419387492984,
+    "names": [
+      {
+        "rank": 1,
+        "ticker": "000660",
+        "name": "SK하이닉스",
+        "bucket": "SEMI",
+        "weight_v2": 12.0,
+        "weight_v3": 13.5,
+        "spot": 1596000,
+        "eps_2026e": 349342,
+        "target": 2300000,
+        "mentions": "5/5",
+        "fwd_pe": 4.568588947220775,
+        "upside": 0.44110275689223055
+      },
+      {
+        "rank": 2,
+        "ticker": "005930",
+        "name": "삼성전자",
+        "bucket": "SEMI",
+        "weight_v2": 12.0,
+        "weight_v3": 13.5,
+        "spot": 250000,
+        "eps_2026e": 48339,
+        "target": 320000,
+        "mentions": "5/5",
+        "fwd_pe": 5.171807443265273,
+        "upside": 0.28
+      },
+      {
+        "rank": 3,
+        "ticker": "071050",
+        "name": "한국금융지주",
+        "bucket": "SEMI",
+        "weight_v2": 8.0,
+        "weight_v3": 9.0,
+        "spot": 186600,
+        "eps_2026e": 50012,
+        "target": 245000,
+        "mentions": "1/5",
+        "fwd_pe": 3.7311045349116214,
+        "upside": 0.31296891747052524
+      },
+      {
+        "rank": 4,
+        "ticker": "402340",
+        "name": "SK스퀘어",
+        "bucket": "SEMI",
+        "weight_v2": 8.0,
+        "weight_v3": 9.0,
+        "spot": 981000,
+        "eps_2026e": 327000,
+        "target": 1330000,
+        "mentions": "1/5",
+        "fwd_pe": 3.0,
+        "upside": 0.35575942915392456
+      },
+      {
+        "rank": 5,
+        "ticker": "105560",
+        "name": "KB금융",
+        "bucket": "SHORT_DURATION",
+        "weight_v2": 10.0,
+        "weight_v3": 12.5,
+        "spot": null,
+        "eps_2026e": null,
+        "target": null,
+        "mentions": "3/5",
+        "fwd_pe": null,
+        "upside": null
+      },
+      {
+        "rank": 6,
+        "ticker": "012330",
+        "name": "현대모비스",
+        "bucket": "SHORT_DURATION",
+        "weight_v2": 10.0,
+        "weight_v3": 12.5,
+        "spot": 423500,
+        "eps_2026e": 45652,
+        "target": 525000,
+        "mentions": "1/5",
+        "fwd_pe": 9.276702006483834,
+        "upside": 0.2396694214876034
+      },
+      {
+        "rank": 7,
+        "ticker": "267260",
+        "name": "HD현대일렉트릭",
+        "bucket": "HEDGE",
+        "weight_v2": 12.0,
+        "weight_v3": 12.0,
+        "spot": 706000,
+        "eps_2026e": 26440,
+        "target": 860000,
+        "mentions": "1/5",
+        "fwd_pe": 26.70196671709531,
+        "upside": 0.21813031161473084
+      },
+      {
+        "rank": 8,
+        "ticker": "079550",
+        "name": "LIG넥스원",
+        "bucket": "HEDGE",
+        "weight_v2": 8.0,
+        "weight_v3": 8.0,
+        "spot": null,
+        "eps_2026e": null,
+        "target": null,
+        "mentions": "0/5",
+        "fwd_pe": null,
+        "upside": null
+      },
+      {
+        "rank": 9,
+        "ticker": "003490",
+        "name": "대한항공",
+        "bucket": "OIL_DOWN",
+        "weight_v2": 11.0,
+        "weight_v3": 5.5,
+        "spot": null,
+        "eps_2026e": null,
+        "target": null,
+        "mentions": "4/5",
+        "fwd_pe": null,
+        "upside": null
+      },
+      {
+        "rank": 10,
+        "ticker": "015760",
+        "name": "한국전력",
+        "bucket": "OIL_DOWN",
+        "weight_v2": 9.0,
+        "weight_v3": 4.5,
+        "spot": null,
+        "eps_2026e": null,
+        "target": null,
+        "mentions": "3/5",
+        "fwd_pe": null,
+        "upside": null
+      }
+    ]
+  },
+  "doc3_transition": {
+    "excess_v1": 1.0850000000000009,
+    "excess_v2_probs_only": 0.827346697693784
+  },
+  "semi_cap": 0.469,
+  "semi_s3_at_cap": -7.280150000000001,
+  "credit_interest_tn": 2.9699999999999998,
+  "cxmt_ni_margin": 0.5172413793103449,
+  "rack_multiple": 60.0,
+  "hbm_share_sum": 1.14,
+  "ledger": {
+    "confirmed": 9,
+    "partial": 6,
+    "rejected": 3,
+    "unconfirmed": 3,
+    "total": 21
+  },
+  "self_score": {
+    "win": 3,
+    "loss": 2,
+    "pending": 1
+  },
+  "disclaimer": "연구용 추정 모형이지 투자 권유가 아니다. 가격과 2026E EPS는 타 AI(봇C) 2차 출처이며 원출처를 독립 재확인하지 않았다."
+}

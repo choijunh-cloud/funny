@@ -16,7 +16,8 @@ M = R × A + D
 
 ```bash
 python3 -m hybrid_synthesis --all-scenarios
-python3 -m unittest hybrid_synthesis.tests.test_model hybrid_synthesis.tests.test_portfolio
+python3 -m hybrid_synthesis --doc4
+python3 -m unittest hybrid_synthesis.tests.test_model hybrid_synthesis.tests.test_portfolio hybrid_synthesis.tests.test_ranking hybrid_synthesis.tests.test_v2
 ```
 
 입력값을 바꿔 재추정:
@@ -27,7 +28,7 @@ python3 -m hybrid_synthesis --pce 3.45 --oil 81 --as-of 2026-11-20 --isa 18
 python3 -m hybrid_synthesis --fcf-positive --as-of 2027-07-15
 ```
 
-결과 파일은 `reports/` 에  mo인다.
+결과 파일은 `reports/` 에 모인다. 문서4 「절단된 사슬」은 `--doc4` 로 뽑는다. 유가→PCE→연준 경로가 정책단에서 끊긴 뒤의 재가중이다.
 
 ## 기본 배분 (Phase 1)
 
