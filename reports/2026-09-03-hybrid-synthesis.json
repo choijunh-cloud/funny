@@ -2008,7 +2008,7 @@
         "tier": "1",
         "new_money_score": 0.06539870030581037,
         "existing_weight": 0.0,
-        "now_action": "분할 매수 1순위"
+        "now_action": "홀드 · 삼성·닉스와 합산 한도"
       },
       {
         "ticker": "071050",
@@ -2203,7 +2203,7 @@
         "tier": "2",
         "new_money_score": 0.02055922053231933,
         "existing_weight": 0.0,
-        "now_action": "분할 · 약한 조정"
+        "now_action": "홀드 · 삼성·닉스와 합산 한도"
       },
       {
         "ticker": "034020",
@@ -2401,7 +2401,7 @@
         "tier": "1",
         "new_money_score": 0.06539870030581037,
         "existing_weight": 0.0,
-        "now_action": "분할 매수 1순위"
+        "now_action": "홀드 · 삼성·닉스와 합산 한도"
       },
       {
         "ticker": "071050",
@@ -2596,7 +2596,7 @@
         "tier": "2",
         "new_money_score": 0.02055922053231933,
         "existing_weight": 0.0,
-        "now_action": "분할 · 약한 조정"
+        "now_action": "홀드 · 삼성·닉스와 합산 한도"
       },
       {
         "ticker": "034020",
@@ -3220,7 +3220,7 @@
         "tier": "1",
         "new_money_score": 0.06539870030581037,
         "existing_weight": 0.0,
-        "now_action": "분할 매수 1순위"
+        "now_action": "홀드 · 삼성·닉스와 합산 한도"
       },
       {
         "ticker": "071050",
@@ -3493,7 +3493,7 @@
         "tier": "2",
         "new_money_score": 0.02055922053231933,
         "existing_weight": 0.0,
-        "now_action": "분할 · 약한 조정"
+        "now_action": "홀드 · 삼성·닉스와 합산 한도"
       },
       {
         "ticker": "012330",
@@ -4272,7 +4272,7 @@
         "tier": "1",
         "new_money_score": 0.06539870030581037,
         "existing_weight": 0.0,
-        "now_action": "분할 매수 1순위"
+        "now_action": "홀드 · 삼성·닉스와 합산 한도"
       },
       {
         "ticker": "105560",
@@ -4427,7 +4427,7 @@
         "tier": "2",
         "new_money_score": 0.02055922053231933,
         "existing_weight": 0.0,
-        "now_action": "분할 · 약한 조정"
+        "now_action": "홀드 · 삼성·닉스와 합산 한도"
       },
       {
         "ticker": "003230",

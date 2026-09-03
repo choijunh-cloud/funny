@@ -105,6 +105,7 @@ class ProbabilityWeightedOrderTests(unittest.TestCase):
         square = self.by_ticker["402340"]
         self.assertEqual(square["cluster"], "SEMI")
         self.assertEqual(square["rank"], 2)
+        self.assertIn("합산", square["now_action"])
         new_ranks = {row["ticker"]: row["rank"] for row in self.ranking["new_money_order"]}
         self.assertGreater(new_ranks["402340"], 5)
 

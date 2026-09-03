@@ -631,6 +631,8 @@ def _tier(pw: float) -> str:
 def _now_action(card: NameCard, existing: float, pw_rank: int) -> str:
     if card.fwd_pe >= 40:
         return "관망 · 추격 금지"
+    if card.ticker in {"402340", "005935"}:
+        return "홀드 · 삼성·닉스와 합산 한도"
     if card.cluster == CLUSTER_SEMI and existing >= 0.10:
         return "홀드 · 10월 전 확대 금지"
     if card.cluster == CLUSTER_SEMI and existing > 0:
