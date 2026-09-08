@@ -51,6 +51,19 @@ def test_outputs():
     assert not missing, f"missing: {missing}"
 
 
+def test_pages():
+    pages = Path("/workspace/reports/sep08-pages")
+    for n in [
+        "page01_hero.png",
+        "page02_apple_dram.png",
+        "page03_val_astra.png",
+        "page04_arm_flow.png",
+        "page05_geo_port.png",
+    ]:
+        p = pages / n
+        assert p.exists() and p.stat().st_size > 20_000, n
+
+
 def test_charts():
     expected = [
         "01_dram_2q26.png",
@@ -79,5 +92,6 @@ if __name__ == "__main__":
     test_data()
     test_outputs()
     test_charts()
+    test_pages()
     test_fact_labels()
     print("test_sep08_brief: ok")

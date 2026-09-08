@@ -4,6 +4,18 @@
 
 매수·매도 권유가 아닙니다.
 
+페이지 그림:
+
+![1쪽](../reports/sep08-pages/page01_hero.png)
+
+![2쪽](../reports/sep08-pages/page02_apple_dram.png)
+
+![3쪽](../reports/sep08-pages/page03_val_astra.png)
+
+![4쪽](../reports/sep08-pages/page04_arm_flow.png)
+
+![5쪽](../reports/sep08-pages/page05_geo_port.png)
+
 ## 한 줄
 
 애플이 가격 상한 없는 3~5년 NAND를 논의한다는 보도는, AI가 팹을 선점하자 세계 최강 바이어마저 물량으로 돌아섰다는 뜻이다. 2Q DRAM $154.73B(+59.5%)가 그 실물이다. 9/10 ETF 매도(하이닉스 1.24~1.45조)는 펀더멘탈이 아니다.
