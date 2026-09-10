@@ -374,6 +374,11 @@ def md() -> str:
 
 매수·매도 권유가 아닙니다.
 
+한 장 HTML: `reports/2026-09-08-oneboard.html`  
+한 장 그림:
+
+![한 장](../reports/sep08-pages/oneboard.png)
+
 페이지 그림:
 
 ![1쪽](../reports/sep08-pages/page01_hero.png)
@@ -478,9 +483,10 @@ def write_all() -> None:
     readme = Path("/workspace/reports/README.md")
     readme.write_text(
         "# reports\n\n"
-        "- `2026-09-08-quick-comment-brief.html` — 9월 8일 Quick 코멘트 + 첨부 PDF 통합.\n"
-        "- `charts/` — 브리프에 쓰는 그림.\n"
-        "- `sep08-pages/` — HTML을 브라우저로 연 뒤 자른 페이지 그림.\n",
+        "- `2026-09-08-oneboard.html` — 차트 포함 한 장.\n"
+        "- `2026-09-08-quick-comment-brief.html` — 섹션형 긴 버전.\n"
+        "- `sep08-pages/oneboard.png` — 한 장 렌더.\n"
+        "- `charts/` — 차트 원본.\n",
         encoding="utf-8",
     )
     print("wrote", LECTURES / HTML_NAME)

@@ -51,6 +51,16 @@ def test_outputs():
     assert not missing, f"missing: {missing}"
 
 
+def test_oneboard():
+    html = Path("/workspace/reports/2026-09-08-oneboard.html")
+    png = Path("/workspace/reports/sep08-pages/oneboard.png")
+    assert html.exists() and html.stat().st_size > 100_000
+    assert "data:image/png;base64," in html.read_text(encoding="utf-8")
+    assert png.exists() and png.stat().st_size > 80_000
+    lecture = Path("/workspace/lectures") / "9월 8일 Quick 코멘트 한장.html"
+    assert lecture.exists()
+
+
 def test_pages():
     pages = Path("/workspace/reports/sep08-pages")
     for n in [
@@ -93,5 +103,6 @@ if __name__ == "__main__":
     test_outputs()
     test_charts()
     test_pages()
+    test_oneboard()
     test_fact_labels()
     print("test_sep08_brief: ok")

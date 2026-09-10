@@ -4,6 +4,11 @@
 
 매수·매도 권유가 아닙니다.
 
+한 장 HTML: `reports/2026-09-08-oneboard.html`  
+한 장 그림:
+
+![한 장](../reports/sep08-pages/oneboard.png)
+
 페이지 그림:
 
 ![1쪽](../reports/sep08-pages/page01_hero.png)
