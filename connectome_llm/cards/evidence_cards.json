@@ -1,0 +1,122 @@
+[
+  {
+    "id": "card.files",
+    "title": "Male CNS v1.0 파일·버전",
+    "source": "gs://flyem-male-cns/v1.0/connectome-data/flat-connectome/",
+    "version": "male-cns-v1.0 / minconf-0.5",
+    "text_ko": "공식 가중치 테이블은 connectome-weights-male-cns-v1.0-minconf-0.5.feather 이다. 주석은 body-annotations-male-cns-v1.0-minconf-0.5.feather, 전달물질은 body-neurotransmitters-male-cns-v1.0.feather. 컬럼은 body_pre / body_post / weight 와 body / consensus_nt.",
+    "text_en": "Official weights: connectome-weights-male-cns-v1.0-minconf-0.5.feather. Annotations and transmitters are the matching v1.0 feather files. Columns: body_pre, body_post, weight and body, consensus_nt.",
+    "numbers": {}
+  },
+  {
+    "id": "card.stats",
+    "title": "이 저장소에서 다시 센 규모",
+    "source": "reports/male-cns-connectome/results.json",
+    "version": "weight>=5 filter on v1.0 minconf-0.5",
+    "text_ko": "원본 에지 151856684 (151,856,684). weight>=5 후 노드 1445249 / 에지 7622864. Traced만 노드 163903 / 에지 6235682. 이 숫자는 실행 로그에 있다. 실행 없이 비슷한 규모를 지어내지 말 것.",
+    "text_en": "Raw edges 151856684. After weight>=5: 1445249 nodes / 7622864 edges. Traced-only: 163903 nodes / 6235682 edges. These numbers come from a repo run. Do not invent nearby figures without a run.",
+    "numbers": {
+      "n_edges_raw": 151856684,
+      "n_nodes": 1445249,
+      "n_edges": 7622864,
+      "n_nodes_traced": 163903,
+      "n_edges_traced": 6235682
+    }
+  },
+  {
+    "id": "card.hubs",
+    "title": "가중 Out-degree 상위 (실행 결과)",
+    "source": "reports/male-cns-connectome/results.json",
+    "version": "weight>=5",
+    "text_ko": "Top 5 가중 Out-degree: 10009 CT1_L 140969, 10157 CT1_R 112077, 10977 APL_L 106577, 10540 APL_R 101274, 10066 LPi21_R 46382. 모두 GABA 광역 억제 뉴런.",
+    "text_en": "Top 5 weighted out-degree: 10009 CT1_L 140969, 10157 CT1_R 112077, 10977 APL_L 106577, 10540 APL_R 101274, 10066 LPi21_R 46382. All wide-field GABAergic neurons.",
+    "numbers": {
+      "CT1_L": 140969,
+      "CT1_R": 112077,
+      "APL_L": 106577,
+      "APL_R": 101274,
+      "LPi21_R": 46382
+    }
+  },
+  {
+    "id": "card.insect_sign",
+    "title": "곤충 CNS 모델링 부호표",
+    "source": "sft/knowledge.py INSECT_SIGN",
+    "version": "Shiu/FlyWire LIF convention",
+    "text_ko": "아세틸콜린 +1, 글루타메이트 -1 (GluCl), GABA -1, 세로토닌 +1, 도파민 +1, 옥토파민 +1, 히스타민 -1. 글루타메이트를 +1로 단언하지 말 것.",
+    "text_en": "ACh +1, glutamate -1 (GluCl), GABA -1, serotonin +1, dopamine +1, octopamine +1, histamine -1. Do not assert glutamate is +1.",
+    "numbers": {"glutamate": -1, "acetylcholine": 1, "gaba": -1}
+  },
+  {
+    "id": "card.vertebrate",
+    "title": "척추동물 참고 컬럼",
+    "source": "sft/knowledge.py VERTEBRATE_SIGN",
+    "version": "reference column only",
+    "text_ko": "척추동물에서 글루타메이트는 +1(AMPA/NMDA), GABA는 -1. 아세틸콜린은 NMJ에서 +1. 옥토파민은 없고 노르에피네프린이 대응. 이 +1은 곤충 부호가 아니다.",
+    "text_en": "Vertebrate glutamate is +1 (AMPA/NMDA), GABA -1, ACh +1 at NMJ. No octopamine (norepinephrine analogue). That +1 is not the insect sign.",
+    "numbers": {}
+  },
+  {
+    "id": "card.dale",
+    "title": "데일의 원리와 조인 키",
+    "source": "sft/knowledge.py dale.one_nt pipe.join_pre",
+    "version": "pipeline ②④",
+    "text_ko": "한 뉴런의 빠른 전달물질은 출력 전체에 같다. NT는 bodyId_pre에 조인한다. post 조인은 극성을 뒤집는다.",
+    "text_en": "One fast transmitter per neuron applies to every outgoing edge. Join NT on bodyId_pre. A post join flips polarity.",
+    "numbers": {}
+  },
+  {
+    "id": "card.matrix",
+    "title": "행렬 규약 W와 전류",
+    "source": "sft/knowledge.py pipe.WTx",
+    "version": "W[i,j]=i→j",
+    "text_ko": "W[i,j]는 i에서 j로 가는 부호 가중치. 받는 전류는 I = W.T @ x. 전치를 빼면 나가는 축으로 계산된다.",
+    "text_en": "W[i,j] is the i→j signed weight. Received current is I = W.T @ x. Dropping the transpose puts current on the outgoing axis.",
+    "numbers": {}
+  },
+  {
+    "id": "card.filter",
+    "title": "시냅스 수 필터",
+    "source": "sft/knowledge.py pipe.filter",
+    "version": "weight>=5 AND sign.notna()",
+    "text_ko": "필터는 weight >= 5 AND sign.notna(). OR는 약한 연결을 남긴다. signed_weight >= 5는 억제 에지를 전부 떨어뜨린다.",
+    "text_en": "Filter weight >= 5 AND sign.notna(). OR keeps weak edges. signed_weight >= 5 drops every inhibitory edge.",
+    "numbers": {"min_weight": 5}
+  },
+  {
+    "id": "card.glu_assumption",
+    "title": "글루타메이트 억제는 모델 가정",
+    "source": "Shiu et al. 2024 / GluCl literature",
+    "version": "assumption, not a measured sign per synapse",
+    "text_ko": "곤충 중심 시냅스에서 글루타메이트를 -1로 두는 것은 GluCl에 근거한 모델 가정이다. 시냅스마다 흥분/억제를 실측한 값이 아니다. 가정을 부호표와 섞어 단정하지 말 것.",
+    "text_en": "Treating insect central glutamate as -1 is a GluCl-based modeling assumption, not a per-synapse measured sign. Do not present the assumption as a measured polarity.",
+    "numbers": {}
+  },
+  {
+    "id": "card.pandas_mode",
+    "title": "pandas mode 동률·결측",
+    "source": "sft/knowledge.py inf.mode_tie inf.mode_nan",
+    "version": "inferred ledger rows",
+    "text_ko": "mode()는 동률 최빈을 모두 주고 mode()[0]은 정렬 첫 값(문자열은 알파벳순). 전부 NaN 그룹은 빈 Series라 mode()[0]이 IndexError.",
+    "text_en": "mode() returns every tied mode; mode()[0] is first in sort order (alphabetical for strings). All-NaN groups yield an empty Series so mode()[0] raises IndexError.",
+    "numbers": {}
+  },
+  {
+    "id": "card.lif",
+    "title": "LIF 한 스텝 (모델 파라미터)",
+    "source": "connectome_llm/tools.py lif_step",
+    "version": "toy leaky-integrate; tau/dt/Vth are free",
+    "text_ko": "V <- V + (dt/tau)*(V_rest - V + I). V>=V_th 이면 발화 후 V_reset. tau, dt, V_th는 자유 파라미터이며 초파리 실측이 아니다. I는 도구로 구한 W.T@x만 쓴다.",
+    "text_en": "V <- V + (dt/tau)*(V_rest - V + I). Spike and reset if V>=V_th. tau, dt, V_th are free parameters, not fly measurements. I must be the tool-computed W.T@x.",
+    "numbers": {}
+  },
+  {
+    "id": "card.rag_policy",
+    "title": "검색·도구·학습 역할 분리",
+    "source": "Lewis et al. 2020 arXiv:2005.11401; this package",
+    "version": "RAG + tools + SFT",
+    "text_ko": "파일명·버전·실행 수치는 근거 카드를 검색해 인용한다. 설명과 코드 검토 말투는 미세조정한다. 부호화 전류와 막전위 변화는 계산 도구로 확인한다. 카드나 실행 결과가 없으면 수치를 만들지 않는다.",
+    "text_en": "File names, versions, and run statistics are retrieved from evidence cards. Explanation and code-review style are fine-tuned. Encoded current and voltage change are checked with tools. If a card or run is missing, do not invent a number.",
+    "numbers": {}
+  }
+]

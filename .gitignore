@@ -1,0 +1,13 @@
+__pycache__/
+.pytest_cache/
+*.pyc
+.venv/
+venv/
+
+# Male CNS raw tables are ~1 GB and are downloaded at analysis time
+data/raw/*.feather
+data/raw/*.parquet
+data/raw/*.csv
+connectome_llm/runs/
+sft_data/
+runs/
