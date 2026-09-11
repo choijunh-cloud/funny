@@ -1,0 +1,106 @@
+"""9월 10~11일 Quick 코멘트 + 첨부 핵심 숫자."""
+
+from __future__ import annotations
+
+# Oracle Q1 FY27 (공식 실적·콜, 2026-09-10)
+ORCL_REV_B = 19.3
+ORCL_REV_YOY = 30
+ORCL_CLOUD_B = 11.6
+ORCL_CLOUD_YOY = 62
+ORCL_OCI_B = 7.4
+ORCL_OCI_YOY = 121
+ORCL_SAAS_B = 4.2
+ORCL_SAAS_YOY = 10
+ORCL_RPO_B = 664
+ORCL_RPO_QOQ_B = 26
+ORCL_RPO_YOY_B = 209
+ORCL_NEW_AI_B = 30
+ORCL_RPO_36M_PCT = 50
+ORCL_Q1_CAPEX_B = 28.5
+ORCL_Q1_FCF_B = -5.0
+ORCL_Q1_NET_CAPEX_B = 18.0
+ORCL_FY27_CAPEX = (90, 95)
+ORCL_FY27_NET_CAPEX_MAX = 70
+ORCL_FY27_REV_MIN = 90
+ORCL_FY27_EPS = 8.10
+ORCL_MW = 850
+ORCL_GPU_K = 300
+
+# 9월 1~10일 TRASS 메모리 잠정 (코멘트). MoM은 1~10일 기준
+MEM_EXP_B = 10.38655
+MEM_YOY = 378.0
+MEM_MOM = 29.7
+MEM_ASP_MOM = -8.2
+DRAM_EXP_B = 5.01229
+DRAM_YOY = 496.1
+DRAM_MOM = 8.4
+DRAM_ASP_MOM = -18.8
+FLASH_EXP_B = 0.72323
+FLASH_YOY = 362.8
+FLASH_MOM = -7.6
+FLASH_ASP_MOM = -32.8
+MCP_EXP_B = 3.92275
+MCP_YOY = 293.3
+MCP_MOM = 87.0
+MCP_ASP_MOM = 31.2
+MOD_EXP_B = 3.86476
+MOD_YOY = 577.8
+MOD_MOM = 1089.4
+MOD_ASP_MOM = 278.9
+
+# 관세청 9/1~10
+KR_EXPORT_B = 35.0
+KR_SEMI_B = 16.483
+KR_SEMI_YOY = 270.1
+
+# 국채
+UST30_AUCTION = 5.308
+UST30_INDIRECT = 79.5
+BUYBACK_MAX_B = 6.0
+BUYBACK_ACT_B = 5.187
+NEXT_BUYBACK = "9/24"
+
+# 애플
+DUO_OUTER = 5.4
+DUO_INNER = 7.6
+DUO_ASP = 1999
+DUO_SHIP_26_M = 6
+DUO_SHIP_27_M = 15
+AFM_3B = 3
+
+# 아모텍 / 두산 / PSK (첨부)
+AMO_26_B = 490
+AMO_27_B = 840
+DOOSAN_1H_B = 12930
+PSK_3Q_SALES = 825
+PSK_3Q_OP = 350
+PSK_27_SALES = 3893
+PSK_27_OP = 1504
+
+# MLCC ETF
+MLCC_SEMCO = 20.3
+MLCC_MURATA = 20.5
+MLCC_SAMWHA = 2.9
+
+
+def orcl_customer_capex() -> tuple[int, int]:
+    lo = ORCL_FY27_CAPEX[0] - ORCL_FY27_NET_CAPEX_MAX
+    hi = ORCL_FY27_CAPEX[1] - ORCL_FY27_NET_CAPEX_MAX
+    return lo, hi
+
+
+def assert_all() -> None:
+    assert ORCL_RPO_B == 664
+    assert ORCL_OCI_YOY == 121
+    assert ORCL_CLOUD_B == 11.6
+    assert orcl_customer_capex() == (20, 25)
+    assert abs(ORCL_OCI_B + ORCL_SAAS_B - ORCL_CLOUD_B) < 1e-9
+    assert DRAM_YOY == 496.1
+    assert MOD_MOM == 1089.4
+    assert BUYBACK_ACT_B == 5.187
+    assert AMO_27_B / AMO_26_B == 840 / 490
+
+
+if __name__ == "__main__":
+    assert_all()
+    print("sep11_data: ok")
