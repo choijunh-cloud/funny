@@ -1,0 +1,6 @@
+# Optional stack for a real local chat checkpoint.
+# The tiny LoRA infra check does not need these.
+torch
+transformers>=4.40
+peft>=0.11
+datasets>=2.19

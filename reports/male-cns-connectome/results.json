@@ -1,0 +1,402 @@
+{
+  "dataset": "male-cns-v1.0",
+  "min_weight": 5,
+  "n_edges_raw": 151856684,
+  "n_nodes": 1445249,
+  "n_edges": 7622864,
+  "edge_keep_pct": 5.019775092678831,
+  "n_nodes_annotated": 179960,
+  "n_edges_annotated": 6300108,
+  "n_nodes_traced": 163903,
+  "n_edges_traced": 6235682,
+  "reciprocal_all": 0.12968642756843096,
+  "reciprocal_ann": 0.15651430102468084,
+  "top_senders": [
+    [
+      10009,
+      140969
+    ],
+    [
+      10157,
+      112077
+    ],
+    [
+      10977,
+      106577
+    ],
+    [
+      10540,
+      101274
+    ],
+    [
+      10066,
+      46382
+    ]
+  ],
+  "top_out": [
+    {
+      "bodyId": 10009,
+      "weight": 140969,
+      "type": "CT1",
+      "instance": "CT1_L",
+      "superclass": "ol_intrinsic",
+      "status": "Traced",
+      "somaSide": "L",
+      "consensus_nt": "gaba"
+    },
+    {
+      "bodyId": 10157,
+      "weight": 112077,
+      "type": "CT1",
+      "instance": "CT1_R",
+      "superclass": "ol_intrinsic",
+      "status": "Traced",
+      "somaSide": "R",
+      "consensus_nt": "gaba"
+    },
+    {
+      "bodyId": 10977,
+      "weight": 106577,
+      "type": "APL",
+      "instance": "APL_L",
+      "superclass": "cb_intrinsic",
+      "status": "Traced",
+      "somaSide": "L",
+      "consensus_nt": "gaba"
+    },
+    {
+      "bodyId": 10540,
+      "weight": 101274,
+      "type": "APL",
+      "instance": "APL_R",
+      "superclass": "cb_intrinsic",
+      "status": "Traced",
+      "somaSide": "R",
+      "consensus_nt": "gaba"
+    },
+    {
+      "bodyId": 10066,
+      "weight": 46382,
+      "type": "LPi21",
+      "instance": "LPi21_R",
+      "superclass": "ol_intrinsic",
+      "status": "Traced",
+      "somaSide": "R",
+      "consensus_nt": "gaba"
+    },
+    {
+      "bodyId": 10051,
+      "weight": 43665,
+      "type": "Li39",
+      "instance": "Li39_L",
+      "superclass": "ol_intrinsic",
+      "status": "Traced",
+      "somaSide": "L",
+      "consensus_nt": "gaba"
+    },
+    {
+      "bodyId": 10611,
+      "weight": 41473,
+      "type": "Li39",
+      "instance": "Li39_R",
+      "superclass": "ol_intrinsic",
+      "status": "Traced",
+      "somaSide": "R",
+      "consensus_nt": "gaba"
+    },
+    {
+      "bodyId": 10503,
+      "weight": 40608,
+      "type": "LPi4b",
+      "instance": "LPi4b_R",
+      "superclass": "ol_intrinsic",
+      "status": "Traced",
+      "somaSide": "R",
+      "consensus_nt": "gaba"
+    },
+    {
+      "bodyId": 10180,
+      "weight": 38320,
+      "type": "AN02A002",
+      "instance": "AN02A002_R",
+      "superclass": "ascending_neuron",
+      "status": "Traced",
+      "somaSide": "R",
+      "consensus_nt": "glutamate"
+    },
+    {
+      "bodyId": 10671,
+      "weight": 37845,
+      "type": "AN02A002",
+      "instance": "AN02A002_L",
+      "superclass": "ascending_neuron",
+      "status": "Traced",
+      "somaSide": "L",
+      "consensus_nt": "glutamate"
+    },
+    {
+      "bodyId": 13612,
+      "weight": 35726,
+      "type": "Li32",
+      "instance": "Li32_L",
+      "superclass": "ol_intrinsic",
+      "status": "Traced",
+      "somaSide": "L",
+      "consensus_nt": "gaba"
+    },
+    {
+      "bodyId": 11041,
+      "weight": 35368,
+      "type": "LPi21",
+      "instance": "LPi21_L",
+      "superclass": "ol_intrinsic",
+      "status": "Traced",
+      "somaSide": "L",
+      "consensus_nt": "gaba"
+    },
+    {
+      "bodyId": 10352,
+      "weight": 35252,
+      "type": "Li32",
+      "instance": "Li32_R",
+      "superclass": "ol_intrinsic",
+      "status": "Traced",
+      "somaSide": "R",
+      "consensus_nt": "gaba"
+    },
+    {
+      "bodyId": 10093,
+      "weight": 32932,
+      "type": "Am1",
+      "instance": "Am1_R",
+      "superclass": "ol_intrinsic",
+      "status": "Traced",
+      "somaSide": "R",
+      "consensus_nt": "gaba"
+    },
+    {
+      "bodyId": 10169,
+      "weight": 32295,
+      "type": "lLN2F_b",
+      "instance": "lLN2F_b(Full)_R",
+      "superclass": "cb_intrinsic",
+      "status": "Traced",
+      "somaSide": "R",
+      "consensus_nt": "gaba"
+    }
+  ],
+  "top_in": [
+    {
+      "bodyId": 10540,
+      "weight": 118950,
+      "type": "APL",
+      "instance": "APL_R",
+      "superclass": "cb_intrinsic",
+      "status": "Traced",
+      "somaSide": "R",
+      "consensus_nt": "gaba"
+    },
+    {
+      "bodyId": 10977,
+      "weight": 112862,
+      "type": "APL",
+      "instance": "APL_L",
+      "superclass": "cb_intrinsic",
+      "status": "Traced",
+      "somaSide": "L",
+      "consensus_nt": "gaba"
+    },
+    {
+      "bodyId": 10066,
+      "weight": 72406,
+      "type": "LPi21",
+      "instance": "LPi21_R",
+      "superclass": "ol_intrinsic",
+      "status": "Traced",
+      "somaSide": "R",
+      "consensus_nt": "gaba"
+    },
+    {
+      "bodyId": 10009,
+      "weight": 69067,
+      "type": "CT1",
+      "instance": "CT1_L",
+      "superclass": "ol_intrinsic",
+      "status": "Traced",
+      "somaSide": "L",
+      "consensus_nt": "gaba"
+    },
+    {
+      "bodyId": 11041,
+      "weight": 64778,
+      "type": "LPi21",
+      "instance": "LPi21_L",
+      "superclass": "ol_intrinsic",
+      "status": "Traced",
+      "somaSide": "L",
+      "consensus_nt": "gaba"
+    },
+    {
+      "bodyId": 10093,
+      "weight": 61180,
+      "type": "Am1",
+      "instance": "Am1_R",
+      "superclass": "ol_intrinsic",
+      "status": "Traced",
+      "somaSide": "R",
+      "consensus_nt": "gaba"
+    },
+    {
+      "bodyId": 10157,
+      "weight": 59447,
+      "type": "CT1",
+      "instance": "CT1_R",
+      "superclass": "ol_intrinsic",
+      "status": "Traced",
+      "somaSide": "R",
+      "consensus_nt": "gaba"
+    },
+    {
+      "bodyId": 10085,
+      "weight": 55252,
+      "type": "Am1",
+      "instance": "Am1_L",
+      "superclass": "ol_intrinsic",
+      "status": "Traced",
+      "somaSide": "L",
+      "consensus_nt": "gaba"
+    },
+    {
+      "bodyId": 11734,
+      "weight": 54013,
+      "type": "DPM",
+      "instance": "DPM_L",
+      "superclass": "cb_intrinsic",
+      "status": "Traced",
+      "somaSide": "L",
+      "consensus_nt": "dopamine"
+    },
+    {
+      "bodyId": 10051,
+      "weight": 50399,
+      "type": "Li39",
+      "instance": "Li39_L",
+      "superclass": "ol_intrinsic",
+      "status": "Traced",
+      "somaSide": "L",
+      "consensus_nt": "gaba"
+    }
+  ],
+  "strongest_edges": [
+    {
+      "bodyId_pre": 10352,
+      "bodyId_post": 10351,
+      "weight": 2591,
+      "pre_label": "Li32_R",
+      "post_label": "Li33_R"
+    },
+    {
+      "bodyId_pre": 13612,
+      "bodyId_post": 16076,
+      "weight": 2443,
+      "pre_label": "Li32_L",
+      "post_label": "Li33_L"
+    },
+    {
+      "bodyId_pre": 10663,
+      "bodyId_post": 10051,
+      "weight": 2248,
+      "pre_label": "LT39_R",
+      "post_label": "Li39_L"
+    },
+    {
+      "bodyId_pre": 10289,
+      "bodyId_post": 10611,
+      "weight": 2230,
+      "pre_label": "LT39_L",
+      "post_label": "Li39_R"
+    },
+    {
+      "bodyId_pre": 10893,
+      "bodyId_post": 10066,
+      "weight": 1929,
+      "pre_label": "LPi2b_R",
+      "post_label": "LPi21_R"
+    },
+    {
+      "bodyId_pre": 11734,
+      "bodyId_post": 10977,
+      "weight": 1878,
+      "pre_label": "DPM_L",
+      "post_label": "APL_L"
+    },
+    {
+      "bodyId_pre": 10114,
+      "bodyId_post": 10518,
+      "weight": 1766,
+      "pre_label": "Cm34_R",
+      "post_label": "Cm31b_R"
+    },
+    {
+      "bodyId_pre": 10066,
+      "bodyId_post": 10027,
+      "weight": 1747,
+      "pre_label": "LPi21_R",
+      "post_label": "VCH_L"
+    }
+  ],
+  "type_out_strength": [
+    {
+      "type": "Mi1",
+      "weight": 2350892
+    },
+    {
+      "type": "Tm1",
+      "weight": 1593203
+    },
+    {
+      "type": "unannotated",
+      "weight": 1354093
+    },
+    {
+      "type": "L2",
+      "weight": 1284755
+    },
+    {
+      "type": "Tm3",
+      "weight": 1241134
+    },
+    {
+      "type": "Tm2",
+      "weight": 930474
+    },
+    {
+      "type": "L5",
+      "weight": 851686
+    },
+    {
+      "type": "Tm4",
+      "weight": 832030
+    },
+    {
+      "type": "Mi9",
+      "weight": 709159
+    },
+    {
+      "type": "Mi4",
+      "weight": 625504
+    },
+    {
+      "type": "T2a",
+      "weight": 594934
+    },
+    {
+      "type": "L1",
+      "weight": 583874
+    }
+  ],
+  "console_block": "노드 수: 1,445,249\n에지 수: 7,622,864\nTop 5 Out-degree Neurons: [(10009, 140969), (10157, 112077), (10977, 106577), (10540, 101274), (10066, 46382)]",
+  "nx_note": "상위 허브 서브그래프와 합성 테스트에만 사용했다",
+  "hub_subgraph_nodes": 80,
+  "hub_subgraph_edges": 84
+}
