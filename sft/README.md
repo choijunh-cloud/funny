@@ -79,3 +79,5 @@ python sft/build_sft.py --include-inferred --strip-meta --out-dir sft/data/opena
 python sft/build_sft.py
 python sft/verify_sft.py
 ```
+
+대화형 봇(검색 + 계산 도구 + LoRA)은 `connectome_llm/README_ko.md` 를 본다.
