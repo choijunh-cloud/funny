@@ -9,3 +9,5 @@ data/raw/*.feather
 data/raw/*.parquet
 data/raw/*.csv
 connectome_llm/runs/
+sft_data/
+runs/
