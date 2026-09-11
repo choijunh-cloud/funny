@@ -30,7 +30,6 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-import matplotlib.font_manager as fm
 import networkx as nx
 import numpy as np
 import pandas as pd
@@ -54,15 +53,13 @@ DEFAULT_MIN_WEIGHT = 5
 # NetworkX DiGraph + edge dicts is ~0.4–1 KB/edge. Stay conservative on 15 GB.
 NETWORKX_EDGE_BUDGET = 1_500_000
 
-KR_FONT = "WenQuanYi Micro Hei"
-
 
 def _setup_matplotlib() -> None:
-    available = {f.name for f in fm.fontManager.ttflist}
-    font = KR_FONT if KR_FONT in available else "DejaVu Sans"
+    # CJK-only fonts often collapse ASCII spaces in tick labels. Keep plots in
+    # English and use DejaVu; the HTML report stays Korean.
     plt.rcParams.update(
         {
-            "font.family": font,
+            "font.family": "DejaVu Sans",
             "axes.unicode_minus": False,
             "figure.facecolor": "white",
             "axes.facecolor": "white",
@@ -99,11 +96,22 @@ def filter_min_weight(df: pd.DataFrame, min_weight: int = DEFAULT_MIN_WEIGHT) ->
 
 
 def weighted_degrees(df: pd.DataFrame) -> tuple[pd.Series, pd.Series]:
+    """Weighted in/out degree for every node that appears in the edgelist.
+
+    Nodes that only receive (or only send) synapses get 0 on the other side,
+    matching ``G.out_degree(weight="weight")`` / ``G.in_degree``.
+    """
+    nodes = pd.Index(
+        pd.unique(pd.concat([df["bodyId_pre"], df["bodyId_post"]], ignore_index=True))
+    ).astype("int64")
     out_d = df.groupby("bodyId_pre", sort=False)["weight"].sum()
     in_d = df.groupby("bodyId_post", sort=False)["weight"].sum()
     out_d.index = out_d.index.astype("int64")
     in_d.index = in_d.index.astype("int64")
-    return out_d.astype("int64"), in_d.astype("int64")
+    return (
+        out_d.reindex(nodes, fill_value=0).astype("int64"),
+        in_d.reindex(nodes, fill_value=0).astype("int64"),
+    )
 
 
 def top_items(series: pd.Series, n: int = 5) -> list[tuple[int, int]]:
@@ -263,14 +271,14 @@ def make_figures(
     paths: dict[str, Path] = {}
 
     fig, ax = plt.subplots(figsize=(8.2, 4.6))
-    vals = np.clip(out_d.to_numpy(dtype="float64"), 1, None)
+    vals = out_d[out_d > 0].to_numpy(dtype="float64")
     bins = np.logspace(np.log10(vals.min()), np.log10(vals.max()), 40)
     ax.hist(vals, bins=bins, color="#1e407c", alpha=0.88, edgecolor="white", linewidth=0.3)
     ax.set_xscale("log")
     ax.set_yscale("log")
-    ax.set_xlabel("가중 Out-degree (시냅스 수)")
-    ax.set_ylabel("뉴런/세그먼트 수")
-    ax.set_title("Out-degree 분포 (weight ≥ 5)")
+    ax.set_xlabel("Weighted out-degree (synapse count)")
+    ax.set_ylabel("Segments / neurons")
+    ax.set_title("Out-degree distribution (weight >= 5)")
     fig.tight_layout()
     paths["degree"] = FIG_DIR / "out_degree_distribution.png"
     fig.savefig(paths["degree"], dpi=140)
@@ -281,8 +289,8 @@ def make_figures(
     weights = [r["weight"] for r in reversed(top_out)]
     colors = ["#b8943a" if i >= len(top_out) - 5 else "#1e407c" for i in range(len(top_out))]
     ax.barh(labels, weights, color=colors)
-    ax.set_xlabel("가중 Out-degree (시냅스 수)")
-    ax.set_title("상위 출력 허브")
+    ax.set_xlabel("Weighted out-degree (synapse count)")
+    ax.set_title("Top output hubs")
     fig.tight_layout()
     paths["top"] = FIG_DIR / "top_out_degree.png"
     fig.savefig(paths["top"], dpi=140)
@@ -292,26 +300,47 @@ def make_figures(
     types = list(reversed(type_rank["type"].tolist()))
     tw = list(reversed(type_rank["weight"].tolist()))
     ax.barh(types, tw, color="#0f2043")
-    ax.set_xlabel("타입 합산 출력 시냅스")
-    ax.set_title("세포 타입별 출력 강도")
+    ax.set_xlabel("Summed output synapses")
+    ax.set_title("Output strength by cell type")
     fig.tight_layout()
     paths["types"] = FIG_DIR / "type_out_strength.png"
     fig.savefig(paths["types"], dpi=140)
     plt.close(fig)
 
-    fig, ax = plt.subplots(figsize=(8.6, 8.0))
+    fig, ax = plt.subplots(figsize=(8.8, 8.2))
     if hub_graph.number_of_nodes() >= 2:
         weights = np.array([d.get("weight", 1) for *_, d in hub_graph.edges(data=True)], dtype=float)
-        widths = 0.4 + 2.2 * (weights / max(weights.max(), 1.0))
+        widths = 0.5 + 2.4 * (weights / max(weights.max(), 1.0))
         out_w = dict(hub_graph.out_degree(weight="weight"))
-        sizes = [280 + 2200 * (out_w.get(n, 0) / max(max(out_w.values()), 1)) for n in hub_graph.nodes]
-        pos = nx.spring_layout(hub_graph, k=1.25, seed=7, weight="weight")
-        nx.draw_networkx_edges(hub_graph, pos, ax=ax, width=widths, alpha=0.28, arrows=True, arrowsize=8)
-        nx.draw_networkx_nodes(hub_graph, pos, ax=ax, node_size=sizes, node_color="#1e407c", alpha=0.9)
+        max_out = max(max(out_w.values()), 1)
+        hubs = [n for n in hub_graph if hub_graph.nodes[n].get("is_hub")]
+        others = [n for n in hub_graph if n not in hubs]
+        pos = nx.spring_layout(hub_graph, k=1.6, seed=7, iterations=80)
+        nx.draw_networkx_edges(hub_graph, pos, ax=ax, width=widths, alpha=0.22, arrows=True, arrowsize=8)
+        if others:
+            nx.draw_networkx_nodes(
+                hub_graph,
+                pos,
+                ax=ax,
+                nodelist=others,
+                node_size=[220 + 900 * (out_w.get(n, 0) / max_out) for n in others],
+                node_color="#1e407c",
+                alpha=0.88,
+            )
+        if hubs:
+            nx.draw_networkx_nodes(
+                hub_graph,
+                pos,
+                ax=ax,
+                nodelist=hubs,
+                node_size=[520 + 1600 * (out_w.get(n, 0) / max_out) for n in hubs],
+                node_color="#b8943a",
+                alpha=0.95,
+            )
         labels = {n: hub_graph.nodes[n].get("label", str(n)) for n in hub_graph.nodes}
         nx.draw_networkx_labels(hub_graph, pos, labels=labels, ax=ax, font_size=7, font_color="#111")
     ax.set_axis_off()
-    ax.set_title("상위 허브 서브그래프 (노드 크기 = Out-degree)")
+    ax.set_title("Top hubs plus strongest partners (gold = hub)")
     fig.tight_layout()
     paths["hubs"] = FIG_DIR / "hub_subgraph.png"
     fig.savefig(paths["hubs"], dpi=140)
@@ -320,17 +349,30 @@ def make_figures(
     return paths
 
 
-def hub_subgraph(df: pd.DataFrame, out_d: pd.Series, annotations: pd.DataFrame, n_hubs: int = 36) -> nx.DiGraph:
-    hubs = list(out_d.sort_values(ascending=False).head(n_hubs).index)
-    sub = restrict_to_bodies(df, hubs)
+def hub_subgraph(
+    df: pd.DataFrame,
+    out_d: pd.Series,
+    annotations: pd.DataFrame,
+    n_hubs: int = 6,
+    partners_per_hub: int = 7,
+) -> nx.DiGraph:
+    """Ego-style graph: top hubs and their strongest in/out partners."""
+    hubs = [int(x) for x in out_d.sort_values(ascending=False).head(n_hubs).index]
+    parts = []
+    for hub in hubs:
+        parts.append(df.loc[df["bodyId_pre"].eq(hub)].nlargest(partners_per_hub, "weight"))
+        parts.append(df.loc[df["bodyId_post"].eq(hub)].nlargest(partners_per_hub, "weight"))
+    sub = pd.concat(parts, ignore_index=True).drop_duplicates(["bodyId_pre", "bodyId_post"])
     G = build_digraph(sub)
     inst = annotations.drop_duplicates("bodyId").set_index("bodyId")
+    hub_set = set(hubs)
     for node in G.nodes:
         if node in inst.index:
             label = _cell(inst.loc[node], "instance") or _cell(inst.loc[node], "type") or str(node)
         else:
             label = str(node)
         G.nodes[node]["label"] = label
+        G.nodes[node]["is_hub"] = node in hub_set
     return G
 
 
@@ -487,6 +529,8 @@ def write_html(results: dict, figures: dict[str, Path], path: Path) -> None:
             주석 테이블에 있는 body만 남기면 노드 {results['n_nodes_annotated']:,}개,
             에지 {results['n_edges_annotated']:,}개가 된다.
             논문의 ~166,700 뉴런에 더 가깝다.</li>
+        <li>status=Traced 뉴런만 남기면 노드 {results['n_nodes_traced']:,}개,
+            에지 {results['n_edges_traced']:,}개다 (논문의 ~166,700개에 가장 가깝다).</li>
         <li>상호 에지 비율(방향만 반대인 쌍이 있는 비율):
             세그먼트 그래프 {results['reciprocal_all']:.1%},
             주석 뉴런 그래프 {results['reciprocal_ann']:.1%}.</li>
@@ -527,6 +571,8 @@ def write_html(results: dict, figures: dict[str, Path], path: Path) -> None:
 
     <section>
       <h2>그림</h2>
+      <p class="note">타입 합산(Mi1, Tm1, L2)이 높은 것은 시각엽 원주 뉴런이 <b>수천 개</b>라서다.
+      개별 랭킹 1~4위는 CT1/APL처럼 한 마리가 넓은 영역을 덮는 GABA 억제 세포다.</p>
       <div class="grid2">
         <div>{img('degree', 'Out-degree distribution')}</div>
         <div>{img('top', 'Top out-degree neurons')}</div>
@@ -583,6 +629,9 @@ def analyze(min_weight: int, data_dir: Path, report_dir: Path) -> dict:
     annotated_ids = annotations["bodyId"].astype("int64")
     df_ann = restrict_to_bodies(df, annotated_ids)
     n_nodes_ann, n_edges_ann = graph_counts(df_ann)
+    traced_ids = annotations.loc[annotations["status"].eq("Traced"), "bodyId"]
+    df_traced = restrict_to_bodies(df, traced_ids)
+    n_nodes_traced, n_edges_traced = graph_counts(df_traced)
 
     recip_all = reciprocal_edge_fraction(df)
     recip_ann = reciprocal_edge_fraction(df_ann)
@@ -619,7 +668,7 @@ def analyze(min_weight: int, data_dir: Path, report_dir: Path) -> dict:
         del G
         gc.collect()
 
-    hubs = hub_subgraph(df, out_d, annotations, n_hubs=36)
+    hubs = hub_subgraph(df, out_d, annotations)
     figures = make_figures(df, out_d, top_out_rows, type_rank, hubs)
 
     results = {
@@ -631,6 +680,8 @@ def analyze(min_weight: int, data_dir: Path, report_dir: Path) -> dict:
         "edge_keep_pct": 100.0 * n_edges / n_edges_raw,
         "n_nodes_annotated": n_nodes_ann,
         "n_edges_annotated": n_edges_ann,
+        "n_nodes_traced": n_nodes_traced,
+        "n_edges_traced": n_edges_traced,
         "reciprocal_all": recip_all,
         "reciprocal_ann": recip_ann,
         "top_senders": top_senders,

@@ -46,8 +46,10 @@ def test_weighted_degrees_match_networkx():
 
     assert G.number_of_nodes() == 3
     assert G.number_of_edges() == 3
-    assert dict(G.out_degree(weight="weight")) == {int(k): int(v) for k, v in out_d.items()}
-    assert dict(G.in_degree(weight="weight")) == {int(k): int(v) for k, v in in_d.items()}
+    nx_out = {int(k): int(v) for k, v in dict(G.out_degree(weight="weight")).items()}
+    nx_in = {int(k): int(v) for k, v in dict(G.in_degree(weight="weight")).items()}
+    assert nx_out == {int(k): int(v) for k, v in out_d.items()}
+    assert nx_in == {int(k): int(v) for k, v in in_d.items()}
 
 
 def test_top_senders_order():
@@ -98,6 +100,17 @@ def test_normalize_accepts_already_renamed_columns():
     out = m.normalize_edgelist(df)
     assert list(out.columns) == ["bodyId_pre", "bodyId_post", "weight"]
     assert int(out.loc[0, "weight"]) == 8
+
+
+def test_hub_subgraph_marks_top_senders():
+    df = m.filter_min_weight(m.normalize_edgelist(_edges()), min_weight=5)
+    out_d, _ = m.weighted_degrees(df)
+    meta = pd.DataFrame(
+        {"bodyId": [1, 2, 3], "type": ["A", "B", "C"], "instance": ["A", "B", "C"]}
+    )
+    G = m.hub_subgraph(df, out_d, meta, n_hubs=1, partners_per_hub=2)
+    hubs = [n for n in G if G.nodes[n].get("is_hub")]
+    assert hubs == [2]
 
 
 def test_missing_weight_column_raises():
