@@ -7,12 +7,12 @@ from pathlib import Path
 
 from docx import Document
 from docx.enum.table import WD_TABLE_ALIGNMENT
-from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_BREAK
 from docx.oxml import parse_xml
 from docx.oxml.ns import nsdecls, qn
 from docx.shared import Cm, Inches, Mm, Pt, RGBColor
 
-OUT_PATH = Path("/workspace/lectures/9월 중순 통합브리핑 (AI속도조절·매크로·메모리).docx")
+OUT_PATH = Path("/workspace/lectures/2026년 9월 중순 통합보고서.docx")
 CHARTS = Path("/workspace/lectures/assets/sep15")
 
 KR_FONT = "맑은 고딕"
@@ -132,11 +132,11 @@ class Notes:
         pf.line_spacing = 1.18
         hp = sec.header.paragraphs[0]
         hp.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-        r = hp.add_run("9월 중순 통합브리핑  ·  AI 속도조절 · Token · 매크로 · 메모리")
+        r = hp.add_run("2026년 9월 중순 통합보고서  ·  AI 속도조절 · Token · 매크로 · 메모리")
         set_run_font(r, size=8.5, color=GRAY)
         fp = sec.footer.paragraphs[0]
         fp.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        r = fp.add_run("PDF 17개 + Quick 코멘트 통합  ·  숫자·시나리오는 원문 기준  ·  ")
+        r = fp.add_run("원문 17개 + Quick 코멘트 통합  ·  숫자·시나리오는 원문 기준  ·  ")
         set_run_font(r, size=8, color=GRAY)
         fp._p.append(
             parse_xml(
@@ -147,9 +147,9 @@ class Notes:
             )
         )
         core = self.doc.core_properties
-        core.title = "9월 중순 통합브리핑 (AI속도조절·매크로·메모리)"
+        core.title = "2026년 9월 중순 통합보고서"
         core.author = "준혁"
-        core.subject = "AI pacing, token economy, macro new normal, memory valuation"
+        core.subject = "AI 속도조절 · Token Economy · 매크로 New Normal · 메모리"
 
     def p(self, text, size=11, bold=False, color=DARK, space_after=6, space_before=0, align="left"):
         para = self.doc.add_paragraph()
@@ -282,6 +282,11 @@ class Notes:
         if caption:
             self.p(caption, size=8.5, color=GRAY, space_after=10, align="center")
 
+    def page_break(self):
+        p = self.doc.add_paragraph()
+        p.paragraph_format.space_after = Pt(0)
+        p.add_run().add_break(WD_BREAK.PAGE)
+
     def save(self, path: Path):
         path.parent.mkdir(parents=True, exist_ok=True)
         self.doc.save(str(path))
@@ -289,21 +294,24 @@ class Notes:
 
 def build():
     n = Notes()
-    n.p("2026. 9. 11–15  ·  PDF 17개 + Quick 코멘트 통합", size=10.5, color=GRAY, align="center", space_after=4)
-    n.p("통합 브리핑", size=13, bold=True, color=GOLD, align="center", space_after=2)
-    n.p("AI 속도조절론 · Token Economy · 매크로 New Normal", size=20, bold=True, color=NAVY, align="center", space_after=2)
-    n.p("결국 현재 속도로도 생산성 이득은 충분한가", size=15, bold=True, color=NAVY2, align="center", space_after=10)
+    n.p("CONFIDENTIAL  ·  내부용 통합보고서", size=10, color=GOLD, align="center", space_after=18)
+    n.p("2026년 9월 중순", size=13, bold=True, color=GOLD, align="center", space_after=4)
+    n.p("통합보고서", size=28, bold=True, color=NAVY, align="center", space_after=6)
+    n.p("AI 속도조절론 · Token Economy · 매크로 New Normal · 메모리", size=14, bold=True, color=NAVY2, align="center", space_after=8)
+    n.p("원문 17개와 Quick 코멘트를 하나의 문서로 통합", size=11, color=GRAY, align="center", space_after=4)
+    n.p("기준일  2026. 9. 11–15", size=10.5, color=GRAY, align="center", space_after=14)
 
     n.callout(
-        "한 장으로 보면",
+        "이 보고서의 결론",
         [
-            "「Pacing the Frontier」≠ AI 인프라 Peak-out. 더 강한 모델 → 더 많은 토큰.",
-            "9/14 SOX 급락은 수요 훼손보다 속도조절 우려 + 10년물 5% + 유가 $100대가 겹친 Risk-off.",
-            "지금은 Peak-out이 아니라 Timing Risk 점검. KEY는 Frontier가 늦어도 현재 AI+Agent만으로 Capex가 지속되느냐.",
+            "「Pacing the Frontier」는 AI 인프라 Peak-out이 아니다. 더 강한 모델에서 더 많은 토큰으로 투자 축이 이동한다.",
+            "9/14 SOX 급락은 수요 훼손보다 속도조절 우려 + 10년물 5% + 유가 $100대가 겹친 Risk-off다.",
+            "지금은 Peak-out이 아니라 Timing Risk를 점검할 단계다. KEY는 Frontier가 늦어도 현재 AI+Agent만으로 Capex가 지속되느냐다.",
+            "이 파일 하나만 보시면 됩니다. 차트·도표·종목 논점은 본문에 모두 들어 있습니다.",
         ],
     )
 
-    n.h2("구성")
+    n.h2("목차")
     n.table(
         ["파트", "주제", "가져갈 한 줄"],
         [
@@ -316,9 +324,11 @@ def build():
             ["6", "전력", "상품은 효율이 아니라 Time-to-Power"],
             ["7", "종목", "SFA · PSK · BH · 휴머노이드 · Oracle · 무라타"],
             ["8", "체크리스트", "가이던스→발주→가동→출시 연속 지연만 Downside"],
+            ["부록", "자료 목록", "원문 17개와 이 보고서 파트의 대응"],
         ],
         col_widths=[2.0, 5.2, 10.4],
     )
+    n.page_break()
 
     # 0
     n.h1("오늘 숫자 한 장", num="0.")
@@ -634,12 +644,37 @@ def build():
         ],
         kind="bull",
     )
-    n.p(
-        "자료: AI 속도조절 2견해 · 종말론/생산성 · Pacing the Frontier · 연료전지 · 9/11–14 강의 · "
-        "Where is market headed · S&P PER vs 10년 · 메모리 밸류 · TalkFile · 매크로 9.14 · "
-        "7월 말 대비 · SFA반도체 및 당일 Quick 코멘트.",
-        size=8.5,
-        color=GRAY,
+    n.page_break()
+    n.h1("부록 — 원문과 이 보고서의 대응", num="A.")
+    n.p("아래 원문을 이 한 권에 통합했습니다. 숫자와 시나리오는 원문 표기를 재구성한 것입니다.")
+    n.table(
+        ["원문", "이 보고서"],
+        [
+            ["AI 속도조절론의 2가지 다른 견해", "1. 견해 A(Timing) vs 견해 B(RSI·빅테크)"],
+            ["AI종말론, 속도조절론, 생산성 이득", "3. KEY 질문. 표지 결론문"],
+            ["Pacing the Frontier", "2. Token Economy · NVDA vs Memory"],
+            ["AI 종말론까지 말이 나오면", "1. 네 독해 프레임"],
+            ["TalkFile_ai개발속도 조절론", "1. Perp, Trump, 포지션 맵"],
+            ["9월 14일 미국장 & 생산성의 확장", "3–4. 9/14 Risk-off, KEY"],
+            ["Where is market headed / 매크로 9.14", "4. 금리 New Normal, 유가, 엔화"],
+            ["9월 13일 장기금리 · Astra·ASIC · 젠슨", "2. ASIC, 젠슨 10포인트 / 4. 장기채"],
+            ["9월 11·12일 강의", "4–5. CPI, SOX, 애플, Oracle"],
+            ["7월 말 대비 달라진 것", "0. 수익률 차트"],
+            ["S&P500 PER vs 10년물", "4. PER 역사 · EY vs 5%"],
+            ["메모리 가격 밸류에이션 9/11·9/14", "5. PER 비교, ADR 프리미엄"],
+            ["연료전지", "6. Time-to-Power, 두산"],
+            ["SFA반도체", "7. DDR5 외주 · 온양 HBM"],
+            ["Quick 코멘트 (PSK, BH, 휴머노이드, 무라타,\n신정법, 사모대출, Grok, Apple 가격 등)", "5·7·곁가지"],
+        ],
+        col_widths=[8.6, 9.0],
+    )
+    n.callout(
+        "이 파일만 보시면 됩니다",
+        [
+            "차트 12장, 표, 흐름도, 종목 논점을 이 워드 한 권에 넣었습니다.",
+            "재생성: python3 /workspace/scripts/sep15_charts.py && python3 /workspace/scripts/generate_sep15_briefing.py",
+        ],
+        kind="key",
     )
     n.save(OUT_PATH)
     print(OUT_PATH)
