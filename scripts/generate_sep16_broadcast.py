@@ -135,7 +135,17 @@ def add_runs(paragraph, parts, size=11, color=DARK):
 
 
 class Notes:
-    def __init__(self):
+    def __init__(
+        self,
+        header="9/16  3영상 통합  ·  노근창 · 박병창 · 금리해설  ·  강의노트",
+        footer="타임코드는 각 영상 자체 시계  ·  검증은 2026-09-16 공개 보도  ·  ",
+        title="9월 16일 시장·반도체·금리 (3영상 통합)",
+        subject="노근창 반도체, 박병창 박스권·FOMC, 금리·자금조달·지배구조",
+    ):
+        self.header_text = header
+        self.footer_text = footer
+        self.title_text = title
+        self.subject_text = subject
         self.doc = Document()
         self._setup()
 
@@ -164,14 +174,14 @@ class Notes:
         header.is_linked_to_previous = False
         hp = header.paragraphs[0]
         hp.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-        r = hp.add_run("9/16  3영상 통합  ·  노근창 · 박병창 · 금리해설  ·  강의노트")
+        r = hp.add_run(self.header_text)
         set_run_font(r, size=8.5, color=GRAY)
 
         footer = sec.footer
         footer.is_linked_to_previous = False
         fp = footer.paragraphs[0]
         fp.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        r = fp.add_run("타임코드는 각 영상 자체 시계  ·  검증은 2026-09-16 공개 보도  ·  ")
+        r = fp.add_run(self.footer_text)
         set_run_font(r, size=8, color=GRAY)
         fld = parse_xml(
             f'<w:fldSimple {nsdecls("w")} w:instr=" PAGE ">'
@@ -182,9 +192,9 @@ class Notes:
         fp._p.append(fld)
 
         core = self.doc.core_properties
-        core.title = "9월 16일 시장·반도체·금리 (3영상 통합)"
+        core.title = self.title_text
         core.author = "준혁"
-        core.subject = "노근창 반도체, 박병창 박스권·FOMC, 금리·자금조달·지배구조"
+        core.subject = self.subject_text
 
     def p(self, text, size=11, bold=False, color=DARK, space_after=6, space_before=0, align="left"):
         para = self.doc.add_paragraph()
