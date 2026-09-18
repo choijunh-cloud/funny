@@ -307,6 +307,104 @@ def chart_power_deal() -> Path:
     return _save(fig, "08_generac.png")
 
 
+def chart_bottoms() -> Path:
+    fig, axes = plt.subplots(1, 3, figsize=(8.6, 3.75))
+    specs = [
+        (
+            "V자 — 제일 안 나옴",
+            [0, 0.35, 0.55, 0.78, 1.0],
+            [0.92, 0.52, 0.42, 0.82, 1.00],
+            GREEN,
+            "2003 이라크 · 2020 팬데믹\n양적완화 없이 드묾",
+        ),
+        (
+            "W자 — 제일 많음",
+            [0, 0.22, 0.40, 0.58, 0.78, 1.0],
+            [1.00, 0.44, 0.70, 0.48, 0.66, 0.92],
+            GOLD,
+            "2~4개월 소화 · 전저점 필수 아님\n이은택: 지금 여기",
+        ),
+        (
+            "트리플 — 위기형",
+            [0, 0.16, 0.32, 0.48, 0.64, 0.80, 1.0],
+            [1.00, 0.52, 0.72, 0.48, 0.70, 0.44, 0.94],
+            RED,
+            "1998 · 2000 · 2008\n2~3분기 · 지금은 해당 없음",
+        ),
+    ]
+    for ax, (title, xs, ys, color, note) in zip(axes, specs):
+        ax.plot(xs, ys, color=color, lw=2.4)
+        ax.fill_between(xs, ys, 0.40, color=color, alpha=0.10)
+        ax.set_xlim(0, 1)
+        ax.set_ylim(0.28, 1.08)
+        ax.set_xticks([])
+        ax.set_yticks([])
+        ax.set_title(title, color=NAVY, fontsize=10.5, fontweight="bold", pad=8)
+        ax.text(0.5, 0.03, note, ha="center", va="bottom", fontsize=8, color=GRAY, transform=ax.transAxes)
+        for s in ax.spines.values():
+            s.set_color("#D5DCE6")
+    fig.suptitle("25%+ 급락 뒤 바닥은 세 종류  —  차트로 전망하지 말고 심리로 읽는다", color=NAVY, fontsize=11.5, fontweight="bold", y=1.02)
+    fig.tight_layout()
+    return _save(fig, "10_bottom_shapes.png")
+
+
+def chart_and_gate() -> Path:
+    fig, ax = plt.subplots(figsize=(8.6, 3.75))
+    ax.set_xlim(0, 10)
+    ax.set_ylim(0, 4.2)
+    ax.axis("off")
+    ax.text(5, 3.95, "버블 붕괴는 OR가 아니라 AND  —  5월 Gravity Rules", ha="center", fontsize=12, color=NAVY, fontweight="bold")
+
+    left = FancyBboxPatch((0.25, 1.15), 4.3, 2.45, boxstyle="round,pad=0.04,rounding_size=0.12", facecolor="#FFF8E7", edgecolor=GOLD, lw=1.8)
+    right = FancyBboxPatch((5.45, 1.15), 4.3, 2.45, boxstyle="round,pad=0.04,rounding_size=0.12", facecolor="#E8F1FB", edgecolor=NAVY2, lw=1.8)
+    ax.add_patch(left)
+    ax.add_patch(right)
+    ax.text(2.4, 3.28, "1. Breaking New Highs", ha="center", fontsize=11, color=NAVY, fontweight="bold")
+    ax.text(7.6, 3.28, "2. No Way Back", ha="center", fontsize=11, color=NAVY, fontweight="bold")
+    ax.text(2.4, 2.45, "10년물 5.0~5.3%\n터치가 아니라 추세 돌파\n이번 주 5.041 → 4.95", ha="center", va="center", fontsize=9, color=GRAY)
+    ax.text(7.6, 2.45, "인플레가 외통수여야 함\n헤드라인 3.4% 횡보\n코어 2.5→2.4 하향", ha="center", va="center", fontsize=9, color=GRAY)
+    ax.text(2.4, 1.42, "미충족  ·  조건 해제", ha="center", fontsize=10, color=GOLD, fontweight="bold")
+    ax.text(7.6, 1.42, "미충족  ·  아직 하향", ha="center", fontsize=10, color=NAVY2, fontweight="bold")
+    ax.text(5, 0.55, "AND", ha="center", fontsize=13, color=RED, fontweight="bold")
+    ax.text(5, 0.18, "지금은 붕괴 시그널이 아니다. 5%는 위험 신호일 뿐 방아쇠가 아님", ha="center", fontsize=8.2, color=GRAY)
+    return _save(fig, "11_and_gate.png")
+
+
+def chart_misery() -> Path:
+    fig, ax = plt.subplots(figsize=(8.6, 3.75))
+    ax.set_xlim(0, 10)
+    ax.set_ylim(0, 4.2)
+    ax.axis("off")
+    ax.text(5, 3.92, "꿀팁 두 개  —  고통지수의 왕 + 주가가 GDP를 선행", ha="center", fontsize=11.5, color=NAVY, fontweight="bold")
+
+    left = FancyBboxPatch((0.25, 0.55), 4.55, 3.05, boxstyle="round,pad=0.04,rounding_size=0.14", facecolor="#FDECEA", edgecolor=RED, lw=1.6)
+    right = FancyBboxPatch((5.2, 0.55), 4.55, 3.05, boxstyle="round,pad=0.04,rounding_size=0.14", facecolor="#E8F5E9", edgecolor=GREEN, lw=1.6)
+    ax.add_patch(left)
+    ax.add_patch(right)
+    ax.text(2.52, 3.25, "고통지수 = 실업 + 물가", ha="center", fontsize=11, color=NAVY, fontweight="bold")
+    ax.text(7.47, 3.25, "주가가 GDP를 6~12개월 선행", ha="center", fontsize=11, color=NAVY, fontweight="bold")
+    ax.text(
+        2.52,
+        2.15,
+        "저물가: 실업률이 왕\n실업↑ → 주식 매도\n고물가: 인플레가 왕\n2022 CPI 6월 9.1%\n→ S&P 10/12, 코스피 9/30",
+        ha="center",
+        va="center",
+        fontsize=8.8,
+        color=GRAY,
+    )
+    ax.text(
+        7.47,
+        2.15,
+        "같은 해 주가↔GDP 는 약함\n작년 코스피 → 올해 성장\n2025 +75.6% (이사 70%)\n한은 연초 1.6~1.8\nCiti 지금은 3.7",
+        ha="center",
+        va="center",
+        fontsize=8.8,
+        color=GRAY,
+    )
+    ax.text(5, 0.22, "폭락 뒤 6~12개월은 성장 하향 → 장기채. 내년 GDP로 지금 주가를 끌 수는 없다.", ha="center", fontsize=8, color=GRAY)
+    return _save(fig, "12_misery_lead.png")
+
+
 def chart_flywheel() -> Path:
     fig, ax = plt.subplots(figsize=(8.6, 3.75))
     ax.set_xlim(0, 10)
@@ -338,6 +436,9 @@ def main():
         chart_korea_gdp(),
         chart_power_deal(),
         chart_flywheel(),
+        chart_bottoms(),
+        chart_and_gate(),
+        chart_misery(),
     ]
     for p in paths:
         print(p, p.stat().st_size)

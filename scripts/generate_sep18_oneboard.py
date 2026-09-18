@@ -17,7 +17,7 @@ def uri(name: str) -> str:
 
 
 def html() -> str:
-    c1, c2, c3, c4, c5, c6, c7, c8, c9 = (
+    c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12 = (
         uri("01_market_rebound.png"),
         uri("02_flows.png"),
         uri("03_boj_yen.png"),
@@ -27,6 +27,9 @@ def html() -> str:
         uri("06_us_footprint.png"),
         uri("08_generac.png"),
         uri("07_korea_gdp.png"),
+        uri("10_bottom_shapes.png"),
+        uri("11_and_gate.png"),
+        uri("12_misery_lead.png"),
     )
     return f"""<!DOCTYPE html>
 <html lang="ko">
@@ -89,13 +92,12 @@ tr:nth-child(even) td {{ background:#f7f9fc; }}
 </head>
 <body>
 <div class="board">
-  <div class="kicker">2026.09.18  ·  FOMC 다음날 + BOJ 인상일  ·  영상 5편 + 퀵코멘트  ·  시각화 보드</div>
-  <h1>산은 넘었다. 노드는 메모리 → 전력. 미국 3축은 아직 검토다</h1>
+  <div class="kicker">2026.09.18  ·  FOMC 다음날 + BOJ 인상일  ·  영상 6편 + 퀵코멘트  ·  시각화 보드</div>
+  <h1>산은 넘었다. 바닥은 W. 5%는 터치일 뿐 AND가 안 켜졌다</h1>
   <div class="hero">
-    <b>한 장.</b> 연준·BOJ가 올린 뒤에도 주식은 안도했다. 알려진 인상은 악재가 아니었다.
-    정지훈의 프레임은 그대로다. <b>병목=노드=돈</b>. 연산은 풀렸고 지금은 메모리다.
-    에너지는 가장 복제하기 어렵다. Amazon–Generac $24억이 그 영수증이다.
-    하이닉스 미국은 Indiana(확정) · Ohio(협의) · New York(검토) 세 줄이다. 확정 뉴스가 아니다.
+    <b>한 장.</b> 이은택(자막 이윤택은 오역): 25%+ 급락의 바닥은 V보다 <b>W</b>가 많다. 지금은 두 번째 바닥을 만드는 과정이다.
+    버블 붕괴는 금리 5.0~5.3% <b>추세 돌파</b>와 인플레 <b>No Way Back</b>의 AND다. 이번 주 10년 5.04 터치는 해제됐다.
+    정지훈의 프레임은 그대로다. <b>병목=노드=돈</b>. 연산은 풀렸고 지금은 메모리, 다음 영수증은 전력이다.
   </div>
 
   <div class="kpi">
@@ -105,8 +107,8 @@ tr:nth-child(even) td {{ background:#f7f9fc; }}
     <div><h3>BOJ</h3><div class="n">1.25%</div><p>7–2 · 아사다·사토 반대</p></div>
     <div><h3>원/달러</h3><div class="n">1,383.3</div><p>+1.1원 · 엔 157.12</p></div>
     <div><h3>국고 10년</h3><div class="n">4.466%</div><p>−4.0bp · 장기물 낙폭</p></div>
-    <div><h3>개인 매도</h3><div class="n">−3.59조</div><p>기관+1.50 · 법인+1.67</p></div>
-    <div><h3>젠슨</h3><div class="n">칩 2배</div><p>대수. 매출 +70%는 FY28</p></div>
+    <div><h3>개인 매도</h3><div class="n">−3.59조</div><p>9월 초중순만 15조+</p></div>
+    <div><h3>미 10년</h3><div class="n">4.95%</div><p>주중 5.04 터치 후 해제</p></div>
   </div>
 
   <div class="grid">
@@ -153,7 +155,30 @@ tr:nth-child(even) td {{ background:#f7f9fc; }}
         <li><b>문남중</b> 7월 PCE 3.7 − 기금 3.75 ≈ 실질정책금리 +0.05. 플러스 구간에서는 주식이 버틴다.</li>
         <li><b>증시각도기</b> 대출금리는 국채보다 늦게 오른다. 긴축 효과는 약 6개월 시차 → 28년을 조심.</li>
       </ul>
-      <div class="risk">다음 흔들림: 10년 5% 재돌파 · WTI $105–110 · 12월 추가 인상 · 하이퍼스케일러 부외리스($1.7조 표 vs $3조 추정, 박승진).</div>
+      <div class="risk">다음 흔들림: 10년 5.0~5.3% <b>추세</b> 돌파 + 인플레 재가속 · WTI $105–110 · 12월 추가 인상 · 부외리스($1.7조 표 vs $3조 추정).</div>
+    </div>
+
+    <div class="card">
+      <h2>4b. 이은택 — 바닥은 V가 아니라 W</h2>
+      <img src="{c10}" alt="V W 트리플 바닥"/>
+      <ul>
+        <li><span class="tag f">사실</span>고점 6/22 <b>9,114.55</b> → 7/30 <b>5,593.56</b> = <span class="neg">−38.6%</span>. 이사는 “30% 정도”로 반올림.</li>
+        <li>25%+ 급락은 10년에 세 번 안팎. V는 희귀(2003 이라크, 2020 팬데믹). 트리플은 1998·2000·2008 위기형.</li>
+        <li><span class="tag i">해석</span>제일 많은 건 W(쌍바닥). 기간 조정 2~4개월. 전저점 재방문은 필수가 아니다. 지금은 두 번째 바닥 형성.</li>
+        <li><span class="tag f">사실</span>9월 1–10일 개인 순매도 약 <b>15.6조</b>. “첫 바닥 이후 15~17조”와 맞는다. 오늘 −3.59조가 그 연장.</li>
+      </ul>
+      <div class="note">차트로 전망하지 않는다. 급락 뒤 한 번에 안 털고, 두 번째 바닥에서 지쳐 판다. 그 수급이 가벼워져야 W가 완성된다.</div>
+    </div>
+    <div class="card">
+      <h2>4c. Gravity Rules — 5%는 AND의 한쪽</h2>
+      <img src="{c11}" alt="버블 붕괴 AND 게이트"/>
+      <ul>
+        <li>5월 노트: 빅테크는 캡엑스를 못 멈춘다. 꺾는 쪽은 <b>자본공급자</b>(은행·보험·국부펀드).</li>
+        <li><span class="tag f">사실</span>7/22 알파벳 캡엑스 $195–205B로 상향, 다음날 주가 약 −7%. 캡엑스 증액이 붕괴 변수가 아님을 보여 준 날.</li>
+        <li>조건 1 <b>Breaking New Highs</b>: 5.0~5.3%를 추세로. 주중 고가 5.041, 금요일 4.951 → 터치 후 해제.</li>
+        <li>조건 2 <b>No Way Back</b>: 인플레가 외통수. <span class="tag p">부분</span>이사는 3.0→2.6 하향. 헤드라인은 3.4% 횡보, 코어만 2.5→2.4.</li>
+      </ul>
+      <div class="ok">둘 다 켜져야 붕괴. 지금은 아님. 5%는 위험 신호이지 방아쇠가 아니다. 노트 3번째 시그널(OpenAI IPO 실패)은 오늘 방송에 안 나옴.</div>
     </div>
 
     <div class="card wide">
@@ -217,15 +242,28 @@ tr:nth-child(even) td {{ background:#f7f9fc; }}
       <ul>
         <li>반도체 수출 +175%(26) / +41%(27). 실질 +3.2%p, 명목 +15.6%p. 명목 GDP 25%는 1981년 이후 최고 가정.</li>
         <li>한은 8월 3.3 / 2.9보다 위. LTA 선수금이 투자를 고정한다.</li>
+        <li><span class="tag p">부분</span>이은택: 작년 코스피 +70%면 연초 한은 1.6~1.8은 낮다. 실제 2025년은 <b>+75.6%</b>. 주가가 GDP를 6~12개월 선행.</li>
         <li>문남중: 원화가 1,300초까지 내려온 구간은 삼전·닉스 환차손 3–5조 부담. 지금은 1,380대로 되돌림.</li>
-        <li>빈센트: 펀더멘털은 아래, 심리는 위 → 환율은 횡보. 1,400 재돌파해도 예전 같은 공포는 덜할 것.</li>
       </ul>
     </div>
 
     <div class="card wide">
-      <h2>10. 다섯 방송이 겹치는 곳 · 갈리는 곳</h2>
+      <h2>9b. 이은택 꿀팁 — 고통지수의 왕, 주가가 GDP를 선행</h2>
+      <img src="{c12}" alt="고통지수와 주가 선행"/>
+      <ul>
+        <li>오쿤 고통지수 = 실업률 + 인플레. 저물가 때는 실업이 왕(실업↑ → 매도). 고물가 때는 인플레가 왕.</li>
+        <li><span class="tag p">부분</span>2022 공식: CPI 고점 다음 분기에 산다. 이사는 7월 전후. 실제 고점은 <b>6월 9.1%</b>. S&amp;P 저점 10/12, 코스피 종가 저점 9/30.</li>
+        <li>같은 해 주가와 GDP는 약하거나 역. 작년 주가 → 올해 성장. 폭락 뒤 6~12개월은 장기채 쪽.</li>
+        <li>한국 10년은 “8부능선”. 국고 종가 4.466%(−4bp). 금리 방향은 은행·보험 트레이딩에 쓴다.</li>
+      </ul>
+      <div class="blue">내년 GDP로 지금 주가를 끌 수는 없다. 선행하는 쪽이 먼저 간다. 후행을 맞춰 선형을 만들 수 없다.</div>
+    </div>
+
+    <div class="card wide">
+      <h2>10. 여섯 방송이 겹치는 곳 · 갈리는 곳</h2>
       <div class="src">
         <div><b>정지훈 · 노드</b>병목이 돈이다. 지금은 메모리. 다음 에너지는 효율·광·SMR. 디지털+피지컬 이중 플라이휠.</div>
+        <div><b>이은택 · Gravity</b>바닥은 W. 붕괴는 5.0~5.3 추세 AND No Way Back. 빅테크는 못 멈추고 자본공급자가 멈춘다.</div>
         <div><b>증시각도기</b>KOSPI 6,900 턱밑. 외인 매도 정지. BOJ 인상에도 엔 약세. Generac → 전선. 속도조절 기구 무산.</div>
         <div><b>문남중</b>불확실성 제거. 실질정책금리 +. 엔캐리 과장. 속도조절은 노이즈. 추석 전 쉬고 후에 반등. HBM·전력·DC.</div>
         <div><b>박승진</b>점도표 &lt; 시장. 12월 인상 가능성. 반도체는 최전방이라 변동성 큼 → XLK·IYW·BAI·CHAT. 내년 이익증가율 둔화, 소비 바닥.</div>
@@ -234,7 +272,8 @@ tr:nth-child(even) td {{ background:#f7f9fc; }}
       </div>
       <table>
         <tr><th>주제</th><th>합의</th><th>온도 차</th></tr>
-        <tr><td>금리 vs 주식</td><td>성장 있는 인상이면 버틴다</td><td>박승진·빈센트는 울퉁불퉁, 증시각도기는 28년 시차</td></tr>
+        <tr><td>금리 vs 주식</td><td>성장 있는 인상이면 버틴다. 5% 터치 ≠ 붕괴</td><td>이은택은 AND, 빈센트는 5% 집착 말 것, 증시각도기는 28년 시차</td></tr>
+        <tr><td>바닥 형태</td><td>급락 뒤 바로 V는 드묾</td><td>이은택만 W 2차 바닥으로 위치 지정</td></tr>
         <tr><td>속도조절</td><td>노이즈. 중국은 안 멈춤</td><td>빈센트는 중간선거·데이터센터 정치로 치환</td></tr>
         <tr><td>주도</td><td>메모리 + 전력 + DC</td><td>박승진은 종목 대신 IT ETF, 입담화는 소부장·기판</td></tr>
         <tr><td>미국 공장</td><td>탐색·검토</td><td>주가에 이미 기대가 들어갔는지는 미확인</td></tr>
@@ -256,16 +295,16 @@ tr:nth-child(even) td {{ background:#f7f9fc; }}
           </ul>
         </div>
         <div>
-          <div class="risk">쓰지 말 것 = Ohio/NY 투자 확정 · 젠슨 2배=매출 2배 · 원/달러 1,587 · 매일 1.6조 자사주 · CXMT NAND 즉각 공급 해소 · 속도조절=캡엑스 종료 · AEMA=전력기기 소멸</div>
-          <div class="ok">사실로 쓸 것 = KOSPI 6,894.23 · BOJ 1.25% 7–2 · Solidigm 검토 · Citi 메모리 2031 · Generac $24억/$80억 · 젠슨 칩 대수 2배 · 원/달러 1,383.3</div>
+          <div class="risk">쓰지 말 것 = Ohio/NY 투자 확정 · 젠슨 2배=매출 2배 · 원/달러 1,587 · 매일 1.6조 자사주 · 10년 5% 터치=버블 붕괴 · 코스피 −30%를 정확한 낙폭 · 헤드라인 물가 하향 확정 · 이윤택(이은택) · CXMT 즉각 공급 해소 · AEMA=전력기기 소멸</div>
+          <div class="ok">사실로 쓸 것 = KOSPI 6,894.23 · 고점 대비 −38.6%(7/30) · 미 10년 주중 5.04→4.95 · BOJ 1.25% 7–2 · 9월 개인 15조+ · Solidigm 검토 · Citi 메모리 2031 · Generac $24억/$80억 · 원/달러 1,383.3</div>
           <div class="hero" style="margin:8px 0 0;">
-            <b>가을 확인 넷.</b> 10/1 마이크론 마진 · DevDay(9/29) 에이전트·토큰 · Ohio/NY가 계약으로 넘어가는지 · 10년 5%와 유가 $100이 다시 붙는지.
+            <b>가을 확인 넷.</b> 10년 5.0~5.3% <b>추세</b> + 물가 재가속(AND) · 10/1 마이크론 마진 · DevDay(9/29) 토큰 · Ohio/NY가 계약인지.
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="foot">출처 교차: 거래소·연합뉴스·BOJ 성명·Reuters(Solidigm/CXMT/Generac)·Citi·CNBC(젠슨)·8-K. 영상=정지훈, 증시각도기, 문남중, 박승진, 빈센트, 입담화 + 퀵코멘트. 사실/부분/해석을 갈랐다.</div>
+  <div class="foot">출처 교차: 거래소·연합뉴스·BOJ 성명·Reuters·Citi·CNBC·8-K·BLS·Fed H.15·KB증권 Gravity Rules(5/29). 영상=정지훈, 이은택, 증시각도기, 문남중, 박승진, 빈센트, 입담화 + 퀵코멘트. 사실/부분/해석을 갈랐다.</div>
 </div>
 </body>
 </html>
