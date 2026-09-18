@@ -52,6 +52,7 @@ def _font():
             plt.rcParams["font.family"] = name
             break
     plt.rcParams["axes.unicode_minus"] = False
+    plt.rcParams["axes.formatter.use_mathtext"] = False
     plt.rcParams["figure.facecolor"] = "white"
     plt.rcParams["axes.facecolor"] = "white"
     plt.rcParams["axes.edgecolor"] = "#D5DCE6"
@@ -424,6 +425,108 @@ def chart_flywheel() -> Path:
     return _save(fig, "09_flywheel.png")
 
 
+def chart_box() -> Path:
+    fig, ax = plt.subplots(figsize=(8.6, 3.75))
+    xs = [0.00, 0.18, 0.38, 0.58, 0.78, 1.00]
+    ys = [9115, 7800, 5594, 6800, 6400, 6894]
+    ax.plot(xs, ys, color=NAVY, lw=2.4)
+    ax.fill_between(xs, ys, 5200, color=NAVY2, alpha=0.08)
+    ax.axhspan(7150, 7200, color=GOLD, alpha=0.18, zorder=0)
+    ax.axhline(9115, color=GOLD, ls="--", lw=1.0)
+    ax.axhline(8000, color=RED, ls=":", lw=1.1)
+    ax.axhline(6000, color=GRAY, ls="--", lw=1.0)
+    ax.axhline(5594, color=RED, ls=":", lw=0.9)
+    ax.scatter([1.0], [6894], color=GREEN, s=36, zorder=3)
+    ax.text(1.0, 7020, "9/18  6,894", ha="right", fontsize=8, color=GREEN, fontweight="bold")
+    ax.text(0.18, 9280, "6/22 고점 9,115", fontsize=7.5, color=GOLD)
+    ax.text(0.18, 8120, "윤지호: 8,000은 아직 안 연다", fontsize=7.5, color=RED)
+    ax.text(0.50, 7360, "7,150-7,200  네 번째 시도", fontsize=8, color=NAVY, fontweight="bold")
+    ax.text(0.18, 6180, "6,000 지지, 트레이딩 바이", fontsize=7.5, color=GRAY)
+    ax.text(0.38, 5380, "7/30  5,594", fontsize=7.5, color=RED)
+    ax.set_xlim(0, 1)
+    ax.set_ylim(5200, 9600)
+    ax.set_xticks([])
+    ax.set_yticks([5600, 6000, 6900, 7200, 8000, 9100])
+    ax.set_title("윤지호 박스  —  위로도 아래로도 쉽지 않다", color=NAVY, fontsize=12, fontweight="bold")
+    ax.text(
+        0.5,
+        -0.08,
+        "추세 상승을 기대하기는 어렵다. 답이 나와야 상단이 열린다. 숫자는 종가, 고점, 저점.",
+        ha="center",
+        va="top",
+        fontsize=7.6,
+        color=GRAY,
+        transform=ax.transAxes,
+    )
+    return _save(fig, "13_box_range.png")
+
+
+def chart_nvidia_cash() -> Path:
+    fig, ax = plt.subplots(figsize=(8.6, 3.75))
+    labels = ["매출총이익률", "순이익 대비 영업현금"]
+    vals = [75.0, 40.3]
+    colors = [NAVY2, RED]
+    bars = ax.bar(labels, vals, color=colors, width=0.55)
+    ax.set_ylim(0, 100)
+    ax.set_ylabel("퍼센트", color=GRAY)
+    for bar, v in zip(bars, vals):
+        ax.text(bar.get_x() + bar.get_width() / 2, v + 2.2, f"{v:.1f} pct", ha="center", fontsize=12, color=NAVY, fontweight="bold")
+    ax.set_title("엔비디아 Q2 FY27  —  마진 75, 현금은 40", color=NAVY, fontsize=12, fontweight="bold")
+    ax.text(
+        0.5,
+        -0.16,
+        "매출 96.2B, 순이익 59.7B, 영업현금 24.1B. 매출채권 63.1B, DSO 45일에서 60일.\n"
+        "지분증권 평가이익 Q2 7.8B / 상반기 23.7B. CDS 7월 급등은 미확인.",
+        ha="center",
+        va="top",
+        fontsize=7.6,
+        color=GRAY,
+        transform=ax.transAxes,
+    )
+    return _save(fig, "14_nvidia_cash.png")
+
+
+def chart_token_pq() -> Path:
+    fig, ax = plt.subplots(figsize=(8.6, 3.75))
+    ax.set_xlim(0, 10)
+    ax.set_ylim(0, 4.2)
+    ax.axis("off")
+    ax.text(5, 3.92, "토큰은 P가 내려도 Q가 더 늘면 돈이 돈다", ha="center", fontsize=12, color=NAVY, fontweight="bold")
+    left = FancyBboxPatch((0.25, 0.7), 4.55, 2.85, boxstyle="round,pad=0.04,rounding_size=0.14", facecolor="#FDECEA", edgecolor=RED, lw=1.6)
+    right = FancyBboxPatch((5.2, 0.7), 4.55, 2.85, boxstyle="round,pad=0.04,rounding_size=0.14", facecolor="#E8F5E9", edgecolor=GREEN, lw=1.6)
+    ax.add_patch(left)
+    ax.add_patch(right)
+    ax.text(2.52, 3.22, "P  ↓   단가", ha="center", fontsize=12, color=RED, fontweight="bold")
+    ax.text(7.47, 3.22, "Q  ↑   사용량", ha="center", fontsize=12, color=GREEN, fontweight="bold")
+    ax.text(
+        2.52,
+        2.05,
+        "OpenRouter 가중단가\n8월 MoM -28 pct\nYoY -56 pct\nCiti 추론단가 1.33달러",
+        ha="center",
+        va="center",
+        fontsize=8.8,
+        color=GRAY,
+    )
+    ax.text(
+        7.47,
+        2.05,
+        "OpenRouter 볼륨\n8월 MoM +47 pct\nYoY 28배\n지출은 +7 pct / 12배",
+        ha="center",
+        va="center",
+        fontsize=8.8,
+        color=GRAY,
+    )
+    ax.text(
+        5,
+        0.28,
+        "방송 31 pct, 2,400 pct, 초당 1,000억은 원소스를 못 박지 못함. 방향은 JPM이 받는다.",
+        ha="center",
+        fontsize=7.8,
+        color=GRAY,
+    )
+    return _save(fig, "15_token_pq.png")
+
+
 def main():
     _font()
     paths = [
@@ -439,6 +542,9 @@ def main():
         chart_bottoms(),
         chart_and_gate(),
         chart_misery(),
+        chart_box(),
+        chart_nvidia_cash(),
+        chart_token_pq(),
     ]
     for p in paths:
         print(p, p.stat().st_size)
