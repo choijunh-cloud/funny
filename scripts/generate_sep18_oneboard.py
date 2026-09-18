@@ -38,7 +38,8 @@ def html() -> str:
   --muted:#4b5563; --line:#d5dce6; --bg:#eef1f7; --green:#166534; --red:#991b1b; }}
 * {{ box-sizing:border-box; }}
 html,body {{ margin:0; padding:0; background:var(--bg); color:var(--ink);
-  font-family:"Noto Sans CJK KR","WenQuanYi Micro Hei","Apple SD Gothic Neo","Malgun Gothic",sans-serif; }}
+  font-family:"Noto Sans CJK KR","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic","WenQuanYi Micro Hei",sans-serif;
+  word-spacing:.12em; }}
 .board {{ width:1320px; margin:0 auto; padding:16px 16px 22px; }}
 .kicker {{ color:var(--gold); font-weight:800; font-size:12px; letter-spacing:.03em; }}
 h1 {{ color:var(--navy); font-size:25px; line-height:1.22; margin:4px 0 8px; }}
@@ -78,6 +79,12 @@ tr:nth-child(even) td {{ background:#f7f9fc; }}
 .src div {{ background:#f7f9fc; border-radius:8px; padding:7px 8px; font-size:11.3px; line-height:1.38; }}
 .src b {{ color:var(--navy); display:block; margin-bottom:2px; }}
 .foot {{ color:var(--muted); font-size:10.6px; margin-top:8px; text-align:right; }}
+@media print {{
+  html,body {{ background:#fff; }}
+  .board {{ width:auto; max-width:100%; padding:8px; }}
+  .kpi {{ grid-template-columns:repeat(4,1fr); }}
+  .card {{ break-inside:avoid; }}
+}}
 </style>
 </head>
 <body>
