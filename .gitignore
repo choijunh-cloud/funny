@@ -1,0 +1,4 @@
+lectures/assets/fonts/
+__pycache__/
+*.pyc
+.DS_Store
