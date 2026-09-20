@@ -12,7 +12,7 @@ from docx.oxml import parse_xml
 from docx.oxml.ns import nsdecls, qn
 from docx.shared import Cm, Inches, Mm, Pt, RGBColor
 
-from sep20_data import MAIN, SAT_PM_MAIN
+from sep20_data import ADDON, HAKGYUN_MEMBERSHIP, MAIN, SAT_PM_MAIN
 
 OUT_PATH = Path("/workspace/lectures/9월 20일 일요일 오전 다이제스트.docx")
 CHARTS = Path("/workspace/lectures/assets/sep20")
@@ -117,7 +117,7 @@ class Notes:
         header.is_linked_to_previous = False
         hp = header.paragraphs[0]
         hp.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-        r = hp.add_run("9/20 일요일 오전 다이제스트  ·  MAIN 8 + PDF 3  ·  강의노트")
+        r = hp.add_run("9/20 일요일 오전 다이제스트  ·  MAIN 8 + ADDON 4 + PDF 3  ·  강의노트")
         set_run_font(r, size=8.5, color=GRAY)
         footer = sec.footer
         footer.is_linked_to_previous = False
@@ -136,7 +136,7 @@ class Notes:
         core = self.doc.core_properties
         core.title = "9월 20일 일요일 오전 다이제스트"
         core.author = "준혁"
-        core.subject = "Sunday thin · MAIN 8 · 9/17 PDF 3"
+        core.subject = "Sunday thin · MAIN 8 · ADDON 4 · 9/17 PDF 3"
 
     def p(self, text, size=11, bold=False, color=DARK, space_after=6, space_before=0):
         para = self.doc.add_paragraph()
@@ -232,7 +232,8 @@ def build() -> Path:
     n.p("일요일은 장이 쉬고, 새 미국 overnight도 없다", size=18, bold=True, color=NAVY, space_after=8)
     n.callout(
         "한 줄. 금요 FOMC·BOJ 뒤 테이프는 토요 방송에서 이미 읽혔다. "
-        "오늘 MAIN 8편은 소화 논리다. 가격·IB 목표·500조는 게스트 estimate — 방 합의로 잠그지 않는다. "
+        "오늘 MAIN 8편은 소화 논리다. 추가 대담 4편(홍기빈·박정호·신환종·김효진)과 텔레그램은 MAIN이 아니다. "
+        "가격·IB 목표·500조·UBS 90%는 게스트/IB estimate — 방 합의로 잠그지 않는다. "
         "사이렌(10Y 5% 안착 · oil 120) 미발화. 준혁 프레임 유지."
     )
 
@@ -349,7 +350,35 @@ def build() -> Path:
     n.bullet("한화오션 60MW는 AiP·모델 공개. 삼성중 FDC는 2Q28 목표 + M3 엔지니어링. EPC 아직.")
     n.bullet("함정은 파이프라인. 전투함 수주 확정이 리레이팅의 키.")
 
-    n.h1("CXL · 토 PM 한 줄 · 증류", "05")
+    n.h1("추가 대담 4 — MAIN 아님", "05")
+    n.add_chart("13_addon.png")
+    n.table(
+        ["#", "채널", "게스트", "시계", "한 줄"],
+        [
+            [a["id"], a["ch"], a["guest"], a["when"], a["title"]]
+            for a in ADDON
+        ],
+    )
+    n.callout(HAKGYUN_MEMBERSHIP, fill=BLUE_HEX, color=NAVY2)
+    n.h2("홍기빈 · 박정호")
+    n.bullet("홍: LLM=기호 세계. 다음은 월드모델·암묵지. 동작 데이터는 평생 자산. 한 번 팔고 땡이 아니라 데이터 커먼스.")
+    n.bullet("블랑샤르 일반재정 vs 자본계정은 학술 아이디어. 샌더스 ASI 금지는 9/3 발표·미통과. 제도 확정으로 쓰지 말 것.")
+    n.bullet("박: 속도조절은 면피. 훈련 중단은 반대. 검수 < 개발. 허깅페이스 침입은 양사 공개, 로그 삭제는 풍문.")
+    n.bullet("소버린: 미국이 감속 여론에 흔들려도 한국은 같이 쉬지 말 것(판단).")
+    n.h2("신환종 · 김효진")
+    n.bullet("신: ASR 케비너시=케빈 워시. 10Y 5% 터치는 관전. 안착 아님. 금=중앙은행 대체 수요(판단).")
+    n.bullet("달러 60–70 · 금 20% · 브라질 7.5% · 4분기 신중은 게스트 시나리오. 사이렌 미발화.")
+    n.bullet("효진: 아스트라=에이전트. 캡엑스 1조$는 어림. 약한 고리는 자금+장기금리. 준혁 프레임과 같은 축.")
+    n.bullet("GPU 유동화는 8/10 MOU·초입. 2008 재현으로 잠그지 말 것. 삼전/닉스 우열·HBM 40%는 잠금 금지.")
+    n.add_chart("14_ubs.png")
+    n.add_chart("15_physical.png")
+    n.h2("텔레그램")
+    n.bullet("UBS CapEx 경로·증가분 90% 메모리는 IB 추정. UBS WM 다른 글과 결이 다름. 방 합의 아님.")
+    n.bullet("바클레이즈: 휴머노이드 대량은 2035 시나리오. 2030은 점진. 꼭 인간형일 필요 없음.")
+    n.bullet("트럼프 AI Force·GDP 25%는 9/19 선언. 조직·예산 없음. 속도조절 소송은 소장 단계.")
+    n.bullet("PCB 2027=MLB+SoCAMM+ABF. 브로커 EPS·PER는 목표가≠합의. 유니트리 얼라인먼트는 인용.")
+
+    n.h1("CXL · 토 PM 한 줄 · 증류", "06")
     n.add_chart("09_cxl.png")
     n.bullet("스폰서. HBM 부정 아님 · 보완. 활용 35→70–80% · CapEx 절반은 회사 주장. 1만배는 은유.")
     n.table(
@@ -368,7 +397,8 @@ def build() -> Path:
     n.bullet("닉스 200만 · 삼전 29~30만 · IB 310/400/59 · 12월 인상 · 최종 4.5–4.75 · 7,000/7,500 · 월요일 방향.")
     n.callout(
         "쓰지 말 것 = 10Y 5% 안착 · oil 120 · Ohio 계약 확정 · ARM $2bn=가이던스 · HD 4GW 이미 가동 · "
-        "FDC EPC 확정 · 토 PM 재등록 · 성상현 대담을 오늘 3자로 치환 · A/B·상자 비유 · 가격 재잠금.",
+        "FDC EPC 확정 · 토 PM 재등록 · 성상현 대담을 오늘 3자로 치환 · 추가 대담을 MAIN으로 · "
+        "UBS 90%=합의 · GDP 25%=공식 · 허깅페이스 로그 삭제=확정 · GPU=2008 · A/B·상자 비유 · 가격 재잠금.",
         fill=RED_HEX,
         color=RED,
     )

@@ -86,6 +86,22 @@ UNLOCKED = {
     "cts_hynix_hi": 380,
     "softbank_apollo_b": 9,
     "samsung_op_370": 370,
+    # 일 AM 추가 대담·텔레그램 — 수치 보관만. 방 합의 아님.
+    "ubs_ai_2025": 506,
+    "ubs_ai_2026": 998,
+    "ubs_ai_2027": 1447,
+    "ubs_mem_2025": 71,
+    "ubs_mem_2026": 367,
+    "ubs_mem_2027": 923,
+    "ubs_mem_share_2027": 64,
+    "ubs_increment_mem_pct": 90,
+    "trump_gdp_ai_pct": 25,
+    "barclays_humanoid_year": 2035,
+    "gpu_abs_target_b": 500,
+    "hyojin_capex_2026_t": 1.0,
+    "shin_dollar_now": 90,
+    "shin_dollar_lo": 60,
+    "shin_dollar_hi": 70,
 }
 
 # 토 PM MAIN — 재등록 금지, 한 줄만
@@ -181,6 +197,52 @@ MAIN = [
     },
 ]
 
+# 일 AM 추가 대담 — MAIN이 아님. 토 PM 재등록도 아님.
+ADDON = [
+    {
+        "id": "A1",
+        "ch": "증시작도TV",
+        "guest": "홍기빈",
+        "yt": "",
+        "len": "~40분",
+        "when": "주말 대담 · 일 AM 수집",
+        "title": "피지컬 AI · 암묵지 · 데이터 커먼스",
+    },
+    {
+        "id": "A2",
+        "ch": "역시나박정호",
+        "guest": "박정호",
+        "yt": "",
+        "len": "~48분",
+        "when": "주말 대담 · 일 AM 수집",
+        "title": "속도조절론 = 면피 · 에이전트 검수 지체",
+    },
+    {
+        "id": "A3",
+        "ch": "삼프로TV",
+        "guest": "신환종",
+        "yt": "",
+        "len": "~45분",
+        "when": "주말 대담 · 일 AM 수집",
+        "title": "스티키 인플레 · 10Y 터치 · 금",
+    },
+    {
+        "id": "A4",
+        "ch": "머니리포트",
+        "guest": "김효진",
+        "yt": "",
+        "len": "~38분",
+        "when": "주말 대담 · 일 AM 수집",
+        "title": "아스트라 · 자금 약한 고리 · GPU 유동화",
+    },
+]
+
+# 신한 멤버십 김학균은 MAIN 6과 같은 금리 축. 재등록 없음.
+HAKGYUN_MEMBERSHIP = (
+    "신한 멤버십 김학균은 MAIN 6(한경 경제전쟁꾼)과 같은 금요 금리 축. "
+    "정책금리 4% vs 시장 장기물 ~5.3% 서사 유지. 오늘 MAIN·ADDON으로 올리지 않는다."
+)
+
 DO_NOT_LOCK = [
     "SoftBank–Apollo 확정 딜",
     "삼성 OP 370조를 합의 숫자로",
@@ -192,6 +254,14 @@ DO_NOT_LOCK = [
     "Ohio × 하이닉스 계약 확정",
     "월요일 방향·종가·%",
     "추석 전후 필연 약세",
+    "UBS 90%·CapEx 경로를 방 합의로",
+    "트럼프 GDP 25%를 공식 전망으로",
+    "Hugging Face 로그 삭제 = 확정 사실",
+    "GPU 유동화 = 2008 재현",
+    "Barclays 2035를 합의 보급 시점으로",
+    "데이터 커먼스 제도 확정",
+    "속도조절 = 실제 감속",
+    "샌더스 ASI 금지법 통과",
 ]
 
 
