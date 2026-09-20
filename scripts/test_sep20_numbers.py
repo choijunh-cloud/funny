@@ -10,12 +10,14 @@ ROOT = Path("/workspace")
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from sep20_data import (  # noqa: E402
+    ADDON,
     DO_NOT_LOCK,
     FRI_DOW_PCT,
     FRI_NASDAQ_PCT,
     FRI_SOX_PCT,
     FRI_SPX_PCT,
     FRI_WTI,
+    HAKGYUN_MEMBERSHIP,
     MAIN,
     OIL_SIREN,
     SAT_PM_MAIN,
@@ -53,6 +55,20 @@ def test_unlocked_not_treated_as_settle() -> None:
     assert "oil 120" in DO_NOT_LOCK
 
 
+def test_addon_not_main() -> None:
+    assert len(ADDON) == 4
+    assert len(MAIN) == 8
+    guests = {a["guest"] for a in ADDON}
+    assert guests == {"홍기빈", "박정호", "신환종", "김효진"}
+    assert all(not a["yt"] for a in ADDON)
+    assert "성상현" not in guests
+    assert "MAIN" not in HAKGYUN_MEMBERSHIP or "올리지 않는다" in HAKGYUN_MEMBERSHIP
+    assert UNLOCKED["ubs_increment_mem_pct"] == 90
+    assert UNLOCKED["trump_gdp_ai_pct"] == 25
+    assert "UBS 90%·CapEx 경로를 방 합의로" in DO_NOT_LOCK
+    assert "속도조절 = 실제 감속" in DO_NOT_LOCK
+
+
 def test_main_count_and_sat_pm_ids() -> None:
     assert len(MAIN) == 8
     ids = {m["yt"] for m in MAIN}
@@ -84,6 +100,12 @@ def test_html_guards() -> None:
     assert "오늘 MAIN 8에 없다" in text
     assert "xG6588IXZJI" in text
     assert "박병창" in text and "문홍철" in text and "김영익" in text
+    assert "홍기빈" in text and "박정호" in text and "신환종" in text and "김효진" in text
+    assert "데이터 커먼스" in text
+    assert "풍문" in text
+    assert "SoCAMM" in text
+    assert "얼라인먼트" in text
+    assert "MAIN이 아니다" in text
     # do not present IB targets as room consensus
     assert "목표가≠합의" in text or "합의 가격" in text
     assert "잠그지 않는다" in text
@@ -124,6 +146,9 @@ def test_charts_exist() -> None:
         "10_calendar.png",
         "11_matrix.png",
         "12_flows.png",
+        "13_addon.png",
+        "14_ubs.png",
+        "15_physical.png",
     ]
     folder = ROOT / "lectures" / "assets" / "sep20"
     for name in names:
@@ -136,6 +161,7 @@ def main() -> None:
         test_friday_tape,
         test_sirens_off,
         test_unlocked_not_treated_as_settle,
+        test_addon_not_main,
         test_main_count_and_sat_pm_ids,
         test_html_guards,
         test_html_does_not_lock_sirens,

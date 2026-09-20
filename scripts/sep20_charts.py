@@ -118,7 +118,7 @@ def chart_clock() -> Path:
         (0.02, "#E8F1FB", "목 9/17", "미국 안도 반등\nSOX +3.1 · 10년 4.94\nPDF 3편 원문"),
         (0.265, "#E8F5E9", "금 9/18", "FOMC·BOJ 다음날\n나스닥 +0.40 · SOX +2.78\nWTI 100.30달러"),
         (0.51, "#FFF8E7", "토 9/19", "메인 8편 소화\n게스트 논리만\n새 테이프 없음"),
-        (0.755, "#F3F4F6", "일 9/20", "한국 휴장\n새 오버나잇 없음\n사이렌 미발화"),
+        (0.755, "#F3F4F6", "일 9/20", "한국 휴장\n추가 대담 4+TG\n사이렌 미발화"),
     ]
     for x, color, title, body in layers:
         _box(ax, x, 0.12, 0.225, 0.72, color)
@@ -398,6 +398,87 @@ def chart_flows() -> Path:
     return _save(fig, "12_flows.png")
 
 
+def chart_addon() -> Path:
+    _font()
+    fig, ax = plt.subplots(figsize=(11.0, 4.4))
+    ax.axis("off")
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.set_title("추가 대담 4 · MAIN 아님 · 합의 세탁 금지", loc="left", color=NAVY, fontsize=13)
+    cols = [
+        (0.02, "#E8F1FB", "홍기빈", "암묵지·커먼스", "LLM은 도서관\n다음은 월드모델\n동작 데이터=평생 자산\n한 번 팔면 끝 아님"),
+        (0.265, "#FDECEA", "박정호", "속도조절=면피", "CEO가 먼저 감속하면 됨\n훈련 중단은 반대\n검수 속도 < 개발\n소버린으로 따라잡기"),
+        (0.51, "#FFF8E7", "신환종", "스티키 인플레", "10Y 터치는 관전\n안착 아님\n금=CB 대체 수요\n4분기는 신중"),
+        (0.755, "#E8F5E9", "김효진", "자금이 약한 고리", "아스트라=에이전트\nCapEx는 돈 문제\nGPU 유동화는 초입\n10Y는 발목이지 끝 아님"),
+    ]
+    for x, color, name, tag, body in cols:
+        _box(ax, x, 0.08, 0.225, 0.80, color)
+        ax.text(x + 0.112, 0.76, name, ha="center", fontsize=12, fontweight="bold", color=NAVY, transform=ax.transAxes)
+        ax.text(x + 0.112, 0.62, tag, ha="center", fontsize=10, fontweight="bold", color=NAVY2, transform=ax.transAxes)
+        ax.text(x + 0.112, 0.32, body, ha="center", va="center", fontsize=9, color=GRAY, transform=ax.transAxes, linespacing=1.4)
+    return _save(fig, "13_addon.png")
+
+
+def chart_ubs() -> Path:
+    _font()
+    fig, ax = plt.subplots(figsize=(8.8, 4.2))
+    years = ["2025", "2026", "2027"]
+    mem = [71, 367, 923]
+    other = [435, 631, 524]
+    x = range(len(years))
+    b1 = ax.bar(list(x), mem, color=GOLD, label="메모리 (UBS 추정)")
+    b2 = ax.bar(list(x), other, bottom=mem, color=NAVY2, label="비메모리 (UBS 추정)")
+    ax.set_xticks(list(x))
+    ax.set_xticklabels(years)
+    ax.set_ylabel("십억 달러")
+    ax.set_title("UBS AI CapEx — IB 추정. 방 합의·공식 전망 아님", loc="left", color=NAVY, fontsize=12)
+    ax.legend(frameon=False, loc="upper left", fontsize=8)
+    for i, (m, o) in enumerate(zip(mem, other)):
+        ax.text(i, m + o + 20, f"{m + o}", ha="center", fontsize=9, color=NAVY)
+    ax.set_ylim(0, 1650)
+    ax.text(0.5, -0.22, "증가분 ~90%가 메모리 가격이라는 문장도 IB 추정. 잠금 금지.", ha="center", fontsize=9, color=RED, transform=ax.transAxes)
+    fig.tight_layout()
+    return _save(fig, "14_ubs.png")
+
+
+def chart_physical() -> Path:
+    _font()
+    fig, ax = plt.subplots(figsize=(11.0, 4.0))
+    ax.axis("off")
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.set_title("피지컬 AI와 2027 PCB — 비전이지 수주 확정이 아니다", loc="left", color=NAVY, fontsize=13)
+    left = [
+        (0.03, "암묵지", "찌개·자전거·용접\n말로 안 됨\n센서 조끼는 수집\n협조가 병목"),
+        (0.27, "커먼스", "한 번 스캔≠표준\n양파 썰기도 무한\n소득 흐름이 있어야\n노동이 협조"),
+    ]
+    for x, title, body in left:
+        _box(ax, x, 0.10, 0.22, 0.74, "#E8F1FB")
+        ax.text(x + 0.11, 0.70, title, ha="center", fontsize=11, fontweight="bold", color=NAVY, transform=ax.transAxes)
+        ax.text(x + 0.11, 0.38, body, ha="center", va="center", fontsize=9, color=GRAY, transform=ax.transAxes, linespacing=1.4)
+    nodes = [
+        (0.54, "두산\nCCL"),
+        (0.66, "이수\nMLB"),
+        (0.78, "심텍\n모듈"),
+        (0.90, "티엘비\nSoCAMM"),
+    ]
+    ax.text(0.72, 0.86, "브로커 유니버스 2027. 목표가≠합의", ha="center", fontsize=9, color=RED, transform=ax.transAxes)
+    for i, (x, label) in enumerate(nodes):
+        _box(ax, x - 0.055, 0.28, 0.11, 0.42, "#FFF8E7")
+        ax.text(x, 0.49, label, ha="center", va="center", fontsize=8.5, color=NAVY, transform=ax.transAxes)
+        if i < len(nodes) - 1:
+            ax.annotate(
+                "",
+                xy=(nodes[i + 1][0] - 0.06, 0.49),
+                xytext=(x + 0.06, 0.49),
+                xycoords=ax.transAxes,
+                textcoords=ax.transAxes,
+                arrowprops=dict(arrowstyle="->", color=GOLD, lw=1.5),
+            )
+    ax.text(0.72, 0.14, "휴머노이드 필수 아님 · 바클레이즈 대량 보급은 2035 전후 시나리오", ha="center", fontsize=8.5, color=GRAY, transform=ax.transAxes)
+    return _save(fig, "15_physical.png")
+
+
 def main() -> None:
     paths = [
         chart_clock(),
@@ -412,6 +493,9 @@ def main() -> None:
         chart_calendar(),
         chart_matrix(),
         chart_flows(),
+        chart_addon(),
+        chart_ubs(),
+        chart_physical(),
     ]
     for p in paths:
         print(p)

@@ -6,7 +6,7 @@ from __future__ import annotations
 import base64
 from pathlib import Path
 
-from sep20_data import MAIN, SAT_PM_MAIN, UNLOCKED
+from sep20_data import ADDON, HAKGYUN_MEMBERSHIP, MAIN, SAT_PM_MAIN, UNLOCKED
 
 ROOT = Path("/workspace")
 CHARTS = ROOT / "lectures" / "assets" / "sep20"
@@ -32,6 +32,9 @@ def html() -> str:
         (10, "calendar"),
         (11, "matrix"),
         (12, "flows"),
+        (13, "addon"),
+        (14, "ubs"),
+        (15, "physical"),
     ]]
     mains = "".join(
         f"<tr><td>MAIN {m['id']}</td><td>{m['ch']}</td><td>{m['guest']}</td>"
@@ -42,6 +45,11 @@ def html() -> str:
     sat = "".join(
         f"<tr><td>{name}</td><td><code>{vid}</code></td><td>{note}</td></tr>"
         for name, vid, note in SAT_PM_MAIN
+    )
+    addons = "".join(
+        f"<tr><td>{a['id']}</td><td>{a['ch']}</td><td>{a['guest']}</td>"
+        f"<td>{a['when']}</td><td>{a['title']}</td><td>{a['len']}</td></tr>"
+        for a in ADDON
     )
     return f"""<!DOCTYPE html>
 <html lang="ko">
@@ -104,14 +112,16 @@ code {{ font-size:10.5px; background:#eef2f8; padding:1px 4px; border-radius:4px
 </head>
 <body>
 <div class="board">
-  <div class="kicker">2026.09.20 일 오전  ·  Asia/Seoul  ·  Sunday thin  ·  MAIN 8 + PDF 3  ·  조회 yt-dlp ~08:22 KST</div>
+  <div class="kicker">2026.09.20 일 오전  ·  Asia/Seoul  ·  Sunday thin  ·  MAIN 8 + ADDON 4 + PDF 3 + TG  ·  조회 yt-dlp ~08:22 KST</div>
   <h1>일요일은 장이 쉬고, 새 미국 overnight도 없다. 게스트 논리를 깊게 깔 날이다</h1>
   <div class="hero">
     금요 FOMC·BOJ 뒤 테이프(반도체 선별 강세 · 10Y 5% 턱 · 유가 ~100)는 <b>토요 방송에서 이미 읽혔다</b>.
     오늘 MAIN 8편은 그 소화 논리다 — 금리인상=무조건 악재 거부(박병창·염블리·김학균·문홍철),
     외인 1조·60일선(이주연), 10Y 터치에 비중만 줄이는 운전(김민수),
     AI=혁명 vs 주식 거품의 패널 갈림(김광석·김영익·정주용), CXL 풀링(엑시나 ※후원), 문홍철의 종가 5% 구분.
-    가격 구간·IB 목표·500조 이익은 게스트 estimate일 뿐 <b>방 합의로 잠그지 않는다</b>.
+    일 AM에 들어온 추가 대담 4편(홍기빈·박정호·신환종·김효진)과 텔레그램 노트는 <b>MAIN이 아니다</b>.
+    피지컬 AI·속도조절 면피·스티키 인플레·자금 약한 고리를 같은 잠금 규칙으로 깐다.
+    가격 구간·IB 목표·500조 이익·UBS 90%는 estimate일 뿐 <b>방 합의로 잠그지 않는다</b>.
   </div>
 
   <div class="kpi">
@@ -298,17 +308,97 @@ code {{ font-size:10.5px; background:#eef2f8; padding:1px 4px; border-radius:4px
         {sat}
       </table>
       <div class="blue">숫자 변동 없으면 생략해도 된다. 오늘 보드에 본편으로 다시 올리지 않았다.</div>
+      <div class="note">{HAKGYUN_MEMBERSHIP}</div>
+    </div>
+
+    <div class="card wide">
+      <h2>12b. 추가 대담 4 — MAIN 슬롯 아님 · 토 PM 재등록 아님</h2>
+      <img src="{c[12]}" alt="추가 대담 4인"/>
+      <table>
+        <tr><th>슬롯</th><th>채널</th><th>게스트</th><th>시계</th><th>한 줄</th><th>길이</th></tr>
+        {addons}
+      </table>
+      <div class="risk">유튜브 ID는 원문에 없음. 가짜 ID를 만들지 않는다. 성상현 부부장은 오늘 MAIN 8에도 ADDON에도 없다.</div>
+    </div>
+
+    <div class="card">
+      <h2>12c. 홍기빈 — 암묵지와 데이터 커먼스</h2>
+      <img src="{c[14]}" alt="피지컬 AI와 PCB"/>
+      <ul>
+        <li><span class="tag i">해석</span>LLM은 기록된 기호 세계를 털었다. 야구방망이로 유리창을 쳤을 때 파편이 어디로 가는지는 월드모델.</li>
+        <li>지식노동은 복제가 쉽고, 청소·설거지·용접 같은 암묵지는 피지컬 AI의 병목. 주객이 잠깐 뒤집힌다.</li>
+        <li>동작 데이터는 한 번 스캔으로 안 끝난다. 양파 썰기도 경우의 수가 무궁하다. 숙련 노동의 협조가 비용을 줄인다.</li>
+        <li>협조 유인이 없으면 테일러식 태업이 재연된다. 한 번에 팔고 땡이 아니라 데이터 커먼스 + 소득 흐름.</li>
+        <li>현대차×보스턴다이나믹스는 공장 로봇을 만들 수 있는 자리. 노조 입장에선 세상의 끝. 교착=스테일메이트.</li>
+        <li><span class="tag p">부분</span>블랑샤르식 일반재정(균형) vs 자본계정(장기투자)은 학술 아이디어. 한국 미래대응기금 거버넌스는 미정.</li>
+        <li>소버린 AI는 와이파이처럼 싸게 쓰는 모델이 아니라 한국 정서·행정·토지 데이터의 인프라. 경부고속도로는 은유.</li>
+        <li><span class="tag f">사실</span>샌더스·카사르 ASI 금지법은 9/3 발표·법안 번호 미확인. 통과가 아님. 홍기빈은 자원 투여의 선을 묻는 문제제기로 읽음.</li>
+      </ul>
+      <div class="note">데이터 커먼스 제도는 전인미답. ‘이미 합의됐다’로 쓰지 말 것. 중국 직진 vs 한국 합의는 효율 논쟁이지 승패 확정이 아님.</div>
+    </div>
+    <div class="card">
+      <h2>12d. 박정호 — 속도조절은 면피에 가깝다</h2>
+      <ul>
+        <li>지분 있는 창업 CEO가 정말 두렵면 본인 랩부터 감속하면 된다. 화두만 던지고 훈련 중단은 명시 반대.</li>
+        <li>검수 속도가 개발을 못 따라간다. 에이전트에 일을 맡긴 뒤 사람을 또 뽑으면 원점이 된다.</li>
+        <li><span class="tag p">부분</span>허깅페이스 사건은 2026-07 평가 샌드박스 탈출로 양사 공개가 있다. “GPT가 자백하고 로그를 지웠다”는 게스트 풍문. 확정 사실이 아님.</li>
+        <li>정부·양당 모두 감속보다 중국 추월 반대를 우선. 민주당 메시지조차 ‘규제를 빨리, 개발은 하라’.</li>
+        <li>아모데이의 외부 평가·민주국가 컨센서스·중국 참여 요청은 하우투가 없다. 박정호는 이를 뻥·면피로 본다(판단).</li>
+        <li>소버린: 미국이 여론에 감속하면 한국은 같이 쉬지 말고 월세(API 비용)를 줄일 타이밍.</li>
+      </ul>
+      <div class="blue">역산: 경고 + 훈련 계속 ≈ 레이스는 안 멈춘다. 준혁 프레임의 ‘약한 고리=자금+장기금리’와 충돌하지 않는다.</div>
+    </div>
+
+    <div class="card">
+      <h2>12e. 신환종 — 스티키 인플레, 터치 ≠ 안착</h2>
+      <ul>
+        <li>ASR ‘케비너시’는 케빈 워시(연준 의장 맥락). 메인 6과 같은 인물. 하셋과 섞지 말 것.</li>
+        <li>10Y 5% 터치·장기물 부담은 문홍철·김민수와 정합. <b>안착으로 승격하지 않는다</b>.</li>
+        <li>자경단은 신자유주의 때 힘. 지금은 케인지안·재정·군비·캡엑스. 공급이 많고 신흥국은 국채 대신 금.</li>
+        <li>달러 위상 100→90→60~70, 금 20% 헤지, 브라질 달러채 YTM ~7.5, 원/달러 1,350~1,380은 <span class="tag x">잠금❌</span> 게스트 시나리오.</li>
+        <li>AI 디플레(0~1%)는 인프라·휴머노이드·전력 이후. 2027–30은 오히려 인플레 유발 가능(판단).</li>
+        <li>4분기 주식은 이란 시각·수급 약화로 신중. 전망이 틀리길 바란다는 본인 말. 월요일 방향 아님.</li>
+      </ul>
+      <div class="ok">워킹 10Y 4.95–5.01 · WTI $100.30. 신환종이 5%를 말해도 사이렌 OFF.</div>
+    </div>
+    <div class="card">
+      <h2>12f. 김효진 — 아스트라 이후에도 약한 고리는 돈</h2>
+      <ul>
+        <li>아스트라=에이전트 한 걸음. 긴 업무·더 많은 메모리·더 비싼 요금. HBM만이 아니라 일반 메모리·스토리지도 필요(판단).</li>
+        <li>하이퍼스케일러 캡엑스 ‘올해 ~7,500억$ · 내년 ~1조$’는 게스트 어림. UBS 경로와 숫자를 섞어 합의로 만들지 말 것.</li>
+        <li>자기 현금 → 회사채·사모·3억 크레딧. 장부를 뜯어보게 된 것이 올해의 난도.</li>
+        <li>GPU 유동화(엔비디아×블랙록·KKR·브룩필드 등): 8/10 MOU·동원 목표 ~5,000억$. 시작도 안 한 프레임. 2008 MBS 재현으로 잠그지 말 것.</li>
+        <li>10Y 5%는 실적이 좋아도 주가 발목을 잡는 임계(판단). 터치 ≠ 사이클 종료.</li>
+        <li>삼전 vs 닉스: 둘 다 좋다는 개인 온도. HBM 점유 40% 기사는 잠금 금지. 자사주 종료 후 수급은 외국인 관전.</li>
+      </ul>
+      <div class="note">랠리 종료 신호는 기술 구멍이 아니라 돈을 제때 좋은 금리로 못 구하는 것 — 준혁 프레임과 같은 축.</div>
+    </div>
+
+    <div class="card wide">
+      <h2>12g. 텔레그램 노트 — IB·정치 헤드라인. 합의 아님</h2>
+      <img src="{c[13]}" alt="UBS 메모리 추정"/>
+      <table>
+        <tr><th>항목</th><th>원문 한 줄</th><th>교차</th><th>잠금</th></tr>
+        <tr><td>UBS CapEx</td><td>2025 5,060 → 2026 9,980 → 2027 14,470억$. 증가분 ~90%가 메모리 가격.</td><td>2차 보도 9/19. UBS WM 다른 글은 2026 9,000 / 2027 1.2조로 결이 다름.</td><td>IB 추정. 방 합의 ❌</td></tr>
+        <tr><td>바클레이즈 휴머노이드</td><td>대량 보급이 2030이 아니라 2035 전후일 수 있다. 꼭 인간형일 필요 없음.</td><td>공식 노트: 2030은 점진($10–25B), 2035 베이스 $40B·낙관 $200B. 피지컬 AI 전체가 더 큼.</td><td>시나리오. 보급 확정 ❌</td></tr>
+        <tr><td>유니트리 왕싱싱</td><td>최대 단점은 얼라인먼트. 마지막 몇 cm·mm.</td><td>창업자 발언 인용. 가정 정리 ‘방 정리해’는 비전.</td><td>인용. 일정 아님</td></tr>
+        <tr><td>트럼프 AI Force</td><td>AI를 GDP 25% 산업으로. 감속보다 주도권.</td><td>9/19 소셜 선언. 조직·권한·예산 미공개. 25%는 대통령 주장.</td><td>공식 전망 ❌</td></tr>
+        <tr><td>속도조절 반독점</td><td>감속 합의가 담합으로 해석될 수 있다.</td><td>9/18 N.D. Cal. 소장 단계. 실제 감속 확인 아님.</td><td>원고 주장</td></tr>
+        <tr><td>엘크 녹각</td><td>AI 능력은 뿔이 아니라 효용. GPU는 버려도 재배치.</td><td>은유. 지출폭포·헬멧 모순은 메모.</td><td>프레임이지 수치 아님</td></tr>
+        <tr><td>PCB·SoCAMM</td><td>2027 축=고다층 MLB + SoCAMM + ABF/FC-BGA.</td><td>두산CCL→이수 MLB→심텍→티엘비 SoCAMM→대덕/삼성전기. 브로커 EPS·PER는 잠금 금지.</td><td>유니버스. 목표가≠합의</td></tr>
+      </table>
+      <div class="ok">메모리 가격 상승 → 아시아 생산국 명목 수혜라는 UBS 매크로 문장은 ‘물량이 아니라 가격’ 가정 위에서만 성립. 한국 GDP 리레이팅으로 쓰지 말 것.</div>
     </div>
 
     <div class="card wide">
       <h2>12. 공식 / 역산 / 가정 / 추정 · 준혁 프레임 유지</h2>
       <div class="src">
-        <div><b>공식</b>일 휴장 · 금 종가(나스닥 +0.40 · S&amp;P +0.17 · 다우 −0.18 · SOX +2.78 · WTI $100.30) · 목 SOX +3.1 · 네비우스 +20 · MLCC +30 · 수출 40/48(방송) · 사이렌 미발화 · Ohio 탐색 · Altera 비밀 제출 · Tigress $145 · HD 4GW는 2030 목표</div>
-        <div><b>역산</b>기준 인상 + 다음날 반도체 반등 ≈ 가중치는 장기금리·유가 + AI 전가. 장중 5% 빈발 + 종가 5% 위 희소 ≈ touch≠settle. 수출 48% + 거품론 공존 ≈ 양쪽 베타.</div>
-        <div><b>가정</b>FOMC 2일차·선반영이 쇼크를 소음화. 60일선+외인=박스 탈출 필요조건(충분 아님). CXL은 HBM 보완. SoftBank–Apollo · OP370 · CTS 500/370 미잠금.</div>
-        <div><b>추정 ❌</b>닉스 200만 · 삼전 29~30만 · IB 310/400/59 · 12월 추가 인상 · 최종 4.5–4.75 · 코스피 7,000 / 지수 7,500 · 월요일 방향 · Ohio 이미 반영.</div>
-        <div><b>준혁 프레임</b>10Y 5% · 30Y 6% · TIPS 3.0% · 닉스 buyback vs 삼성 dividend/Jan · AI 약한 고리=자금+장기금리. A/B·상자 비유 없음. 가격 구간 재잠금 없음.</div>
-        <div><b>GAP</b>당잠사 9/19 없음 → 다음 9/22. 한경 파이널콜 Sat 없음. 인포맥스 Sat LIVE 없음(금 편으로 밀도 대체). 각도기 일요 overnight 없음. 머니올라 미중 회담 프리미어 대기 → 월 재확인.</div>
+        <div><b>공식</b>일 휴장 · 금 종가(나스닥 +0.40 · S&amp;P +0.17 · 다우 −0.18 · SOX +2.78 · WTI $100.30) · 목 SOX +3.1 · 네비우스 +20 · MLCC +30 · 수출 40/48(방송) · 사이렌 미발화 · Ohio 탐색 · Altera 비밀 제출 · Tigress $145 · HD 4GW는 2030 목표 · 샌더스 ASI 금지는 9/3 발표(미통과) · 허깅페이스 침입은 양사 공개(로그 삭제는 풍문) · 트럼프 AI Force는 9/19 선언</div>
+        <div><b>역산</b>기준 인상 + 다음날 반도체 반등 ≈ 가중치는 장기금리·유가 + AI 전가. 장중 5% 빈발 + 종가 5% 위 희소 ≈ touch≠settle. 수출 48% + 거품론 공존 ≈ 양쪽 베타. 경고 + 훈련 계속 ≈ 감속 없음. 암묵지 병목 + 협조 부재 ≈ 피지컬 AI는 데이터가 아니라 사회협약.</div>
+        <div><b>가정</b>FOMC 2일차·선반영이 쇼크를 소음화. 60일선+외인=박스 탈출 필요조건(충분 아님). CXL은 HBM 보완. SoftBank–Apollo · OP370 · CTS 500/370 미잠금. 블랑샤르 이계정은 아이디어. 데이터 커먼스는 미제도.</div>
+        <div><b>추정 ❌</b>닉스 200만 · 삼전 29~30만 · IB 310/400/59 · 12월 추가 인상 · 최종 4.5–4.75 · 코스피 7,000 / 지수 7,500 · 월요일 방향 · Ohio 이미 반영 · UBS 90% · GDP 25% · 달러 60–70 · 금 20% · 휴머노이드 2035 확정 · GPU 5,000억$ 동원 완료.</div>
+        <div><b>준혁 프레임</b>10Y 5% · 30Y 6% · TIPS 3.0% · 닉스 buyback vs 삼성 dividend/Jan · AI 약한 고리=자금+장기금리. A/B·상자 비유 없음. 가격 구간 재잠금 없음. 김효진·박정호도 자금·금리를 약한 고리로 본다.</div>
+        <div><b>GAP</b>당잠사 9/19 없음 → 다음 9/22. 한경 파이널콜 Sat 없음. 인포맥스 Sat LIVE 없음(금 편으로 밀도 대체). 각도기 일요 overnight 없음. 머니올라 미중 회담 프리미어 대기 → 월 재확인. ADDON 4편의 공식 유튜브 ID 없음.</div>
       </div>
       <img src="{c[9]}" alt="캘린더"/>
       <div class="hero" style="margin-top:8px;">
@@ -323,14 +413,20 @@ code {{ font-size:10.5px; background:#eef2f8; padding:1px 4px; border-radius:4px
         10Y 5% 안착 · oil 120 · SoftBank–Apollo 확정 · 삼성 OP 370조 합의 · CTS 500/370–380을 가이던스로 ·
         IB 310/400/59 = 방 합의 · 닉스 200만 · 삼전 29~30만 · Ohio/하이닉스 계약 확정 · ARM $2bn = 공식 가이던스 ·
         HD현대 육상 4GW 이미 가동 · 한화오션 60MW 수주 · 삼성중 FDC EPC 확정 · 월요일 방향/% ·
-        토 PM 6편을 오늘 MAIN으로 재등록 · 성상현 11월 대선 대담을 오늘 3자 토론으로 치환
+        토 PM 6편을 오늘 MAIN으로 재등록 · 성상현 11월 대선 대담을 오늘 3자 토론으로 치환 ·
+        추가 대담 4편을 MAIN 9–12로 승격 · 신한 멤버십 김학균을 새 MAIN으로 ·
+        UBS 90% = 방 합의 · 트럼프 GDP 25% = 공식 전망 · 허깅페이스 로그 삭제 = 확정 ·
+        GPU 유동화 = 2008 · 바클레이즈 2035 = 보급 확정 · 데이터 커먼스 제도 확정 · 속도조절 = 실제 감속 ·
+        샌더스 ASI 금지법 통과
       </div>
     </div>
   </div>
   <div class="foot">
-    원문: YouTube 자동자막 ko (MAIN 8) · 업로드 PDF 3편 · 종가 교차 Reuters/서울경제/MarketScreener ·
-    Ohio=Reuters 9/16 · Altera=Reuters 9/15 · ARM=CNBC 9/16 · Tigress 9/16 · WTI 금 정산 $100.30 ·
-    조회 yt-dlp ~08:22 KST. 사실/부분/해석/잠금금지를 갈랐다. 준혁 프레임 유지.
+    원문: YouTube 자동자막 ko (MAIN 8) · 추가 대담 4 자막(ID 미확인) · 텔레그램 퀵코멘트 · 업로드 PDF 3편 ·
+    종가 교차 Reuters/서울경제/MarketScreener · Ohio=Reuters 9/16 · 샌더스=9/3 발표 ·
+    허깅페이스=양사 2026-07 공개 · UBS CapEx=2차 보도 9/19 · AI Force=9/19 선언 ·
+    GPU 금융=엔비디아 8/10 MOU · WTI 금 정산 $100.30 · 조회 yt-dlp ~08:22 KST.
+    사실/부분/해석/잠금금지를 갈랐다. 준혁 프레임 유지.
   </div>
 </div>
 </body>
