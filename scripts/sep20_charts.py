@@ -404,7 +404,7 @@ def chart_addon() -> Path:
     ax.axis("off")
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1)
-    ax.set_title("추가 대담 4 — MAIN이 아니다. 합의 세탁 금지", loc="left", color=NAVY, fontsize=13)
+    ax.set_title("추가 대담 4 · MAIN 아님 · 합의 세탁 금지", loc="left", color=NAVY, fontsize=13)
     cols = [
         (0.02, "#E8F1FB", "홍기빈", "암묵지·커먼스", "LLM은 도서관\n다음은 월드모델\n동작 데이터=평생 자산\n한 번 팔면 끝 아님"),
         (0.265, "#FDECEA", "박정호", "속도조절=면피", "CEO가 먼저 감속하면 됨\n훈련 중단은 반대\n검수 속도 < 개발\n소버린으로 따라잡기"),
