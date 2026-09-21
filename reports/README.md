@@ -9,12 +9,17 @@ funny 저장소에 쌓인 투자 스터디(8/18–9/20)를 읽어 테제·숫자
 - `reports/VIEW_THIS_REPORT.html` — 한 장 보드 별칭
 - `reports/2026-09-20-study-insights.md` — 텍스트 정리
 - `lectures/assets/insights/*.png` — 차트 26장
+- `lectures/9월 21일 스터디 포트폴리오 한장.html` — 1억 실행 북
+- `reports/2026-09-21-portfolio.md` — 같은 북 텍스트
+- `lectures/assets/portfolio/*.png` — 배분 차트 6장
 
 ## 다시 만들기
 
 ```bash
 python3 scripts/generate_insights_all.py
 python3 scripts/test_insights_numbers.py
+python3 scripts/generate_portfolio_all.py
+python3 scripts/test_portfolio_book.py
 ```
 
 ## 규칙
