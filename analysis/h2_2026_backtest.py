@@ -194,9 +194,14 @@ def quarterly_rebalanced(returns: pd.DataFrame, weights: dict[str, float]) -> pd
 
 def max_drawdown(returns: pd.Series) -> float:
     w = wealth_from_returns(returns)
-    peak = w.cummax()
-    dd = w / peak - 1.0
-    return float(dd.min()) if len(dd) else np.nan
+    if w.empty:
+        return np.nan
+    # Include NAV 1.0 before the first month so a sample that peaks at inception
+    # still records the decline from the start.
+    start = pd.Series([1.0], index=[w.index[0] - pd.Timedelta(days=1)])
+    level = pd.concat([start, w])
+    dd = level / level.cummax() - 1.0
+    return float(dd.min())
 
 
 def calendar_year_returns(returns: pd.Series) -> pd.Series:
