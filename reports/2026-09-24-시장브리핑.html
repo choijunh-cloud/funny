@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>2026.9.24 추석 전 시장 브리핑</title>
+<style>
+  :root {
+    --navy: #0f2043;
+    --navy2: #1e407c;
+    --gold: #b8943a;
+    --ink: #1a1a1a;
+    --muted: #5c6778;
+    --line: #e3e8f0;
+    --bg: #f4f6fa;
+    --card: #fff;
+    --green: #166534;
+    --green-bg: #e8f5e9;
+    --red: #991b1b;
+    --red-bg: #fdecea;
+    --amber: #7a5c12;
+    --amber-bg: #fff8e7;
+    --blue-bg: #e8f1fb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Pretendard", "Noto Sans KR", "Malgun Gothic", sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.55;
+  }
+  header.hero {
+    background: linear-gradient(135deg, var(--navy) 0%, #16325c 55%, #24508f 100%);
+    color: #fff;
+    padding: 36px 28px 28px;
+  }
+  .wrap { max-width: 1120px; margin: 0 auto; }
+  .kicker { letter-spacing: .14em; font-size: 12px; color: #e7c97a; font-weight: 700; }
+  h1 { margin: 8px 0 6px; font-size: 30px; line-height: 1.25; font-weight: 800; }
+  .sub { color: #d5deee; font-size: 15px; max-width: 760px; }
+  .meta { margin-top: 14px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .pill { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2); border-radius: 999px; padding: 4px 10px; font-size: 12px; }
+  main { padding: 22px 16px 64px; }
+  section { margin: 0 auto 18px; max-width: 1120px; }
+  h2 {
+    font-size: 18px; margin: 22px 0 10px; color: var(--navy);
+    display: flex; align-items: center; gap: 8px;
+  }
+  h2 span.num {
+    background: var(--navy); color: #fff; width: 26px; height: 26px; border-radius: 8px;
+    display: inline-flex; align-items: center; justify-content: center; font-size: 13px;
+  }
+  .grid { display: grid; gap: 12px; }
+  .g4 { grid-template-columns: repeat(4, 1fr); }
+  .g3 { grid-template-columns: repeat(3, 1fr); }
+  .g2 { grid-template-columns: repeat(2, 1fr); }
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px;
+    box-shadow: 0 1px 0 rgba(15,32,67,.03);
+  }
+  .card h3 { margin: 0 0 6px; font-size: 14px; color: var(--navy2); }
+  .big { font-size: 26px; font-weight: 800; letter-spacing: -0.03em; }
+  .up { color: var(--green); }
+  .down { color: var(--red); }
+  .flat { color: var(--amber); }
+  .note { color: var(--muted); font-size: 12px; margin-top: 4px; }
+  .callout {
+    border-left: 4px solid var(--gold); background: #fffdf6; border-radius: 0 12px 12px 0;
+    padding: 12px 14px; margin: 8px 0 0;
+  }
+  .callout strong { color: var(--navy); }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; background: #fff; }
+  th, td { border-bottom: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+  th { background: var(--navy); color: #fff; font-weight: 600; }
+  tr:nth-child(even) td { background: #f7f9fc; }
+  .tag { display: inline-block; font-size: 11px; font-weight: 700; border-radius: 999px; padding: 2px 8px; }
+  .tag.g { background: var(--green-bg); color: var(--green); }
+  .tag.r { background: var(--red-bg); color: var(--red); }
+  .tag.a { background: var(--amber-bg); color: var(--amber); }
+  .tag.b { background: var(--blue-bg); color: var(--navy2); }
+  .bar-row { display: grid; grid-template-columns: 92px 1fr 72px; gap: 8px; align-items: center; margin: 7px 0; font-size: 13px; }
+  .track { background: #eef2f7; border-radius: 999px; height: 10px; overflow: hidden; }
+  .fill { height: 100%; border-radius: 999px; }
+  .flow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .flow .box { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; font-size: 13px; min-width: 120px; }
+  .flow .arrow { color: var(--gold); font-weight: 800; }
+  ul.clean { margin: 6px 0 0; padding-left: 18px; }
+  ul.clean li { margin: 4px 0; }
+  .timeline { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+  .tl {
+    background: #fff; border-top: 4px solid var(--navy2); border-radius: 12px; padding: 10px;
+    border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); border-left: 1px solid var(--line);
+    min-height: 128px;
+  }
+  .tl .when { font-size: 12px; font-weight: 800; color: var(--gold); }
+  .tl p { margin: 6px 0 0; font-size: 13px; }
+  .speakers { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .sp { background: #fff; border-radius: 12px; border: 1px solid var(--line); padding: 12px 14px; }
+  .sp h3 { margin: 0 0 4px; font-size: 14px; }
+  footer { color: var(--muted); font-size: 12px; padding: 8px 4px 0; }
+  .legend { display: flex; gap: 12px; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 4px; }
+  @media (max-width: 900px) {
+    .g4, .g3, .g2, .timeline, .speakers { grid-template-columns: 1fr; }
+    h1 { font-size: 24px; }
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">MARKET BRIEF · 2026.09.24 · 추석 연휴 직전</div>
+    <h1>연휴는 숨 고르기, 10월은 실적·수급 시험대</h1>
+    <p class="sub">여러 방송과 퀵코멘트를 한 장으로 묶었습니다. 지수는 버티지만 종목은 갈라져 있고, 반도체 방향은 유지된 채 돈의 값이 종목 선택을 좁히고 있습니다.</p>
+    <div class="meta">
+      <span class="pill">코스피 박스 상단 테스트</span>
+      <span class="pill">자사주 10월 중순 종료</span>
+      <span class="pill">마이크론 10/1</span>
+      <span class="pill">삼성·하이닉스 10월 말 실적</span>
+      <span class="pill">미국 10년 금리 5% 전후</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section>
+    <h2><span class="num">1</span>한 장 결론</h2>
+    <div class="grid g3">
+      <div class="card">
+        <h3>시장 온도</h3>
+        <div class="big flat">회복장, 강세 연장 대기</div>
+        <p>급락 이후 V자 재가속이 아니라, 연휴 관망 속의 중간 회복. 7,000선은 장중 여러 번 밀렸지만 종가 안착 이력이 있어 추세 종료로 보기는 이르다는 쪽이 우세합니다.</p>
+      </div>
+      <div class="card">
+        <h3>체감이 안 좋은 이유</h3>
+        <div class="big down">지수 ↑ · 하락 종목 ↑</div>
+        <p>코스피 약 +0.9%, 코스닥 약 +1.2%에도 하락 종목이 더 많습니다. ADR은 9월 고점 이후 80%대까지 내려온 쏠림·소외 장세입니다. 미국 나스닥도 신고가 속에 하락 종목·신저가가 더 많습니다.</p>
+      </div>
+      <div class="card">
+        <h3>10월에 볼 한 가지</h3>
+        <div class="big up">자사주 공백을 실적이 메우나</div>
+        <p>9월 매수를 기타법인(자사주)이 약 23조로 떠받쳤습니다. 삼성 진행률 78%, 하이닉스 61%, 종료 추정 10월 중순. 그 공백을 10월 말 실적·컨콜이 대신하는지가 관건입니다.</p>
+      </div>
+    </div>
+    <div class="callout">
+      <strong>공통 프레임.</strong> AI 수요 자체는 꺾이지 않았다는 데 화자가 모입니다. 논쟁은 “피크아웃이냐”가 아니라 “돈의 구성이 학습용 HBM에서 추론·에이전트용 D램·CXL·낸드·기판·전력·광으로 넓어지느냐”, 그리고 “5% 금리를 못 버는 종목을 계속 들고 갈 것이냐”입니다.
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">2</span>오늘 장 — 흔들렸지만 쉽게 무너지진 않았다</h2>
+    <div class="grid g4">
+      <div class="card"><h3>코스피</h3><div class="big up">+0.9%</div><p class="note">갭상승분 점심에 반납 → 막판 거래대금과 함께 회복</p></div>
+      <div class="card"><h3>코스닥</h3><div class="big up">+1.2%</div><p class="note">아침 시세 후 차익실현, 하락분의 약 절반 되돌림</p></div>
+      <div class="card"><h3>개인 순매도</h3><div class="big down">1.7조</div><p class="note">연휴 앞 포지션 정리. 기관이 받아냄</p></div>
+      <div class="card"><h3>선물</h3><div class="big up">외국인 매수</div><p class="note">현물 개인 매도와 결이 다름. 방향 신호로 먼저 볼 자리</p></div>
+    </div>
+    <div class="card" style="margin-top:12px">
+      <h3>장중 리듬</h3>
+      <div class="flow">
+        <div class="box"><b>시가</b><br>갭상승</div>
+        <div class="arrow">→</div>
+        <div class="box"><b>점심</b><br>상승분 반납</div>
+        <div class="arrow">→</div>
+        <div class="box"><b>막판</b><br>거래대금 유입, 반등 마감</div>
+        <div class="arrow">→</div>
+        <div class="box"><b>해석</b><br>저가 매수가 붙는 시장. 크게 무너지진 않음</div>
+      </div>
+      <p class="note">이번 주 패턴은 전강후약·윗꼬리. 한지영 위원은 연휴 관망이지, 7,000이 고점이라는 결론은 아니라고 봅니다. 빈센트(하나증권)는 9월 출발 6,800 → 7,000 안착을 턴어라운드 시작으로 읽습니다.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">3</span>9월 수급 — 누가 시장을 방어했나</h2>
+    <div class="grid g2">
+      <div class="card">
+        <h3>9월 투자 주체 순매수 (발언 기준, 조원)</h3>
+        <div class="bar-row"><span>기타법인</span><div class="track"><div class="fill" style="width:100%;background:#166534"></div></div><b class="up">+23</b></div>
+        <div class="bar-row"><span>기관</span><div class="track"><div class="fill" style="width:26%;background:#1e407c"></div></div><b class="up">+5.9</b></div>
+        <div class="bar-row"><span>외국인</span><div class="track"><div class="fill" style="width:52%;background:#991b1b"></div></div><b class="down">−12</b></div>
+        <div class="bar-row"><span>개인</span><div class="track"><div class="fill" style="width:70%;background:#b45309"></div></div><b class="down">−16</b></div>
+        <p class="note">막대 길이는 절대값 비교용입니다. 개인·외국인 매도를 기타법인 자사주가 메웠다는 그림입니다. 곽상준 대표는 하루 약 1.6~1.7조 매수, 10월 14~16일께 마감으로 봅니다.</p>
+      </div>
+      <div class="card">
+        <h3>자사주 진행률</h3>
+        <div class="bar-row"><span>삼성전자</span><div class="track"><div class="fill" style="width:78%;background:#1e407c"></div></div><b>78%</b></div>
+        <div class="bar-row"><span>SK하이닉스</span><div class="track"><div class="fill" style="width:61%;background:#24508f"></div></div><b>61%</b></div>
+        <ul class="clean">
+          <li>종료 추정: <b>10월 중순</b>. 이때부터 하락 시 받아주던 물량이 사라집니다.</li>
+          <li>메울 후보: 10월 초~말 삼성·하이닉스 실적, 컨퍼런스콜, 특별배당·차기 주주환원(2027~29) 기대.</li>
+          <li>빈센트: 환원은 1회성이 아니라 연속성으로 확인돼야 의문이 풀린다.</li>
+          <li>우선주: 고점 대비 약 10% 이내. 배당 구간 언급은 70~120조(발언 스케일, 기간·범위는 원문 확인 필요).</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">4</span>10월 캘린더</h2>
+    <div class="timeline">
+      <div class="tl"><div class="when">지금 · 추석</div><p>거래대금 주춤. 공격 베팅보다 포지션 정리. 미중 정상회담·유가·중동 헤드라인을 연휴에 소화.</p></div>
+      <div class="tl"><div class="when">10/1</div><p>마이크론 실적. 시장은 거의 완벽을 요구. 1분기(9~11월) 매출·ASP·GPM, 고객 재고와 CPU 병목, 대만 노조가 포인트.</p></div>
+      <div class="tl"><div class="when">10월 초·중</div><p>코리아 프리미엄 위크(대형주 IR). 자사주 매입 종료 구간(14~16일 전후).</p></div>
+      <div class="tl"><div class="when">10월</div><p>호르무즈 우회 인프라 기금 실무협상 시작 가능성. 미국·걸프, 100억 달러(플랫폼 500억 달러+ 언급).</p></div>
+      <div class="tl"><div class="when">10월 말</div><p>삼성·하이닉스 실적·컨콜. 미국 빅테크 캡엑스 가이던스. 여기서 내년 상향이 유지되는지가 피크아웃 논쟁의 분기점.</p></div>
+      <div class="tl"><div class="when">연말~내년</div><p>YMTC 상장 언급, 전고체(SDI 2027 출시 발언), 바이오·소부장·코스닥 확산 기대와 금리 경로가 겹칩니다.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">5</span>기술주 차트 — 카나리아는 이미 돌파</h2>
+    <table>
+      <thead><tr><th>이름</th><th>위치</th><th>읽는 법</th></tr></thead>
+      <tbody>
+        <tr><td>샌디스크</td><td><span class="tag g">저항 돌파</span></td><td>가벼운 메모리 카나리아. 주황 저항을 전일 6~7%대 급등으로 돌파. 빠질 때도 먼저 빠지는 성향.</td></tr>
+        <tr><td>마이크론</td><td><span class="tag g">전고점 돌파</span></td><td>전일은 도지성 애매한 돌파, 당일은 약 5% 급등으로 확인. 전고점 테스트 구간이 열렸다는 해석. 안착 눌림 가능성은 열어 둠.</td></tr>
+        <tr><td>삼성전자</td><td><span class="tag a">박스 상단</span></td><td>8월 18일 고가 28만 8천 원 부근. 60일선 위. 방향은 시간 문제라는 쪽. 키맞추기 대상.</td></tr>
+        <tr><td>SK하이닉스</td><td><span class="tag a">전고점 직전</span></td><td>60일선 돌파·안착. 전고점은 아직. 샌디스크·마이크론 선행 후 후행 키맞추기 기대.</td></tr>
+        <tr><td>이비덴</td><td><span class="tag g">장 초반 +14%</span></td><td>뮤즈발 CPU 수요·ABF 기판 수혜 퀵코멘트. 기판 병목의 가격 반영 사례.</td></tr>
+        <tr><td>원전·건설</td><td><span class="tag r">셀온</span></td><td>한전기술, 현대건설 등 7%대 하락 언급. 웨스팅하우스 지분·비용 분담이 미확정. 내용 자체는 중기 호재로 보고, 바닥 확인 후 매수 관점(당일 급등 가정은 거부).</td></tr>
+      </tbody>
+    </table>
+    <p class="note">SOX·EWY·디램 ETF·메타 관련 차트는 “박스 상단 돌파 테스트, 개인적으로는 돌파 쪽, 모멘텀은 메타 뮤즈”로 정리돼 있습니다.</p>
+  </section>
+
+  <section>
+    <h2><span class="num">6</span>반도체 — 왜 이야기가 둘로 갈리나</h2>
+    <div class="grid g2">
+      <div class="card" style="background:#fdecea">
+        <h3>에이서 CEO · B2C</h3>
+        <p>PC·노트북 디램은 <b>2027년 상반기께 완화</b>를 말한다. 지금 당장 풀렸다는 뜻은 아님. 중국 CXMT가 저가 DDR4·LPDDR4부터 점유율을 올리는 구간.</p>
+        <p class="note">스마트폰·PC 출하: 올해 연초 대비 10~15% 하향, 내년 약 5% 추가 감소 언급. 하이엔드 폰 BOM에서 메모리 비중 10% 초반 → 30% 중반, 중국 저가는 절반.</p>
+      </div>
+      <div class="card" style="background:#e8f5e9">
+        <h3>인텔 CEO · B2B</h3>
+        <p>AI 서버 CPU는 여전히 줄 서는 시장. 오픈AI 아스트라·메타 뮤즈 같은 에이전트가 늘수록 <b>CPU와 서버 디램은 더 모자란다.</b> PC용 CPU 물량은 줄이고 서버로 기울인 상태.</p>
+        <p class="note">이형수 대표 결론: B2B와 B2C는 K자. 미국 AI 인프라에 중국산 메모리가 못 들어가 시장이 분리. 범용 가격 급락(과거형 반토막)보다는 소프트 랜딩·유지 쪽에 무게.</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:12px">
+      <h3>가격은 오르되, 기울기는 둔화 — 주가는 기울기를 본다</h3>
+      <div class="bar-row"><span>1분기</span><div class="track"><div class="fill" style="width:100%;background:#0f2043"></div></div><b>+100%</b></div>
+      <div class="bar-row"><span>2분기</span><div class="track"><div class="fill" style="width:60%;background:#1e407c"></div></div><b>+60%</b></div>
+      <div class="bar-row"><span>3분기</span><div class="track"><div class="fill" style="width:20%;background:#5b7bb5"></div></div><b>+20%</b></div>
+      <div class="bar-row"><span>4분기</span><div class="track"><div class="fill" style="width:12%;background:#b8943a"></div></div><b>관전</b></div>
+      <p class="note">디램 가격 인상률(발언). 절대 가격은 사상 최고 부근인데, 상승률이 100→60→20으로 꺾이면 주가는 “더 오르냐”보다 “기울기가 살아 있냐”에 반응합니다. 4분기 마이너스 전환론은 최근 톤다운. 씨티는 마이크론 가격 정점을 2027년 2분기로 보고, 그 전까지는 공급 부족(상승률은 둔화)으로 봅니다.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">7</span>에이전트 AI가 메모리를 잡아먹는 구조</h2>
+    <div class="flow">
+      <div class="box"><b>1. 학습</b><br>프론티어 모델<br>GPU · HBM</div>
+      <div class="arrow">+</div>
+      <div class="box"><b>2. 추론</b><br>사용 횟수 · 토큰<br>컨텍스트</div>
+      <div class="arrow">+</div>
+      <div class="box"><b>3. 에이전트</b><br>검색·도구·재시도<br>화면·상태 저장</div>
+      <div class="arrow">→</div>
+      <div class="box"><b>메모리 계층</b><br>HBM + 범용 D램<br>CXL · KV캐시 · 낸드</div>
+    </div>
+    <div class="grid g3" style="margin-top:12px">
+      <div class="card">
+        <h3>왜 텍스트보다 화면인가</h3>
+        <p>비행기표·결제·브라우저 조작은 40분짜리 화면을 시각 정보로 들고 있어야 합니다. 도스 시대 명령어와 달리 GUI·영상 편집은 디램을 크게 씁니다. 뮤즈는 B2C 에이전트 대중화 모델로 호명됩니다.</p>
+      </div>
+      <div class="card">
+        <h3>CPU 비율이 바뀐다</h3>
+        <p>예전 AI 서버는 GPU 8대당 오케스트레이션 CPU 1대(대략 1:8~1:4). 지금은 <b>1:2, 나아가 1:1</b>. CPU가 늘면 ABF 기판·패키징 수요가 같이 납니다. 이비덴 급등의 연결고리입니다.</p>
+      </div>
+      <div class="card">
+        <h3>제번스 역설</h3>
+        <p>추론 단가가 10만 원에서 1만 원으로 내려도 사용 횟수가 더 빨리 늘면 총 연산·메모리는 증가합니다. 양자화·KV캐시 압축·MoE(가동률 약 14% 언급)가 있어도 이형수 대표는 “하고 있는데도 부족”이라고 봅니다.</p>
+      </div>
+    </div>
+    <div class="callout">
+      <strong>속도 조절론의 결론(퀵코멘트·박사·빈센트 공통에 가깝습니다).</strong> 35°로 돌아갈 일이 아니라, 45°로 가팔라진 능력을 40°로 조절해도 사용량이 10배·100배면 컴퓨트는 더 큽니다. 냉전 핵 비유처럼 중국이 속도를 같이 늦출 구조가 아니라, 브레이크가 생기면 오히려 더 빨리 달릴 수 있다는 쪽입니다. 실제 감속 신호는 빅테크가 내년 캡엑스를 하향·플랫으로 줄 때입니다.
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">8</span>삼성전자 목표가 — 숫자보다 근거</h2>
+    <div class="grid g2">
+      <div class="card">
+        <h3>유안타증권 (발언: 유한타)</h3>
+        <table>
+          <tr><th>항목</th><th>내용</th></tr>
+          <tr><td>목표주가</td><td>53만 → <b>63만 원</b></td></tr>
+          <tr><td>상승여력</td><td>현재가 대비 약 <b>128%</b>로 설명</td></tr>
+          <tr><td>3분기 영업이익</td><td>약 <b>100조</b>. 시장 분포 100~120조의 하단</td></tr>
+          <tr><td>올해 영업이익</td><td><b>358조</b>. 기존 하단 368조보다 낮음</td></tr>
+          <tr><td>증권사 밴드(올해)</td><td>최저 368조 ~ 최고 407조(IM증권). 유안타는 휴가 복귀 리포트로 밴드 밖·최하단</td></tr>
+          <tr><td>내년 영업이익</td><td><b>590조</b>. 핵심은 올해보다 내년</td></tr>
+        </table>
+        <p class="note">3분기 눈높이를 낮춘 이유 중 하나로 환율(원화 강세) 손실 반영이 언급됩니다. 한지영 위원도 3분기는 환 효과로 약 10% 감익처럼 보일 수 있는 일시 현상이고, 내년·내후년 추정은 올라가는 중이라고 봅니다.</p>
+      </div>
+      <div class="card">
+        <h3>상향의 세 축</h3>
+        <ul class="clean">
+          <li><b>피크아웃 지연.</b> 2028년 우려(증설·HBM이 범용 캐파를 잠식)에도, AI 추론·고용량 수요로 공급 제약 해소가 늦어진다.</li>
+          <li><b>구형 가속기도 비싸다.</b> 4년 전 엔비디아 가속기 가격이 아직 오른다. 신제품은 비싸고 못 산다.</li>
+          <li><b>주주환원.</b> 현 정책은 2024~26. 2027~29 정책 상향, 3분기 특별배당이 예상보다 클 수 있다는 시장 판단.</li>
+        </ul>
+        <h3 style="margin-top:12px">왜 지금 모멘텀 비교는 삼성 쪽 이야기인가</h3>
+        <ul class="clean">
+          <li>HBM4E로 가며 <b>베이스 다이</b>가 중요해진다. 하이닉스는 TSMC에 맡기고, 삼성은 파운드리로 직접 만든다.</li>
+          <li>맞춤형 반도체(ASIC)가 늘수록 로직+메모리+파운드리를 가진 쪽이 유연하다.</li>
+          <li>소캠(CPU 옆 특수 디램), MRDIMM 등 주문형 메모리 비중이 커지면 메모리도 파운드리형 산업에 가까워진다.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card" style="margin-top:12px">
+      <h3>타노스 비유 — 삼성 스톤 3개</h3>
+      <div class="grid g3">
+        <div><span class="tag a">스톤 1 · 선단 파운드리</span><p>4·5·8나노는 10~15% 가격 인상. 2나노는 한때 인하 → 최근 인상 전환, 퀄컴 단가 인하 거절. 주문 밀도 회복 신호.</p></div>
+        <div><span class="tag g">스톤 2 · HBM·범용</span><p>범용도 살아나고 HBM도 회복 국면. 실적 발표의 핵심 KPI는 영업이익률(하이닉스 70% 후반 유지, 마이크론 80%대, 삼성 개선 여부).</p></div>
+        <div><span class="tag r">스톤 3 · 첨단 패키징</span><p>TSMC CoWoS가 병목·매출 비중 약 10%, 투자 비중 15~20%. 삼성 아이큐브는 고객이 덜 온다. 의외의 강자는 인텔 EMIB. 앞공정은 삼성, 뒤 패키징은 인텔·TSMC로 나뉠 수 있다는 시나리오.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">9</span>마이크론 실적에서 볼 것 (10월 1일 한국시간)</h2>
+    <div class="grid g2">
+      <div class="card">
+        <h3>씨티 요약 (퀵코멘트)</h3>
+        <ul class="clean">
+          <li>4Q26E 매출 510억 달러 / EPS 31.45달러</li>
+          <li>1Q27E 매출 570억 달러 / EPS 35.25달러, 컨센서스 상회 전망</li>
+          <li>FY27 캡엑스 500억 달러(공장 골조 200억 달러 초반, 나머지 장비)</li>
+          <li>D램·낸드 당분간 공급 부족. 가격 상승률은 향후 4분기 둔화, <b>정점 워치 2027년 2분기</b></li>
+          <li>투자의견 Buy, 목표주가 1,150 → <b>1,300달러</b></li>
+          <li>별도 코멘트: 9~11월 매출 500억 달러 후반, GPM 88% 부근까지 상승이 초점. EPS “309달러”는 문맥상 30달러대로 읽는 편이 맞습니다.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>수요가 꺾였는지가 아니라</h3>
+        <ul class="clean">
+          <li><b>대만 노조.</b> 글로벌 영업이익 15% 이익공유 요구. 파업이면 공급 부족 심화(매출 리스크), 수용이면 마진 리스크.</li>
+          <li><b>CPU 병목.</b> 서버 조립이 CPU를 기다려 고객 창고에 메모리가 쌓이면, 메모리 수요 붕괴가 아니라 주문 지연·운전자본 묶임. 컨콜에서 “재고가 정상 소화되는지”를 확인할 것.</li>
+          <li>하나증권 그림: 삼성·하이닉스 3분기 마진은 블룸버그 컨센서스와 큰 갭 없이, 원화 강세 속에서도 숫자가 찍히는지가 터닝포인트.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">10</span>병목 지도 — 어디가 값을 부르나</h2>
+    <table>
+      <thead><tr><th>병목</th><th>상태</th><th>가격을 세게 못 부르는 이유</th><th>한국 연결</th></tr></thead>
+      <tbody>
+        <tr><td>D램 (AI 서버)</td><td><span class="tag r">가장 빡셈</span></td><td>이미 70~80% 마진. 과거 슈퍼사이클 상한은 약 50%였는데 그 금기를 넘음. 증설 본격 출하는 2027년 말~2028년 초.</td><td>삼성, SK하이닉스, 마이크론</td></tr>
+        <tr><td>HBM·첨단 패키징</td><td><span class="tag a">부족하지만 D램보다는 완화</span></td><td>TSMC CoWoS, 인텔 EMIB. 삼성은 아이큐브 고객 유입이 약함.</td><td>패키징 수율·2.5D/3D</td></tr>
+        <tr><td>ABF 기판</td><td><span class="tag r">리드타임 52~56주</span></td><td>이비덴·신코덴키 공급 부족. 삼성전기·유니마이크론이 AI 서버로 이동해도 모자람. 이익률은 호황 20% → 내년 30% 후반 전망. 한 번에 70%를 못 부르는 건 거래 관행·상상력의 한계.</td><td>삼성전기, 이비덴 급등</td></tr>
+        <tr><td>CCL · 유리섬유</td><td><span class="tag r">독점에 가까움</span></td><td>니토보가 저열팽창 유리섬유. 부르는 게 값인데 보수적으로 올림.</td><td>기판 원가의 맨 밑단</td></tr>
+        <tr><td>전력 · 변압기</td><td><span class="tag a">수주는 길다</span></td><td>인도 5~7년. 지금 10배를 부르기 어렵고 10~15% 인상이 현실선. 실적 가시성이 메모리보다 늦어 할인율이 붙음.</td><td>HD현대일렉트릭, 효성중공업, LS일렉트릭</td></tr>
+        <tr><td>광 네트워크</td><td><span class="tag b">비중 확대 초입</span></td><td>NVLink Fusion, 이더넷, 스케일 업/아웃/어크로스. 메모리 비중 약 10%→30%, 네트워크는 10% 미만→13%대 상승 언급.</td><td>국내 플레이어는 얇음. 루멘텀·코히어런트 비교</td></tr>
+      </tbody>
+    </table>
+    <p class="note">하이퍼스케일러 연간 캡엑스: 연초 약 7,000억 달러 → 현재 약 8,000억 달러 언급. 이 중 건물·냉각 등 셸이 한 덩어리, 나머지의 상당 부분이 반도체이고 그 절반 안팎이 메모리라는 설명입니다. 2·3·4차 협력사(나사·볼트급)는 코로나 불황에 정리돼 증설 속도가 메모리 3사 의지보다 느립니다.</p>
+  </section>
+
+  <section>
+    <h2><span class="num">11</span>매크로 — 5% 금리와 유가</h2>
+    <div class="grid g3">
+      <div class="card">
+        <h3>미국 10년</h3>
+        <div class="big flat">약 5%</div>
+        <p>테일러 룰 업데이트 값 <b>5.1%</b>. 5% 도달은 체력에 맞고, 그 위로 크게 벗어나면 경제를 누르기 시작. 4.4~4.5%로 빨리 되돌아가긴 어렵다는 쪽. 채권 투자자에겐 살 만한 가격대.</p>
+      </div>
+      <div class="card">
+        <h3>물가의 다른 눈</h3>
+        <div class="big down">+20%p</div>
+        <p>전년비 2% 중반이 아니라, <b>5년 추세 대비 미국 물가 레벨이 20% 이탈</b>. 그래서 일찍 올려 이후 가속 인상 옵션을 줄이자는 논리. 인상 횟수는 유가에 좌우. 유가 경로: 50달러대 → 120 → 69 → 105 → 90초반.</p>
+      </div>
+      <div class="card">
+        <h3>한국 금리·환율</h3>
+        <div class="big">1,350원대</div>
+        <p>한미 10년 스프레드 축소(한국 4.4% vs 미국 4.7~4.8% 언급)가 원화 강세 재료였다가, 미국 금리 재상승으로 1,535원 부근까지 밀린 뒤 1,350원대로 정리됐다는 발언. 한국 GDP 디플레이터는 수출단가(반도체) 때문에 CPI와 크게 벌어져, 한은 추가 인상 카드가 10월 뇌관.</p>
+      </div>
+    </div>
+    <div class="grid g2" style="margin-top:12px">
+      <div class="card">
+        <h3>유가·디젤·호르무즈</h3>
+        <ul class="clean">
+          <li>WTI 100달러 내러티브가 90달러 초반으로 내려온 것은 미중·중동 봉합 기대의 가격.</li>
+          <li>물가 경로는 원유 부재보다 <b>정제 마비</b>(우크라이나 드론의 러시아 정유시설) 쪽이 강조됨. 미국 디젤 수출 제한 논의, 러시아 수출 금지. 한국 정유는 수출 유인·배당 관점.</li>
+          <li>미국·걸프 100억 달러 에너지 인프라 기금(우회 파이프, 최대 500억 달러+). 단기 호르무즈 리스크는 안 풀림. 10월 실무협상과 사우디·UAE 참여가 변수. 이란이 압박으로 읽으면 협상 악화.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>자금 조달 스트레스</h3>
+        <ul class="clean">
+          <li>소프트뱅크: 오픈AI 상장 지연으로 담보대출 롤오버 부담. 정크본드, 이자 약 <b>8%</b>. 성장률이 이 비용을 못 이기면 순환출자 고리가 약해짐.</li>
+          <li>순환금융은 플러스일 때 다 플러스, 한 곳만 마이너스면 증폭. 닷컴 때보다 빅테크 현금은 두껍지만 “괜찮다”고 단정하긴 어렵다는 평가.</li>
+          <li>미국 중간선거 직전 10월 추가 인상 가능성은 낮게 보고, 다음 인상 턴은 연말로 넘긴다는 견해.</li>
+          <li>PMI 강세는 AI 캡엑스에 우호적이나, 유가·임금이 겹치면 PER 할인율 부담.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">12</span>화자가 갈리는 지점</h2>
+    <div class="speakers">
+      <div class="sp">
+        <h3>시황 진행자 <span class="tag b">확산 기대</span></h3>
+        <p>반도체·소부장 비중은 늘리되 100% 몰빵은 아직. 전력, 원전(눌림 후), 로봇 등 AI 밸류체인을 연휴에 준비. 상반기처럼 삼전닉스만 가고 나머지가 쉬는 장은 아니라고 봄. 하락 종목 많음은 연휴 수급 공백 영향도 있음.</p>
+      </div>
+      <div class="sp">
+        <h3>한지영 · 키움 <span class="tag g">주도주 유지</span></h3>
+        <p>강세장 엔진(이익, 주주환원)은 꺼지지 않음. 삼전닉스 합산 밸류에이션 약 4배, 이익 추정 우상향. 점유율은 90% → 50~60%로 줄었을 뿐 1위. 10월까지는 재료가 코스피(실적·코리아 프리미엄 위크). 전력·조선·방산·금융이 나머지 지분을 나눔. 함부로 팔 구간은 아님.</p>
+      </div>
+      <div class="sp">
+        <h3>빈센트 · 하나 <span class="tag g">하이닉스 원픽</span></h3>
+        <p>아직 약세장이 아닌 강세장 속 조정. 추석 이후 시선은 영업이익률. 드러켄밀러 방한은 칩을 넘어 에너지·인프라(두산에너빌리티 등)로 사이클이 길어진다는 방증. 리스크는 미국 금리가 아니라 한국 물가·한은.</p>
+      </div>
+      <div class="sp">
+        <h3>이형수 · HSL <span class="tag b">1~2년 공급 타이트</span></h3>
+        <p>B2B/B2C 분리, 증설 출하까지 1~2년, 가격 소프트랜딩. 에이전틱 AI를 1년 전엔 2~3년 뒤로 봤고, 그 사이 범용 디램 폭발을 놓쳤다고 회고. 수출에서 반도체 비중 47~48%대. 꺾일 확률은 마음속 10% 미만이나 메타인지는 경계. 소캠·주문형 메모리로 삼성 구도가 유리, 실행은 하이닉스-TSMC-엔비디아 밀착과 경쟁.</p>
+      </div>
+      <div class="sp">
+        <h3>부동산 비유 화자 <span class="tag a">확산·후발</span></h3>
+        <p>삼전닉스는 평당 3억(계산이 되는 주식), 소부장·코스닥은 마용성이 못 따라온 상태. 연말~내년, 특히 내년 9월쯤 종목 장세. 지수 자체는 7,500 부근 박스일 수도 있음. 2차전지 ESS·전고체(SDI 퍼스트무버, 디스플레이 지분 매각으로 유증 부담 적음), 바이오(금리 하락 조건부), 중국 매출 소부장(주성엔지니어링, DB하이텍, 이오테크닉스). 좋은 자산의 물타기와 트레이딩 손절은 다르다고 구분.</p>
+      </div>
+      <div class="sp">
+        <h3>금리 박사 <span class="tag r">종목 폭을 줄여라</span></h3>
+        <p>나스닥 신고가인데 신저가가 더 많다. 국채 5%를 못 버는 주식은 탈락 기준. 지금 종목을 넓히는 전략은 비추. ELS·커버드콜은 박스·변동성 국면의 도구로 언급. 찐수요 점검: 미국 비상장 포함 기업이익에서 빅테크 비중 약 6%인데 나머지도 양호. 한국은 반도체·ICT를 뺀 수출이 살아 있는지로 글로벌 수요를 본다. AI 주가 랠리를 수년 더 간다고 보진 않고 후반부 진입으로 봄.</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:12px">
+      <h3>모순처럼 보여도 시간축이 다릅니다</h3>
+      <p>한지영·빈센트는 <b>지금~10월, 삼전닉스 주도 유지</b>. 부동산 비유 화자는 <b>연말 이후 소부장·2차전지·바이오·코스닥 확산</b>. 금리 박사는 <b>확산하더라도 5% 허들을 넘는 종목만</b>. 시황 진행자는 그 중간에서 반도체 비중 확대 + 밸류체인 준비입니다. 코스피 이익 스케일(한지영: 올해 약 900조, 내년 약 1,300조 / 과거 200~300조)은 강세의 엔진으로, 삼전닉스 4배 밸류는 “비싸 보이지만 이익 대비로는 싸다”는 주장의 근거입니다. 시장이 안 믿는 이유는 1~2년 뒤 이익이 낙관 착시일 수 있어서이고, 그 착시가 깨지는 신호는 캡엑스·가격 코멘트의 하향입니다.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">13</span>체크리스트</h2>
+    <div class="grid g2">
+      <div class="card">
+        <h3>연휴 동안</h3>
+        <ul class="clean">
+          <li>미중 정상회담: 빅딜보다 스몰딜·핫라인. 갑자기 틀어질 확률은 낮고, “별일 없음”이 실망 시나리오.</li>
+          <li>WTI가 90달러 초반에 머물면 금리 속도 조절 기대, 100달러 재돌파면 5% 위 금리 압력.</li>
+          <li>CXMT·HBM 관련 언급이 한국 메모리 양보로 읽히는지. 안보 자산이라 전면 개방 가능성은 낮다는 평가가 우세.</li>
+          <li>메타 커넥트·뮤즈, AI 글래스 결합 여부.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>연휴 직후</h3>
+        <ul class="clean">
+          <li>거래대금이 돌아오는가, ADR이 80%대에서 반등하는가.</li>
+          <li>마이크론: 가이던스 상향인가, CPU 재고 경고인가, 마진 80%대 유지인가.</li>
+          <li>삼성 28만 8천, 하이닉스 전고점 안착인가 실패인가. 샌디스크·마이크론 돌파의 되돌림 깊이.</li>
+          <li>자사주 종료 주간에 기관·외국인 선물이 공백을 메우는가.</li>
+          <li>원전주는 전저점 이탈인지, 바닥 다지기인지.</li>
+          <li>수출(1~20일 이미 강함, 반도체 약 48%·석유제품 차순위). 9월 월간이 1,000억 달러 근접인지.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">14</span>긴 시계</h2>
+    <table>
+      <thead><tr><th>시점</th><th>무엇을 확인하나</th></tr></thead>
+      <tbody>
+        <tr><td>2026년 4분기</td><td>디램 가격 상승률의 부호. 실적장세로 복귀하는지.</td></tr>
+        <tr><td>2027년</td><td>삼성 영업이익 590조 경로, 주주환원 차기 정책, SDI 전고체 출시 발언, B2C 메모리 완화 시점(에이서: 상반기).</td></tr>
+        <tr><td>2027년 2분기</td><td>씨티의 메모리 가격 정점 워치. 정점 이후에도 소프트랜딩인지.</td></tr>
+        <tr><td>2027년 말~2028년 초</td><td>삼성·하이닉스·마이크론 신규 팹 물량. 기판·유리섬유·패키징 병목이 그때도 남는지.</td></tr>
+        <tr><td>2028년 전후</td><td>AI 무형투자 → 생산성 가속이 통계로 보이는지(시차 2~3년 주장).</td></tr>
+        <tr><td>2028~30</td><td>전고체 본격 상용, HBM 외 소캠·주문형 메모리 비중.</td></tr>
+      </tbody>
+    </table>
+    <footer>
+      출처는 2026년 9월 24일 전후 시황 방송, 손에 잡히는 경제(이형수), 증시 하이킥(곽상준), 키움 한지영, 하나증권 빈센트 월간 체크포인트, 금리 박사 대담, 그리고 당일 퀵코멘트(엘크·제번스·마이크론·호르무즈·PMI)를 음성기록 기준으로 재구성한 것입니다.
+      종목·수치는 화자 발언이며 투자 권유가 아닙니다. “코스닭→코스닥”, “유한타→유안타”, “3전닉스→삼전닉스”, “솔림→쏠림”, “세론→셀온”처럼 음성인식 오류는 문맥으로 바로잡았고, EPS 309달러·배당 70~120조처럼 단위가 불확실한 숫자는 본문에 별도 표시했습니다.
+      엘크 뿔 비유는 능력(뿔)과 비용·안전장치(가드레일)의 트레이드오프, 최종 목적은 인간 효용이라는 설명 자료로 별도 부록 성격이라 본 브리핑의 투자 결론에는 넣지 않았습니다.
+    </footer>
+  </section>
+</main>
+</body>
+</html>
