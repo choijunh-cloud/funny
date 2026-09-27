@@ -145,6 +145,43 @@ def grid_counts(names, ret):
     return counts
 
 
+def upside_value_rank(upside_pct: dict[str, float]):
+    """Equal-weight blend of expected upside and 2027 earnings yield.
+
+    Earnings yield is 2027 EPS / 2026-09-23 price. A higher yield is a lower
+    2027 PER, so the value leg is cheapness versus that year's earnings, not a
+    second copy of the author-PER upside.
+    """
+    names = [r[0] for r in ROWS]
+    price = np.array([r[2] for r in ROWS], float)
+    eps = np.array([r[6] for r in ROWS], float)
+    ey = eps / price * 100.0
+    up = np.array([upside_pct[n] for n in names], float)
+    per27 = price / eps
+
+    def z(x):
+        return (x - x.mean()) / x.std()
+
+    score = 0.5 * z(up) + 0.5 * z(ey)
+    up_rank = np.argsort(np.argsort(-up)) + 1
+    val_rank = np.argsort(np.argsort(per27)) + 1
+    order = np.argsort(-score)
+    rows = []
+    for i in order:
+        rows.append(
+            dict(
+                name=names[i],
+                score=float(score[i]),
+                upside=float(up[i]),
+                ey=float(ey[i]),
+                per27=float(per27[i]),
+                up_rank=int(up_rank[i]),
+                val_rank=int(val_rank[i]),
+            )
+        )
+    return rows
+
+
 def main():
     names, price, ret, eps = simulate(n=250_000)
     base = stats(names, price, ret, eps)
@@ -183,6 +220,15 @@ def main():
         if kw.get("cb_simtek"):
             extra = f"   심텍 {float(r[:, nms.index('심텍')].mean()*100):.2f}%"
         print(label, " / ".join(f"{a} {b:.1f}%" for a, b in tops), extra, f"neg {int((e<=0).sum())}")
+
+    print("\nUPSIDE + 2027 EARNINGS YIELD (equal z-score)")
+    blended = upside_value_rank({name: base[name]["mean"] for name in base})
+    print(f"{'rank':<4} {'name':<18} {'blend':>7} {'upside':>8} {'ey':>7} {'per27':>7} {'upR':>4} {'valR':>5}")
+    for i, row in enumerate(blended, 1):
+        print(
+            f"{i:<4} {row['name']:<18} {row['score']:7.2f} {row['upside']:7.2f}% "
+            f"{row['ey']:6.2f}% {row['per27']:7.2f} {row['up_rank']:4d} {row['val_rank']:5d}"
+        )
 
 
 if __name__ == "__main__":
