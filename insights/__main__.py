@@ -7,6 +7,7 @@ from pathlib import Path
 
 from insights.distill import distill_path
 from insights.render import write_outputs, write_unified
+from insights.transcript import distill_transcript_path, write_study
 from insights.unify import unify
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -20,8 +21,20 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("-o", "--out", default="out/insights", help="md, json, docx를 쓸 폴더")
     parser.add_argument("--title", default=DEFAULT_TITLE)
     parser.add_argument("--html", action="append", default=[], help="해석 HTML. 있으면 퀵 코멘트와 한 편으로 합친다")
+    parser.add_argument("--transcript", help="방송 전사. 오늘의 논리를 증류한다")
     parser.add_argument("--print", action="store_true", dest="show", help="판단 문장만 stdout에 찍는다")
     args = parser.parse_args(argv)
+    if args.transcript:
+        study = distill_transcript_path(args.transcript)
+        paths = write_study(study, Path(args.out))
+        if args.show:
+            for piece in study.pieces:
+                print(f"[{piece.label}] {piece.point}")
+            return
+        print(f"sentences={study.stats.get('sentences')} pieces={study.stats.get('pieces')}")
+        for label, path in paths.items():
+            print(f"{label}: {path}")
+        return
     if args.html:
         doc = unify(args.source, args.html)
         paths = write_unified(doc, Path(args.out))
