@@ -297,3 +297,161 @@ def _font(run, size, bold, color) -> None:
     run.font.size = Pt(size)
     run.bold = bold
     run.font.color.rgb = color
+
+
+def render_unified_markdown(doc) -> str:
+    from insights.unify import piece_point
+
+    lines = [
+        f"# {doc.title}",
+        "",
+        doc.intro,
+        "",
+        (
+            f"해석 편 {doc.stats.get('essays', 0)}개, "
+            f"말·의미 블록 {doc.stats.get('blocks', 0)}개, "
+            f"퀵 코멘트 판단 {doc.stats.get('quick_meanings', 0)}개를 "
+            f"주제 {doc.stats.get('pieces', 0)}개로 겹쳤다."
+        ),
+        "",
+    ]
+    if doc.morals:
+        lines.append("## 두 편이 같은 곳으로 모으는 말")
+        lines.append("")
+        for moral in doc.morals:
+            lines.append(moral)
+            lines.append("")
+    lines.append("## 겹친 판단")
+    lines.append("")
+    for index, piece in enumerate(doc.pieces, start=1):
+        lines.append(f"{index}. **{piece.label}.** {piece_point(piece)}")
+    lines.append("")
+    for piece in doc.pieces:
+        lines.extend(_piece_md(piece))
+    if doc.voices:
+        lines.append("## 누가 무엇을 들고 가나")
+        lines.append("")
+        for voice in doc.voices:
+            lines.append(f"- **{voice.name}.** {voice.line}")
+            if voice.prescription:
+                lines.append(f"  처방: {voice.prescription}")
+        lines.append("")
+    if doc.sources:
+        lines.append("출처: " + " · ".join(doc.sources))
+        lines.append("")
+    return "\n".join(lines).rstrip() + "\n"
+
+
+def render_unified_json(doc) -> str:
+    payload = {
+        "title": doc.title,
+        "intro": doc.intro,
+        "principle": "speaker-meaning-over-fact-check",
+        "morals": doc.morals,
+        "sources": doc.sources,
+        "stats": doc.stats,
+        "pieces": [
+            {
+                "theme": piece.theme,
+                "label": piece.label,
+                "says": piece.says,
+                "readings": piece.readings,
+                "watches": piece.watches,
+                "quick": piece.quick,
+            }
+            for piece in doc.pieces
+        ],
+        "voices": [
+            {
+                "name": voice.name,
+                "line": voice.line,
+                "prescription": voice.prescription,
+            }
+            for voice in doc.voices
+        ],
+    }
+    return json.dumps(payload, ensure_ascii=False, indent=2) + "\n"
+
+
+def render_unified_docx(doc, path: Path) -> None:
+    from insights.unify import piece_point
+
+    document = Document()
+    _setup(document, doc.title)
+    _paragraph(document, doc.title, size=20, bold=True, color=NAVY, space_after=4)
+    _paragraph(document, "퀵 코멘트와 두 해석 편을 한 장으로", size=10, color=GOLD, space_after=8)
+    _paragraph(document, doc.intro, size=11, space_after=8)
+    for moral in doc.morals:
+        _paragraph(document, moral, size=11, space_after=8)
+    _paragraph(document, "겹친 판단", size=14, bold=True, color=NAVY, space_before=8, space_after=6)
+    for index, piece in enumerate(doc.pieces, start=1):
+        _paragraph(document, f"{index}.  {piece.label}", size=11, bold=True, color=NAVY, space_after=1)
+        _paragraph(document, piece_point(piece), size=11, space_after=4)
+    for piece in doc.pieces:
+        _paragraph(document, piece.label, size=14, bold=True, color=NAVY, space_before=12, space_after=4)
+        if piece.says:
+            _callout(document, "말하려는 것", piece.says[0])
+            for extra in piece.says[1:]:
+                _paragraph(document, f"·  {extra}", size=10.5, space_after=2)
+        if piece.readings:
+            _paragraph(document, "이렇게 읽힌다", size=11, bold=True, color=NAVY, space_before=4, space_after=2)
+            for reading in piece.readings:
+                _paragraph(document, f"·  {reading}", size=10.5, space_after=2)
+        if piece.quick:
+            _paragraph(document, "퀵 코멘트의 같은 말", size=11, bold=True, color=NAVY, space_before=4, space_after=2)
+            for line in piece.quick:
+                _paragraph(document, f"·  {line}", size=10.5, space_after=2)
+        if piece.watches:
+            _paragraph(document, "보라는 것", size=11, bold=True, color=NAVY, space_before=4, space_after=2)
+            for watch in piece.watches:
+                _paragraph(document, f"·  {watch}", size=10.5, space_after=2)
+    if doc.voices:
+        _paragraph(document, "누가 무엇을 들고 가나", size=14, bold=True, color=NAVY, space_before=12, space_after=4)
+        for voice in doc.voices:
+            _paragraph(document, voice.name, size=12, bold=True, color=NAVY, space_after=1)
+            _paragraph(document, voice.line, size=11, space_after=1)
+            if voice.prescription:
+                _paragraph(document, "처방  " + voice.prescription, size=10, color=GRAY, space_after=6)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    document.save(path)
+
+
+def write_unified(doc, out_dir: Path) -> dict[str, Path]:
+    out_dir.mkdir(parents=True, exist_ok=True)
+    markdown_path = out_dir / "하나로.md"
+    json_path = out_dir / "하나로.json"
+    docx_path = out_dir / "하나로.docx"
+    markdown_path.write_text(render_unified_markdown(doc), encoding="utf-8")
+    json_path.write_text(render_unified_json(doc), encoding="utf-8")
+    render_unified_docx(doc, docx_path)
+    return {"md": markdown_path, "json": json_path, "docx": docx_path}
+
+
+def _piece_md(piece) -> list[str]:
+    lines = [f"## {piece.label}", ""]
+    if piece.says:
+        lines.append(f"**말하려는 것.** {piece.says[0]}")
+        lines.append("")
+        for extra in piece.says[1:]:
+            lines.append(f"- {extra}")
+        if len(piece.says) > 1:
+            lines.append("")
+    if piece.readings:
+        lines.append("이렇게 읽힌다")
+        lines.append("")
+        for reading in piece.readings:
+            lines.append(f"- {reading}")
+        lines.append("")
+    if piece.quick:
+        lines.append("퀵 코멘트의 같은 말")
+        lines.append("")
+        for line in piece.quick:
+            lines.append(f"- {line}")
+        lines.append("")
+    if piece.watches:
+        lines.append("**보라는 것.**")
+        lines.append("")
+        for watch in piece.watches:
+            lines.append(f"- {watch}")
+        lines.append("")
+    return lines
