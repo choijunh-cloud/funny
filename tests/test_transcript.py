@@ -55,3 +55,7 @@ def test_today_script_distills_the_learning_logic():
     assert study.chain
     assert any("채권" in title or "밸류" in title for title, _left, _right in study.forks)
     assert any("손절" in quote for _label, quote in study.actions)
+    assert all(piece.insight for piece in study.pieces)
+    assert "성장" in by["rates"].insight or "금리" in by["rates"].insight
+    assert "유가" in by["oil"].insight
+    assert len(by["rates"].insight) <= 80

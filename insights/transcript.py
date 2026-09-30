@@ -146,6 +146,8 @@ class StudyPiece:
     point: str
     support: list[str]
     order: int
+    insight: str = ""
+    notes: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -324,6 +326,50 @@ def _keep(ranked: list[tuple[int, str]], spec: ThemeSpec) -> list[str]:
     return kept
 
 
+def _clauses(text: str) -> list[str]:
+    text = re.sub(r"\s+", " ", text)
+    text = re.sub(r"(매 ){2,}", "", text)
+    parts = re.split(r"[?]\s*|,\s+| 그리고 | 근데 | 그래서 | 왜냐면 | 그러나 | 는데 ", text)
+    clauses: list[str] = []
+    for part in parts:
+        clause = part.strip(" .")
+        clause = re.sub(r"^(?:보면|하면|해서|니까|자|요|고|어)\s+", "", clause)
+        if len(clause) >= 14:
+            clauses.append(clause)
+    return clauses or [text.strip(" .")]
+
+
+def _distill_line(texts: list[str], spec: ThemeSpec) -> str:
+    anchors = (*spec.primary, *spec.secondary)
+    best = ""
+    best_score = -10**9
+    for text in texts:
+        for clause in _clauses(text):
+            if not any(word in clause for word in anchors):
+                continue
+            score = _score(clause, spec)
+            if 18 <= len(clause) <= 76:
+                score += 5
+            elif len(clause) > 120:
+                score -= 4
+            if score > best_score:
+                best_score = score
+                best = clause
+    if not best:
+        best = texts[0]
+    best = re.sub(r"^(?:아니라|보면|하면|일단은|그럼|그런데)\s*", "", best).strip()
+    found = [word for word in spec.primary if word in best] or [word for word in spec.secondary if word in best]
+    if found and len(best) > 76:
+        index = min(best.find(word) for word in found)
+        start = max(0, index - 8)
+        snap = best.rfind(" ", 0, start + 1)
+        if snap >= 0:
+            start = snap + 1
+        best = best[start:]
+    best = _clip(best, 76)
+    return re.sub(r"^(?:(?:은|는|이|가|을|를|의|에|와|과|도|만|요|고)\s+)+", "", best).strip()
+
+
 def _clip(text: str, limit: int = 92) -> str:
     text = re.sub(r"\s+", " ", text).strip(" .")
     if len(text) <= limit:
@@ -441,8 +487,24 @@ def distill_transcript(text: str) -> Study:
         kept = _keep(ranked, spec)
         if not kept:
             continue
+        insight = _distill_line([kept[0]], spec)
+        notes = []
+        for extra in kept[1:]:
+            note = _distill_line([extra], spec)
+            if note and not _similar(note, insight) and not any(_similar(note, old) for old in notes):
+                notes.append(note)
+            if len(notes) >= 2:
+                break
         pieces.append(
-            StudyPiece(theme=spec.key, label=spec.label, point=kept[0], support=kept[1:], order=order)
+            StudyPiece(
+                theme=spec.key,
+                label=spec.label,
+                point=kept[0],
+                support=kept[1:],
+                order=order,
+                insight=insight,
+                notes=notes,
+            )
         )
 
     chain = _chain(pieces)
@@ -455,7 +517,7 @@ def distill_transcript(text: str) -> Study:
             "받아쓰기 오탈자는 고치지 않았고, 숫자는 맞추지 않았다. "
             "표는 그 말의 순서와 갈림이다."
         ),
-        logic=[f"{piece.label}: {piece.point}" for piece in pieces],
+        logic=[f"{piece.label}: {piece.insight}" for piece in pieces],
         pieces=pieces,
         chain=chain,
         forks=forks,
@@ -474,15 +536,26 @@ def render_study_markdown(study: Study) -> str:
         "",
         study.intro,
         "",
-        f"말조각 {study.stats.get('sentences', 0)}개에서 논리 {study.stats.get('pieces', 0)}줄기로 좁혔다.",
+        f"말조각 {study.stats.get('sentences', 0)}개에서 논리 {study.stats.get('pieces', 0)}줄기로 좁힌 뒤, 줄기마다 결론 구절 한 줄로 증류했다.",
         "",
-        "## 논리의 뼈대",
+        "## 증류",
         "",
-        "| 순서 | 줄기 | 화자가 미는 말 |",
-        "| --- | --- | --- |",
     ]
     for index, piece in enumerate(study.pieces, start=1):
-        lines.append(f"| {index} | {piece.label} | {_clip(piece.point, 80)} |")
+        lines.append(f"{index}. **{piece.label}.** {piece.insight}")
+        for note in piece.notes:
+            lines.append(f"   - {note}")
+    lines.extend(
+        [
+            "",
+            "## 논리의 뼈대",
+            "",
+            "| 순서 | 줄기 | 증류한 말 |",
+            "| --- | --- | --- |",
+        ]
+    )
+    for index, piece in enumerate(study.pieces, start=1):
+        lines.append(f"| {index} | {piece.label} | {piece.insight} |")
     lines.append("")
     if study.chain:
         lines.extend(["## 이어 붙인 인과", "", "| 앞에서 | 화자의 연결 | 뒤에서 |", "| --- | --- | --- |"])
@@ -503,7 +576,9 @@ def render_study_markdown(study: Study) -> str:
     for piece in study.pieces:
         lines.append(f"### {piece.label}")
         lines.append("")
-        lines.append(piece.point)
+        lines.append(piece.insight)
+        lines.append("")
+        lines.append(f"받아쓴 말. {piece.point}")
         lines.append("")
         for item in piece.support:
             lines.append(f"- {item}")
@@ -524,7 +599,13 @@ def write_study(study: Study, out_dir: Path) -> dict[str, Path]:
         "intro": study.intro,
         "principle": "speaker-meaning-over-fact-check",
         "logic": [
-            {"label": piece.label, "point": piece.point, "support": piece.support}
+            {
+                "label": piece.label,
+                "insight": piece.insight,
+                "notes": piece.notes,
+                "point": piece.point,
+                "support": piece.support,
+            }
             for piece in study.pieces
         ],
         "chain": [{"before": left, "link": mid, "after": right} for left, mid, right in study.chain],
@@ -561,11 +642,18 @@ def _write_docx(study: Study, path: Path) -> None:
         header.runs[0].text = "오늘 학습  ·  화자의 논리"
     _paragraph(document, study.title, size=20, bold=True, color=NAVY, space_after=4)
     _paragraph(document, study.intro, size=11, space_after=8)
-    _paragraph(document, "논리의 뼈대", size=14, bold=True, color=NAVY, space_before=4, space_after=4)
+    _paragraph(document, "증류", size=14, bold=True, color=NAVY, space_before=4, space_after=4)
+    for index, piece in enumerate(study.pieces, start=1):
+        _paragraph(document, f"{index}.  {piece.label}", size=11, bold=True, color=NAVY, space_after=1)
+        _paragraph(document, piece.insight, size=11, space_after=1)
+        for note in piece.notes:
+            _paragraph(document, f"·  {note}", size=10.5, color=DARK, space_after=1)
+        _paragraph(document, "", size=6, space_after=2)
+    _paragraph(document, "논리의 뼈대", size=14, bold=True, color=NAVY, space_before=8, space_after=4)
     _grid(
         document,
-        ["순서", "줄기", "화자가 미는 말"],
-        [[str(index), piece.label, piece.point] for index, piece in enumerate(study.pieces, start=1)],
+        ["순서", "줄기", "증류한 말"],
+        [[str(index), piece.label, piece.insight] for index, piece in enumerate(study.pieces, start=1)],
         NAVY_HEX,
         WHITE,
         _shade,
@@ -582,7 +670,8 @@ def _write_docx(study: Study, path: Path) -> None:
         _grid(document, ["자리", "화자의 말"], [list(row) for row in study.actions], NAVY_HEX, WHITE, _shade, _cell)
     for piece in study.pieces:
         _paragraph(document, piece.label, size=14, bold=True, color=NAVY, space_before=12, space_after=4)
-        _callout(document, "미는 말", piece.point)
+        _callout(document, "증류", piece.insight)
+        _paragraph(document, f"받아쓴 말  ·  {piece.point}", size=10, color=GRAY, space_after=2)
         for item in piece.support:
             _paragraph(document, f"·  {item}", size=10.5, color=DARK, space_after=2)
     _paragraph(
