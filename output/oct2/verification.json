@@ -1,0 +1,128 @@
+{
+  "pass": 17,
+  "fail": 0,
+  "note": 3,
+  "ok": true,
+  "checks": [
+    {
+      "id": "source_needles",
+      "status": "pass",
+      "claim": "브리프가 인용하는 앵커는 원문에 있다",
+      "detail": "50/50"
+    },
+    {
+      "id": "pce_not_a_collapse",
+      "status": "pass",
+      "claim": "8월 3.0%는 개정 이후 급락이 아니다",
+      "detail": "개정 0.361%p, 개정 7월→8월 +0.025%p, 옛 7월→8월 헤드라인 0.336%p"
+    },
+    {
+      "id": "pce_momentum",
+      "status": "pass",
+      "claim": "최근 3개월 연율이 6개월보다 낮다",
+      "detail": "3개월 2.05% < 6개월 2.74%"
+    },
+    {
+      "id": "curve_short_end",
+      "status": "pass",
+      "claim": "되밀림은 단기물이 더 크다",
+      "detail": "1년 -11.0bp, 2년 -9.9bp, 5년 -8.0bp, 10년 -5.0bp, 30년 -2.0bp"
+    },
+    {
+      "id": "ten_year_range",
+      "status": "note",
+      "claim": "5.34%에서 5.24%대까지는 10bp",
+      "detail": "고점→마감 -10bp. 전사에 같이 나온 저점 5.2%까지는 -14bp라, '고저 10bp'는 마감 기준이다"
+    },
+    {
+      "id": "book_arithmetic",
+      "status": "pass",
+      "claim": "경력자 북의 합이 범위와 맞다",
+      "detail": "AI50 구성합 90 + 미배분 10, AI60 구성합 100"
+    },
+    {
+      "id": "kospi_gap",
+      "status": "pass",
+      "claim": "7,000까지 29포인트",
+      "detail": "7000 - 6971 = 29"
+    },
+    {
+      "id": "kospi_swing",
+      "status": "pass",
+      "claim": "장중 -1%에서 종가 +1.9%는 약 3%p",
+      "detail": "스윙 2.9%p"
+    },
+    {
+      "id": "intek_target",
+      "status": "pass",
+      "claim": "인텍플러스 4,904원 × 19.4배 = 9.5만원",
+      "detail": "계산값 95,138원, 목표가 95,000원, 차이 138원 (0.14%)"
+    },
+    {
+      "id": "sanil_cagr_order",
+      "status": "pass",
+      "claim": "산일전기는 이익이 매출보다 빨리 늘고 마진이 오른다",
+      "detail": "매출 CAGR 32.5%, 영업이익 CAGR 38.5%, 마진 37.5%→40.7%"
+    },
+    {
+      "id": "sanil_cagr_bridge",
+      "status": "pass",
+      "claim": "마진 확대가 영업이익 CAGR을 설명한다",
+      "detail": "매출 CAGR과 마진으로 역산한 영업이익 CAGR 38.0%, 제시 38.5%"
+    },
+    {
+      "id": "micron_capex_floor",
+      "status": "note",
+      "claim": "마이크론 2027 캐펙스 하한은 1.85배, 두 배는 하반기 290억 달러 이상",
+      "detail": "상·하반기를 같게 두면 1.85배. 두 배가 되려면 하반기 290억 달러"
+    },
+    {
+      "id": "micron_gm_dip",
+      "status": "pass",
+      "claim": "다음 분기 가이던스 86.2%는 이번 87%보다 낮다",
+      "detail": "차이 -0.8%p. 바닥·보너스 해석은 원문 진술"
+    },
+    {
+      "id": "accenture_payout",
+      "status": "pass",
+      "claim": "엑센추어는 잉여현금의 대부분을 환원했다",
+      "detail": "11.5 / 11.6 = 99.1%"
+    },
+    {
+      "id": "export_mix",
+      "status": "pass",
+      "claim": "반도체 603 + 컴퓨터·SSD 71은 수출의 56%와 맞다",
+      "detail": "674 / 1209 = 55.7%"
+    },
+    {
+      "id": "export_daily",
+      "status": "pass",
+      "claim": "수출 1,209억과 일평균 56억은 한 달 조업일로 성립한다",
+      "detail": "1,209 / 56 = 21.6일"
+    },
+    {
+      "id": "semco_cushion_order",
+      "status": "pass",
+      "claim": "삼성전기 안전마진은 08:52의 50~60%에서 09:00의 20~30%로 좁아졌다",
+      "detail": "블록 [('09:00', True, False), ('08:52', False, True)]"
+    },
+    {
+      "id": "hana_nine_percent",
+      "status": "note",
+      "claim": "삼성 2027년 520조가 9% 하향이라면 하향 전은 약 571조",
+      "detail": "520 / 0.91 = 571조. 원문의 컨센서스 밴드(550~500조 후반)보다 높다. 9%와 520은 밴드의 상단 쪽과만 대략 맞는다"
+    },
+    {
+      "id": "docs_carry_the_math",
+      "status": "pass",
+      "claim": "핵심 메모와 증류 브리프가 검증된 숫자를 그대로 싣는다",
+      "detail": "핵심 누락 없음, 브리프 누락 없음"
+    },
+    {
+      "id": "core_does_not_claim_double",
+      "status": "pass",
+      "claim": "핵심 메모는 확인되지 않은 '캐펙스 두 배'를 단정하지 않는다",
+      "detail": "두 배 문장은 긴 브리프에서 1.85배 하한과 290억 조건으로 한정"
+    }
+  ]
+}

@@ -1,0 +1,721 @@
+{
+  "counts": {
+    "pdf_chars": 7584,
+    "comment_chars": 10837,
+    "speech_chars": 107427,
+    "comment_blocks": 30,
+    "chapters": 8,
+    "facts": 50,
+    "facts_found": 50,
+    "tensions": 7
+  },
+  "density_leaders": {
+    "speech": [
+      "메모리",
+      "금리·연준",
+      "소비 브랜드",
+      "유가·정유"
+    ],
+    "comments": [
+      "기판·패키징",
+      "금리·연준",
+      "광연결",
+      "메모리"
+    ],
+    "pdf": [
+      "에이전트·통행세",
+      "순환투자·GPU수명",
+      "광연결",
+      "금리·연준"
+    ]
+  },
+  "themes": [
+    {
+      "theme_id": "rates",
+      "label": "금리·연준",
+      "pdf": 6,
+      "comments": 23,
+      "speech": 89,
+      "pdf_per_10k": 7.91,
+      "comments_per_10k": 21.22,
+      "speech_per_10k": 8.28
+    },
+    {
+      "theme_id": "memory",
+      "label": "메모리",
+      "pdf": 2,
+      "comments": 20,
+      "speech": 90,
+      "pdf_per_10k": 2.64,
+      "comments_per_10k": 18.46,
+      "speech_per_10k": 8.38
+    },
+    {
+      "theme_id": "equipment",
+      "label": "장비·증설",
+      "pdf": 0,
+      "comments": 8,
+      "speech": 22,
+      "pdf_per_10k": 0.0,
+      "comments_per_10k": 7.38,
+      "speech_per_10k": 2.05
+    },
+    {
+      "theme_id": "optical",
+      "label": "광연결",
+      "pdf": 13,
+      "comments": 21,
+      "speech": 6,
+      "pdf_per_10k": 17.14,
+      "comments_per_10k": 19.38,
+      "speech_per_10k": 0.56
+    },
+    {
+      "theme_id": "packaging",
+      "label": "기판·패키징",
+      "pdf": 0,
+      "comments": 29,
+      "speech": 2,
+      "pdf_per_10k": 0.0,
+      "comments_per_10k": 26.76,
+      "speech_per_10k": 0.19
+    },
+    {
+      "theme_id": "power",
+      "label": "전력·냉각",
+      "pdf": 0,
+      "comments": 10,
+      "speech": 20,
+      "pdf_per_10k": 0.0,
+      "comments_per_10k": 9.23,
+      "speech_per_10k": 1.86
+    },
+    {
+      "theme_id": "oil",
+      "label": "유가·정유",
+      "pdf": 2,
+      "comments": 8,
+      "speech": 54,
+      "pdf_per_10k": 2.64,
+      "comments_per_10k": 7.38,
+      "speech_per_10k": 5.03
+    },
+    {
+      "theme_id": "fx",
+      "label": "원화·환율",
+      "pdf": 6,
+      "comments": 3,
+      "speech": 0,
+      "pdf_per_10k": 7.91,
+      "comments_per_10k": 2.77,
+      "speech_per_10k": 0.0
+    },
+    {
+      "theme_id": "circular",
+      "label": "순환투자·GPU수명",
+      "pdf": 14,
+      "comments": 15,
+      "speech": 23,
+      "pdf_per_10k": 18.46,
+      "comments_per_10k": 13.84,
+      "speech_per_10k": 2.14
+    },
+    {
+      "theme_id": "platform",
+      "label": "에이전트·통행세",
+      "pdf": 18,
+      "comments": 0,
+      "speech": 0,
+      "pdf_per_10k": 23.73,
+      "comments_per_10k": 0.0,
+      "speech_per_10k": 0.0
+    },
+    {
+      "theme_id": "japan_reform",
+      "label": "일본 기업개혁",
+      "pdf": 4,
+      "comments": 0,
+      "speech": 0,
+      "pdf_per_10k": 5.27,
+      "comments_per_10k": 0.0,
+      "speech_per_10k": 0.0
+    },
+    {
+      "theme_id": "japan_macro",
+      "label": "일본 매크로",
+      "pdf": 0,
+      "comments": 0,
+      "speech": 8,
+      "pdf_per_10k": 0.0,
+      "comments_per_10k": 0.0,
+      "speech_per_10k": 0.74
+    },
+    {
+      "theme_id": "flow",
+      "label": "국내 수급",
+      "pdf": 0,
+      "comments": 10,
+      "speech": 42,
+      "pdf_per_10k": 0.0,
+      "comments_per_10k": 9.23,
+      "speech_per_10k": 3.91
+    },
+    {
+      "theme_id": "geo",
+      "label": "이란·선거",
+      "pdf": 0,
+      "comments": 1,
+      "speech": 40,
+      "pdf_per_10k": 0.0,
+      "comments_per_10k": 0.92,
+      "speech_per_10k": 3.72
+    },
+    {
+      "theme_id": "consumer",
+      "label": "소비 브랜드",
+      "pdf": 0,
+      "comments": 0,
+      "speech": 59,
+      "pdf_per_10k": 0.0,
+      "comments_per_10k": 0.0,
+      "speech_per_10k": 5.49
+    },
+    {
+      "theme_id": "governance",
+      "label": "주주환원",
+      "pdf": 2,
+      "comments": 1,
+      "speech": 8,
+      "pdf_per_10k": 2.64,
+      "comments_per_10k": 0.92,
+      "speech_per_10k": 0.74
+    },
+    {
+      "theme_id": "credit",
+      "label": "회사채·TLT",
+      "pdf": 0,
+      "comments": 0,
+      "speech": 13,
+      "pdf_per_10k": 0.0,
+      "comments_per_10k": 0.0,
+      "speech_per_10k": 1.21
+    }
+  ],
+  "chapters": [
+    {
+      "chapter_id": "open_macro",
+      "title": "오프닝 — 장비·수출·유가, 금리가 유가와 반대로 움직임",
+      "start": 0,
+      "end": 7788,
+      "chars": 7788
+    },
+    {
+      "chapter_id": "fed_speakers",
+      "title": "연준 인사(제퍼슨·쿡·카시카리)와 고용·ISM 첫 정리",
+      "start": 7788,
+      "end": 10758,
+      "chars": 2970
+    },
+    {
+      "chapter_id": "qa_housing",
+      "title": "질의 — 미국 주택 락인, 한국 부동산·자영업, 코리안 디스카운트",
+      "start": 10758,
+      "end": 17876,
+      "chars": 7118
+    },
+    {
+      "chapter_id": "park",
+      "title": "박병창 — 10/1 수급, 코스닥 양봉, 앤트로픽 IPO 지연, 수출",
+      "start": 17876,
+      "end": 37018,
+      "chars": 19142
+    },
+    {
+      "chapter_id": "kwon",
+      "title": "권순우 — 정유 수출금지, 품목별 수출, LG 칠러, LS·두산, 서울 집값",
+      "start": 37018,
+      "end": 51726,
+      "chars": 14708
+    },
+    {
+      "chapter_id": "lee",
+      "title": "이선엽 — 마이크론 세 조건, 신뢰, 5% 금리의 의미, 10월 정치",
+      "start": 51726,
+      "end": 71675,
+      "chars": 19949
+    },
+    {
+      "chapter_id": "wallst",
+      "title": "월가 브리핑 — ISM 물가, 광규제, 마이크론 디테일, 나이키·엑센추어",
+      "start": 71675,
+      "end": 89495,
+      "chars": 17820
+    },
+    {
+      "chapter_id": "dave",
+      "title": "데이바 — 회사채 물량, TLT, 비중, 주주환원, 반도체 박스",
+      "start": 89495,
+      "end": 107427,
+      "chars": 17932
+    }
+  ],
+  "entities": [
+    {
+      "name": "마이크론",
+      "pdf": 0,
+      "comments": 11,
+      "speech": 44,
+      "total": 55
+    },
+    {
+      "name": "나이키",
+      "pdf": 0,
+      "comments": 0,
+      "speech": 48,
+      "total": 48
+    },
+    {
+      "name": "구글",
+      "pdf": 0,
+      "comments": 0,
+      "speech": 22,
+      "total": 22
+    },
+    {
+      "name": "삼성전자",
+      "pdf": 2,
+      "comments": 2,
+      "speech": 16,
+      "total": 20
+    },
+    {
+      "name": "SK하이닉스",
+      "pdf": 0,
+      "comments": 2,
+      "speech": 17,
+      "total": 19
+    },
+    {
+      "name": "엔비디아",
+      "pdf": 2,
+      "comments": 3,
+      "speech": 11,
+      "total": 16
+    },
+    {
+      "name": "앤트로픽",
+      "pdf": 0,
+      "comments": 0,
+      "speech": 14,
+      "total": 14
+    },
+    {
+      "name": "엑센추어",
+      "pdf": 0,
+      "comments": 0,
+      "speech": 12,
+      "total": 12
+    },
+    {
+      "name": "에어비앤비",
+      "pdf": 10,
+      "comments": 0,
+      "speech": 0,
+      "total": 10
+    },
+    {
+      "name": "브로드컴",
+      "pdf": 1,
+      "comments": 2,
+      "speech": 5,
+      "total": 8
+    },
+    {
+      "name": "오픈AI",
+      "pdf": 0,
+      "comments": 1,
+      "speech": 6,
+      "total": 7
+    },
+    {
+      "name": "SK이노베이션",
+      "pdf": 0,
+      "comments": 0,
+      "speech": 6,
+      "total": 6
+    },
+    {
+      "name": "삼성전기",
+      "pdf": 0,
+      "comments": 5,
+      "speech": 0,
+      "total": 5
+    },
+    {
+      "name": "산일전기",
+      "pdf": 0,
+      "comments": 3,
+      "speech": 1,
+      "total": 4
+    },
+    {
+      "name": "코히런트",
+      "pdf": 0,
+      "comments": 1,
+      "speech": 2,
+      "total": 3
+    },
+    {
+      "name": "크레도",
+      "pdf": 1,
+      "comments": 1,
+      "speech": 1,
+      "total": 3
+    },
+    {
+      "name": "두산에너빌리티",
+      "pdf": 0,
+      "comments": 0,
+      "speech": 3,
+      "total": 3
+    },
+    {
+      "name": "LS일렉트릭",
+      "pdf": 0,
+      "comments": 1,
+      "speech": 2,
+      "total": 3
+    },
+    {
+      "name": "인텍플러스",
+      "pdf": 0,
+      "comments": 1,
+      "speech": 0,
+      "total": 1
+    }
+  ],
+  "facts": [
+    {
+      "id": "pce_july_old",
+      "needle": "3.344%",
+      "found": true
+    },
+    {
+      "id": "pce_july_rev",
+      "needle": "2.983%",
+      "found": true
+    },
+    {
+      "id": "pce_aug",
+      "needle": "3.008%",
+      "found": true
+    },
+    {
+      "id": "pce_3m",
+      "needle": "2.05%",
+      "found": true
+    },
+    {
+      "id": "pce_6m",
+      "needle": "2.74%",
+      "found": true
+    },
+    {
+      "id": "ust_spike",
+      "needle": "5.34%",
+      "found": true
+    },
+    {
+      "id": "cohr_move",
+      "needle": "+10.9%",
+      "found": true
+    },
+    {
+      "id": "crdo_move",
+      "needle": "+7.9%",
+      "found": true
+    },
+    {
+      "id": "cohr_pt",
+      "needle": "$350",
+      "found": true
+    },
+    {
+      "id": "crdo_sales",
+      "needle": "$479M",
+      "found": true
+    },
+    {
+      "id": "avgo_42",
+      "needle": "$42bn",
+      "found": true
+    },
+    {
+      "id": "sanil_cagr_sales",
+      "needle": "32.5%",
+      "found": true
+    },
+    {
+      "id": "sanil_cagr_op",
+      "needle": "38.5%",
+      "found": true
+    },
+    {
+      "id": "sanil_per",
+      "needle": "PER 16배",
+      "found": true
+    },
+    {
+      "id": "ls_per",
+      "needle": "31배",
+      "found": true
+    },
+    {
+      "id": "intek_tp",
+      "needle": "9.5만원",
+      "found": true
+    },
+    {
+      "id": "intek_eps",
+      "needle": "4,904원",
+      "found": true
+    },
+    {
+      "id": "semco_uplift",
+      "needle": "+64%",
+      "found": true
+    },
+    {
+      "id": "margin_tight",
+      "needle": "20~30%",
+      "found": true
+    },
+    {
+      "id": "margin_wide",
+      "needle": "50~60%",
+      "found": true
+    },
+    {
+      "id": "kospi_close",
+      "needle": "6,971pt",
+      "found": true
+    },
+    {
+      "id": "kosdaq_move",
+      "needle": "+4.48%",
+      "found": true
+    },
+    {
+      "id": "semi_export",
+      "needle": "603억 달러",
+      "found": true
+    },
+    {
+      "id": "semi_yoy",
+      "needle": "+262.8%",
+      "found": true
+    },
+    {
+      "id": "mu_gm",
+      "needle": "87%",
+      "found": true
+    },
+    {
+      "id": "mu_gm_next",
+      "needle": "86.2%",
+      "found": true
+    },
+    {
+      "id": "mu_rpo",
+      "needle": "1,500억 달러",
+      "found": true
+    },
+    {
+      "id": "mu_capex_26",
+      "needle": "270억 달러",
+      "found": true
+    },
+    {
+      "id": "mu_capex_27h1",
+      "needle": "250억 달러",
+      "found": true
+    },
+    {
+      "id": "foreign_buy",
+      "needle": "3,500억",
+      "found": true
+    },
+    {
+      "id": "pension_buy",
+      "needle": "233억",
+      "found": true
+    },
+    {
+      "id": "hold_odds",
+      "needle": "74%",
+      "found": true
+    },
+    {
+      "id": "ism_prices",
+      "needle": "77.9",
+      "found": true
+    },
+    {
+      "id": "acn_bookings",
+      "needle": "22.2",
+      "found": true
+    },
+    {
+      "id": "acn_fcf",
+      "needle": "11.6",
+      "found": true
+    },
+    {
+      "id": "acn_return",
+      "needle": "11.5",
+      "found": true
+    },
+    {
+      "id": "aws_gpu",
+      "needle": "15%",
+      "found": true
+    },
+    {
+      "id": "ls_hvdc",
+      "needle": "345kV",
+      "found": true
+    },
+    {
+      "id": "doosan_omon",
+      "needle": "8,400억",
+      "found": true
+    },
+    {
+      "id": "doosan_ytd",
+      "needle": "3조 8",
+      "found": true
+    },
+    {
+      "id": "samsung_box",
+      "needle": "24만 5,000원",
+      "found": true
+    },
+    {
+      "id": "googl_50w",
+      "needle": "331달러",
+      "found": true
+    },
+    {
+      "id": "france_cut",
+      "needle": "540억 유로",
+      "found": true
+    },
+    {
+      "id": "buyback_ust",
+      "needle": "60억 달러",
+      "found": true
+    },
+    {
+      "id": "hana_op",
+      "needle": "520조",
+      "found": true
+    },
+    {
+      "id": "fx_1350",
+      "needle": "1350",
+      "found": true
+    },
+    {
+      "id": "shinko_fy",
+      "needle": "FY2028",
+      "found": true
+    },
+    {
+      "id": "unimicron_2030",
+      "needle": "2030년",
+      "found": true
+    },
+    {
+      "id": "abnb_multiple",
+      "needle": "30배",
+      "found": true
+    },
+    {
+      "id": "bkng_multiple",
+      "needle": "10~11배",
+      "found": true
+    }
+  ],
+  "tensions": [
+    {
+      "id": "semco_cushion",
+      "topic": "삼성전기 안전마진",
+      "what": "같은 논리(이익 +64%, 외국인, 급등 부담)인데 보유 안전마진이 50~60%에서 20~30%로 좁아졌다.",
+      "read": "나중 코멘트가 허용 낙폭을 줄였다. 신규는 처음부터 눌림·분할이다."
+    },
+    {
+      "id": "hike_cycle",
+      "topic": "인상 사이클 종료 여부",
+      "what": "골드만은 10월 인상 철회에 더해 사이클 종료 가능성까지 말했다. 하우스 코멘트는 PCE가 그 신호는 아니라고 선을 그었다.",
+      "read": "10월 동결(단기)과 사이클 종료(레짐)를 한 문장으로 묶지 않는다."
+    },
+    {
+      "id": "citi_cut",
+      "topic": "다음 액션이 인하인가",
+      "what": "시티는 9월 인상 이후 추가 인상 없이 동결을 거쳐 인하가 먼저 올 수 있다고 봤다. 브리핑은 그 현실성을 높게 보지 않았다.",
+      "read": "시장이 세 번 인상을 가격에 넣었던 부담이 걷히는 것과, 인하 사이클 시작은 다른 문장이다."
+    },
+    {
+      "id": "ust_close",
+      "topic": "미 10년물 마감",
+      "what": "장전 메모는 5.252%, 이후 전사는 5.24 마감과 장중 고점 5.34를 같이 말한다.",
+      "read": "레벨의 소수점보다 장중 고점 5.34 이후 되밀렸다는 모양이 공통분모다."
+    },
+    {
+      "id": "brent_print",
+      "topic": "브렌트 레벨",
+      "what": "한 구간은 브렌트 103달러, 다른 구간은 다시 100달러를 넘었다(+4% 안팎)고 말한다.",
+      "read": "공통은 WTI 90달러 초중반, 브렌트 100달러 위, 중국 석유제품 수출 중단이다. 틱은 전사마다 다르다."
+    },
+    {
+      "id": "krw_2027",
+      "topic": "2027년 원/달러",
+      "what": "하나증권이 삼성 2027년 이익을 깎은 이유는 환율 가정을 1400원대 중반에서 1350원으로 낮춘 것이다. 화자는 1350 안착·1300 이하 강세보다 1400원대 재약세에 무게를 둔다.",
+      "read": "반도체 적정주가 논의와 환율 가정을 분리한다. 이익 모델의 환율이 강세면 화자의 매크로와 어긋난다."
+    },
+    {
+      "id": "muse_two_sided",
+      "topic": "뮤즈의 두 얼굴",
+      "what": "마감 코멘트는 메타 뮤즈를 AI 캡엑스와 에이전트 기대로 긍정 요인에 올렸다. 같은 뮤즈를 다룬 PDF는 에어비앤비·검색 광고의 통행세가 빠져나가는 사례로 읽는다.",
+      "read": "에이전트는 인프라 투자에는 수요이고, 트래픽 수수료 사업에는 대체재다."
+    }
+  ],
+  "portfolio": {
+    "experienced_ai50": {
+      "삼전닉스": 30,
+      "소부장": 20,
+      "2차전지": 10,
+      "건설/조선": 10,
+      "현금": 20,
+      "원문 미배분": 10
+    },
+    "experienced_ai60": {
+      "삼전닉스": 40,
+      "소부장": 20,
+      "2차전지": 10,
+      "건설/조선": 10,
+      "현금": 20,
+      "원문 미배분": 0
+    }
+  },
+  "charts": {
+    "theme_density": "/workspace/output/oct2/charts/theme_density.png",
+    "ust_move": "/workspace/output/oct2/charts/ust_move.png",
+    "scoreboard": "/workspace/output/oct2/charts/scoreboard.png",
+    "portfolio": "/workspace/output/oct2/charts/portfolio.png",
+    "pce_path": "/workspace/output/oct2/charts/pce_path.png",
+    "scenario_map": "/workspace/output/oct2/charts/scenario_map.png",
+    "chapters": "/workspace/output/oct2/charts/chapters.png",
+    "capex_timeline": "/workspace/output/oct2/charts/capex_timeline.png"
+  }
+}
