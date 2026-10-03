@@ -229,7 +229,7 @@ def render_docx(report: Report, path: Path) -> None:
     notes.p("퀵코멘트 · 방송 녹취 증류", size=11, bold=True, color=GOLD, align="center", after=2)
     notes.p("투자 인사이트", size=22, bold=True, color=NAVY, align="center", after=2)
     notes.p(
-        f"퀵코멘트 {stats['quick_kept']}개 채택  ·  중복 제거 {stats['quick_dropped']}  ·  녹취 {stats['transcript_blocks']}",
+        f"퀵코멘트 {stats['quick_kept']}개 · 대담 {len(report.dialogs)}편 · 한 노트 {stats.get('unified_bullets', 0)}문장",
         size=10.5,
         color=GRAY,
         align="center",
@@ -242,16 +242,11 @@ def render_docx(report: Report, path: Path) -> None:
     if report.sources:
         notes.p("출처 표기  " + " · ".join(report.sources), size=10, color=GRAY, after=4)
     notes.p(
-        "파일은 최신 코멘트가 위다. 같은 문장이 겹치면 위쪽을 남긴다. 표의 숫자는 원문 표기다.",
+        "퀵코멘트와 방송 대담을 한 노트로 합쳤다. 같은 논지는 한 번만 남기고 출처를 붙인다.",
         size=10,
         color=GRAY,
         after=6,
     )
-
-    if report.chapters:
-        notes.h2("녹취 챕터")
-        for chapter in report.chapters:
-            notes.bullet(chapter)
 
     for index, section in enumerate(report.sections, start=1):
         notes.h1(f"{index}. {section.title}")
@@ -282,43 +277,10 @@ def render_docx(report: Report, path: Path) -> None:
                 lead = ""
             notes.bullet(bullet.text, lead=lead or None)
 
-    if report.dialogs:
-        notes.h1("유튜브·방송 대담")
-        notes.p(
-            "퀵코멘트와 따로 나눈 녹취다. 그 방송 안에 앵커가 있는 문장만 남긴다.",
-            size=10.5,
-            color=GRAY,
-        )
-        for show in report.dialogs:
-            notes.h2(show.title)
-            for item in show.items:
-                notes.bullet(item)
-
-    if report.deep:
-        notes.h1("2차 분석")
-        notes.p(
-            "퀵코멘트 표에 없던 녹취와 맥락이다. 원문에 앵커가 있는 문장만 남긴다.",
-            size=10.5,
-            color=GRAY,
-        )
-        for section in report.deep:
-            notes.h2(section.title)
-            for item in section.items:
-                notes.bullet(item)
-
     if report.checklist:
         notes.h1("확인할 조건")
         for item in report.checklist:
             notes.bullet(item)
-
-    if report.watchlist:
-        notes.h1("녹취 언급 빈도")
-        notes.p("방송 녹취에서 반복된 이름이다. 언급 횟수이며 매수 순위가 아니다.", size=10.5, color=GRAY)
-        notes.table(
-            ["이름", "언급"],
-            [[name, str(count)] for name, count in report.watchlist],
-            [8.0, 3.0],
-        )
 
     path.parent.mkdir(parents=True, exist_ok=True)
     notes.doc.save(str(path))

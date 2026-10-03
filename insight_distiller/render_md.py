@@ -42,21 +42,14 @@ def render_markdown(report: Report) -> str:
         report.headline or "원문에서 한 줄 프레임을 찾지 못했다.",
         "",
         (
-            f"퀵코멘트 {stats['quick_raw']}개 중 중복 {stats['quick_dropped']}개를 빼고 "
-            f"{stats['quick_kept']}개를 남겼다. 녹취 블록 {stats['transcript_blocks']}개, "
-            f"챕터 {stats['chapters']}개. 파일은 최신 코멘트가 위이며, 같은 문장의 수정본은 위쪽을 채택한다. "
+            f"퀵코멘트 {stats['quick_kept']}개와 방송 대담 {len(report.dialogs)}편을 한 노트로 합쳤다. "
+            f"같은 논지는 한 번만 남기고 출처를 붙였다. 문장 {stats.get('unified_bullets', 0)}개. "
             "숫자는 원문 표기다."
         ),
         "",
     ]
     if report.sources:
         parts.append("원문에 등장한 출처 표기: " + ", ".join(report.sources) + ".")
-        parts.append("")
-    if report.chapters:
-        parts.append("## 녹취 챕터")
-        parts.append("")
-        for chapter in report.chapters:
-            parts.append(f"- {chapter}")
         parts.append("")
 
     for section in report.sections:
@@ -73,53 +66,11 @@ def render_markdown(report: Report) -> str:
             parts.append(f"- {_tag(bullet)} · {bullet.text}")
         parts.append("")
 
-    if report.dialogs:
-        parts.append("## 유튜브·방송 대담")
-        parts.append("")
-        parts.append(
-            f"퀵코멘트와 따로, 녹취 대담 {len(report.dialogs)}편에서 "
-            f"{report.stats.get('dialog_items', 0)}개 문장을 골랐다. "
-            "각 문장은 그 방송 구간에 앵커가 있을 때만 남긴다."
-        )
-        parts.append("")
-        for show in report.dialogs:
-            parts.append(f"### {show.title}")
-            parts.append("")
-            for item in show.items:
-                parts.append(f"- {item}")
-            parts.append("")
-
-    if report.deep:
-        parts.append("## 2차 분석 · 녹취에서 보강한 내용")
-        parts.append("")
-        parts.append(
-            f"퀵코멘트 표에 없던 녹취·맥락 {report.stats.get('deep_items', 0)}개다. "
-            "문장은 원문 앵커가 있을 때만 남긴다."
-        )
-        parts.append("")
-        for section in report.deep:
-            parts.append(f"### {section.title}")
-            parts.append("")
-            for item in section.items:
-                parts.append(f"- {item}")
-            parts.append("")
-
     if report.checklist:
         parts.append("## 확인할 조건")
         parts.append("")
         for item in report.checklist:
             parts.append(f"- {item}")
-        parts.append("")
-
-    if report.watchlist:
-        parts.append("## 녹취 언급 빈도")
-        parts.append("")
-        parts.append("방송 녹취에서 반복된 이름이다. 언급 횟수이며 매수 순위가 아니다.")
-        parts.append("")
-        parts.append("| 이름 | 언급 |")
-        parts.append("|---|---|")
-        for name, count in report.watchlist:
-            parts.append(f"| {name} | {count} |")
         parts.append("")
 
     parts.append("---")

@@ -605,7 +605,7 @@ def build_report(blocks: list[Block]) -> Report:
             section.bullets.append(Bullet(line, 0, "extract", None))
         section.bullets = section.bullets[:12]
 
-    sections = [built[key] for key in DISPLAY_ORDER if key in built]
+    raw_sections = [built[key] for key in DISPLAY_ORDER if key in built]
     talks = dialogues(full_text)
     deep = deep_sections(full_text)
     checklist = _checklist(pool, used)
@@ -614,11 +614,11 @@ def build_report(blocks: list[Block]) -> Report:
             continue
         checklist.append(line)
 
-    return Report(
+    report = Report(
         headline=headline,
-        sections=sections,
+        sections=raw_sections,
         facts=facts,
-        checklist=checklist[:10],
+        checklist=checklist,
         watchlist=_watchlist(transcripts),
         chapters=[b.text for b in blocks if b.kind == "chapter"],
         sources=_sources(full_text),
@@ -635,3 +635,9 @@ def build_report(blocks: list[Block]) -> Report:
         deep=deep,
         dialogs=talks,
     )
+    from insight_distiller.unify import prune_checklist, unify
+
+    report.sections = unify(report)
+    report.checklist = prune_checklist(report.checklist, report.sections)
+    report.stats["unified_bullets"] = sum(len(section.bullets) for section in report.sections)
+    return report

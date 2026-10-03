@@ -65,7 +65,7 @@ def test_memory_hdd_and_portfolio_facts():
 def test_report_sections_and_headline():
     report = _report()
     keys = {section.key for section in report.sections}
-    assert {"macro", "memory", "hdd", "optical", "substrate", "power", "portfolio"} <= keys
+    assert {"macro", "memory", "supply", "hdd", "optical", "substrate", "power", "peak", "portfolio"} <= keys
     assert "싸움" in report.headline or "장기금리" in report.headline
     assert [section.key for section in report.sections][:2] == ["macro", "memory"]
     assert report.facts.scalars["floor_per"] == "7"
@@ -106,7 +106,11 @@ def test_report_sections_and_headline():
     assert any("윤지호" in title for title in titles)
     assert any("김효진" in title for title in titles)
     assert all(len(show.items) >= 6 for show in report.dialogs)
-    assert "유튜브·방송 대담" in markdown
+    assert "유튜브·방송 대담" not in markdown
+    assert "2차 분석" not in markdown
+    assert "수급과 가격대" in markdown
+    assert "피크아웃 · 산업과 주가" in markdown
+    assert "이선엽" in markdown and "김효진" in markdown
     assert "1.95%" in markdown
     assert "아홉배" in markdown or "9배" in markdown
     assert "4,400만" in markdown
