@@ -98,6 +98,19 @@ def test_report_sections_and_headline():
     ):
         assert needle in markdown, needle
     assert report.stats["deep_items"] >= 15
+    titles = [show.title for show in report.dialogs]
+    assert len(report.dialogs) == 5
+    assert any("이선엽" in title for title in titles)
+    assert any("김열매" in title for title in titles)
+    assert any("이지원" in title for title in titles)
+    assert any("윤지호" in title for title in titles)
+    assert any("김효진" in title for title in titles)
+    assert all(len(show.items) >= 6 for show in report.dialogs)
+    assert "유튜브·방송 대담" in markdown
+    assert "1.95%" in markdown
+    assert "아홉배" in markdown or "9배" in markdown
+    assert "4,400만" in markdown
+    assert "수급의 파괴력" in markdown
     memory = next(section for section in report.sections if section.key == "memory")
     assert memory.table and memory.table[0]["name"] == "SK하이닉스"
     assert memory.lead

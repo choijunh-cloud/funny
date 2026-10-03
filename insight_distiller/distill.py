@@ -8,6 +8,7 @@ from dataclasses import dataclass, field
 from difflib import SequenceMatcher
 
 from insight_distiller.deep import DeepSection, deep_sections, extra_conditions, supplements
+from insight_distiller.dialogs import Dialogue, dialogues
 from insight_distiller.extract import Facts, extract_facts
 from insight_distiller.parse import Block, dedupe_quick, normalize
 
@@ -234,6 +235,7 @@ class Report:
     sources: list[str]
     stats: dict
     deep: list[DeepSection] = field(default_factory=list)
+    dialogs: list[Dialogue] = field(default_factory=list)
 
 
 def _clean(line: str) -> str:
@@ -604,6 +606,7 @@ def build_report(blocks: list[Block]) -> Report:
         section.bullets = section.bullets[:12]
 
     sections = [built[key] for key in DISPLAY_ORDER if key in built]
+    talks = dialogues(full_text)
     deep = deep_sections(full_text)
     checklist = _checklist(pool, used)
     for line in extra_conditions(full_text):
@@ -627,6 +630,8 @@ def build_report(blocks: list[Block]) -> Report:
             "chapters": sum(1 for b in blocks if b.kind == "chapter"),
             "statements_scored": len(pool) + (1 if headline else 0),
             "deep_items": sum(len(section.items) for section in deep),
+            "dialog_items": sum(len(show.items) for show in talks),
         },
         deep=deep,
+        dialogs=talks,
     )

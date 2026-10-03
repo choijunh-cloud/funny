@@ -41,6 +41,10 @@ def run(source: Path, md_path: Path, json_path: Path, docx_path: Path) -> dict:
             }
             for section in report.sections
         ],
+        "dialogs": [
+            {"key": show.key, "title": show.title, "items": show.items}
+            for show in report.dialogs
+        ],
         "deep": [
             {"key": section.key, "title": section.title, "items": section.items}
             for section in report.deep

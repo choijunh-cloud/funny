@@ -282,6 +282,18 @@ def render_docx(report: Report, path: Path) -> None:
                 lead = ""
             notes.bullet(bullet.text, lead=lead or None)
 
+    if report.dialogs:
+        notes.h1("유튜브·방송 대담")
+        notes.p(
+            "퀵코멘트와 따로 나눈 녹취다. 그 방송 안에 앵커가 있는 문장만 남긴다.",
+            size=10.5,
+            color=GRAY,
+        )
+        for show in report.dialogs:
+            notes.h2(show.title)
+            for item in show.items:
+                notes.bullet(item)
+
     if report.deep:
         notes.h1("2차 분석")
         notes.p(

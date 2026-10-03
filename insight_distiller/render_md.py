@@ -73,6 +73,22 @@ def render_markdown(report: Report) -> str:
             parts.append(f"- {_tag(bullet)} · {bullet.text}")
         parts.append("")
 
+    if report.dialogs:
+        parts.append("## 유튜브·방송 대담")
+        parts.append("")
+        parts.append(
+            f"퀵코멘트와 따로, 녹취 대담 {len(report.dialogs)}편에서 "
+            f"{report.stats.get('dialog_items', 0)}개 문장을 골랐다. "
+            "각 문장은 그 방송 구간에 앵커가 있을 때만 남긴다."
+        )
+        parts.append("")
+        for show in report.dialogs:
+            parts.append(f"### {show.title}")
+            parts.append("")
+            for item in show.items:
+                parts.append(f"- {item}")
+            parts.append("")
+
     if report.deep:
         parts.append("## 2차 분석 · 녹취에서 보강한 내용")
         parts.append("")
