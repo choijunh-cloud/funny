@@ -99,8 +99,13 @@ def test_report_sections_and_headline():
         assert needle in markdown, needle
     assert report.stats["deep_items"] >= 15
     titles = [show.title for show in report.dialogs]
-    assert len(report.dialogs) == 5
+    assert len(report.dialogs) == 10
     assert any("이선엽" in title for title in titles)
+    assert any("노근창" in title for title in titles)
+    assert any("박수현" in title for title in titles)
+    assert any("목대균" in title for title in titles)
+    assert any("RTS" in title for title in titles)
+    assert any("신중호" in title for title in titles)
     assert any("김열매" in title for title in titles)
     assert any("이지원" in title for title in titles)
     assert any("윤지호" in title for title in titles)
@@ -111,6 +116,12 @@ def test_report_sections_and_headline():
     assert "수급과 가격대" in markdown
     assert "피크아웃 · 산업과 주가" in markdown
     assert "이선엽" in markdown and "김효진" in markdown
+    assert "노근창" in markdown and "박수현" in markdown and "신중호" in markdown
+    assert "110조" in markdown
+    assert "120GW" in markdown
+    assert "유니트리" in markdown
+    assert "알래스카 LNG" in markdown
+    assert "로봇 · 피지컬" in markdown
     assert "1.95%" in markdown
     assert "아홉배" in markdown or "9배" in markdown
     assert "4,400만" in markdown
