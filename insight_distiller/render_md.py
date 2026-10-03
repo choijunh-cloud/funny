@@ -5,6 +5,16 @@ from __future__ import annotations
 from insight_distiller.distill import Report
 
 
+def _tag(bullet) -> str:
+    if bullet.time:
+        return bullet.time
+    if bullet.source == "transcript":
+        return "녹취"
+    if bullet.source == "extract":
+        return "추출"
+    return "코멘트"
+
+
 def _table(rows: list[dict]) -> str:
     if not rows:
         return ""
@@ -60,9 +70,23 @@ def render_markdown(report: Report) -> str:
             parts.append(table)
             parts.append("")
         for bullet in section.bullets:
-            tag = bullet.time or ("녹취" if bullet.source == "transcript" else "코멘트")
-            parts.append(f"- {tag} · {bullet.text}")
+            parts.append(f"- {_tag(bullet)} · {bullet.text}")
         parts.append("")
+
+    if report.deep:
+        parts.append("## 2차 분석 · 녹취에서 보강한 내용")
+        parts.append("")
+        parts.append(
+            f"퀵코멘트 표에 없던 녹취·맥락 {report.stats.get('deep_items', 0)}개다. "
+            "문장은 원문 앵커가 있을 때만 남긴다."
+        )
+        parts.append("")
+        for section in report.deep:
+            parts.append(f"### {section.title}")
+            parts.append("")
+            for item in section.items:
+                parts.append(f"- {item}")
+            parts.append("")
 
     if report.checklist:
         parts.append("## 확인할 조건")

@@ -80,6 +80,24 @@ def test_report_sections_and_headline():
         for section in report.sections
         for bullet in section.bullets
     )
+    markdown = render_markdown(report)
+    for needle in (
+        "28만 5,000원",
+        "190만 원",
+        "10월 15일",
+        "프로젝트 주피터",
+        "2.4GW",
+        "예비율은 약 30%",
+        "400만 원",
+        "15% 이상",
+        "유리기판",
+        "화장품은 전체 수출의 약 2%",
+        "1480",
+        "DustPhotonics",
+        "A100/H100",
+    ):
+        assert needle in markdown, needle
+    assert report.stats["deep_items"] >= 15
     memory = next(section for section in report.sections if section.key == "memory")
     assert memory.table and memory.table[0]["name"] == "SK하이닉스"
     assert memory.lead
@@ -102,4 +120,6 @@ def test_docx_contains_distilled_figures(tmp_path):
     assert "투자 인사이트" in text
     assert "184.2만 원" in text
     assert "PER 5.3배" in text
+    assert "프로젝트 주피터" in text
+    assert "28만 5,000원" in text
     assert doc.core_properties.author == "준혁"

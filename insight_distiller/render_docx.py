@@ -272,8 +272,27 @@ def render_docx(report: Report, path: Path) -> None:
                 [3.2, 3.6, 5.5, 5.5],
             )
         for bullet in section.bullets:
-            lead = f"{bullet.time}  " if bullet.time else ("녹취  " if bullet.source == "transcript" else "")
+            if bullet.time:
+                lead = f"{bullet.time}  "
+            elif bullet.source == "transcript":
+                lead = "녹취  "
+            elif bullet.source == "extract":
+                lead = "추출  "
+            else:
+                lead = ""
             notes.bullet(bullet.text, lead=lead or None)
+
+    if report.deep:
+        notes.h1("2차 분석")
+        notes.p(
+            "퀵코멘트 표에 없던 녹취와 맥락이다. 원문에 앵커가 있는 문장만 남긴다.",
+            size=10.5,
+            color=GRAY,
+        )
+        for section in report.deep:
+            notes.h2(section.title)
+            for item in section.items:
+                notes.bullet(item)
 
     if report.checklist:
         notes.h1("확인할 조건")

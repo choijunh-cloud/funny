@@ -7,6 +7,7 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from difflib import SequenceMatcher
 
+from insight_distiller.deep import DeepSection, deep_sections, extra_conditions, supplements
 from insight_distiller.extract import Facts, extract_facts
 from insight_distiller.parse import Block, dedupe_quick, normalize
 
@@ -232,6 +233,7 @@ class Report:
     chapters: list[str]
     sources: list[str]
     stats: dict
+    deep: list[DeepSection] = field(default_factory=list)
 
 
 def _clean(line: str) -> str:
@@ -590,13 +592,30 @@ def build_report(blocks: list[Block]) -> Report:
         built[key] = Section(key, titles[key], lead, bullets, table)
         used.append(lead)
         used.extend(b.text for b in bullets)
+
+    for key, lines in supplements(full_text, facts).items():
+        section = built.get(key)
+        if section is None:
+            continue
+        for line in lines:
+            if any(_similar(line, prev) for prev in [section.lead, *[b.text for b in section.bullets]]):
+                continue
+            section.bullets.append(Bullet(line, 0, "extract", None))
+        section.bullets = section.bullets[:12]
+
     sections = [built[key] for key in DISPLAY_ORDER if key in built]
+    deep = deep_sections(full_text)
+    checklist = _checklist(pool, used)
+    for line in extra_conditions(full_text):
+        if any(_similar(line, prev) for prev in checklist):
+            continue
+        checklist.append(line)
 
     return Report(
         headline=headline,
         sections=sections,
         facts=facts,
-        checklist=_checklist(pool, used),
+        checklist=checklist[:10],
         watchlist=_watchlist(transcripts),
         chapters=[b.text for b in blocks if b.kind == "chapter"],
         sources=_sources(full_text),
@@ -607,5 +626,7 @@ def build_report(blocks: list[Block]) -> Report:
             "transcript_blocks": len(transcripts),
             "chapters": sum(1 for b in blocks if b.kind == "chapter"),
             "statements_scored": len(pool) + (1 if headline else 0),
+            "deep_items": sum(len(section.items) for section in deep),
         },
+        deep=deep,
     )
