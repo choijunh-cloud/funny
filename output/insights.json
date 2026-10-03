@@ -1,0 +1,561 @@
+{
+  "headline": "지금은 “경기침체 리스크”보다 “5% 장기금리 + AI CapEx 지속성”의 싸움.",
+  "stats": {
+    "quick_raw": 59,
+    "quick_kept": 55,
+    "quick_dropped": 4,
+    "transcript_blocks": 7,
+    "chapters": 5,
+    "statements_scored": 319
+  },
+  "sources": [
+    "이선엽",
+    "삼프로",
+    "윤지호",
+    "이지원",
+    "메리츠",
+    "골드만",
+    "Bernstein",
+    "BofA",
+    "Barron"
+  ],
+  "chapters": [
+    "챕터 2: 지금 시장을 위협하는 4가지 리스크",
+    "챕터 3: 역대급 실적에서도 의심하는 건",
+    "챕터 4: PER이 최저인데 주가 못 오르는 이유",
+    "챕터 5: 투자자들이 반드시 경계해야 할 신호",
+    "챕터 6: 2028년까지 살아남을 단 하나의 조건"
+  ],
+  "facts": {
+    "companies": [
+      {
+        "group": "memory",
+        "name": "SK하이닉스",
+        "price": "184.2만 원",
+        "y26": "PER 5.3배 · 영업이익 265조 · EPS 349K",
+        "y27": "PER 4.1배 · 영업이익 392조 · EPS 444K"
+      },
+      {
+        "group": "memory",
+        "name": "삼성전자",
+        "price": "27.6만 원",
+        "y26": "PER 5.8배 · 영업이익 388조 · EPS 47.9K",
+        "y27": "PER 4.1배 · 영업이익 555조 · EPS 67.9K"
+      },
+      {
+        "group": "memory",
+        "name": "마이크론",
+        "price": "1074.89달러",
+        "y26": "FY27 EPS 165달러 · PER 6.5배",
+        "y27": "CY27 EPS 180달러 · PER 6.0배"
+      },
+      {
+        "group": "memory",
+        "name": "샌디스크",
+        "price": "1719.99달러",
+        "y27": "FY27 EPS 230달러 · PER 7.5배"
+      },
+      {
+        "group": "memory",
+        "name": "하이닉스 ADR",
+        "price": "195.13달러 = 263만 원",
+        "y26": "PER 7.5배",
+        "y27": "PER 5.9배 · 본주 대비 44% 프리미엄"
+      },
+      {
+        "group": "hdd",
+        "name": "시게이트",
+        "price": "848.99달러",
+        "y27": "FY27 EPS 32.6달러 · PER 26배"
+      },
+      {
+        "group": "hdd",
+        "name": "웨스턴디지털",
+        "price": "415.29달러",
+        "y27": "FY27 EPS 17.9달러 · PER 23배"
+      }
+    ],
+    "scalars": {
+      "hynix_price": "184.2",
+      "hynix_per_26": "5.3",
+      "hynix_per_27": "4.1",
+      "samsung_price": "27.6",
+      "samsung_per_26": "5.8",
+      "samsung_per_27": "4.1",
+      "hynix_op_26": "265",
+      "hynix_eps_26": "349",
+      "hynix_op_27": "392",
+      "hynix_eps_27": "444",
+      "samsung_op_26": "388",
+      "samsung_eps_26": "47.9",
+      "samsung_op_27": "555",
+      "samsung_eps_27": "67.9",
+      "yoy_op": "40",
+      "yoy_hynix_eps": "27",
+      "yoy_samsung_eps": "42",
+      "fx_move": "5~10%",
+      "fx_price_hit": "6~12%",
+      "fx_consensus": "1480",
+      "fx_alt": "1370",
+      "fx_consensus_cut": "10",
+      "micron_discount": "-30",
+      "discount_band": "-20~-50",
+      "floor_per": "7",
+      "cycle_per_band": "4~8",
+      "hynix_floor": "209~244",
+      "samsung_floor": "28.7만~33.5만원",
+      "micron_price": "1074.89",
+      "micron_fy_eps": "165",
+      "micron_fy_per": "6.5",
+      "micron_cy_eps": "180",
+      "micron_cy_per": "6.0",
+      "sandisk_price": "1719.99",
+      "sandisk_eps": "230",
+      "sandisk_per": "7.5",
+      "adr_usd": "195.13",
+      "adr_krw": "263",
+      "adr_fx": "1347",
+      "adr_per_26": "7.5",
+      "adr_per_27": "5.9",
+      "adr_premium": "44",
+      "adr_prem_a": "30",
+      "adr_local_a": "202",
+      "adr_prem_b": "20",
+      "adr_local_b": "219",
+      "stx_price": "848.99",
+      "stx_eps": "32.6",
+      "stx_per": "26",
+      "wdc_price": "415.29",
+      "wdc_eps": "17.9",
+      "wdc_per": "23",
+      "toshiba_capex": "3.8",
+      "share_wdc": "45",
+      "share_stx": "41",
+      "share_toshiba": "14",
+      "share_from": "86",
+      "share_to": "70",
+      "wdc_pe_path": "11.2배 → 22.9배 → 33.8배 → 17.5배",
+      "hdd_impact": "2028 이후",
+      "cohr_w": "5.6",
+      "cohr_d": "10.9",
+      "lite_w": "3.8",
+      "lite_d": "7.7",
+      "crdo_1": "4",
+      "crdo_2": "7.9",
+      "crdo_3": "1.3",
+      "cohr_tp": "350",
+      "crdo_rev": "479",
+      "crdo_yoy": "114.7",
+      "crdo_guide": "85",
+      "crdo_optical": "600",
+      "cohr_engagements": "20",
+      "ccl_1q": "344",
+      "ccl_2q": "493",
+      "ccl_3q": "1,059",
+      "ccl_qoq": "115",
+      "sanil_sales_cagr": "32.5",
+      "sanil_op_cagr": "38.5",
+      "sanil_opm_26": "37.5",
+      "sanil_opm_28": "40.7",
+      "sanil_per": "16",
+      "ls_per": "31",
+      "sanil_154": "2028",
+      "sanil_bloom": "벤더 등록",
+      "intech_sales": "231",
+      "intech_sales_yoy": "133",
+      "intech_op": "10",
+      "intech_backlog": "1,700",
+      "intech_backlog_prev": "1,261",
+      "intech_orders": "1,000",
+      "intech_sales_27": "36",
+      "intech_op_27": "79",
+      "intech_tp": "9.5",
+      "intech_eps": "4,904",
+      "intech_per": "19.4",
+      "intech_foreign_from": "0",
+      "intech_foreign_to": "4.3",
+      "intech_capa_from": "2,000",
+      "intech_capa_to": "3,500",
+      "semco_revision": "64",
+      "semco_margin": "20~30%",
+      "shinko": "FY2028",
+      "unimicron": "2030",
+      "port_ai": "50~60%",
+      "port_memory": "30~40%",
+      "port_materials": "20%",
+      "port_battery": "10%",
+      "port_infra": "10%",
+      "port_cash_light": "30%",
+      "port_cash": "20%",
+      "jobs_actual": "2.9",
+      "jobs_cons": "8.9",
+      "jobs_prior": "13.3",
+      "jobs_3m": "5",
+      "jobs_revision": "6",
+      "wage": "3.0",
+      "wage_start": "3.7",
+      "pce_july_old": "3.344",
+      "pce_july": "2.983",
+      "pce_august": "3.008",
+      "pce_3m": "2.05",
+      "pce_6m": "2.74",
+      "ust10": "5.28",
+      "ust10_spike": "5.34",
+      "ust10_back": "5.2",
+      "rate_bp": "30",
+      "sox_window": "11",
+      "mu_window": "10.2",
+      "kosdaq_window": "8.9",
+      "sox_day": "2.4",
+      "gs_october": "철회",
+      "gs_december": "없을 수 있음",
+      "oil": "100달러 이상",
+      "iran": "변수",
+      "kosdaq_turn": "8.7",
+      "kospi_turn": "25",
+      "kosdaq_share_from": "19",
+      "kosdaq_share_to": "28",
+      "gpu_life": "3년 / 5년 / 7년",
+      "gpu_life_names": "NVIDIA · CoreWeave · Oracle · Microsoft · Meta",
+      "avgo_financing": "42"
+    }
+  },
+  "sections": [
+    {
+      "key": "macro",
+      "title": "매크로 · 금리",
+      "lead": "9월 고용은 2.9만 명으로 컨센서스 8.9만 명을 밑돌았다. 시간당 임금 상승률은 연초 3.7%에서 3.0%다. 10년물은 5.28%까지 재상승한 기록이 있다. 골드만삭스는 10월 추가 인상 전망을 철회했다. 하지만 물가 3%대 → 인플레이션 제약 → 즉각적인 인하 근거 제한 → 현재 Fed 입장에서는 노동시장 급랭보다는 여전히 인플레이션이 정책의 핵심 변수.",
+      "table": [],
+      "bullets": [
+        {
+          "time": "06:25",
+          "source": "quick",
+          "score": 14,
+          "text": "따라서 단기적으로는 금리 부담 완화 요인. 유가 $100+와 장기 인플레가 지속되면 추가 인상 가능성은 여전히 열려 있음"
+        },
+        {
+          "time": "07:19",
+          "source": "quick",
+          "score": 13,
+          "text": "10년물이 5.28%로 재상승 → “Fed 정책금리만의 문제가 아니다.”"
+        },
+        {
+          "time": "06:07",
+          "source": "quick",
+          "score": 13,
+          "text": "미 10년물 5.34% 급등 후 5.2%대 반락 → 증시·AI 반도체 동반 반등"
+        },
+        {
+          "time": "06:09",
+          "source": "quick",
+          "score": 13,
+          "text": "다만 유가 $100+ → 인플레이션과 Fed 추가 긴축 리스크가 완전히 해소된 것은 아님"
+        }
+      ]
+    },
+    {
+      "key": "memory",
+      "title": "메모리",
+      "lead": "SK하이닉스 184.2만 원은 26년 PER 5.3배, 27년 PER 4.1배다. 삼성전자 27.6만 원은 26년 PER 5.8배, 27년 PER 4.1배다. 원문 기준 27년 영업이익은 YoY +40% 이상이고, EPS는 하이닉스 +27%, 삼성전자 +42%다. 27년 성장이 없다는 가정에 26년 PER 약 7배를 적용하면 하이닉스 209~244만 원, 삼성전자 28.7만~33.5만원이다. 원화 5~10% 강세는 삼전·닉스 주가에 6~12% 하락 요인으로 적혀 있다. 반도체 기업 실적에 대해 여전히 시장에서는 사이클 산업이다라고 폄하하지만, 그 사이클이 겁나 길어질 수도 있다는 생각은 안하는 모양입니다. 전일 마이크론 실적의 핵심은 공급 부족의 장기화 입니다.",
+      "table": [
+        {
+          "group": "memory",
+          "name": "SK하이닉스",
+          "price": "184.2만 원",
+          "y26": "PER 5.3배 · 영업이익 265조 · EPS 349K",
+          "y27": "PER 4.1배 · 영업이익 392조 · EPS 444K"
+        },
+        {
+          "group": "memory",
+          "name": "삼성전자",
+          "price": "27.6만 원",
+          "y26": "PER 5.8배 · 영업이익 388조 · EPS 47.9K",
+          "y27": "PER 4.1배 · 영업이익 555조 · EPS 67.9K"
+        },
+        {
+          "group": "memory",
+          "name": "마이크론",
+          "price": "1074.89달러",
+          "y26": "FY27 EPS 165달러 · PER 6.5배",
+          "y27": "CY27 EPS 180달러 · PER 6.0배"
+        },
+        {
+          "group": "memory",
+          "name": "샌디스크",
+          "price": "1719.99달러",
+          "y27": "FY27 EPS 230달러 · PER 7.5배"
+        },
+        {
+          "group": "memory",
+          "name": "하이닉스 ADR",
+          "price": "195.13달러 = 263만 원",
+          "y26": "PER 7.5배",
+          "y27": "PER 5.9배 · 본주 대비 44% 프리미엄"
+        }
+      ],
+      "bullets": [
+        {
+          "time": "10:25",
+          "source": "quick",
+          "score": 11,
+          "text": "삼전닉스는 현재 대략 마이크론 대비 할인율 -30% 초반 (환율조정 여지)로 추정됩니다."
+        },
+        {
+          "time": "08:24",
+          "source": "quick",
+          "score": 11,
+          "text": "미국 메모리 기업 마이크론 실적 발표 이후 3% 이상 상승으로 마감하면서 지난 분기와는 다르게 실적과 향후 전망에 대해 시장이 긍정적으로 반응했습니다."
+        },
+        {
+          "time": "10:19",
+          "source": "quick",
+          "score": 9,
+          "text": "SNDK·MU·SK하이닉스는 주가가 크게 올랐는데도 EPS 증가가 더 빨라 PER이 낮은 반면,"
+        },
+        {
+          "time": "10:24",
+          "source": "quick",
+          "score": 8,
+          "text": "(마이크론대비 동급 vs. 과거 -20~-50%)"
+        }
+      ]
+    },
+    {
+      "key": "hdd",
+      "title": "HDD",
+      "lead": "시게이트는 FY27 EPS 32.6달러에 PER 26배, 웨스턴디지털은 FY27 EPS 17.9달러에 PER 23배다. 도시바 증설 규모는 약 3.8억 달러다. 용량 점유율은 웨스턴디지털 45%, 시게이트 41%, 도시바 14%다. 가격에 반영되는 시점은 2028년 이후로 적혀 있다. 따라서 시간축은 2026 현재: 공급부족 → 2027: Toshiba 증설 시작/일부 증가 → 2028 이후: 공급증가가 가격에 본격 영향 가능성 즉, Toshiba 뉴스 자체는 단기적으로는 심리적 악재지만, 실제 HDD 가격/마진을 훼손하는 것은 2027~28년 이후의 문제로 보는 것이 더 정확합니다.",
+      "table": [
+        {
+          "group": "hdd",
+          "name": "시게이트",
+          "price": "848.99달러",
+          "y27": "FY27 EPS 32.6달러 · PER 26배"
+        },
+        {
+          "group": "hdd",
+          "name": "웨스턴디지털",
+          "price": "415.29달러",
+          "y27": "FY27 EPS 17.9달러 · PER 23배"
+        }
+      ],
+      "bullets": [
+        {
+          "time": "10:17",
+          "source": "quick",
+          "score": 14,
+          "text": "왜냐하면 Toshiba가 30%를 달성하려면 시간이 필요하기 때문입니다."
+        },
+        {
+          "time": "10:18",
+          "source": "quick",
+          "score": 14,
+          "text": "2025~26년에는 HDD = AI 데이터센터의 구조적 수요 + 공급과점 + 가격결정력으로 프리미엄을 받았습니다."
+        },
+        {
+          "time": "10:17",
+          "source": "quick",
+          "score": 14,
+          "text": "왜냐하면 현재는 오히려 공급이 매우 타이트하고, Seagate의 2026년 Nearline HDD 생산능력은 이미 대부분 판매됐으며,"
+        },
+        {
+          "time": "10:17",
+          "source": "quick",
+          "score": 14,
+          "text": "따라서 Toshiba가 생산능력을 2배로 늘린다고 해서 Toshiba 물량 ↑ = STX/WDC 물량 ↓가 1:1로 되는 것은 아닙니다."
+        }
+      ]
+    },
+    {
+      "key": "optical",
+      "title": "광통신",
+      "lead": "코히런트는 주간 +5.6% · 전일 +10.9%, 루멘텀은 +3.8% · 전일 +7.7%, 크레도는 3거래일 +4% · +7.9% · +1.3%다. 크레도 FY2027 1분기 매출은 $479M, 전년 대비 +114.7%다. 두산 광모듈용 CCL은 1분기 344억, 2분기 493억, 3분기 1,059억(+115% QoQ)이다. 따라서 당장 중국산 800G·1.6T를 미국에서 못 쓰게 되는 것이 아니므로 LITE·COHR의 현재 매출이 중국 업체로부터 즉시 넘어오는 구조는 아닙니다.",
+      "table": [],
+      "bullets": [
+        {
+          "time": "10:22",
+          "source": "quick",
+          "score": 16,
+          "text": "오히려 본질적인 주가 상승 이유는 1.6T→3.2T로 가는 AI 광통신 시장 자체의 성장입니다."
+        },
+        {
+          "time": "06:19",
+          "source": "quick",
+          "score": 16,
+          "text": "AI 데이터센터의 스위치 속도가 800G → 1.6T 등으로 올라가면서 광 모듈 수요가 구조적으로 증가할 것으로 분석했습니다."
+        },
+        {
+          "time": "10:22",
+          "source": "quick",
+          "score": 16,
+          "text": "즉,Copper → Optical까지 Connectivity 전체 스택으로 확장됐습니다. 회사는 800G·1.6T·3.2T NPO/CPO를 모두 겨냥하고 있습니다."
+        },
+        {
+          "time": "10:21",
+          "source": "quick",
+          "score": 16,
+          "text": "단순한 테마 순환이라기보다, AI 데이터센터의 네트워크 병목이 본격적으로 부각되면서 800G→1.6T→3.2T로 광통신 시장의 TAM이 확대된다는 논리가 핵심입니다."
+        }
+      ]
+    },
+    {
+      "key": "substrate",
+      "title": "기판 · 패키징 · 소부장",
+      "lead": "삼성전기 이익 전망은 기존 컨센서스 대비 +64%로 적혀 있다. 보유 안전마진은 파일에서 먼저 나온 20~30%를 채택한다. 인텍플러스 목표주가는 9.5만 원, 2027년 영업이익 +79%다. 선행 증설 시계는 신코 FY2028 생산, 유니마이크론 2030 캐파이다. 투자 시사점은 ‘AI 수요 피크아웃’보다는 < 적어도 2028~2030년까지 공급망 증설이 필요한 구조>라는 것.",
+      "table": [],
+      "bullets": [
+        {
+          "time": "08:48",
+          "source": "quick",
+          "score": 19,
+          "text": "체크포인트 외국인 보유율 0% → 4.3%(9/10→10/1) 세 줄 요약 ① 수주잔고 1,261억 → 1,700억, 4Q 신규수주 1,000억 전망 → 수주 모멘텀 지속. ② AI CPU/GPU용 FC-BGA 쇼티지 + 삼성전기 4.3조원 증설 등 기판 투자 확대가 핵심 성장동력."
+        },
+        {
+          "time": "08:37",
+          "source": "quick",
+          "score": 14,
+          "text": "핵심은 ‘현재 주문 대응’보다 2028~2030년 이후 캐파를 지금 확보한다는 점이다."
+        },
+        {
+          "time": "08:37",
+          "source": "quick",
+          "score": 12,
+          "text": "따라서 ABF 기판·FC-BGA·패키징·관련 장비 업체의 중장기 캐파 투자 사이클이 연장될 가능성을 보여주는 사례다."
+        },
+        {
+          "time": "08:40",
+          "source": "quick",
+          "score": 12,
+          "text": "국내 투자 관점에서는 이 두 건을 삼성전기,코리아써키트,대덕전자·심텍 등 AI 기판/패키징 밸류체인의 장기 수요 가시성을 점검하는 근거로 보는 것이 핵심입니다."
+        }
+      ]
+    },
+    {
+      "key": "power",
+      "title": "전력",
+      "lead": "산일전기 FY26~28 매출 CAGR 32.5%, 영업이익 CAGR 38.5%, FY28 PER 16배(LS일렉트릭 약 31배)다. FY28 PER 16배로 대형 변압기주 대비 밸류에이션 부담이 낮아, FY27~28 성장 기대를 겨냥한 재평가 가능성이 핵심.",
+      "table": [],
+      "bullets": [
+        {
+          "time": "09:01",
+          "source": "quick",
+          "score": 13,
+          "text": "기존 특수변압기 + 154kV 제품 패키지 수주 가능 → Bloom Energy·데이터센터 고객 공략"
+        },
+        {
+          "time": "09:01",
+          "source": "quick",
+          "score": 11,
+          "text": "산일전기는 154kV 진입으로 ‘특수변압기 단일 업체’에서 제품·고객 다변화 단계로 진입."
+        },
+        {
+          "time": "09:01",
+          "source": "quick",
+          "score": 11,
+          "text": "2028년 양산 목표 154kV 초고압 변압기(UHV Transformer) 신규 라인 구축"
+        },
+        {
+          "time": "09:01",
+          "source": "quick",
+          "score": 10,
+          "text": "154kV 신공장으로 제품·고객 확장 → 수주 경쟁력 강화"
+        }
+      ]
+    },
+    {
+      "key": "risk",
+      "title": "AI CapEx 리스크",
+      "lead": "GPU 경제적 수명 가정은 3년 / 5년 / 7년이다. 브로드컴-앤트로픽 금융은 원문 표기 $42bn이다. Burry의 '감가상각/잔존가치 리스크' 문제제기는 타당성이 높지만, 이를 1960년대 버블과 동일한 구조라고 확대하는 부분은 타당성이 낮습니다.",
+      "table": [],
+      "bullets": [
+        {
+          "time": "06:32",
+          "source": "quick",
+          "score": 14,
+          "text": "Anthropic의 AI 인프라 투자에 금융까지 제공하면서, AI 반도체 판매 → 금융 → 재구매의 순환구조가 강화되고 있습니다. 이런 현상을 순환투자 관점에서만 보면 우려지만"
+        },
+        {
+          "time": "06:39",
+          "source": "quick",
+          "score": 11,
+          "text": "투자 관점에서 가장 중요한 것은 Burry의 '버블인가 아닌가'가 아니라 GPU 경제적 수명 3년 vs 5년 vs 7년 중 어느 가정이 맞느냐입니다."
+        },
+        {
+          "time": "06:36",
+          "source": "quick",
+          "score": 11,
+          "text": "한편 <Burry의 「1960년대 컴퓨터 리스 버블」 비유> 관련, Burry의 문제제기는 ‘AI 수요가 가짜’라는 주장이라기보다, GPU의 경제적 수명과 잔존가치를 지나치게 낙관하면 AI CapEx의 실제 수익성이 과대평가될 수 있다는 경고입니다만"
+        },
+        {
+          "time": "06:39",
+          "source": "quick",
+          "score": 9,
+          "text": "Burry의 경고는 '새로운 위험의 발견'이라기보다, 시장이 이미 인식하고 있는 AI CapEx·GPU 잔존가치 리스크가 실제로 얼마나 큰지를 다시 환기시키는 주장"
+        }
+      ]
+    },
+    {
+      "key": "portfolio",
+      "title": "포트폴리오",
+      "lead": "경력자 포트는 AI 50~60%(삼전·닉스 30~40%, 소부장 20%), 2차전지 10%, 건설·조선 10%, 현금 20%다. 매매 시간이 적으면 현금 30%다.",
+      "table": [],
+      "bullets": [
+        {
+          "time": "07:52",
+          "source": "quick",
+          "score": 8,
+          "text": "AI쪽 50~60% (삼전닉스 30~40% 소부장 20%)"
+        }
+      ]
+    }
+  ],
+  "checklist": [
+    "전쟁이 진짜 끝으로 가면서 그래서 10년물 국채가 추세적으로 5%이하로 내려가면 (베스트 케이스)",
+    "실제 27년 이익이 증가세 확인되면 (투자자가들이 인식/기대)",
+    "다만 10Y 5% 이상 장기화가 이 랠리의 가장 중요한 제약조건.",
+    "다만 이란전쟁이 장기화될 경우 물가 상승과 동시에 노동시장 하방 리스크가 커지는 복합 리스크가 될 수 있음.",
+    "연휴 앞두고 투자자들이 적극적인 대응을 자제하고 있습니다.",
+    "연휴 뒤에 종목장이 지속 전개될 가능성에 무게를 둡니다."
+  ],
+  "watchlist": [
+    {
+      "name": "심텍",
+      "count": 5
+    },
+    {
+      "name": "대덕전자",
+      "count": 5
+    },
+    {
+      "name": "유진테크",
+      "count": 5
+    },
+    {
+      "name": "원익IPS",
+      "count": 4
+    },
+    {
+      "name": "HPSP",
+      "count": 4
+    },
+    {
+      "name": "리노공업",
+      "count": 4
+    },
+    {
+      "name": "한미반도체",
+      "count": 3
+    },
+    {
+      "name": "솔브레인",
+      "count": 3
+    },
+    {
+      "name": "SFA",
+      "count": 3
+    },
+    {
+      "name": "주성엔지니어링",
+      "count": 3
+    }
+  ]
+}
