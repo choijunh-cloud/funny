@@ -103,6 +103,8 @@ class Buyback:
     published_date: date
     note: str
     shares_per_day: int | None = None
+    drawn_pct: float = 0
+    drawn_remaining_tn: float = 0
 
 
 def _samsung_daily() -> float:
@@ -118,6 +120,8 @@ BUYBACKS: tuple[Buyback, ...] = (
         clock_remaining_tn=0.7,
         daily_tn=_samsung_daily(),
         published_date=date(2026, 10, 8),
+        drawn_pct=95,
+        drawn_remaining_tn=0.7,
         note=(
             "시계는 잔여 5%(0.7조)를 10/6~8에 소진한다고 둔다. "
             "같이 적힌 13.36조/15조는 잔여 1.64조라 5%와 맞지 않아, 날짜를 만든 0.7조를 시계 입력으로 쓴다."
@@ -131,6 +135,8 @@ BUYBACKS: tuple[Buyback, ...] = (
         daily_tn=1.2,
         published_date=date(2026, 10, 15),
         shares_per_day=650_000,
+        drawn_pct=73,
+        drawn_remaining_tn=9.4,
         note=(
             "30.64조/40조면 잔여 9.36조, 일 1.2조면 8세션이다. "
             "막대의 73%(잔여 27%≈10.8조)와 본문의 9.4조는 서로 다르고, 시계는 집행액에서 잔여를 뺀다. "
@@ -155,6 +161,8 @@ class ClockResult:
     shares_per_day: int | None
     implied_price_won: float | None
     reported_remaining_tn: float
+    drawn_pct: float = 0
+    drawn_remaining_tn: float = 0
 
 
 def is_trading_day(day: date, holidays: frozenset[date]) -> bool:
@@ -216,6 +224,8 @@ def project_clock(
         shares_per_day=program.shares_per_day,
         implied_price_won=implied,
         reported_remaining_tn=program.budget_tn - program.spent_tn,
+        drawn_pct=program.drawn_pct,
+        drawn_remaining_tn=program.drawn_remaining_tn,
     )
 
 

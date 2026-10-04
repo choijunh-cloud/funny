@@ -220,6 +220,22 @@ class RenderTests(unittest.TestCase):
         self.assertIn("B 20", text)
         self.assertIn("C 30", text)
         self.assertIn("문남중", text)
+        for marker in (
+            "결정적 채점",
+            "잭슨홀",
+            "9/16 FOMC",
+            "시그니처와 채점 근거",
+            "10월의 일곱 시계",
+            "금리 사다리",
+            "9월 수출",
+            "감시 8칸",
+            "방파제",
+            'id="scatter"',
+        ):
+            self.assertIn(marker, html)
+        start = html.index('id="scatter"')
+        end = html.index("</svg>", start)
+        self.assertEqual(html[start:end].count("<circle"), 29)
 
     def test_cli_json(self):
         from hybrid_model.__main__ import main

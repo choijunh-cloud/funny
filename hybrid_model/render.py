@@ -7,6 +7,7 @@ from __future__ import annotations
 
 from html import escape
 
+from hybrid_model import chapters
 from hybrid_model.ledger import AXES, AXIS_LABEL, DISCARDED, OPEN_CALLS
 from hybrid_model.market import DOCUMENT_ASOF, SELL_TRIGGER_MID, distance_pct
 from hybrid_model.model import Report, ScoredPanel
@@ -122,16 +123,27 @@ def render_html(report: Report) -> str:
     body = "\n".join(
         [
             _hero(report),
+            chapters.kpis(report),
+            chapters.method(),
             _bridge(report),
+            _boards(report),
+            chapters.scatter(report),
+            _composite(report),
+            chapters.events(),
+            chapters.dossiers(report),
+            _axes(),
+            chapters.kospi_chart(report),
+            _levels(report),
+            chapters.yield_ladder(report),
+            _clocks(report),
+            chapters.tape(report),
+            chapters.calendar(),
             _fan(report),
             _paths(report),
             _shocks(report),
-            _boards(report),
-            _composite(report),
-            _levels(report),
-            _clocks(report),
-            _axes(),
             _discarded(),
+            chapters.watch(report),
+            chapters.metaphor(),
             _footer(report),
         ]
     )
@@ -183,6 +195,9 @@ td {{ padding:7px 8px; border-bottom:1px solid var(--line); vertical-align:top }
   .grid2,.weights {{ grid-template-columns:1fr }}
   h1 {{ font-size:26px }}
 }}
+</style>
+<style>
+{chapters.STYLE}
 </style>
 </head>
 <body {data}>
