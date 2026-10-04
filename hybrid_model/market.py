@@ -1,9 +1,8 @@
 """10/2 좌표, 레벨 사다리, 자사주 시계.
 
 자사주 시계는 잔여 금액 ÷ 일일 페이스로 세션 수를 센다.
-첫 세션은 10/2 다음 거래일이다. KRX 휴장(10/5 개천절 대체휴일, 10/9 한글날)을 넣으면
-하이닉스 8번째 세션은 10/16이다. 원장이 적은 ~10/15는 10/6 개장부터 주말 빼고
-10/9를 영업일로 센 날짜라, 그 앵커도 같이 돌려준다.
+문서 모델은 10/5(개천절 대체휴일)만 쉬고 10/6에 개장한 뒤, 10/9 한글날은 영업일로 센다.
+하이닉스 8번째 세션은 그때 10/15다. 한글날까지 휴장으로 넣으면 같은 8세션은 10/16이다.
 """
 
 from __future__ import annotations
@@ -15,7 +14,9 @@ MARKET_ASOF = date(2026, 10, 2)
 DOCUMENT_ASOF = date(2026, 10, 4)
 REOPEN = date(2026, 10, 6)
 
-# 10/3 개천절은 토요일이고, 대체휴일이 10/5다. 한글날은 10/9 금요일.
+# 10/3 개천절은 토요일, 대체휴일은 10/5. 문서 모델은 여기까지만 쉰다.
+LEDGER_HOLIDAYS = frozenset({date(2026, 10, 5)})
+# 한글날 10/9까지 빼면 하이닉스 8세션은 하루 밀린다.
 KRX_HOLIDAYS = frozenset({date(2026, 10, 5), date(2026, 10, 9)})
 
 
@@ -138,9 +139,9 @@ BUYBACKS: tuple[Buyback, ...] = (
         drawn_pct=73,
         drawn_remaining_tn=9.4,
         note=(
-            "30.64조/40조면 잔여 9.36조, 일 1.2조면 8세션이다. "
-            "막대의 73%(잔여 27%≈10.8조)와 본문의 9.4조는 서로 다르고, 시계는 집행액에서 잔여를 뺀다. "
-            "원장 앵커 ~10/15는 10/9 한글날을 영업일로 센 날짜다."
+            "문서 모델은 잔여 약 9.4조, 일 65만주(1.2조), 10/6부터 8영업일 = 10/15다. "
+            "30.64조/40조로 잔여를 다시 빼면 9.36조라 세션 수는 같다. "
+            "막대의 73%와 9.4조는 서로 딱 맞지 않고, 한글날(10/9)을 휴장으로 넣으면 10/16이다."
         ),
     ),
 )
@@ -163,6 +164,7 @@ class ClockResult:
     reported_remaining_tn: float
     drawn_pct: float = 0
     drawn_remaining_tn: float = 0
+    krx_date: date | None = None
 
 
 def is_trading_day(day: date, holidays: frozenset[date]) -> bool:
@@ -189,24 +191,30 @@ def session_on(first: date, n: int, holidays: frozenset[date]) -> date:
     return day
 
 
+def _consume(asof: date, remaining: float, daily: float, holidays: frozenset[date]) -> list[date]:
+    dates: list[date] = []
+    left = remaining
+    for session in iter_sessions(asof, holidays):
+        dates.append(session)
+        left -= daily
+        if left <= 1e-6:
+            return dates
+        if len(dates) > 80:
+            raise RuntimeError("소진 시계가 너무 길다")
+    raise RuntimeError("잔여가 소진되지 않았다")
+
+
 def project_clock(
     program: Buyback,
     asof: date = MARKET_ASOF,
-    holidays: frozenset[date] = KRX_HOLIDAYS,
+    holidays: frozenset[date] = LEDGER_HOLIDAYS,
 ) -> ClockResult:
     if program.daily_tn <= 0:
         raise ValueError("일일 페이스는 양수")
     if program.clock_remaining_tn < 0:
         raise ValueError("잔여는 음수가 될 수 없다")
-    dates: list[date] = []
-    left = program.clock_remaining_tn
-    for session in iter_sessions(asof, holidays):
-        dates.append(session)
-        left -= program.daily_tn
-        if left <= 1e-6:
-            break
-        if len(dates) > 80:
-            raise RuntimeError("소진 시계가 너무 길다")
+    dates = _consume(asof, program.clock_remaining_tn, program.daily_tn, holidays)
+    krx_dates = _consume(asof, program.clock_remaining_tn, program.daily_tn, KRX_HOLIDAYS)
     implied = None
     if program.shares_per_day:
         implied = program.daily_tn * 1e12 / program.shares_per_day
@@ -226,6 +234,7 @@ def project_clock(
         reported_remaining_tn=program.budget_tn - program.spent_tn,
         drawn_pct=program.drawn_pct,
         drawn_remaining_tn=program.drawn_remaining_tn,
+        krx_date=krx_dates[-1],
     )
 
 

@@ -107,6 +107,7 @@ def report_dict(report) -> dict:
                 "remaining_tn": clock.remaining_tn,
                 "sessions": clock.sessions,
                 "exhaust_date": clock.exhaust_date.isoformat(),
+                "krx_date": None if clock.krx_date is None else clock.krx_date.isoformat(),
                 "published_date": clock.published_date.isoformat(),
             }
             for clock in report.clocks

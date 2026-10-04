@@ -191,7 +191,8 @@ class MarketTests(unittest.TestCase):
         self.assertEqual(samsung.sessions, 3)
         self.assertEqual(samsung.published_date, date(2026, 10, 8))
         self.assertEqual(hynix.sessions, 8)
-        self.assertEqual(hynix.exhaust_date, date(2026, 10, 16))
+        self.assertEqual(hynix.exhaust_date, date(2026, 10, 15))
+        self.assertEqual(hynix.krx_date, date(2026, 10, 16))
         self.assertEqual(hynix.published_date, date(2026, 10, 15))
         self.assertAlmostEqual(hynix.remaining_tn, 9.36)
         self.assertAlmostEqual(hynix.implied_price_won, 1.2e12 / 650_000)
@@ -220,6 +221,9 @@ class RenderTests(unittest.TestCase):
         self.assertIn("B 20", text)
         self.assertIn("C 30", text)
         self.assertIn("문남중", text)
+        self.assertIn("2026-10-15", html)
+        self.assertIn("2026-10-16", html)
+        self.assertIn("소진 ~10/8 · ~10/15", html)
         for marker in (
             "결정적 채점",
             "잭슨홀",

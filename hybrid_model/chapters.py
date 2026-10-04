@@ -5,7 +5,7 @@ from __future__ import annotations
 from html import escape
 
 from hybrid_model.ledger import AXIS_LABEL, OPEN_CALLS
-from hybrid_model.market import distance_pct
+from hybrid_model.market import LEVELS, distance_pct
 from hybrid_model.model import Report
 from hybrid_model.narrative import (
     CALENDAR,
@@ -16,6 +16,7 @@ from hybrid_model.narrative import (
     METAPHOR,
     METHOD,
     PROFILE_ORDER,
+    APPLY_ORDER,
     YIELD_RUNGS,
 )
 
@@ -58,6 +59,11 @@ STYLE = """
 .legend{display:flex;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--mut);margin:6px 0}
 .lg{display:inline-flex;align-items:center;gap:5px}
 .sw{width:10px;height:10px;border-radius:50%;display:inline-block}
+.tags{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap}
+.tag-live{color:var(--teal);border-color:var(--teal)}
+.tag-score{color:var(--gold);border-color:var(--gold)}
+.tag-inf{color:var(--violet);border-color:var(--violet)}
+.tag-model{color:var(--blue);border-color:var(--blue)}
 """
 
 AXIS_COLOR = {
@@ -67,6 +73,19 @@ AXIS_COLOR = {
     "semi": "#D66F7C",
     "frame": "#937CD8",
 }
+
+
+def tags(*keys: str) -> str:
+    label = {
+        "ledger": "원장",
+        "live": "실측 10/2",
+        "score": "채점",
+        "inf": "추론",
+        "model": "MODEL",
+    }
+    return '<div class="tags">' + "".join(
+        f'<span class="tag tag-{key}">{label[key]}</span>' for key in keys
+    ) + "</div>"
 
 
 def _chips(names: tuple[str, ...], kind: str) -> str:
@@ -88,7 +107,11 @@ def kpis(report: Report) -> str:
         ("본선 1위 적중률", f"{leader.hit_pct}%", f"{leader.name}({leader.panel.affiliation}) N={leader.n}"),
         ("코스피 10/2", f"{market.kospi:,.2f}", f"{market.kospi_change_pct:+.2f}% · 7,000 회복"),
         ("美 10Y / 30Y", f"{market.us10y:.2f} / {market.us30y:.2f}%", f"장중 {market.us10y_intraday_high:.2f} · 30Y 2002년 이후 최고"),
-        ("자사주 잔여", f"하닉 {100 - hynix.drawn_pct:.0f}%", f"삼성 {100 - samsung.drawn_pct:.0f}% · 소진 {samsung.exhaust_date.month}/{samsung.exhaust_date.day} · 하닉 계산 {hynix.exhaust_date.month}/{hynix.exhaust_date.day}"),
+        (
+            "자사주 잔여",
+            f"하닉 {100 - hynix.drawn_pct:.0f}%",
+            f"삼성 {100 - samsung.drawn_pct:.0f}% · 소진 ~{samsung.exhaust_date.month}/{samsung.exhaust_date.day} · ~{hynix.exhaust_date.month}/{hynix.exhaust_date.day}",
+        ),
     )
     body = "".join(
         f'<div class="kpi"><div class="k">{escape(label)}</div><div class="v">{escape(value)}</div><div class="s">{escape(sub)}</div></div>'
@@ -222,6 +245,22 @@ def kospi_chart(report: Report) -> str:
             f'<line x1="{left}" y1="{y:.1f}" x2="{right}" y2="{y:.1f}" stroke="#1C2535"/>'
             f'<text x="48" y="{y + 3:.1f}" fill="#8A95A8" font-size="10" text-anchor="end">{price:,}</text>'
         )
+    levels = []
+    for level in LEVELS:
+        if not 5200 <= level.price <= 7600:
+            continue
+        y = y_of(level.price)
+        stroke = "#E6EAF2" if level.role == "spot" else "#3E9BC0"
+        levels.append(
+            f'<line x1="{left}" y1="{y:.1f}" x2="{right}" y2="{y:.1f}" stroke="{stroke}" stroke-dasharray="4 3"/>'
+        )
+    intra_x = (xs[1] + xs[2]) / 2
+    marks = (
+        f'<path d="M{intra_x:.1f},{y_of(7200) + 8:.1f} l-4,-7 l8,0 z" fill="#D66F7C"/>'
+        f'<text x="{intra_x:.1f}" y="{y_of(7200) - 2:.1f}" fill="#8A95A8" font-size="9" text-anchor="middle">8/18 장중 7,200</text>'
+        f'<path d="M{xs[8]:.1f},{y_of(7172) + 8:.1f} l-4,-7 l8,0 z" fill="#D66F7C"/>'
+        f'<text x="{xs[8]:.1f}" y="{y_of(7172) - 2:.1f}" fill="#8A95A8" font-size="9" text-anchor="middle">9/8 장중 7,172</text>'
+    )
     line = " ".join(f"{xs[i]:.1f},{y_of(prices[i]):.1f}" for i in range(n))
     dots = []
     ticks = []
@@ -240,8 +279,8 @@ def kospi_chart(report: Report) -> str:
     down = distance_pct(spot, 6100)
     svg = (
         '<svg viewBox="0 0 820 300" class="scatter" role="img">'
-        f'{"".join(grids)}<polyline points="{line}" fill="none" stroke="#E6EAF2" stroke-width="2"/>'
-        f'{"".join(dots)}{"".join(ticks)}{label}</svg>'
+        f'{"".join(grids)}{"".join(levels)}<polyline points="{line}" fill="none" stroke="#E6EAF2" stroke-width="2"/>'
+        f'{"".join(dots)}{"".join(ticks)}{label}{marks}</svg>'
     )
     return (
         '<h2>08 · 코스피 좌표</h2><div class="card">'

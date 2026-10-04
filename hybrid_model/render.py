@@ -86,11 +86,11 @@ def render_text(report: Report) -> str:
             f"1층 {panel.panel.layer1}  반증 {panel.panel.falsifiability}"
         )
 
-    lines.extend(["", "자사주 시계  (KRX 휴장 반영)"])
+    lines.extend(["", "자사주 시계  (문서 달력: 10/5만 휴장, 소진일 = 원장 ~10/15)"])
     for clock in report.clocks:
         gap = ""
-        if clock.exhaust_date != clock.published_date:
-            gap = f"  ·  원장 앵커 {clock.published_date.isoformat()}"
+        if clock.krx_date and clock.krx_date != clock.exhaust_date:
+            gap = f"  ·  한글날 휴장이면 {clock.krx_date.isoformat()}"
         lines.append(
             f"  {clock.name}  잔여 {clock.remaining_tn:.2f}조  "
             f"일 {clock.daily_tn:.2f}조  →  {clock.sessions}세션  {clock.exhaust_date.isoformat()}{gap}"
@@ -226,8 +226,9 @@ def _hero(report: Report) -> str:
         )
     return f"""
 <header>
-  <div class="eyebrow">Hybrid v{escape(report.posterior.version)} · market {market.asof.isoformat()} · scored {DOCUMENT_ASOF.isoformat()}</div>
+  <div class="eyebrow">Panel Scorecard → October Outlook · {DOCUMENT_ASOF.isoformat()} (일) · 원장 1~7권 + 10/2 실측</div>
   <h1>맞힌 패널의 10월</h1>
+  <p class="lede">8월 초부터 9월 말까지 방송·피드에서 교차검증한 29명의 콜 177건을 10/2 종가로 채점했다. 적중률이 높은 축을 지금 좌표에 대입한 것이 이 문서다. 채점과 확률은 추론이며, 태그로 층을 구분했다.</p>
   <p class="lede">8/29 하이브리드 v{escape(report.posterior.prior_version)}은 A{fmt_weight(prior['A'])} B{fmt_weight(prior['B'])} C{fmt_weight(prior['C'])}였다.
   10/2 종가의 네 가지 실측을 더하면 확률은 A{fmt_weight(weights['A'])} · B{fmt_weight(weights['B'])} · C{fmt_weight(weights['C'])}이다.
   채점 177건(✓93 △24 ✗60), 진행중 {OPEN_CALLS}건은 분모에서 빠진다.</p>
@@ -382,12 +383,16 @@ def _boards(report: Report) -> str:
     max_n = max(panel.n for panel in report.panels)
     left = "".join(_person_row(panel, max_n) for panel in main)
     right = "".join(_person_row(panel, max_n) for panel in ref)
+    top, last = main[0], main[-1]
     return f"""
-<h2>적중률</h2>
+<h2>02 · 리더보드 — 본선 1위 {escape(top.name)} {top.hit_pct}%, 꼴찌 {escape(last.name)} {last.hit_pct}%</h2>
 <div class="grid2">
-  <div class="card"><h3>본선 · N≥6</h3>{left}</div>
-  <div class="card"><h3>참고군 · N&lt;6</h3>{right}</div>
+  <div class="card"><h3>본선 14명 — 수급·레벨이 상단</h3>{left}
+  <p class="mut">막대 길이 = 채점 콜 수. 하단 4명(박세익·문홍철·이선엽·문남중)의 공통 기각은 9월 FOMC·금리 레벨.</p></div>
+  <div class="card"><h3>참고군 15명 — 순위가 아니라 방향</h3>{right}
+  <p class="mut">강건우·박현상·윤지호 88%는 N=4. 알상무 60%는 1,280·바이백 기각이 깎았고 1층은 표본 최상. 빈센트 0%는 N=2.</p></div>
 </div>
+{chapters.tags("ledger", "score")}
 """
 
 
@@ -403,10 +408,10 @@ def _composite(report: Report) -> str:
             f"<td class='mut'>적중 {panel.hit_pct}% · N{panel.n} · 1층 {panel.panel.layer1} · 반증 {panel.panel.falsifiability}</td>"
             "</tr>"
         )
+    by_name = {panel.name: panel for panel in report.panels}
     applied = []
-    for panel in report.panels:
-        if not panel.panel.now_cast:
-            continue
+    for name in chapters.APPLY_ORDER:
+        panel = by_name[name]
         applied.append(
             "<tr>"
             f"<td>{escape(panel.name)}</td>"
@@ -416,16 +421,19 @@ def _composite(report: Report) -> str:
             "</tr>"
         )
     return f"""
-<h2>종합 점수</h2>
+<h2>04 · 종합 점수 상위 12</h2>
 <div class="card"><table>
 <thead><tr><th>패널</th><th></th><th>점수</th><th>입력</th></tr></thead>
 <tbody>{''.join(rows)}</tbody>
-</table></div>
-<h2>10/2 좌표에 대입</h2>
+</table>
+<p class="mut">이진호와 알상무가 적중률만으로는 안 보이던 자리로 올라온다. 박병창은 반증가능성 5로 61% 적중을 보강한다. 종합 60 아래는 결론만 취하고 근거는 다시 조달하는 등급이다.</p>
+{chapters.tags("model")}</div>
+<h2>11 · 10/2 좌표에 대입</h2>
 <div class="card"><table>
-<thead><tr><th>패널</th><th>프레임</th><th>지금</th><th>반증</th></tr></thead>
+<thead><tr><th>패널</th><th>검증된 프레임</th><th>지금</th><th>반증 조건</th></tr></thead>
 <tbody>{''.join(applied)}</tbody>
-</table></div>
+</table>
+{chapters.tags("ledger", "live", "inf")}</div>
 """
 
 
@@ -453,18 +461,21 @@ def _levels(report: Report) -> str:
 def _clocks(report: Report) -> str:
     cards = []
     for clock in report.clocks:
-        same = clock.exhaust_date == clock.published_date
-        anchor = "원장과 같은 날" if same else f"원장 앵커 {clock.published_date.isoformat()}"
-        price = ""
-        if clock.implied_price_won:
-            price = f" · 65만주 페이스면 주당 {clock.implied_price_won / 10000:,.1f}만원"
+        krx = ""
+        if clock.krx_date and clock.krx_date != clock.exhaust_date:
+            krx = f" 한글날을 휴장으로 넣으면 {clock.krx_date.isoformat()}."
+        width = clock.drawn_pct or (clock.spent_tn / clock.budget_tn * 100)
         cards.append(
-            f'<div class="card"><h3>{escape(clock.name)}</h3>'
-            f'<p class="num">잔여 {clock.remaining_tn:.2f}조 · 일 {clock.daily_tn:.2f}조 · '
-            f'{clock.sessions}세션 · {clock.exhaust_date.isoformat()}</p>'
-            f'<p class="mut">{escape(anchor)}{escape(price)}<br>{escape(clock.note)}</p></div>'
+            f'<div class="card"><h3>{escape(clock.name)} 자사주 {clock.budget_tn:.0f}조</h3>'
+            f'<p class="num">{clock.spent_tn:.2f}조 / {clock.budget_tn:.0f}조 · 막대 {width:.0f}%</p>'
+            f'<div class="track"><i class="ok" style="width:{width:.1f}%"></i></div>'
+            f'<p class="num">문서 잔여 {clock.drawn_remaining_tn:.1f}조 · {clock.sessions}세션 · {clock.exhaust_date.isoformat()}</p>'
+            f'<p class="mut">{escape(clock.note)}{escape(krx)}</p></div>'
         )
-    return f'<h2>자사주 시계</h2><div class="grid2">{"".join(cards)}</div>'
+    return (
+        '<h2>자사주 두 프로그램</h2><div class="grid2">'
+        f'{"".join(cards)}</div>{chapters.tags("ledger", "live", "model")}'
+    )
 
 
 def _axes() -> str:
@@ -493,7 +504,7 @@ def _footer(report: Report) -> str:
     return f"""
 {flag_block}
 <footer class="mut">
-  원장 판정은 1~7권, 시세는 10/2 종가. 종합 가중치 0.6/0.25/0.15, 수축 k=4, 시나리오 폭은 모델이다.
-  어느 패널도 A50 B20 C30이라는 숫자를 말하지 않았다. 10/6 개장 전에는 이 확률을 채점하지 않는다.
+  원장 = 1~7권의 판정. 실측 = 10/2 마감(서울신문·한경·핀포인트·경향·fnnews·Yahoo Finance·FXStreet·GlobeNewswire). 채점 = 그 둘을 대조한 ✓/△/✗라, 같은 발언을 다르게 채점할 여지가 있다. 추론·MODEL = 가중치 0.6/0.25/0.15, 수축 k=4, 시나리오 A{fmt_weight(report.posterior.weight('A'))}/B{fmt_weight(report.posterior.weight('B'))}/C{fmt_weight(report.posterior.weight('C'))}. 어느 패널도 이 확률을 말하지 않았다.<br>
+  채점에 넣지 않은 것: 날짜 없는 목표가, 반증 불가 명제, 진행중 {OPEN_CALLS}건. N&lt;6 참고군의 적중률은 크게 흔들릴 수 있다. 코스피 선은 확정 종가 15점이고 사이 거래일은 생략했다. 10/6 개장 전에는 어떤 시나리오도 채점되지 않는다. 다음 갱신: 10/8 삼성 3Q · 10/14 美 CPI · 하닉 자사주 소진.
 </footer>
 """
