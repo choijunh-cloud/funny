@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from insight_distiller.brief import core_brief, valuation_line
 from insight_distiller.distill import Report
 
 
@@ -51,6 +52,24 @@ def render_markdown(report: Report) -> str:
     if report.sources:
         parts.append("원문에 등장한 출처 표기: " + ", ".join(report.sources) + ".")
         parts.append("")
+
+    brief = core_brief(report)
+    if brief:
+        parts.append("## 핵심")
+        parts.append("")
+        parts.append("아래 문장은 증류 노트에 이미 있는 문장만 다시 골랐다.")
+        parts.append("")
+        value = valuation_line(report)
+        if value:
+            parts.append(value)
+            parts.append("")
+        for title, bullets in brief:
+            parts.append(f"### {title}")
+            parts.append("")
+            for bullet in bullets:
+                who = bullet.time or _tag(bullet)
+                parts.append(f"- {who} · {bullet.text}")
+            parts.append("")
 
     for section in report.sections:
         parts.append(f"## {section.title}")

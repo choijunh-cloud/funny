@@ -5,6 +5,7 @@ from pathlib import Path
 
 from docx import Document
 
+from insight_distiller.brief import core_brief, missing_anchors
 from insight_distiller.distill import build_report
 from insight_distiller.parse import dedupe_quick, near_duplicate, parse
 from insight_distiller.render_docx import render_docx
@@ -129,6 +130,17 @@ def test_report_sections_and_headline():
     assert "200만 원 초중반" in markdown
     assert "4,500억 달러" in markdown
     assert "희토류" in markdown
+    assert missing_anchors(report) == []
+    brief = core_brief(report)
+    assert [title for title, _ in brief] == ["판단", "메모리", "수급", "다음 돈", "자금과 사이클"]
+    corpus = "\n".join(bullet.text for section in report.sections for bullet in section.bullets)
+    core_md = markdown.split("## 핵심", 1)[1].split("\n## ", 1)[0]
+    for _, bullets in brief:
+        for bullet in bullets:
+            assert bullet.text in corpus
+            assert bullet.text in core_md
+    for anchor in ("110조", "ISM 제조업", "200만 원 초중반", "4,500억 달러", "40GW", "희토류"):
+        assert anchor in core_md
     assert "1.95%" in markdown
     assert "아홉배" in markdown or "9배" in markdown
     assert "4,400만" in markdown

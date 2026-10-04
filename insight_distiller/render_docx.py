@@ -11,6 +11,7 @@ from docx.oxml import parse_xml
 from docx.oxml.ns import nsdecls, qn
 from docx.shared import Cm, Mm, Pt, RGBColor
 
+from insight_distiller.brief import core_brief, valuation_line
 from insight_distiller.distill import Report
 
 KR_FONT = "맑은 고딕"
@@ -247,6 +248,18 @@ def render_docx(report: Report, path: Path) -> None:
         color=GRAY,
         after=6,
     )
+
+    brief = core_brief(report)
+    if brief:
+        notes.h1("핵심")
+        notes.p("증류 노트에 이미 있는 문장만 다시 골랐다.", size=10, color=GRAY, after=4)
+        value = valuation_line(report)
+        if value:
+            notes.p(value, size=11, after=6)
+        for title, bullets in brief:
+            notes.h2(title)
+            for bullet in bullets:
+                notes.bullet(bullet.text, lead=(bullet.time + "  ") if bullet.time else None)
 
     for index, section in enumerate(report.sections, start=1):
         notes.h1(f"{index}. {section.title}")
