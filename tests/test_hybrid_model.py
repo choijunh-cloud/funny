@@ -15,7 +15,8 @@ from hybrid_model.market import (
     project_clocks,
     session_on,
 )
-from hybrid_model.model import HybridModel
+from hybrid_model.model import HybridModel, score_panels
+from hybrid_model.simulate import run_bundle
 from hybrid_model.render import render_html, render_text
 from hybrid_model.scenarios import PRIOR, compute_posterior, normalize_weights
 from hybrid_model.scoring import (
@@ -224,6 +225,7 @@ class RenderTests(unittest.TestCase):
         self.assertIn("2026-10-15", html)
         self.assertIn("2026-10-16", html)
         self.assertIn("소진 ~10/8 · ~10/15", html)
+        self.assertIn("장점만 모아 돌린 시뮬", html)
         for marker in (
             "결정적 채점",
             "잭슨홀",
@@ -241,6 +243,34 @@ class RenderTests(unittest.TestCase):
         end = html.index("</svg>", start)
         self.assertEqual(html[start:end].count("<circle"), 29)
 
+
+class SimTests(unittest.TestCase):
+    def setUp(self):
+        self.bundle = run_bundle(score_panels())
+
+    def test_paths_separate_and_the_base_dips_in_october(self):
+        base, bull, bear = self.bundle.paths
+        self.assertLess(bear.end, base.end)
+        self.assertLess(base.end, bull.end)
+        self.assertEqual(base.low_day.month, 10)
+        self.assertGreater(base.low, 6600)
+        self.assertLess(base.low, 6950)
+        self.assertGreater(base.end, base.low)
+
+    def test_discarded_voices_do_not_vote(self):
+        weights = {row.name: row.weight for row in self.bundle.panels}
+        for name in ("문남중", "빈센트", "박세익", "이선엽"):
+            self.assertEqual(weights[name], 0.0)
+
+    def test_solo_edges_match_their_strength(self):
+        rows = {row.name: row for row in self.bundle.panels}
+        self.assertLess(rows["이영훈"].solo_min, 6900)
+        self.assertGreater(rows["알상무"].solo_end, 7200)
+        self.assertLess(rows["이은택"].solo_end, 6900)
+        self.assertIsNone(rows["박병창"].avg_vote)
+
+
+class RenderJsonTests(unittest.TestCase):
     def test_cli_json(self):
         from hybrid_model.__main__ import main
         import io

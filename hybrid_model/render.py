@@ -12,6 +12,7 @@ from hybrid_model.ledger import AXES, AXIS_LABEL, DISCARDED, OPEN_CALLS
 from hybrid_model.market import DOCUMENT_ASOF, SELL_TRIGGER_MID, distance_pct
 from hybrid_model.model import Report, ScoredPanel
 from hybrid_model.scenarios import CODES, SCENARIOS
+from hybrid_model.simulate import format_sim, run_bundle, sim_html
 
 
 def fmt_weight(value: float) -> str:
@@ -106,6 +107,7 @@ def render_text(report: Report) -> str:
         lines.append(f"  {view.level.name}  {view.level.price:,.0f}  {fmt_pct(view.distance_pct)}")
     mid = distance_pct(market.kospi, SELL_TRIGGER_MID)
     lines.append(f"  매도 트리거 중점 6,050  {fmt_pct(mid)}")
+    lines.append(format_sim(run_bundle(report.panels)).rstrip("\n"))
     return "\n".join(lines) + "\n"
 
 
@@ -144,6 +146,7 @@ def render_html(report: Report) -> str:
             _discarded(),
             chapters.watch(report),
             chapters.metaphor(),
+            sim_html(run_bundle(report.panels)),
             _footer(report),
         ]
     )
