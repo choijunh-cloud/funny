@@ -85,6 +85,8 @@ def run(
     seed: int = 42,
     on: dict[str, bool] | None = None,
     scale: dict[str, float] | None = None,
+    base_vol: float = 0.015,
+    base_drift: float = 0.0,
 ) -> dict:
     """일간 경로 n개. on 이 False 인 모듈은 그날의 드리프트에서 뺀다."""
     enabled = on or {key: True for key in MODULES}
@@ -122,8 +124,8 @@ def run(
     flow_lambda = 0.0020 * strength["flow"]
 
     for t in range(T):
-        drift = np.zeros(n)
-        vol = np.full(n, 0.015)
+        drift = np.full(n, base_drift)
+        vol = np.full(n, base_vol)
         buyback = np.zeros(n)
         if enabled["flow"]:
             if t <= EVENTS["ss_end"]:
