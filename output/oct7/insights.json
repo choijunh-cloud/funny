@@ -1,0 +1,312 @@
+{
+  "date": "2026-10-07",
+  "thesis": "Agentic AI는 ‘토큰 싸짐=CapEx 끝’이 아니라 CPU·메모리·후공정·전력으로 수요를 넓힌다. 메모리 밸류는 아직 한 자리수 PER이고, 숫자의 절대값($300B 등)보다 확산 방향이 핵심이다.",
+  "core": [
+    {
+      "theme": "AI 경제성",
+      "claim": "토큰 단가가 아니라 작업 완료 총비용(TCO)으로 봐야 한다.",
+      "support": [
+        "중국 AI ‘저가’는 토큰 가격 기준",
+        "작업 완료 비용에서는 미국 AI가 더 저렴할 수 있음"
+      ],
+      "quality": "core",
+      "why": "단위 비교 프레임이 잘못되면 CapEx 판단이 틀어진다."
+    },
+    {
+      "theme": "AI CapEx",
+      "claim": "단위비용 하락 → AI CapEx 과도 는 비약.",
+      "support": [
+        "Agentic AI 사용량 폭증이 비용 하락을 상쇄할 수 있음",
+        "사용량↑ ≠ 기업비용·CapEx 폭증"
+      ],
+      "quality": "core",
+      "why": "약세 논리의 핵심 오류."
+    },
+    {
+      "theme": "Agent 메모리",
+      "claim": "Muse DRAM 수요는 8GB×N이 아니라 실제 평균 사용량×동시 활성 N.",
+      "support": [
+        "할당 ~8GB / 관측 사용 ~3GB",
+        "CPU는 oversubscribe 용이, DRAM은 working state 유지로 공유 어려움"
+      ],
+      "quality": "core",
+      "why": "과대 추정과 과소 추정을 동시에 피한다."
+    },
+    {
+      "theme": "Agent 메모리",
+      "claim": "고도화 경로(3→8→16GB+)가 DRAM 업사이드 옵션.",
+      "support": [
+        "현재 8GB/~3GB → 고도화 16GB/6~10GB → 복잡 Agent 32GB+/10~20GB+",
+        "백그라운드 상시 작업 → SSD/NAND도 동반"
+      ],
+      "quality": "core",
+      "why": "현재 실측과 미래 옵션을 분리."
+    },
+    {
+      "theme": "메모리 밸류",
+      "claim": "10/6 종가 기준 메모리 PER은 한 자리수(대략 4~7배).",
+      "support": [
+        "Sandisk FY27 PER 7.2x",
+        "Micron FY27 6.3x / CY27 5.8x",
+        "SKH·삼성 본주 27Y PER 4.0x"
+      ],
+      "quality": "core",
+      "why": "절대 레벨이 아직 ‘비싸다’ 구간이 아님."
+    },
+    {
+      "theme": "CPU/Agentic",
+      "claim": "Agentic AI는 GPU만이 아니라 CPU·DRAM·NAND로 AI CapEx 수혜를 확산.",
+      "support": [
+        "Chatbot=질문→답변 / Agent=지속 orchestration·tool call",
+        "AMD: CPU:GPU 1:4~8 → 1:1 가능"
+      ],
+      "quality": "core",
+      "why": "투자 맵을 GPU 단일에서 인프라 체인으로 확장."
+    },
+    {
+      "theme": "CPU/Agentic",
+      "claim": "2030 서버 CPU TAM: 씨티 $300B(공격적) vs 미즈호 $209B — 방향 공유, 절대값 이견.",
+      "support": [
+        "씨티 5월 $131.5B → 10월 $300B",
+        "미즈호 Agentic CPU 비중 4%→30%, DRAM/NAND 비트 22~30%"
+      ],
+      "quality": "core",
+      "why": "숫자를 믿기보다 확산 방향에 베팅 포인트를 둔다."
+    },
+    {
+      "theme": "후공정",
+      "claim": "PSK는 CoWoS/HBM/OSAT와 Intel EMIB의 교집합 — EMIB가 레벨업 옵션.",
+      "support": [
+        "CoWoS/HBM=Reflow, OSAT=Descum, EMIB=둘 다",
+        "한화 TP 27만, 이익전망이 TP 정당화 열쇠"
+      ],
+      "quality": "core",
+      "why": "AI 패키징 CAPEX 확대의 직접 수혜 축."
+    },
+    {
+      "theme": "정책/전력",
+      "claim": "중간선거 에너지 본질은 반-DC가 아니라 전력 공급·affordability.",
+      "support": [
+        "공화: 원전·가스·ESS / 민주: 신재생·원전+비용완화",
+        "IRA 전면복원보다 보조금·세액공제 일부 수정 가능성"
+      ],
+      "quality": "core",
+      "why": "전력 밸류체인 모멘텀은 선거 이후에도 이어질 가능성."
+    }
+  ],
+  "support": [
+    {
+      "theme": "메모리 밸류",
+      "claim": "삼전닉스 vs Micron 할인 ~31%(환율 조정 여지), 과거 −20~−50% 중간.",
+      "support": [
+        "ADR 프리미엄 37% → 30%/20%면 본주 202만/219만",
+        "원화 강세 5~10% ≈ 주식 6~12% 하방"
+      ],
+      "quality": "support",
+      "why": "할인·환율·ADR을 같이 봐야 함."
+    },
+    {
+      "theme": "수급 이벤트",
+      "claim": "Micron 대만 노조는 파업 ‘승인’ 단계 — 돌입·일정 확정 전 과잉 해석 주의.",
+      "support": [
+        "99% 찬성, 이익 15% 분기 성과급 요구",
+        "승인→일정→중단 3단계"
+      ],
+      "quality": "support",
+      "why": "공급 타이트닝 옵션이지만 아직 실물이 아님."
+    },
+    {
+      "theme": "밸류 앵커",
+      "claim": "MU TP $3,000(19x)는 컨센($1,572)과 배수 괴리 — Approach는 컨센−20~30%($1,200~$1,371).",
+      "support": [
+        "이익 추정보다 PER 가정이 차이",
+        "안전마진 프레임"
+      ],
+      "quality": "support",
+      "why": "공격적 TP를 앵커로 쓰지 말 것."
+    },
+    {
+      "theme": "전력/DC",
+      "claim": "Google 핀란드 공사 중단은 수요 부족이 아니라 환경 인허가 — 미국은 3.59GW 전력 계약으로 반대 방향.",
+      "support": [
+        "Muhos·Kajaani 일시 중단",
+        "Constellation 원전 uprate 포함"
+      ],
+      "quality": "support",
+      "why": "헤드라인을 CapEx 피크로 읽지 말 것."
+    }
+  ],
+  "themes": {
+    "AI 경제성": [
+      {
+        "theme": "AI 경제성",
+        "claim": "토큰 단가가 아니라 작업 완료 총비용(TCO)으로 봐야 한다.",
+        "support": [
+          "중국 AI ‘저가’는 토큰 가격 기준",
+          "작업 완료 비용에서는 미국 AI가 더 저렴할 수 있음"
+        ],
+        "quality": "core",
+        "why": "단위 비교 프레임이 잘못되면 CapEx 판단이 틀어진다."
+      }
+    ],
+    "AI CapEx": [
+      {
+        "theme": "AI CapEx",
+        "claim": "단위비용 하락 → AI CapEx 과도 는 비약.",
+        "support": [
+          "Agentic AI 사용량 폭증이 비용 하락을 상쇄할 수 있음",
+          "사용량↑ ≠ 기업비용·CapEx 폭증"
+        ],
+        "quality": "core",
+        "why": "약세 논리의 핵심 오류."
+      }
+    ],
+    "Agent 메모리": [
+      {
+        "theme": "Agent 메모리",
+        "claim": "Muse DRAM 수요는 8GB×N이 아니라 실제 평균 사용량×동시 활성 N.",
+        "support": [
+          "할당 ~8GB / 관측 사용 ~3GB",
+          "CPU는 oversubscribe 용이, DRAM은 working state 유지로 공유 어려움"
+        ],
+        "quality": "core",
+        "why": "과대 추정과 과소 추정을 동시에 피한다."
+      },
+      {
+        "theme": "Agent 메모리",
+        "claim": "고도화 경로(3→8→16GB+)가 DRAM 업사이드 옵션.",
+        "support": [
+          "현재 8GB/~3GB → 고도화 16GB/6~10GB → 복잡 Agent 32GB+/10~20GB+",
+          "백그라운드 상시 작업 → SSD/NAND도 동반"
+        ],
+        "quality": "core",
+        "why": "현재 실측과 미래 옵션을 분리."
+      }
+    ],
+    "메모리 밸류": [
+      {
+        "theme": "메모리 밸류",
+        "claim": "10/6 종가 기준 메모리 PER은 한 자리수(대략 4~7배).",
+        "support": [
+          "Sandisk FY27 PER 7.2x",
+          "Micron FY27 6.3x / CY27 5.8x",
+          "SKH·삼성 본주 27Y PER 4.0x"
+        ],
+        "quality": "core",
+        "why": "절대 레벨이 아직 ‘비싸다’ 구간이 아님."
+      },
+      {
+        "theme": "메모리 밸류",
+        "claim": "삼전닉스 vs Micron 할인 ~31%(환율 조정 여지), 과거 −20~−50% 중간.",
+        "support": [
+          "ADR 프리미엄 37% → 30%/20%면 본주 202만/219만",
+          "원화 강세 5~10% ≈ 주식 6~12% 하방"
+        ],
+        "quality": "support",
+        "why": "할인·환율·ADR을 같이 봐야 함."
+      }
+    ],
+    "CPU/Agentic": [
+      {
+        "theme": "CPU/Agentic",
+        "claim": "Agentic AI는 GPU만이 아니라 CPU·DRAM·NAND로 AI CapEx 수혜를 확산.",
+        "support": [
+          "Chatbot=질문→답변 / Agent=지속 orchestration·tool call",
+          "AMD: CPU:GPU 1:4~8 → 1:1 가능"
+        ],
+        "quality": "core",
+        "why": "투자 맵을 GPU 단일에서 인프라 체인으로 확장."
+      },
+      {
+        "theme": "CPU/Agentic",
+        "claim": "2030 서버 CPU TAM: 씨티 $300B(공격적) vs 미즈호 $209B — 방향 공유, 절대값 이견.",
+        "support": [
+          "씨티 5월 $131.5B → 10월 $300B",
+          "미즈호 Agentic CPU 비중 4%→30%, DRAM/NAND 비트 22~30%"
+        ],
+        "quality": "core",
+        "why": "숫자를 믿기보다 확산 방향에 베팅 포인트를 둔다."
+      }
+    ],
+    "후공정": [
+      {
+        "theme": "후공정",
+        "claim": "PSK는 CoWoS/HBM/OSAT와 Intel EMIB의 교집합 — EMIB가 레벨업 옵션.",
+        "support": [
+          "CoWoS/HBM=Reflow, OSAT=Descum, EMIB=둘 다",
+          "한화 TP 27만, 이익전망이 TP 정당화 열쇠"
+        ],
+        "quality": "core",
+        "why": "AI 패키징 CAPEX 확대의 직접 수혜 축."
+      }
+    ],
+    "정책/전력": [
+      {
+        "theme": "정책/전력",
+        "claim": "중간선거 에너지 본질은 반-DC가 아니라 전력 공급·affordability.",
+        "support": [
+          "공화: 원전·가스·ESS / 민주: 신재생·원전+비용완화",
+          "IRA 전면복원보다 보조금·세액공제 일부 수정 가능성"
+        ],
+        "quality": "core",
+        "why": "전력 밸류체인 모멘텀은 선거 이후에도 이어질 가능성."
+      }
+    ],
+    "수급 이벤트": [
+      {
+        "theme": "수급 이벤트",
+        "claim": "Micron 대만 노조는 파업 ‘승인’ 단계 — 돌입·일정 확정 전 과잉 해석 주의.",
+        "support": [
+          "99% 찬성, 이익 15% 분기 성과급 요구",
+          "승인→일정→중단 3단계"
+        ],
+        "quality": "support",
+        "why": "공급 타이트닝 옵션이지만 아직 실물이 아님."
+      }
+    ],
+    "밸류 앵커": [
+      {
+        "theme": "밸류 앵커",
+        "claim": "MU TP $3,000(19x)는 컨센($1,572)과 배수 괴리 — Approach는 컨센−20~30%($1,200~$1,371).",
+        "support": [
+          "이익 추정보다 PER 가정이 차이",
+          "안전마진 프레임"
+        ],
+        "quality": "support",
+        "why": "공격적 TP를 앵커로 쓰지 말 것."
+      }
+    ],
+    "전력/DC": [
+      {
+        "theme": "전력/DC",
+        "claim": "Google 핀란드 공사 중단은 수요 부족이 아니라 환경 인허가 — 미국은 3.59GW 전력 계약으로 반대 방향.",
+        "support": [
+          "Muhos·Kajaani 일시 중단",
+          "Constellation 원전 uprate 포함"
+        ],
+        "quality": "support",
+        "why": "헤드라인을 CapEx 피크로 읽지 말 것."
+      }
+    ]
+  },
+  "do_not": [
+    "토큰 단가↓를 CapEx 피크로 연결하지 말 것",
+    "Agent DRAM을 8GB×사용자수로 단순 곱하지 말 것",
+    "씨티 $300B를 컨센서스처럼 쓰지 말 것 (방향만)",
+    "Micron 파업승인을 생산차질로 바로 읽지 말 것",
+    "Google 핀란드 중단을 AI 수요 둔화로 읽지 말 것",
+    "MU TP $3,000(19x)를 밸류 앵커로 쓰지 말 것"
+  ],
+  "checklist": [
+    "TCO 프레임 유지하는가",
+    "Agent 실제 DRAM(현재~3GB) vs 고도화 옵션 분리했는가",
+    "메모리 PER·할인·환율을 같이 봤는가",
+    "GPU→CPU→DRAM/NAND→후공정 체인으로 포트 질문을 던지는가",
+    "전력/정책은 공급·affordability 프레임인가"
+  ],
+  "counts": {
+    "core": 9,
+    "support": 4,
+    "docs": 7
+  }
+}
