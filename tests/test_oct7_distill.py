@@ -8,6 +8,13 @@ sys.path.insert(0, str(Path("/workspace/scripts")))
 import oct7_distill as D
 
 
+def test_final_brief_pillars():
+    text = Path("/workspace/output/oct7/최종본.md").read_text(encoding="utf-8")
+    for needle in ("기둥 지도", "4.0x", "기억", "1200", "입찰"):
+        assert needle in text
+    assert len(text) > 4000
+
+
 def test_entry_writes():
     D.main()
     out = Path("/workspace/output/oct7")
