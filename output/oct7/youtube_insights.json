@@ -1,0 +1,464 @@
+{
+  "qc_chars": 20349,
+  "yt_chars": 281288,
+  "episodes": {
+    "ep1_rate_strategy": {
+      "id": "ep1_rate_strategy",
+      "title": "금리·수급 전략 라이브",
+      "marker": "잘 잘 들리시죠?",
+      "chars": 36441
+    },
+    "ep2_interview": {
+      "id": "ep2_interview",
+      "title": "인터뷰·삼전/하이닉스·MLCC",
+      "marker": "대표님 이번 주가 이제 월요일이 휴일이었어요",
+      "chars": 64383
+    },
+    "ep3_monitor_open": {
+      "id": "ep3_monitor_open",
+      "title": "10/7 장전 모니터",
+      "marker": "10월 7일 장 시작전 방송",
+      "chars": 42681
+    },
+    "ep4_memory_lee": {
+      "id": "ep4_memory_lee",
+      "title": "메모리 급락 코멘트",
+      "marker": "오늘 메모리 주가 급락이 나와서",
+      "chars": 14065
+    },
+    "ep5_kospi_flow": {
+      "id": "ep5_kospi_flow",
+      "title": "수급·프로그램·현대차",
+      "marker": "오늘 코스피 시장 코스닥 시장 약세 출발",
+      "chars": 56362
+    },
+    "ep6_plusclick": {
+      "id": "ep6_plusclick",
+      "title": "플러스클릭·기억과정신",
+      "marker": "플러스 클리의 호스트를 맡은 슈카",
+      "chars": 15375
+    }
+  },
+  "claims": [
+    {
+      "episode": "ep1_rate_strategy",
+      "theme": "금리",
+      "claim": "미 10년 5%는 ‘시장 끝’ 레벨이 아니다(일관 메시지).",
+      "evidence": [
+        "5% 공포 프레임 반박",
+        "좋은 방향의 금리 하락 가능"
+      ],
+      "weight": "high"
+    },
+    {
+      "episode": "ep1_rate_strategy",
+      "theme": "금리",
+      "claim": "헤지펀드 미 국채 10년 공매도 잔고 약 204만 계약 — 숏커버 시 금리 하방 촉매.",
+      "evidence": [
+        "204만 계약"
+      ],
+      "weight": "high"
+    },
+    {
+      "episode": "ep1_rate_strategy",
+      "theme": "메모리",
+      "claim": "메모리 쇼티지 서사: 삼성 쪽 28년까지, 씨티는 2031년까지 언급.",
+      "evidence": [
+        "28년",
+        "2031"
+      ],
+      "weight": "high"
+    },
+    {
+      "episode": "ep1_rate_strategy",
+      "theme": "삼전 레벨",
+      "claim": "삼성 단기 테스트 구간 약 26만 원대 시각.",
+      "evidence": [
+        "26만"
+      ],
+      "weight": "medium"
+    },
+    {
+      "episode": "ep1_rate_strategy",
+      "theme": "전력",
+      "claim": "미국 전력 소비 사상 최고 국면 — 원전 부족 규모를 GW·기수로 언급(약 57GW/40기 맥락).",
+      "evidence": [
+        "57기가",
+        "원전"
+      ],
+      "weight": "medium"
+    },
+    {
+      "episode": "ep1_rate_strategy",
+      "theme": "수급",
+      "claim": "한국 거래대금 빈약 + 반도체 ETF 레버리지 잔여 효과.",
+      "evidence": [
+        "거래가 없어요",
+        "레버리지"
+      ],
+      "weight": "medium"
+    },
+    {
+      "episode": "ep2_interview",
+      "theme": "수급",
+      "claim": "외국인 연초 대비 약 220조 순매도 — 그래도 위로 갈 확률 70%+ 시각.",
+      "evidence": [
+        "220조",
+        "70%"
+      ],
+      "weight": "high"
+    },
+    {
+      "episode": "ep2_interview",
+      "theme": "금리×AI",
+      "claim": "하이퍼스케일러 조달(예: 오라클 15%) vs AWS 마진(~40%) — 금리 공포를 과대평가하지 말 것.",
+      "evidence": [
+        "15%",
+        "40%"
+      ],
+      "weight": "high"
+    },
+    {
+      "episode": "ep2_interview",
+      "theme": "밸류",
+      "claim": "삼전·하이닉스 글로벌 피어 대비 약 30% 디스카운트.",
+      "evidence": [
+        "30%"
+      ],
+      "weight": "high"
+    },
+    {
+      "episode": "ep2_interview",
+      "theme": "하이닉스",
+      "claim": "약세 요인 후보: HBM4 노이즈 + 솔리다임 중복상장 가능성 — 본질 훼손인지 구분.",
+      "evidence": [
+        "HBM4",
+        "솔리다"
+      ],
+      "weight": "high"
+    },
+    {
+      "episode": "ep2_interview",
+      "theme": "HBM 점유",
+      "claim": "삼성 HBM4 회복 시 하이닉스 점유율 하락은 자연 시나리오(제로섬 우려).",
+      "evidence": [
+        "HBM4",
+        "점유율"
+      ],
+      "weight": "medium"
+    },
+    {
+      "episode": "ep2_interview",
+      "theme": "전력",
+      "claim": "구글–원전 20년 계약, 신규/업레이트 물량 2028 공급 프레임.",
+      "evidence": [
+        "20년",
+        "2028"
+      ],
+      "weight": "high"
+    },
+    {
+      "episode": "ep2_interview",
+      "theme": "소부장",
+      "claim": "삼성전기 MLCC 장기공급 공시(데이터센터향) + 세종 기판 투자/한미 장비.",
+      "evidence": [
+        "MLCC",
+        "기판",
+        "데이터 센터"
+      ],
+      "weight": "high"
+    },
+    {
+      "episode": "ep2_interview",
+      "theme": "밸류 타이밍",
+      "claim": "엔비디아·TSMC처럼 삼전닉스도 27년에 밸류에이션 복귀·신고가 견인 역할 가능(펀더멘탈 뷰).",
+      "evidence": [
+        "27년",
+        "밸루에이션"
+      ],
+      "weight": "high"
+    },
+    {
+      "episode": "ep2_interview",
+      "theme": "환율",
+      "claim": "환율 변동 속도↑ — 1320원대 하단 언급 등, 정보유통·프로그램 매매 민감.",
+      "evidence": [
+        "1320"
+      ],
+      "weight": "medium"
+    },
+    {
+      "episode": "ep3_monitor_open",
+      "theme": "테이프",
+      "claim": "SKH ADR 전일 약 −6%, DRAM 관련 ETF 약 −3% → 국내 갭 하락 전제.",
+      "evidence": [
+        "6%",
+        "3%"
+      ],
+      "weight": "high"
+    },
+    {
+      "episode": "ep3_monitor_open",
+      "theme": "전력",
+      "claim": "구글–Constellation형 원전 PPA 20년·업레이트(신규 건설 10년+ vs 개조).",
+      "evidence": [
+        "20년",
+        "업레이트"
+      ],
+      "weight": "high"
+    },
+    {
+      "episode": "ep3_monitor_open",
+      "theme": "기대",
+      "claim": "당일 SKH −2~3%, 삼성 −1~2% 내외 시나리오 제시(방송 가정치).",
+      "evidence": [
+        "2, 3%",
+        "1, 2%"
+      ],
+      "weight": "medium"
+    },
+    {
+      "episode": "ep4_memory_lee",
+      "theme": "매크로",
+      "claim": "미 10년물 약 5.274%로 ‘안정’ 해석 vs 메모리 주가 괴리.",
+      "evidence": [
+        "5.274"
+      ],
+      "weight": "high"
+    },
+    {
+      "episode": "ep4_memory_lee",
+      "theme": "테이프",
+      "claim": "EWY 약 −2.64%, SKH ADR 약 −6.4% — 지수↑·메모리↓ 짜증 장세.",
+      "evidence": [
+        "2.64",
+        "6.39"
+      ],
+      "weight": "medium"
+    },
+    {
+      "episode": "ep4_memory_lee",
+      "theme": "전력",
+      "claim": "3.6GW ≈ 원전 약 3기 규모로 체감.",
+      "evidence": [
+        "3.6GW"
+      ],
+      "weight": "medium"
+    },
+    {
+      "episode": "ep5_kospi_flow",
+      "theme": "실적",
+      "claim": "삼성 ‘분기 영업이익 100조 시대’ 서사 — 잠정 전날 수급이 더 중요할 수 있음.",
+      "evidence": [
+        "100조"
+      ],
+      "weight": "high"
+    },
+    {
+      "episode": "ep5_kospi_flow",
+      "theme": "수급",
+      "claim": "비차익·바스켓 매도 강화(수조 단위) — 합성/네이키드 매도 에너지.",
+      "evidence": [
+        "3조",
+        "비차익"
+      ],
+      "weight": "high"
+    },
+    {
+      "episode": "ep5_kospi_flow",
+      "theme": "레벨",
+      "claim": "삼성 27만 이탈 주시, 하이닉스 170만 테스트 언급.",
+      "evidence": [
+        "27만",
+        "170만"
+      ],
+      "weight": "high"
+    },
+    {
+      "episode": "ep5_kospi_flow",
+      "theme": "테마",
+      "claim": "블루웨이브/2차전지·재생 급등은 ‘올려놓고 파는’ 냄새 — 추격 금지.",
+      "evidence": [
+        "블루웨이브",
+        "2차전지"
+      ],
+      "weight": "high"
+    },
+    {
+      "episode": "ep5_kospi_flow",
+      "theme": "현대차",
+      "claim": "10/25~월말 결판 구간 시각. 고점(70만 언급) 매도 후 관망.",
+      "evidence": [
+        "70만",
+        "10월"
+      ],
+      "weight": "high"
+    },
+    {
+      "episode": "ep5_kospi_flow",
+      "theme": "ADR",
+      "claim": "SKH ADR 지지 후보 약 $165 언급.",
+      "evidence": [
+        "165"
+      ],
+      "weight": "medium"
+    },
+    {
+      "episode": "ep5_kospi_flow",
+      "theme": "원전/건설",
+      "claim": "한국형 원전(APR1400) 레퍼런스·현대건설/삼성물산 시공 스토리.",
+      "evidence": [
+        "APR",
+        "현대 건설"
+      ],
+      "weight": "medium"
+    },
+    {
+      "episode": "ep6_plusclick",
+      "theme": "기억과정신",
+      "claim": "AI CapEx는 해킹/규제 이슈로 멈추지 않는다 — 오너 CEO(저커버그·머스크·베조스·세르게이 등)의 ‘기업가 정신’이 무한루프 투자를 지속.",
+      "evidence": [
+        "기업가 정신",
+        "메타",
+        "오너"
+      ],
+      "weight": "high"
+    },
+    {
+      "episode": "ep6_plusclick",
+      "theme": "메타/에이전트",
+      "claim": "메타: 메타버스 오판 인정→AI 피벗. 스마트글라스(~점유 80%)로 에이전트 밀착 디바이스·구독 락인.",
+      "evidence": [
+        "스마트 글라스",
+        "80%",
+        "에이전트"
+      ],
+      "weight": "high"
+    },
+    {
+      "episode": "ep6_plusclick",
+      "theme": "오너 vs 월급CEO",
+      "claim": "월급 CEO(애플·MS식)는 40년 만기 빅배팅 어려움 → AI 판은 오너 리그.",
+      "evidence": [
+        "월급",
+        "40년"
+      ],
+      "weight": "high"
+    },
+    {
+      "episode": "ep6_plusclick",
+      "theme": "금리×주식",
+      "claim": "하이퍼스케일러가 돈을 가져가 금리↑인데 주식·채권이 안 깨짐 — ‘누가 먼저 무너지나’ 국면.",
+      "evidence": [
+        "금리",
+        "안 빠져"
+      ],
+      "weight": "high"
+    },
+    {
+      "episode": "ep6_plusclick",
+      "theme": "버블 프레임",
+      "claim": "IT버블 비유는 ‘끝’이 아니라 ‘시작/아직 많이 남음’(과거 금리 7%대) 쪽 내러티브가 시장에 있음.",
+      "evidence": [
+        "7%",
+        "IT 버블"
+      ],
+      "weight": "high"
+    },
+    {
+      "episode": "ep6_plusclick",
+      "theme": "유동성",
+      "claim": "국채 입찰 주저 — 메타/MS 회사채(7~8%)·앤트로픽 상장(11월)로 자금 이연.",
+      "evidence": [
+        "7, 8%",
+        "엔트로픽",
+        "입찰"
+      ],
+      "weight": "high"
+    },
+    {
+      "episode": "ep6_plusclick",
+      "theme": "요금/락인",
+      "claim": "닷컴과 달리 AI는 유료가 기본. OpenAI 고가 요금제($500) — 락인 후 가격 전가 여지.",
+      "evidence": [
+        "500불",
+        "유료"
+      ],
+      "weight": "medium"
+    },
+    {
+      "episode": "ep6_plusclick",
+      "theme": "삼성실적",
+      "claim": "10/8 잠정: 컨센 밴드 대략 101~117조, 무게중심 ~105조. ‘적게 봐도 100조’.",
+      "evidence": [
+        "105조",
+        "100조",
+        "10월 8일"
+      ],
+      "weight": "high"
+    },
+    {
+      "episode": "ep6_plusclick",
+      "theme": "마이크론",
+      "claim": "GPM 87%(85% 이하면 실망 기준을 상회). 내년·내후년 수요↑, 물량 70%+ 계약, 증설 가속.",
+      "evidence": [
+        "87%",
+        "70%"
+      ],
+      "weight": "high"
+    },
+    {
+      "episode": "ep6_plusclick",
+      "theme": "수출",
+      "claim": "9월 수출 약 $1,200억 / 무역흑자 약 $499억 — ‘한 달 70조’급 유입 체감 → 금리↑도 감내 논거.",
+      "evidence": [
+        "1,200억",
+        "499억"
+      ],
+      "weight": "high"
+    },
+    {
+      "episode": "ep6_plusclick",
+      "theme": "연못고래",
+      "claim": "삼성 OP ~500조 + 하이닉스 ~300조 전망이 겹치면 GDP(~2,700조) 대비 ‘연못에 고래 두 마리’ → AI/비AI 양극화 심화.",
+      "evidence": [
+        "500조",
+        "300조",
+        "2,700조"
+      ],
+      "weight": "high"
+    },
+    {
+      "episode": "ep6_plusclick",
+      "theme": "체크포인트",
+      "claim": "이번 주 핵심은 삼성 잠정보다 미 장기물(10·20년) 입찰 + 하이퍼스케일러 회사채 뉴스.",
+      "evidence": [
+        "10년물",
+        "20년물",
+        "채권 발행"
+      ],
+      "weight": "high"
+    },
+    {
+      "episode": "ep6_plusclick",
+      "theme": "현대차",
+      "claim": "AI와 달리 자동차는 전선 미확정(중국 EV 다수·독일차·도요타). 수출 2위 자리도 흔들림. 불확실성↑.",
+      "evidence": [
+        "전선",
+        "테슬라",
+        "모델 Y"
+      ],
+      "weight": "high"
+    },
+    {
+      "episode": "ep6_plusclick",
+      "theme": "포지션톤",
+      "claim": "박정호=기억과정신 강세 / 알상무=강세+금리(채권) 숏 — ‘금리↑·주식↑ 동행’ 시나리오.",
+      "evidence": [
+        "강세론자",
+        "채권 숏"
+      ],
+      "weight": "medium"
+    }
+  ]
+}
