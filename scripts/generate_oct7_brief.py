@@ -36,9 +36,11 @@ CSS = """
   --blue-bg: #e8f1fb;
 }
 * { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink);
   font-family: "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
   line-height: 1.55; }
+section[id], .hero[id] { scroll-margin-top: 16px; }
 .wrap { max-width: 980px; margin: 0 auto; padding: 28px 20px 72px; }
 .kicker { color: var(--gold); font-weight: 700; letter-spacing: .04em; font-size: 13px; }
 h1 { color: var(--navy); font-size: 30px; line-height: 1.25; margin: 6px 0 8px; }
