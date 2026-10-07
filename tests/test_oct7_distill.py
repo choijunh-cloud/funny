@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+"""Distill entry delegates to oct7_model."""
+
 from __future__ import annotations
 
 import sys
@@ -6,26 +8,26 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path("/workspace/scripts")))
 import oct7_distill as D
+import oct7_model as M
 
 
-def test_extract_has_core_themes():
-    docs = D._read_extracted()
-    claims = D.extract_claims(docs)
-    themes = {c.theme for c in claims if c.quality == "core"}
-    for need in ("AI CapEx", "Agent 메모리", "메모리 밸류", "CPU/Agentic", "후공정", "정책/전력"):
-        assert need in themes or any(need.split("/")[0] in t for t in themes), themes
+def test_entry_writes(tmp_path=None):
+    D.main()
+    out = Path("/workspace/output/oct7")
+    assert (out / "투자인사이트.md").is_file()
+    assert (out / "model.json").is_file()
+    text = (out / "투자인사이트.md").read_text(encoding="utf-8")
+    assert "정밀 모델" in text
+    assert "의사결정 규칙" in text
 
 
-def test_render_chat_short():
-    docs = D._read_extracted()
-    data = D.distill(D.extract_claims(docs))
-    chat = D.render_chat(data)
-    assert "한 줄" in chat
-    assert "하지 말 것" in chat
-    assert len(chat) < 3500
+def test_thesis_has_numbers():
+    m = M.run_model()
+    assert "4.0x" in m["thesis"] or "PER" in m["thesis"]
+    assert "300" in m["thesis"] or "$" in m["thesis"]
 
 
 if __name__ == "__main__":
-    test_extract_has_core_themes()
-    test_render_chat_short()
+    test_entry_writes()
+    test_thesis_has_numbers()
     print("ok")
