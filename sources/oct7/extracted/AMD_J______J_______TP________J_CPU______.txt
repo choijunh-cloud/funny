@@ -1,0 +1,181 @@
+--- page 1 ---
+ 
+AMD·AI 에이전트: CPU 시장 $3,000억 시대 전망 
+ 
+① Citi는 Agentic AI 등장으로 서버 CPU TAM을 2025년 $29B 
+→ 2030년 $300B로 대폭 상향했다. 
+ 
+② 핵심은 Agent가 단순 답변이 아니라 지속적으로 검색·판단
+·API 호출·데이터 처리·보안을 수행하면서 GPU뿐 아니라 CPU 연
+산량을 폭증시킨다는 것. 
+ 
+③ $300B는 매우 공격적인 시나리오지만, 방향성은 ‘AI가 GPU만
+의 시장에서 CPU·DRAM·HBM·CXL·SSD·네트워크까지 확산된다’
+는 점에서 주목할 가치가 있다. 
+ 
+--- page 2 ---
+ 
+② 왜 Agentic AI가 중요한가? 
+기존 Chatbot 
+질문 → 답변 → 대기 
+AI Agent 
+목표 설정 → 검색/판단 → 실행 → 결과 확인 → 재실행 
+수시간 또는 24시간 백그라운드에서 지속 작동 
+따라서 사용자 1명당 토큰·추론량이 급증할 수 있음. 
+특히 사이버보안처럼 Always-on AI Agent가 필요한 분야에서는 
+전통적인 챗봇보다 훨씬 많은 컴퓨팅을 요구할 가능성. 
+ 
+
+--- page 3 ---
+③ 핵심 투자 연결고리 
+Agentic AI 확산 
+↓ 
+Inference(추론) 연산 폭증 
+↓ 
+GPU + CPU + Memory + Networking 수요 증가 
+↓ 
+데이터센터 CAPEX 장기화 
+특히 CPU는 단순히 GPU의 보조 프로세서가 아니라, Agent의 오
+케스트레이션·데이터 처리·멀티태스킹 증가에 따라 수요가 함께 
+커지는 구조. 
+ 
+④ Citi의 가장 공격적인 가정 
+Meta Muse 1억 DAU 
+→ Blackwell급 GPU 20만~39만 개 
+→ NVL72 2,800~5,500랙 
+→ Nvidia 일회성 매출 $70~190억 
+그리고 DAU 100만 명 증가마다 Nvidia 매출 $7,000만~1.9억이
+라는 계산. 
+ 
+Citi의 2026년 5월 자료에서는 서버 CPU TAM을 2025년 
+$29.3B → 2030년 $131.5B, CAGR 약 35%로 봤습니다.  
+그런데 10월 6일 최신 자료에서 Muse 등 Agentic AI의 등장 이
+--- page 4 ---
+후 2030년 $300B로 대폭 상향했습니다. 2025년 출발점은 그대
+로 $29B입니다.  
+ 
+ 
+ 
+Citi의 5월 모델을 보면 상당히 흥미롭습니다. 
+ 
+ 
+특히 **Agentic CPU가 CAGR 185%**로 가장 빠르게 성장하는 
+것으로 전망했습니다.  
+즉 기존 AI 서버의 
+GPU 중심 + CPU 보조에서 
+GPU + CPU Agent Layer로 구조가 바뀐다는 논리입니다. 
+
+--- page 5 ---
+ 
+5. 왜 Agent가 CPU를 훨씬 많이 필요로 하나? 
+기존 ChatGPT형 구조를 단순화하면: 
+사용자 질문 
+→ CPU가 요청 관리 
+→ GPU가 LLM 추론 
+→ 답변 
+그래서 AMD가 설명했던 기존 구조는 대략 
+CPU 1 : GPU 4~8이었습니다.  그런데 Agent는 다릅니다. 
+예를 들어 AI에게 
+“이번 주 삼성전자 실적을 분석하고 투자 의견을 만들어줘.” 라
+고 하면 Agent가 
+① 웹 검색 
+② 자료 수집 
+③ PDF 읽기 
+④ DB 조회 
+⑤ 코드 실행 
+⑥ 계산 
+⑦ 다른 AI 모델 호출 
+⑧ 결과 검증 
+⑨ 다시 검색 
+⑩ 최종 보고서 작성 
+을 반복합니다. 
+--- page 6 ---
+즉 GPU가 LLM 계산을 담당하는 동안 CPU는 
+Orchestration(작업 조율) 
+Tool call(외부 도구 호출) 
+Database 처리 
+Security 
+API 처리 
+Memory/Storage I/O 
+를 담당합니다. 
+AMD도 Agentic AI에서는 기존 1 CPU : 4~8 GPU에서 1 CPU : 1 
+GPU 또는 경우에 따라 CPU가 더 많은 구조로 이동할 수 있다고 
+설명합니다. 
+ 
+그런데 2026년은? 
+Citi가 이번 기사에서 2026년 TAM을 별도로 명시하지는 않았습
+니다. 
+다만 10월 전망의 60% CAGR을 기계적으로 적용하면: 
+2025 $29B × 1.60 = 약 $46.4B 
+따라서 PPT에는 
+2025 $29B → 2026E 약 $46B → 2030E $300B 
+라고 쓰되, 2026E $46B는 Citi가 직접 발표한 숫자가 아니라 
+60% CAGR을 역산한 추정치라고 봐야하는데 
+ 
+--- page 7 ---
+$300B은 매우 공격적으로 보이긴 합니다 
+왜냐하면 2025년 $29B에서 2030년 $300B라면10.3배 성장입니
+다. 
+5년 CAGR이 약 **59.7%**입니다. 
+ 
+반대로 Citi의 논리가 맞을 수 있는 이유도 있습니다 
+Agent가 단순히 ChatGPT처럼 
+질문 → 답변하는 것이 아니라 
+24시간 지속적으로 검색·판단·실행하는 digital worker가 된다면 
+이야기가 달라집니다. 
+특히 기업용 Agent가 본격화되면: 
+직원 1명 
+→ Agent 10개 
+→ Agent 100개 
+→ Agent 1,000개같은 구조가 가능해집니다. 
+실제로 Agentic AI workload의 CPU 병목을 분석한 연구에서도  
+특정 workload에서 **CPU의 tool processing이 전체 latency의 
+최대 90.6%**를 차지할 수 있다는 결과가 나왔습니다.  
+즉 CPU가 AI 인프라의 새로운 병목이 될 가능성 자체는 상당히 
+현실적입니다 
+ 
+--- page 8 ---
+ 
+ 
+Agentic AI → CPU·메모리 수요 급증: Mizuho 전망 
+ 
+① Agentic AI는 기존 Chatbot과 달리 지속적인 
+orchestration·tool call·추론을 필요로 해 Server CPU TAM을 
+2030년 약 $209B까지 확대시킬 수 있다. 
+ 
+② 특히 Agentic CPU 비중이 서버 CPU의 4% → 30%로 상승하
+면서 CPU뿐 아니라 DRAM·NAND 출하량의 22~30%까지 
+
+--- page 9 ---
+Agentic AI가 차지할 전망이다. 
+ 
+③ 투자 핵심은 'GPU만 성장'이 아니라 GPU → CPU → 
+DRAM/HBM → NAND/SSD → 서버로 AI CAPEX 수혜가 확산되
+며, 특히 Nvidia Vera·AMD Venice가 차세대 CPU 경쟁의 핵심 
+변수가 된다는 것 
+ 
+30년 서버 CPU 시장 전망: 씨티 기존 1315억달러->3000억달러 
+vs. 미즈호 2090억달러.  
+Agentic CPU 시장 기존 594억달러 (45%비중)-> 증가일텐데 ?  
+vs. 미즈호 800억달러 (30%).  
+중요한 것은 Agentic CPU 고성장으로 전체 서버 CPU 시장  
+(2000~3000억달러) from 25년 259억달러 
+ 
+ 
+ 
+--- page 10 ---
+ 
+ 
+② Agentic AI가 메모리까지 끌어올린다 
+Mizuho는 Agentic AI가 2030년까지 각각의 시장에서: 
+• CPU: 전체 서버 CPU의 약 30%  
+• DRAM: 전체 출하 비트의 22~30%  
+• NAND: 전체 출하 비트의 22~30%  
+를 차지할 것으로 전망. 
+→ Agent 증가 = CPU만의 이야기가 아니라 DRAM·NAND까지 
+구조적 수요 증가 
+ 
+
+--- page 11 ---
+ 
+ 
