@@ -105,6 +105,9 @@ class Report:
     missing: list[str]
     line_count: int
     source_name: str
+    title: str = "10월 8일 투자 인사이트"
+    subtitle: str = "추출한 숫자만 남기고 행동으로 증류"
+    doc_header: str = "10/8 투자 인사이트  ·  대본 추출 · 증류"
 
     def to_json(self) -> dict:
         payload = asdict(self)
@@ -235,10 +238,10 @@ def normalize(text: str) -> str:
     return re.sub(r"\s+", " ", text.replace("\n", " ")).strip()
 
 
-def extract_facts(flat: str) -> tuple[dict[str, Fact], list[str]]:
+def extract_facts(flat: str, specs: list[FactSpec] | None = None) -> tuple[dict[str, Fact], list[str]]:
     found: dict[str, Fact] = {}
     missing: list[str] = []
-    for spec in FACTS:
+    for spec in FACTS if specs is None else specs:
         match = re.search(spec.pattern, flat)
         if not match:
             missing.append(spec.id)
@@ -662,7 +665,7 @@ def build_report(raw: str, source_name: str) -> Report:
 
 def render_markdown(report: Report) -> str:
     lines = [
-        "# 10월 8일 투자 인사이트",
+        f"# {report.title}",
         "",
         "방송 대본을 코드로 추출·증류한 결과다. 카드에 적힌 숫자는 대본에서 찾은 표현 그대로다. 공시와 대조하기 전의 발언이다.",
         "",
@@ -854,11 +857,11 @@ def render_docx(report: Report, path: Path) -> None:
 
     header = section.header.paragraphs[0]
     header.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    run = header.add_run("10/8 투자 인사이트  ·  대본 추출 · 증류")
+    run = header.add_run(report.doc_header)
     set_run_font(run, size=8.5, color=GRAY)
 
     core = doc.core_properties
-    core.title = "10월 8일 투자 인사이트"
+    core.title = report.title
     core.author = "준혁"
     core.subject = "지표추적자·삼성 실적·오픈AI 매출 논란 증류"
 
@@ -885,8 +888,8 @@ def render_docx(report: Report, path: Path) -> None:
             )
         )
 
-    paragraph("10월 8일 투자 인사이트", size=20, bold=True, color=NAVY, after=2, align="center")
-    paragraph("추출한 숫자만 남기고 행동으로 증류", size=11, color=GRAY, after=8, align="center")
+    paragraph(report.title, size=20, bold=True, color=NAVY, after=2, align="center")
+    paragraph(report.subtitle, size=11, color=GRAY, after=8, align="center")
     paragraph(
         f"발화 {report.line_count}문장  ·  팩트 {len(report.facts)}개  ·  카드 {len(report.insights)}개",
         size=10,
