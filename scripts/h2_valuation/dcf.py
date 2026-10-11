@@ -60,10 +60,23 @@ def margin_at(year_index: float, margin0: float, margin_term: float) -> float:
     return margin_term + gap * (0.70 ** year_index)
 
 
-def _fcff(revenue: float, prev_revenue: float, margin: float, p: CashInputs) -> float:
+def capex_at(year_index: int, capex0: float, da: float) -> float:
+    """Keep cash capex when it is already below DA (acquired-intangible amortization).
+
+    When cash capex exceeds DA, fade half the excess away. Leading-edge
+    capacity does not fall all the way to accounting depreciation, and a
+    one-year buildout is not a permanent cash charge.
+    """
+    if capex0 <= da:
+        return capex0
+    term = da + 0.5 * (capex0 - da)
+    return term + (capex0 - term) * (0.70 ** year_index)
+
+
+def _fcff(revenue: float, prev_revenue: float, margin: float, p: CashInputs, capex_ratio: float) -> float:
     ebit = revenue * margin
     da = revenue * p.da_ratio
-    capex = revenue * p.capex_ratio
+    capex = revenue * capex_ratio
     dnwc = NWC_RATIO * (revenue - prev_revenue)
     dnwc = max(dnwc, -0.02 * revenue)
     return ebit * (1.0 - p.tax) + da - capex - dnwc
@@ -91,6 +104,7 @@ def value_fcff(
     g1: float,
     year1_revenue: float | None = None,
     g_term: float = G_TERM,
+    fade: float = FADE,
 ) -> DcfResult:
     """Value one share.
 
@@ -113,11 +127,11 @@ def value_fcff(
         earned = fy0 * elapsed
         ahead = fy0 * (1.0 - elapsed)
         if earned > 0:
-            c = _fcff(earned, p.ttm_revenue * elapsed, p.margin0, p)
+            c = _fcff(earned, p.ttm_revenue * elapsed, p.margin0, p, capex_at(0, p.capex_ratio, p.da_ratio))
             fcff.append(c)
             pv += _discount(c, 0.04, p.wacc)
         if ahead > 0:
-            c = _fcff(ahead, p.ttm_revenue * (1.0 - elapsed), p.margin0, p)
+            c = _fcff(ahead, p.ttm_revenue * (1.0 - elapsed), p.margin0, p, capex_at(0, p.capex_ratio, p.da_ratio))
             fcff.append(c)
             pv += _discount(c, max(1.0 - elapsed, 0.02) / 2.0, p.wacc)
         t_fy0_end = max(1.0 - elapsed, 0.02)
@@ -125,7 +139,7 @@ def value_fcff(
         ahead = max(fy0 - ytd, 0.0)
         remain = clip(1.0 - elapsed, 0.02, 1.0)
         if ahead > 0:
-            c = _fcff(ahead, p.ttm_revenue * remain, p.margin0, p)
+            c = _fcff(ahead, p.ttm_revenue * remain, p.margin0, p, capex_at(0, p.capex_ratio, p.da_ratio))
             fcff.append(c)
             pv += _discount(c, remain / 2.0, p.wacc)
             t_fy0_end = remain
@@ -144,28 +158,30 @@ def value_fcff(
     revenues = [first]
     g = g_used
     for _ in range(N_YEARS - 1):
-        g = g_term + (g - g_term) * FADE
+        g = g_term + (g - g_term) * fade
         revenues.append(revenues[-1] * (1.0 + g))
 
     prev = fy0
     last_c = 0.0
     for i, rev in enumerate(revenues):
         m = margin_at(i + 1, p.margin0, p.margin_term)
-        c = _fcff(rev, prev, m, p)
+        c = _fcff(rev, prev, m, p, capex_at(i + 1, p.capex_ratio, p.da_ratio))
         fcff.append(c)
         pv += _discount(c, t_fy0_end + i + 0.5, p.wacc)
         prev = rev
         last_c = c
 
+    note = "ok"
     if last_c <= 0:
-        return DcfResult(None, None, pv, first, g_used, fcff, "terminal fcff <= 0")
-
-    tv = last_c * (1.0 + g_term) / (p.wacc - g_term)
+        tv = 0.0
+        note = "tv0"
+    else:
+        tv = last_c * (1.0 + g_term) / (p.wacc - g_term)
     t_end = t_fy0_end + N_YEARS
     pv += _discount(tv, t_end, p.wacc)
     equity = pv - p.net_debt
     px = equity / p.shares
-    return DcfResult(px, equity, pv, first, g_used, fcff, "ok")
+    return DcfResult(px, equity, pv, first, g_used, fcff, note)
 
 
 def implied_growth(p: CashInputs, market_price: float) -> tuple[float | None, str]:

@@ -214,6 +214,9 @@ def build_valuation(ticker: str, spot: float, fin: dict, rf: float) -> dict:
         kd = rf
     tax = fin["tax"]
     wacc = ke * equity_m / (debt + equity_m) + kd * (1.0 - tax) * debt / (debt + equity_m)
+    if wacc < rf:
+        wacc = rf
+        row["flags"].append("wacc_floored")
     row.update(
         {
             "beta": beta,
@@ -248,6 +251,8 @@ def build_valuation(ticker: str, spot: float, fin: dict, rf: float) -> dict:
         row["flags"].append("dcf_skipped_margin")
         row["ok"] = True
         return row
+    if fin["margin_ttm"] > fin["margin_term"] + 0.15:
+        row["flags"].append("peak_margin")
 
     p = CashInputs(
         fy0_revenue=fin["fy0"],
@@ -313,8 +318,10 @@ def build_valuation(ticker: str, spot: float, fin: dict, rf: float) -> dict:
     if base.fcff and fin["fy0"]:
         row["fcff_final"] = base.fcff[-1]
         row["fcff_final_margin"] = base.fcff[-1] / (base.year1_revenue or fin["fy0"])
-    if base.note != "ok" or base.price is None or base.price <= 0:
+    if base.price is None or base.note not in ("ok", "tv0"):
         row["flags"].append("dcf_failed")
+    if base.note == "tv0":
+        row["flags"].append("tv0")
     row["ok"] = True
     row["ev"] = equity_m + fin["net_debt"]
     if fin["oi_ttm"] and fin["oi_ttm"] > 0:
@@ -361,15 +368,28 @@ def attach_peers(rows: list[dict]) -> None:
                 r["margin_mismatch"] = False
 
 
+def _reverse_score(r: dict) -> float | None:
+    note = r.get("g_implied_note")
+    if "dcf_failed" in r.get("flags", []) or note in (None, "solver nan", "bad inputs", "value not increasing in growth"):
+        return None
+    analysts = r.get("analysts")
+    g_outer = r.get("g_outer")
+    if note == "implied g > 100%":
+        # Still short of the price at a 100% fade, so the bound is the rich end.
+        gap = None if g_outer is None else g_outer - 1.0
+        return 0.0 if gap is None else map_reverse(gap, g_outer, analysts)
+    if note == "implied g < -25%":
+        gap = None if g_outer is None else g_outer - (-0.25)
+        return 1.0 if gap is None else map_reverse(gap, g_outer, analysts)
+    return map_reverse(r.get("reverse_gap"), g_outer, analysts)
+
+
 def score_row(r: dict) -> None:
     r["s_mom"] = map_mom(r.get("mom21"))
     r["s_vol"] = map_vol(r.get("vol_ratio"))
     r["s_room"] = map_room(r.get("dd126"), r.get("mom21"), r.get("mom63"))
     r["s_visible"] = map_visible(r.get("g_into"), r.get("analysts"))
-    if "dcf_failed" in r.get("flags", []):
-        r["s_reverse"] = None
-    else:
-        r["s_reverse"] = map_reverse(r.get("reverse_gap"), r.get("g_outer"), r.get("analysts"))
+    r["s_reverse"] = _reverse_score(r)
     parts = {
         "reverse": r["s_reverse"],
         "visible": r["s_visible"],
@@ -377,35 +397,86 @@ def score_row(r: dict) -> None:
         "mom": r["s_mom"],
         "vol": r["s_vol"],
     }
-    r["score"] = weighted_score(parts, {
+    r["score_full"] = weighted_score(parts, {
         "reverse": 0.25, "visible": 0.20, "room": 0.20, "mom": 0.20, "vol": 0.15,
     })
+    r["score_price"] = weighted_score(
+        {"mom": r["s_mom"], "room": r["s_room"], "vol": r["s_vol"]},
+        PRICE_WEIGHTS,
+    )
     r["extended"] = is_extended(r.get("dd126"), r.get("mom63"))
+    note = r.get("g_implied_note")
+    r["valued"] = note in ("ok", "tv0", "implied g > 100%", "implied g < -25%")
+    upside = r.get("dcf_upside")
     gap = r.get("reverse_gap")
     ebit_d = r.get("ebit_discount")
-    sales_d = r.get("sales_discount")
-    if (
-        r.get("peer_n", 0) >= 3
-        and not r.get("margin_mismatch")
-        and ebit_d is not None
-        and sales_d is not None
-        and gap is not None
-        and r.get("score") is not None
-    ):
-        if ebit_d < -0.25 and sales_d < -0.25 and gap < 0:
-            r["score"] *= 0.70
-            r["flags"].append("peer_rich_veto")
-        elif ebit_d > 0.05 and sales_d > 0.05 and gap > 0:
-            r["score"] = min(1.0, r["score"] + 0.03)
-            r["flags"].append("peer_cheap_bonus")
-    upside = r.get("dcf_upside")
     peer_ok = r.get("peer_n", 0) < 3 or ebit_d is None or ebit_d > -0.10
-    if upside is not None and upside > 0 and gap is not None and gap > 0 and peer_ok and "dcf_failed" not in r["flags"]:
+    if note == "implied g > 100%":
+        r["agreement"] = "disagree"
+    elif upside is not None and upside > 0 and gap is not None and gap > 0 and peer_ok and "dcf_failed" not in r["flags"]:
         r["agreement"] = "agree"
-    elif (upside is not None and upside > 0) or (gap is not None and gap > 0):
+    elif note == "implied g < -25%" and upside is not None and upside > 0 and peer_ok:
+        r["agreement"] = "agree"
+    elif (upside is not None and upside > 0) or (gap is not None and gap > 0) or note == "implied g < -25%":
         r["agreement"] = "partial"
     else:
         r["agreement"] = "disagree"
+    if "peak_margin" in r.get("flags", []) and r["agreement"] == "agree":
+        r["agreement"] = "partial"
+
+
+def published_weights(bt: dict) -> dict[str, float]:
+    """Price factors enter the book only if the 126-day overlap-adjusted t exceeds 1."""
+    raw = {"reverse": 0.25, "visible": 0.20}
+    tmap = {
+        "mom": bt["factors"]["mom21"]["h126"].get("t_adj"),
+        "room": bt["factors"]["room"]["h126"].get("t_adj"),
+        "vol": bt["factors"]["vol_ratio"]["h126"].get("t_adj"),
+    }
+    base = {"mom": 0.20, "room": 0.20, "vol": 0.15}
+    kept = []
+    for key, tstat in tmap.items():
+        if tstat is not None and tstat > 1.0:
+            raw[key] = base[key]
+            kept.append(key)
+    total = sum(raw.values())
+    weights = {k: v / total for k, v in raw.items()}
+    weights["_kept_price"] = kept
+    return weights
+
+
+def apply_published_score(rows: list[dict], weights: dict) -> None:
+    use = {k: v for k, v in weights.items() if not k.startswith("_")}
+    for r in rows:
+        r["rank_gap"] = continuous_gap(r)
+        r["flags"] = [f for f in r.get("flags", []) if f not in ("peer_rich_veto", "peer_cheap_bonus")]
+        parts = {
+            "reverse": r.get("s_reverse"),
+            "visible": r.get("s_visible"),
+            "room": r.get("s_room"),
+            "mom": r.get("s_mom"),
+            "vol": r.get("s_vol"),
+        }
+        r["score"] = weighted_score(parts, use)
+        gap = r.get("reverse_gap")
+        if r.get("g_implied_note") == "implied g > 100%":
+            gap = -1.0
+        ebit_d = r.get("ebit_discount")
+        sales_d = r.get("sales_discount")
+        if (
+            r.get("peer_n", 0) >= 3
+            and not r.get("margin_mismatch")
+            and ebit_d is not None
+            and sales_d is not None
+            and gap is not None
+            and r.get("score") is not None
+        ):
+            if ebit_d < -0.25 and sales_d < -0.25 and gap < 0:
+                r["score"] *= 0.70
+                r["flags"].append("peer_rich_veto")
+            elif ebit_d > 0.05 and sales_d > 0.05 and gap > 0:
+                r["score"] = min(1.0, r["score"] + 0.03)
+                r["flags"].append("peer_cheap_bonus")
 
 
 def _ic(pairs: list[tuple[float, float]]) -> dict:
@@ -415,7 +486,7 @@ def _ic(pairs: list[tuple[float, float]]) -> dict:
     return {"rho": None if rho is None or not np.isfinite(rho) else float(rho)}
 
 
-def backtest(prices: dict[str, pd.DataFrame], raw: dict) -> dict:
+def backtest(prices: dict[str, pd.DataFrame], raw: dict, fx_by_ticker: dict) -> dict:
     """Survivor-only walk-forward on this fixed list. Not a tradable historical universe."""
     cal = naive_index(prices["QQQ"][["adj"]]).dropna().index
     close, volume = {}, {}
@@ -430,7 +501,8 @@ def backtest(prices: dict[str, pd.DataFrame], raw: dict) -> dict:
 
     fins = {}
     for t in UNIVERSE:
-        fin = extract(raw.get(t) or {})
+        rate, ccy = fx_by_ticker.get(t, (1.0, "USD"))
+        fin = extract(raw.get(t) or {}, usd_per_local=rate, currency=ccy)
         quarters = []
         for q in fin.get("quarters") or []:
             quarters.append(q)
@@ -571,7 +643,11 @@ def _spearman(pairs: list[tuple[float, float]]) -> float | None:
     clean = [(a, b) for a, b in pairs if a is not None and b is not None and np.isfinite(a) and np.isfinite(b)]
     if len(clean) < 8:
         return None
-    rho, _ = stats.spearmanr([a for a, _ in clean], [b for _, b in clean])
+    xs = [a for a, _ in clean]
+    ys = [b for _, b in clean]
+    if np.std(xs) == 0 or np.std(ys) == 0:
+        return None
+    rho, _ = stats.spearmanr(xs, ys)
     if rho is None or not np.isfinite(rho):
         return None
     return float(rho)
@@ -590,6 +666,18 @@ def _ebit_yield(quarters: list[dict], signal_date: pd.Timestamp, price: float) -
     if ev <= 0:
         return None
     return float(q["ebit"] / ev)
+
+
+def continuous_gap(r: dict) -> float:
+    """Unclipped consensus-minus-implied growth. Bounds sit outside the solved range."""
+    note = r.get("g_implied_note")
+    if r.get("reverse_gap") is not None and note in ("ok", "tv0"):
+        return float(r["reverse_gap"])
+    if note == "implied g < -25%":
+        return 0.50
+    if note == "implied g > 100%":
+        return -1.0
+    return -2.0
 
 
 def charts(rows: list[dict], bt: dict) -> None:
@@ -614,13 +702,21 @@ def charts(rows: list[dict], bt: dict) -> None:
         fig.savefig(ART / "h2_growth_gap.png", dpi=140)
         plt.close()
 
-    ranked = sorted([r for r in rows if r.get("score") is not None], key=lambda r: r["score"])
+    ranked = sorted(rows, key=continuous_gap)
     if ranked:
         fig, ax = plt.subplots(figsize=(10, 8))
-        colors = ["#54A24B" if not r.get("extended") else "#B0B0B0" for r in ranked]
-        ax.barh([r["ticker"] for r in ranked], [r["score"] for r in ranked], color=colors)
-        ax.set_xlim(0, 1)
-        ax.set_title("최종 점수 (회색 = 고점 근접·이미 상승, 탑10에서 제외)")
+        colors = []
+        for r in ranked:
+            if r.get("extended"):
+                colors.append("#B0B0B0")
+            elif continuous_gap(r) > 0:
+                colors.append("#54A24B")
+            else:
+                colors.append("#E45756")
+        ax.barh([r["ticker"] for r in ranked], [continuous_gap(r) * 100 for r in ranked], color=colors)
+        ax.axvline(0, color="black", lw=0.6)
+        ax.set_xlabel("컨센서스 성장 − 내재 성장, %p")
+        ax.set_title("역DCF 격차 (녹색 = 컨센서스가 더 높음, 회색 = 고점 근접)")
         fig.tight_layout()
         fig.savefig(ART / "h2_scores.png", dpi=140)
         plt.close()
@@ -650,18 +746,28 @@ def num(x, digits=2):
     return f"{x:.{digits}f}"
 
 
-def write_report(rows: list[dict], bt: dict, rf: float, bench: dict) -> str:
-    book = [r for r in rows if r.get("score") is not None and not r.get("extended")]
-    book = sorted(book, key=lambda r: r["score"], reverse=True)
+def write_report(rows: list[dict], bt: dict, rf: float, bench: dict, weights: dict) -> str:
+    book = [
+        r for r in rows
+        if r.get("valued") and not r.get("extended")
+    ]
+    book = sorted(book, key=lambda r: (continuous_gap(r), r.get("dcf_upside") or -9), reverse=True)
     top = book[:10]
     extended = sorted([r for r in rows if r.get("extended")], key=lambda r: r.get("mom63") or 0, reverse=True)
+    positive = [r for r in rows if r.get("dcf_upside") is not None and r["dcf_upside"] > 0]
+    positive = sorted(positive, key=lambda r: r["dcf_upside"], reverse=True)
     lines = []
     lines.append("H2 2026 DCF / 역DCF / 동종배수 / 가격요인 백테스트")
     lines.append(f"기준 종가: {ASOF.date()} (주말은 직전 정규장). 10년물 {rf * 100:.2f}%. ERP {ERP * 100:.1f}%.")
-    lines.append("WACC = rf + clip(beta,0.70,1.80)*4.5% 를 자기자본 비중으로, 세후 부채원가와 가중.")
+    lines.append("WACC = rf + clip(beta,0.70,1.80)*4.5% 를 자기자본 비중으로, 세후 부채원가와 가중. WACC는 rf 아래로 내리지 않음.")
     lines.append("기본 DCF는 다음 해 성장을 35%에서 자른 뒤 잔여성장의 60%만 남기며 2.5%로 수렴. 세율은 12~25%, 음수 유효세율은 15%.")
-    lines.append("랭킹은 업사이드 %가 아니라 사전 고정 가중: 역DCF 격차 25, 보이는 성장 20, 고점대비 여유 20, 1개월 모멘텀 20, 거래량 15.")
+    lines.append("현금 capex가 감가상각보다 크면 초과분의 절반만 잔존가치에 남긴다. 현금 capex가 상각보다 작으면 그대로 둔다.")
+    lines.append("TWD·EUR 재무와 컨센서스는 2026-10-09 현물환율로 달러 환산. 주가·주식수는 달러 ADR 기준.")
     lines.append("제품별 SOTP는 세그먼트 EBIT를 공시에서 확정하지 못해 쓰지 않음. 장비 4종, 광통신 3종, 서버 3종만 동종 EV/EBIT·EV/Sales.")
+    wtxt = ", ".join(f"{k} {v:.0%}" for k, v in weights.items())
+    lines.append(f"구성요소 점수 가중(백테스트에서 126일 t_adj>1인 가격요인만 포함): {wtxt}.")
+    lines.append("0~1 점수는 격차가 -15%p보다 나쁠 때 바닥이라 종목이 한 점수로 붙는다. 발표 순서는 그 점수가 아니라 연속 역DCF 격차다.")
+    lines.append("100% 성장으로도 주가에 못 미치면 격차를 -100%p로 둔다. 기본 DCF 업사이드가 음수이면 상승여력으로 말하지 않는다.")
     lines.append(f"벤치 1개월: SMH {pct(bench.get('SMH'))}, SOXX {pct(bench.get('SOXX'))}, QQQ {pct(bench.get('QQQ'))}.")
     lines.append("")
     lines.append("== 백테스트 (이 29종 생존자, 가격요인만) ==")
@@ -681,9 +787,20 @@ def write_report(rows: list[dict], bt: dict, rf: float, bench: dict) -> str:
                 f"t_raw={num(s.get('t_raw'))} t_adj={num(s.get('t_adj'))}"
             )
     lines.append(bt["caveat"])
-    lines.append("가격요인 IC가 음으로 유의하면 그 가중을 결과 보고 줄이지 않았다. 가중은 사전에 고정.")
+    lines.append("가격요인은 126일 t_adj가 1을 넘을 때만 발표 순위에 넣는다. 넘지 못하면 진단용으로만 남긴다.")
+    lines.append("EBIT 수익률 표본이 작은 것은 분기 재무가 최근 몇 개만 내려오기 때문이다. 가치 요인의 과거 검증으로 쓰지 않는다.")
     lines.append("")
-    lines.append("== 모델 상위 10 (고점 근접·63일 +25% 이상은 제외) ==")
+    lines.append("== 기본 DCF 업사이드가 양수인 종목 ==")
+    if not positive:
+        lines.append("없음. 이 자본비용과 마진 페이드에서는 현재 주가가 기본 현금흐름보다 높다.")
+    for r in positive:
+        lines.append(
+            f"{r['ticker']} dcf {pct(r.get('dcf_upside'))} gap {pct(r.get('reverse_gap'))} "
+            f"note {r.get('g_implied_note')} agree {r.get('agreement')} "
+            f"ext {r.get('extended')} {r.get('lecture_flag') or ''}"
+        )
+    lines.append("")
+    lines.append("== 모델 상위 10 (가치평가가 끝난 종목, 고점 근접 제외) ==")
     header = (
         "rank ticker score agree px mom21 mom63 dd126 vol g_into g_outer g_impl gap "
         "dcf_up wacc ev/ebit peer_up flags"
@@ -749,6 +866,76 @@ def write_report(rows: list[dict], bt: dict, rf: float, bench: dict) -> str:
     return text
 
 
+def load_fx(refresh: bool) -> tuple[dict[str, str], dict[str, float]]:
+    """Reporting currency and USD per one unit of that currency, on the as-of date."""
+    cur_path = CACHE / "currency_v1.pkl"
+    fx_path = CACHE / "fx_v1.pkl"
+    if cur_path.exists() and not refresh:
+        with cur_path.open("rb") as f:
+            currencies = pickle.load(f)
+    else:
+        currencies = {}
+
+        def _cur(ticker: str) -> tuple[str, str]:
+            try:
+                info = yf.Ticker(ticker).info or {}
+                return ticker, info.get("financialCurrency") or "USD"
+            except Exception as exc:  # noqa: BLE001
+                print("currency fail", ticker, exc)
+                return ticker, "USD"
+
+        with ThreadPoolExecutor(max_workers=6) as pool:
+            for fut in as_completed([pool.submit(_cur, t) for t in UNIVERSE]):
+                t, ccy = fut.result()
+                currencies[t] = ccy
+                print("currency", t, ccy)
+        with cur_path.open("wb") as f:
+            pickle.dump(currencies, f)
+
+    needed = sorted({c for c in currencies.values() if c and c != "USD"})
+    if fx_path.exists() and not refresh:
+        with fx_path.open("rb") as f:
+            fx_close = pickle.load(f)
+    else:
+        symbols = []
+        for ccy in needed:
+            if ccy in ("EUR", "GBP", "AUD", "NZD"):
+                symbols.append(f"{ccy}USD=X")
+            else:
+                symbols.append(f"{ccy}=X")
+        fx_close = {}
+        if symbols:
+            df = yf.download(symbols, start="2024-01-01", end="2026-10-11", auto_adjust=False, progress=False, threads=True)
+            close = df["Close"] if "Close" in getattr(df, "columns", []) else df
+            if isinstance(close, pd.Series):
+                close = close.to_frame(symbols[0])
+            close = naive_index(close)
+            for sym in symbols:
+                if sym in close.columns:
+                    fx_close[sym] = close[sym].dropna()
+        with fx_path.open("wb") as f:
+            pickle.dump(fx_close, f)
+
+    rates = {}
+    for t, ccy in currencies.items():
+        if not ccy or ccy == "USD":
+            rates[t] = 1.0
+            continue
+        if ccy in ("EUR", "GBP", "AUD", "NZD"):
+            series = fx_close.get(f"{ccy}USD=X")
+            mult = 1.0
+        else:
+            series = fx_close.get(f"{ccy}=X")
+            mult = None  # local per USD; invert
+        if series is None or series.loc[:ASOF].dropna().empty:
+            print("fx missing", t, ccy)
+            rates[t] = None
+            continue
+        level = float(series.loc[:ASOF].dropna().iloc[-1])
+        rates[t] = level if mult == 1.0 else 1.0 / level
+    return currencies, rates
+
+
 def main() -> None:
     refresh = "--refresh" in sys.argv
     ART.mkdir(parents=True, exist_ok=True)
@@ -759,6 +946,14 @@ def main() -> None:
     rf = float(tnx_hist.iloc[-1]) / 100.0
     print("rf", rf, "tnx_date", tnx_hist.index[-1].date())
     raw = load_raw(refresh)
+    currencies, rates = load_fx(refresh)
+    fx_by = {}
+    for t in UNIVERSE:
+        ccy = currencies.get(t) or "USD"
+        rate = rates.get(t)
+        fx_by[t] = (0.0 if rate is None else rate, ccy)
+        if ccy != "USD":
+            print("fx", t, ccy, fx_by[t][0])
     bench = {}
     for b in ("SMH", "SOXX", "QQQ"):
         series = naive_index(prices[b])["adj"].dropna()
@@ -773,7 +968,7 @@ def main() -> None:
             print("no prices", t)
             continue
         ts, spot = spot_on(prices[t])
-        fin = extract(raw.get(t) or {})
+        fin = extract(raw.get(t) or {}, usd_per_local=fx_by[t][0], currency=fx_by[t][1])
         # Drop bulky quarter path from the stored input snapshot later.
         row = build_valuation(t, spot, fin, rf)
         adj = naive_index(prices[t])
@@ -796,20 +991,29 @@ def main() -> None:
             "g_into", None if fin.get("g_into") is None else round(fin["g_into"], 3),
             "g_outer", None if fin.get("g_outer") is None else round(fin["g_outer"], 3),
             "gap", None if row.get("reverse_gap") is None else round(row["reverse_gap"], 3),
+            "ccy", fin.get("currency"),
             "dcf", None if row.get("dcf_upside") is None else round(row["dcf_upside"], 3),
-            "score", None if row.get("score") is None else round(row["score"], 3),
+            "note", row.get("g_implied_note"),
             "flags", ",".join(row.get("flags") or []),
         )
 
+    tsm = next(r for r in rows if r["ticker"] == "TSM")
+    asx = next(r for r in rows if r["ticker"] == "ASX")
+    if (tsm.get("rev_ttm") or 0) > 500e9 or (asx.get("rev_ttm") or 0) > 80e9:
+        raise SystemExit(f"FX scale check failed TSM {tsm.get('rev_ttm')} ASX {asx.get('rev_ttm')}")
     attach_peers(rows)
-    # Peer overlay is applied inside score_row, so score again now that peers exist.
     for r in rows:
-        r["flags"] = [f for f in r["flags"] if f not in ("peer_rich_veto", "peer_cheap_bonus")]
         score_row(r)
 
-    bt = backtest(prices, raw)
+    bt = backtest(prices, raw, fx_by)
+    weights = published_weights(bt)
+    kept = weights.pop("_kept_price", [])
+    weights.pop("_kept_price", None)
+    apply_published_score(rows, weights)
+    bt["published_weights"] = weights
+    bt["price_factors_kept"] = kept
     charts(rows, bt)
-    report = write_report(rows, bt, rf, bench)
+    report = write_report(rows, bt, rf, bench, weights)
     payload = {
         "asof": str(ASOF.date()),
         "rf": rf,

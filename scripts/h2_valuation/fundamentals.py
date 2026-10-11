@@ -69,7 +69,7 @@ def latest(q: pd.Series | None, asof: pd.Timestamp = ASOF) -> float | None:
     return float(hist.iloc[-1])
 
 
-def extract(raw: dict, asof: pd.Timestamp = ASOF) -> dict:
+def extract(raw: dict, asof: pd.Timestamp = ASOF, usd_per_local: float = 1.0, currency: str = "USD") -> dict:
     """Reduce raw yfinance payloads to the scalars the DCF uses."""
     out: dict = {"ok": False, "flags": []}
     q_inc = raw.get("q_inc")
@@ -127,11 +127,19 @@ def extract(raw: dict, asof: pd.Timestamp = ASOF) -> dict:
         if len(both):
             margins = (both["o"] / both["r"]).tolist()
     med = float(pd.Series(margins).median()) if margins else margin
-    margin0 = 0.5 * margin + 0.5 * med
-    # Fade a peak toward the through-cycle margin; do not fully capitalize it.
-    margin_term = med if margin > med else (0.5 * margin + 0.5 * med)
-    if margin0 < 0 or margin < 0:
+    if margin <= 0:
+        margin_term = margin
+        margin0 = margin
         out["flags"].append("negative_ebit")
+    elif med > 0.10:
+        # Through-cycle margin is usable. Fade a peak down; recover only half a trough.
+        margin_term = med if margin > med else margin + 0.5 * (med - margin)
+        margin0 = 0.5 * margin + 0.5 * margin_term
+    else:
+        # A loss or subscale history is not the steady-state margin of a now-profitable firm.
+        margin_term = min(margin, max(med, 0.5 * margin))
+        margin0 = 0.5 * margin + 0.5 * margin_term
+        out["flags"].append("margin_ramp")
 
     if pretax_ttm is not None and pretax_ttm > 0 and tax_ttm is not None:
         raw_tax = tax_ttm / pretax_ttm
@@ -166,11 +174,13 @@ def extract(raw: dict, asof: pd.Timestamp = ASOF) -> dict:
 
     da_ratio = abs(da_ttm) / da_base
     capex_ratio = abs(capex_ttm) / capex_base
-    da_ratio = float(min(0.20, max(0.005, da_ratio)))
-    capex_ratio = float(min(0.20, max(0.005, capex_ratio)))
-    if capex_ratio < da_ratio * 0.50:
-        capex_ratio = float(min(0.20, da_ratio * 0.50))
-        out["flags"].append("capex_floored_to_half_da")
+    # Do not replace cash capex with amortization of acquired intangibles.
+    da_ratio = float(min(0.45, max(0.002, da_ratio)))
+    capex_ratio = float(min(0.55, max(0.002, capex_ratio)))
+    if capex_ratio > 0.54:
+        out["flags"].append("capex_clipped")
+    if capex_ratio + 0.005 < da_ratio * 0.35:
+        out["flags"].append("capex_below_da")
 
     int_ttm, _ = ttm_sum(q_int, asof)
     interest = abs(int_ttm) if int_ttm is not None else None
@@ -320,8 +330,27 @@ def extract(raw: dict, asof: pd.Timestamp = ASOF) -> dict:
             "yago0": yago0,
             "quarters": quarters,
             "rev_end": None if rev_end is None else str(rev_end.date()),
+            "currency": currency or "USD",
+            "usd_per_local": usd_per_local,
         }
     )
+    if currency and currency != "USD":
+        if usd_per_local is None or usd_per_local <= 0:
+            out["ok"] = False
+            out["flags"].append("fx_missing")
+            return out
+        for k in (
+            "rev_ttm", "oi_ttm", "interest", "gross_debt", "cash", "net_debt",
+            "bs_net_debt", "fy0", "fy1", "ytd", "last_fy_rev", "est0", "est1",
+        ):
+            if out.get(k) is not None:
+                out[k] = out[k] * usd_per_local
+        for q in out.get("quarters") or []:
+            for k in ("ebit", "revenue", "debt", "cash"):
+                if q.get(k) is not None:
+                    q[k] = q[k] * usd_per_local
+        out["ev_info"] = None
+        out["flags"].append(f"fx_{currency}")
     if not out["ok"]:
         out["flags"].append("no_fy0")
     return out
