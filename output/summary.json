@@ -1,0 +1,281 @@
+{
+  "thresholds": {
+    "stay_positive": 174.07500000000005,
+    "new_high": 193.03100000000012
+  },
+  "q1_2027_threshold": 230.07400000000007,
+  "growth_peaks": [
+    {
+      "quarter": "2018-09-30",
+      "value": 0.6640097964305511,
+      "trough": 0.03527524586231712
+    },
+    {
+      "quarter": "2021-06-30",
+      "value": 0.43618583155663915,
+      "trough": 0.18405316656086645
+    }
+  ],
+  "acceleration_peaks": [
+    {
+      "quarter": "2020-03-31",
+      "value": 5.608999999999995
+    },
+    {
+      "quarter": "2024-06-30",
+      "value": 9.068999999999988
+    }
+  ],
+  "scenario_totals": {
+    "base_q3": 184.87500000000003,
+    "base_q4": 200.03600000000003,
+    "base_2026": 679.711,
+    "base_2027": 1019.3270000000002,
+    "reaccel_2027": 1119.3270000000002,
+    "reaccel_a_q1": 38.7
+  },
+  "annual_2025": 376.051,
+  "h1_2026": 294.8,
+  "msft_fy2026": 115.94800000000001,
+  "gs_rate_on_four": 729.5389399999999,
+  "growth_if_680": 0.80826536826122,
+  "corr_summary": {
+    "full": "+2\ubd84\uae30(\ud3c9\uade0 \uc0c1\uad00 +0.34)",
+    "pre_ai": "+4\ubd84\uae30(\ud3c9\uade0 \uc0c1\uad00 +0.40)"
+  },
+  "multiples": {
+    "NVDA": 16.712540168077194,
+    "MU": 24.092914122051987,
+    "AVGO": 8.700766261501538,
+    "TSM": 6.562204454997599,
+    "SOX": 5.8515706914888685,
+    "SK\ud558\uc774\ub2c9\uc2a4": 38.611111111111114,
+    "\uc0bc\uc131\uc804\uc790": 6.543321299638989
+  },
+  "leads": [
+    {
+      "cycle": "2018 Q3 \uc131\uc7a5\ub960",
+      "name": "NVDA",
+      "peak_date": "2018-10-01",
+      "lag_months": 0.03285420944558522,
+      "drawdown": -0.5608238933772633,
+      "status": "drawdown_top",
+      "current_drawdown": -0.5608238933772633,
+      "note": "drawdown_top"
+    },
+    {
+      "cycle": "2018 Q3 \uc131\uc7a5\ub960",
+      "name": "MU",
+      "peak_date": "2018-05-29",
+      "lag_months": -4.073921971252567,
+      "drawdown": -0.536569770795903,
+      "status": "drawdown_top",
+      "current_drawdown": -0.536569770795903,
+      "note": "drawdown_top"
+    },
+    {
+      "cycle": "2018 Q3 \uc131\uc7a5\ub960",
+      "name": "AVGO",
+      "peak_date": "2019-04-17",
+      "lag_months": 6.537987679671458,
+      "drawdown": -0.21492532819391175,
+      "status": "high_without_25pct",
+      "current_drawdown": -0.21492532819391175,
+      "note": "high_without_25pct"
+    },
+    {
+      "cycle": "2018 Q3 \uc131\uc7a5\ub960",
+      "name": "TSM",
+      "peak_date": "2019-10-04",
+      "lag_months": null,
+      "drawdown": 0.0,
+      "status": "window_edge",
+      "current_drawdown": 0.0,
+      "note": "window_edge"
+    },
+    {
+      "cycle": "2018 Q3 \uc131\uc7a5\ub960",
+      "name": "SOX",
+      "peak_date": "2019-07-24",
+      "lag_months": 9.757700205338809,
+      "drawdown": -0.12237826759830306,
+      "status": "high_without_25pct",
+      "current_drawdown": -0.12237826759830306,
+      "note": "high_without_25pct"
+    },
+    {
+      "cycle": "2018 Q3 \uc131\uc7a5\ub960",
+      "name": "SK\ud558\uc774\ub2c9\uc2a4",
+      "peak_date": "2018-05-23",
+      "lag_months": -4.271047227926078,
+      "drawdown": -0.39454354669464853,
+      "status": "drawdown_top",
+      "current_drawdown": -0.39454354669464853,
+      "note": "drawdown_top"
+    },
+    {
+      "cycle": "2018 Q3 \uc131\uc7a5\ub960",
+      "name": "\uc0bc\uc131\uc804\uc790",
+      "peak_date": "2018-05-03",
+      "lag_months": -4.9281314168377826,
+      "drawdown": -0.29339622641509433,
+      "status": "drawdown_top",
+      "current_drawdown": -0.29339622641509433,
+      "note": "drawdown_top"
+    },
+    {
+      "cycle": "2021 Q2 \uc131\uc7a5\ub960",
+      "name": "NVDA",
+      "peak_date": "2021-11-29",
+      "lag_months": 4.993839835728953,
+      "drawdown": -0.564866970202706,
+      "status": "drawdown_top",
+      "current_drawdown": -0.564866970202706,
+      "note": "drawdown_top"
+    },
+    {
+      "cycle": "2021 Q2 \uc131\uc7a5\ub960",
+      "name": "MU",
+      "peak_date": "2022-01-14",
+      "lag_months": 6.505133470225872,
+      "drawdown": -0.4489523296061412,
+      "status": "drawdown_top",
+      "current_drawdown": -0.4489523296061412,
+      "note": "drawdown_top"
+    },
+    {
+      "cycle": "2021 Q2 \uc131\uc7a5\ub960",
+      "name": "AVGO",
+      "peak_date": "2021-12-27",
+      "lag_months": 5.9137577002053385,
+      "drawdown": -0.2936168939240589,
+      "status": "drawdown_top",
+      "current_drawdown": -0.2936168939240589,
+      "note": "drawdown_top"
+    },
+    {
+      "cycle": "2021 Q2 \uc131\uc7a5\ub960",
+      "name": "TSM",
+      "peak_date": "2022-01-14",
+      "lag_months": 6.505133470225872,
+      "drawdown": -0.4589080148669591,
+      "status": "drawdown_top",
+      "current_drawdown": -0.4589080148669591,
+      "note": "drawdown_top"
+    },
+    {
+      "cycle": "2021 Q2 \uc131\uc7a5\ub960",
+      "name": "SOX",
+      "peak_date": "2021-12-27",
+      "lag_months": 5.9137577002053385,
+      "drawdown": -0.39139649239781404,
+      "status": "drawdown_top",
+      "current_drawdown": -0.39139649239781404,
+      "note": "drawdown_top"
+    },
+    {
+      "cycle": "2021 Q2 \uc131\uc7a5\ub960",
+      "name": "SK\ud558\uc774\ub2c9\uc2a4",
+      "peak_date": "2021-02-25",
+      "lag_months": -4.1067761806981515,
+      "drawdown": -0.4107744107744108,
+      "status": "drawdown_top",
+      "current_drawdown": -0.4107744107744108,
+      "note": "drawdown_top"
+    },
+    {
+      "cycle": "2021 Q2 \uc131\uc7a5\ub960",
+      "name": "\uc0bc\uc131\uc804\uc790",
+      "peak_date": "2021-01-11",
+      "lag_months": -5.585215605749487,
+      "drawdown": -0.3824175824175824,
+      "status": "drawdown_top",
+      "current_drawdown": -0.3824175824175824,
+      "note": "drawdown_top"
+    },
+    {
+      "peak_date": "2026-10-06",
+      "peak_price": 239.24000549316406,
+      "lag_months": 3.2197125256673513,
+      "current_drawdown": -0.04163186124885698,
+      "trough_drawdown": -0.04163186124885698,
+      "last_date": "2026-10-09",
+      "note": "10\uc6d4\uc5d0\ub3c4 \uace0\uc810 \ubd80\uadfc. 25% \uc870\uc815 \uc5c6\uc74c",
+      "drawdown": -0.04163186124885698,
+      "cycle": "2026 Q2 \uac00\uc18d\ub3c4 \ud6c4\ubcf4",
+      "name": "NVDA"
+    },
+    {
+      "peak_date": "2026-06-25",
+      "peak_price": 1213.56005859375,
+      "lag_months": -0.16427104722792607,
+      "current_drawdown": -0.15208152022374122,
+      "trough_drawdown": -0.3910478556320163,
+      "last_date": "2026-10-09",
+      "note": "\uace0\uc810 \ud6c4 \ucd5c\ub300 -39%, 10\uc6d4 \ucd08 -15%",
+      "drawdown": -0.3910478556320163,
+      "cycle": "2026 Q2 \uac00\uc18d\ub3c4 \ud6c4\ubcf4",
+      "name": "MU"
+    },
+    {
+      "peak_date": "2026-06-02",
+      "peak_price": 481.57000732421875,
+      "lag_months": -0.919917864476386,
+      "current_drawdown": -0.24924724744846127,
+      "trough_drawdown": -0.29549186233839286,
+      "last_date": "2026-10-09",
+      "note": "\uace0\uc810 \ud6c4 \ucd5c\ub300 -30%, 10\uc6d4 \ucd08 -25%",
+      "drawdown": -0.29549186233839286,
+      "cycle": "2026 Q2 \uac00\uc18d\ub3c4 \ud6c4\ubcf4",
+      "name": "AVGO"
+    },
+    {
+      "peak_date": "2026-10-05",
+      "peak_price": 485.79998779296875,
+      "lag_months": 3.186858316221766,
+      "current_drawdown": -0.06687935580644999,
+      "trough_drawdown": -0.06687935580644999,
+      "last_date": "2026-10-09",
+      "note": "10\uc6d4\uc5d0\ub3c4 \uace0\uc810 \ubd80\uadfc. 25% \uc870\uc815 \uc5c6\uc74c",
+      "drawdown": -0.06687935580644999,
+      "cycle": "2026 Q2 \uac00\uc18d\ub3c4 \ud6c4\ubcf4",
+      "name": "TSM"
+    },
+    {
+      "peak_date": "2026-06-22",
+      "peak_price": 14634.7197265625,
+      "lag_months": -0.26283367556468173,
+      "current_drawdown": -0.14091829862271688,
+      "trough_drawdown": -0.28611613822624427,
+      "last_date": "2026-10-09",
+      "note": "\uace0\uc810 \ud6c4 \ucd5c\ub300 -29%, 10\uc6d4 \ucd08 -14%",
+      "drawdown": -0.28611613822624427,
+      "cycle": "2026 Q2 \uac00\uc18d\ub3c4 \ud6c4\ubcf4",
+      "name": "SOX"
+    },
+    {
+      "peak_date": "2026-06-22",
+      "peak_price": 2919000.0,
+      "lag_months": -0.26283367556468173,
+      "current_drawdown": -0.4241178485782803,
+      "trough_drawdown": -0.5471051730044536,
+      "last_date": "2026-10-08",
+      "note": "\uace0\uc810 \ud6c4 \ucd5c\ub300 -55%, 10\uc6d4 \ucd08 -42%",
+      "drawdown": -0.5471051730044536,
+      "cycle": "2026 Q2 \uac00\uc18d\ub3c4 \ud6c4\ubcf4",
+      "name": "SK\ud558\uc774\ub2c9\uc2a4"
+    },
+    {
+      "peak_date": "2026-06-18",
+      "peak_price": 362500.0,
+      "lag_months": -0.3942505133470226,
+      "current_drawdown": -0.27724137931034487,
+      "trough_drawdown": -0.4289655172413793,
+      "last_date": "2026-10-08",
+      "note": "\uace0\uc810 \ud6c4 \ucd5c\ub300 -43%, 10\uc6d4 \ucd08 -28%",
+      "drawdown": -0.4289655172413793,
+      "cycle": "2026 Q2 \uac00\uc18d\ub3c4 \ud6c4\ubcf4",
+      "name": "\uc0bc\uc131\uc804\uc790"
+    }
+  ]
+}
