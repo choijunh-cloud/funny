@@ -1,10 +1,12 @@
 """Lock the audited SEC series and the Q3 acceleration thresholds."""
 
 import csv
+import json
 from pathlib import Path
 
 import pytest
 
+from capex_accel.backtest import confirmed_lag_medians
 from capex_accel.metrics import acceleration_identity, next_quarter_thresholds
 
 CSV = Path(__file__).resolve().parents[1] / "output" / "capex_quarterly.csv"
@@ -39,3 +41,12 @@ def test_q3_threshold_uses_2025_q3_not_q2():
     assert thresholds["new_high"] == pytest.approx(193.0, abs=0.15)
     # The 2026 Q2 print itself is not the hurdle for Q3.
     assert thresholds["new_high"] > float(by["2026-06-30"]["c"])
+
+
+def test_confirmed_top_median_is_zero_and_2021_us_is_about_six_months():
+    summary = json.loads((CSV.parent / "summary.json").read_text())
+    stats = confirmed_lag_medians(summary["leads"])
+    assert stats["n"] == 11
+    assert stats["median"] == pytest.approx(0.0, abs=0.05)
+    assert stats["us_2021_n"] == 5
+    assert stats["us_2021_median"] == pytest.approx(5.9, abs=0.05)

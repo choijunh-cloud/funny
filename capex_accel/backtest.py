@@ -19,8 +19,47 @@ from capex_accel.metrics import CapexFrame, local_peaks
 from capex_accel.prices import price_asof
 
 
+US_COMPLEX = ("NVDA", "MU", "AVGO", "TSM", "SOX")
+
+
 def months_between(later: date, earlier: date) -> float:
     return (later - earlier).days / 30.4375
+
+
+def median_months(values: list[float]) -> float:
+    ordered = sorted(values)
+    n = len(ordered)
+    if n == 0:
+        raise ValueError("median of an empty lag sample")
+    mid = n // 2
+    if n % 2:
+        return ordered[mid]
+    return (ordered[mid - 1] + ordered[mid]) / 2
+
+
+def confirmed_lag_medians(leads: list[dict]) -> dict:
+    """Median lag of 25% drawdown tops, pooled and for the 2021 US complex.
+
+    2026 rows are a candidate, not a completed growth-rate cycle, so they stay out.
+    """
+    confirmed = [
+        row
+        for row in leads
+        if row.get("status") == "drawdown_top"
+        and not str(row.get("cycle", "")).startswith("2026")
+        and row.get("lag_months") is not None
+    ]
+    us_2021 = [
+        row
+        for row in confirmed
+        if str(row.get("cycle", "")).startswith("2021") and row["name"] in US_COMPLEX
+    ]
+    return {
+        "n": len(confirmed),
+        "median": median_months([row["lag_months"] for row in confirmed]),
+        "us_2021_n": len(us_2021),
+        "us_2021_median": median_months([row["lag_months"] for row in us_2021]),
+    }
 
 
 def growth_cycle_peaks(frame: CapexFrame) -> list[dict]:

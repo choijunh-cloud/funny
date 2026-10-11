@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from datetime import date
 
+from capex_accel.backtest import confirmed_lag_medians
+
 
 def _b(value: float | None, digits: int = 1) -> str:
     if value is None:
@@ -213,7 +215,22 @@ def render(result: dict) -> str:
         "2018년의 SOX, Broadcom, TSMC는 그해 하락 이후 가격이 다시 전고점을 넘어서, 이 규칙에서는 그 해 고점이 잠기지 않았습니다."
     )
     a("")
-    a("완료된 사이클이 두 개뿐입니다. 종목별 시차를 하나의 중위 선행개월로 줄이지 않습니다.")
+    lags = confirmed_lag_medians(leads)
+    a(
+        f"25% 하락으로 잠긴 고점 {lags['n']}개의 시차 중위값은 {lags['median']:+.1f}개월입니다. "
+        "한국 메모리가 성장률 고점보다 먼저 고점을 만들어서, 전체를 묶으면 약 0개월입니다. "
+        f"0~9개월 선행, 중위 약 5개월은 2021년 미국 종목(NVDA, Micron, Broadcom, SOX, TSMC) "
+        f"{lags['us_2021_n']}개에만 해당하고, 그 중위값은 {lags['us_2021_median']:+.1f}개월입니다. "
+        f"2018년 메모리 고점은 TTM 증가율이 {_pct(yoy.get('2018-06-30'))}로 "
+        f"아직 {_pct(yoy.get('2018-09-30'))}를 향해 오르던 분기에 나왔습니다. "
+        f"2021년 한국 메모리는 TTM 증가율이 2020년 4분기 {_pct(yoy.get('2020-12-31'))}, "
+        f"2021년 1분기 {_pct(yoy.get('2021-03-31'))}이던 구간, "
+        f"{_pct(yoy.get('2021-06-30'))} 고점 전에 고점을 만들었습니다. "
+        f"2021년 미국 종목은 {_pct(yoy.get('2021-06-30'))}에서 "
+        f"4분기 {_pct(yoy.get('2021-12-31'))}, 2022년 1분기 {_pct(yoy.get('2022-03-31'))}로 내려온 뒤에 고점을 만들었습니다. "
+        f"2026년 메모리는 TTM 증가율 {_pct(yoy.get('2026-06-30'))}가 아직 오르는 6월에 고점을 만들었습니다. "
+        "이 중위값은 완료된 두 사이클의 서술입니다."
+    )
     a("")
     a("## 이번 사이클, 2026년 2분기 후보 기준")
     a("")
