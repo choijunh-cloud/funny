@@ -132,6 +132,24 @@ def main() -> int:
 
     exp_tp = sum(m.SCEN[k]["p"] * hand[k]["tp"] for k in m.SCEN)
     check("확률가중 12M 목표가", close(exp_tp, out["expected_tp"]), f"hand ${exp_tp:.4f} model ${out['expected_tp']:.4f}")
+    coe_b = 0.0524 + 1.32 * 0.0420
+    rolls = {k: out["scen_dcf"][k] * (1 + coe_b) - m.FACT["dps"] for k in m.SCEN}
+    fair = out["reasonable"]
+    check("정합 12개월 가치", all(close(rolls[k], fair["roll12m"][k]) for k in rolls),
+          " ".join(f"{k} {rolls[k]:.1f}" for k in rolls))
+    check("정합 배수 × EPS", all(close(rolls[k], fair["justified_pe"][k] * out["scenarios"][k]["fy28_eps"]) for k in rolls),
+          " ".join(f"{k} {fair['justified_pe'][k]:.2f}x" for k in ("Tail", "Bear", "Base", "Bull")))
+    model_pw = sum(m.SCEN[k]["p"] * rolls[k] for k in m.SCEN)
+    anchored = sum((m.CONS["ms_bear"] if k == "Bear" else rolls[k]) * m.SCEN[k]["p"] for k in m.SCEN)
+    p_shift = {k: m.SCEN[k]["p"] for k in m.SCEN}
+    p_shift["Bear"] -= 0.10
+    p_shift["Base"] += 0.10
+    shifted = sum(p_shift[k] * rolls[k] for k in m.SCEN)
+    midpoint = (anchored + shifted) / 2
+    check("합리적인 목표 = 두 보정의 평균", close(midpoint, fair["target"]),
+          f"A ${anchored:.2f}  B ${shifted:.2f}  평균 ${midpoint:.2f}")
+    price_roll = price * (1 + coe_b) - m.FACT["dps"]
+    check("주가의 CoE 롤", close(price_roll, fair["price_rolled_at_coe"]), f"${price_roll:.2f}")
     check("확률 가중 합산 재검", close(exp_tp, sum(out["scenarios"][k]["p"] * out["scenarios"][k]["tp"] for k in out["scenarios"])),
           f"${exp_tp:.2f}")
 
@@ -229,7 +247,9 @@ def main() -> int:
     lines = []
     lines.append("=== AVGO 12개월 목표가 ===")
     lines.append(f"기준일 2026-10-09  종가 ${price:.2f}")
-    lines.append(f"확률가중 목표가 ${exp_tp:.2f}  ({exp_tp / price - 1:+.1%})")
+    lines.append(f"합리적인 12개월 목표주가 ${out['reasonable']['target']:.2f}  ({out['reasonable']['target'] / price - 1:+.1%})")
+    lines.append(f"  두 보정 ${out['reasonable']['bear_anchored_at_ms']:.2f} 와 ${out['reasonable']['bear_prob_shifted']:.2f}, 모델확률 DCF롤 ${out['reasonable']['model_prob_pw']:.2f}")
+    lines.append(f"배수법 기대값 ${exp_tp:.2f} = 종가를 자본비용으로 굴린 ${out['reasonable']['price_rolled_at_coe']:.2f}")
     for k in ("Tail", "Bear", "Base", "Bull"):
         s = out["scenarios"][k]
         lines.append(f"  {k:5s} p={s['p']:.2f}  FY28 EPS ${s['fy28_eps']:.2f} × {s['pe']:.0f}x = ${s['tp']:.2f}  ({s['upside']:+.1%})  {s['label']}")

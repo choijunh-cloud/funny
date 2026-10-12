@@ -329,6 +329,47 @@ def run_tests(S, base_rows, d_base):
                   passed=abs(opm_mix - base_rows[2]["opm"]) < 0.02, note="실패하면 OPM 가정이 GM 희석과 모순 — AI GM이 60%면 61%로 추락(적대적 검증 #6)"))
     return T
 
+def roll_12m(spot, coe=None):
+    """현재 주식가치를 자본비용으로 1년 굴리고 배당을 뺀 12개월 가치."""
+    coe = W_BASE["coe"] if coe is None else coe
+    return spot * (1 + coe) - FACT["dps"]
+
+
+def reasonable_target(S, scen_spot):
+    """할인율과 정합하는 12개월 목표주가.
+
+    시나리오 배수(Base 16x, Bull 19x)는 같은 현금흐름을 WACC 10.6%로 할인한
+    가치가 허용하는 배수(약 13.7x, 14.7x)보다 높다. 12개월 가치는
+    DCF 현재가치 × (1+CoE) − DPS 로 잡는다.
+
+    모델 Bear의 12개월 가치는 Morgan Stanley bear $300보다 낮다. 아래 두 보정은
+    그 불일치를 서로 다른 방식으로 고치고, 결과는 같은 자리로 모인다.
+      A. Bear 결과만 $300으로 두고 모델 확률(10/25/42/23)을 유지
+      B. 가혹한 Bear 확률을 25%에서 15%로 낮추고, 10%p를 Base로 이동
+    목표주가는 A와 B의 평균이다.
+    """
+    roll = {k: roll_12m(scen_spot[k]) for k in S}
+    justified = {k: roll[k] / S[k]["fy28_eps"] for k in S}
+    model_pw = sum(S[k]["p"] * roll[k] for k in S)
+    anchored = sum((CONS["ms_bear"] if k == "Bear" else roll[k]) * S[k]["p"] for k in S)
+    shifted_p = {k: S[k]["p"] for k in S}
+    shifted_p["Bear"] -= 0.10
+    shifted_p["Base"] += 0.10
+    shifted = sum(shifted_p[k] * roll[k] for k in S)
+    midpoint = (anchored + shifted) / 2
+    return dict(
+        target=midpoint,
+        model_prob_pw=model_pw,
+        bear_anchored_at_ms=anchored,
+        bear_prob_shifted=shifted,
+        probabilities_shifted=shifted_p,
+        roll12m=roll,
+        justified_pe=justified,
+        price_rolled_at_coe=roll_12m(FACT["price"]),
+        ms_bear=CONS["ms_bear"],
+    )
+
+
 def run_model():
     S = scenario_targets()
     base_rows = S["Base"]["rows"]
@@ -376,6 +417,7 @@ def run_model():
     # 확률가중 DCF (Base 단일값이 아니라 기대값) + 소화 사이클 케이스 + v1 배수(17/20/13/10, Tail 5%)와의 브리지
     pw_dcf = sum(v["p"] * dcf(v["rows"], W_BASE["wacc"])["value_ps"] for v in S.values())
     scen_dcf = {k: dcf(v["rows"], W_BASE["wacc"])["value_ps"] for k, v in S.items()}
+    fair = reasonable_target(S, scen_dcf)
     d_digest = dcf(build(DIGEST), W_BASE["wacc"])
     d_digest9 = dcf(build(DIGEST), 0.09, 0.035)
     v1 = dict(Tail=(0.05, 10.0), Bear=(0.25, 13.0), Base=(0.45, 17.0), Bull=(0.25, 20.0))
@@ -410,6 +452,7 @@ def run_model():
         scenarios={k: {kk: vv for kk, vv in v.items() if kk != "rows"} for k, v in S.items()},
         scenario_rows={k: v["rows"] for k, v in S.items()},
         expected_tp=exp_tp, expected_upside=exp_tp / FACT["price"] - 1,
+        reasonable=fair,
         mc=mc, implied=dict(eps_at_16x=implied_eps16, ai28_at_16x=implied_ai16),
         bridge=bridge, tests=tests, cons=CONS, fact=FACT,
     )
@@ -445,7 +488,11 @@ if __name__ == "__main__":
         r28 = S_rows[k][2]
         r27 = S_rows[k][1]
         print(f"{k:5s} p={v['p']:.2f} FY27 rev {r27['rev']:.0f} / FY28 rev {r28['rev']:.0f} AI {r28['ai']:.0f} OPM {r28['opm']:.1%} EPS ${v['fy28_eps']:.2f} × {v['pe']}x = ${v['tp']:.0f} ({v['upside']:+.1%})")
-    print(f"확률가중 12M 목표가 ${exp_tp:.0f} ({exp_tp/FACT['price']-1:+.1%})")
+    fair = out["reasonable"]
+    print(f"확률가중 배수법 12M ${exp_tp:.0f} ({exp_tp/FACT['price']-1:+.1%}) | 주가를 CoE로 굴린 값 ${fair['price_rolled_at_coe']:.0f}")
+    print(f"합리적인 12개월 목표주가 ${fair['target']:.0f}  (모델확률 DCF롤 ${fair['model_prob_pw']:.0f} | Bear=$300 고정 ${fair['bear_anchored_at_ms']:.0f} | Bear 15% ${fair['bear_prob_shifted']:.0f})")
+    for k, pe in fair["justified_pe"].items():
+        print(f"  정합배수 {k:5s} 12m ${fair['roll12m'][k]:.0f} = {pe:.1f}x FY28 EPS")
     print(f"DCF raw ${d_raw['value_ps']:.0f} | base ${d_base['value_ps']:.0f} (TV {d_base['tv_share']:.0%}) | 9%/3% ${d_street['value_ps']:.0f} | 9%/3.5% ${d_street_g['value_ps']:.0f} | Bull 9%/3.5% ${d_bull9['value_ps']:.0f} | exit 18x ${d_exit['value_ps']:.0f}")
     print(f"시점정합 DCF(tv_lag=1) ${out['timing_consistent_dcf']:.0f} | DCF가 함의하는 Base P/E {out['dcf_implied_pe_base']:.2f}x (레거시 상수 13.8x)")
     print(f"현재가 내재 WACC(g3%) {r_impl:.2%} | 내재 g(WACC {Wbase['wacc']:.1%}) {g_impl:.2%}")
