@@ -108,6 +108,13 @@ def prevent_row_split(row):
     tr_pr.append(parse_xml(f'<w:cantSplit {nsdecls("w")}/>'))
 
 
+def keep_with_next(cell):
+    """머리글 행이 다음 행과 떨어지지 않게 한다."""
+    for p in cell.paragraphs:
+        p_pr = p._p.get_or_add_pPr()
+        p_pr.append(parse_xml(f'<w:keepNext {nsdecls("w")}/>'))
+
+
 def cell_text(cell, text, size=10, bold=False, color=DARK, align="left", font=KR_FONT):
     cell.text = ""
     align_enum = {
@@ -233,6 +240,7 @@ class Notes:
                 f"</w:pBdr>"
             )
         )
+        pPr.append(parse_xml(f'<w:keepNext {nsdecls("w")}/>'))
         return para
 
     def h2(self, text):
@@ -241,6 +249,7 @@ class Notes:
         para.paragraph_format.space_after = Pt(4)
         run = para.add_run(text)
         set_run_font(run, size=13, bold=True, color=NAVY2)
+        para._p.get_or_add_pPr().append(parse_xml(f'<w:keepNext {nsdecls("w")}/>'))
         return para
 
     def h3(self, text):
@@ -249,6 +258,7 @@ class Notes:
         para.paragraph_format.space_after = Pt(3)
         run = para.add_run(text)
         set_run_font(run, size=11.5, bold=True, color=NAVY)
+        para._p.get_or_add_pPr().append(parse_xml(f'<w:keepNext {nsdecls("w")}/>'))
         return para
 
     def bullet(self, text, level=0, bold_lead=None, size=11):
@@ -317,6 +327,7 @@ class Notes:
             p.paragraph_format.line_spacing = 1.15
             r = p.add_run(line)
             set_run_font(r, size=10.5, color=DARK)
+        prevent_row_split(table.rows[0])
         self.doc.add_paragraph().paragraph_format.space_after = Pt(6)
 
     def table(self, headers, rows, col_widths=None, first_col_bold=True):
@@ -328,6 +339,7 @@ class Notes:
             cell = table.rows[0].cells[i]
             shade_cell(cell, NAVY_HEX)
             cell_text(cell, h, size=9.5, bold=True, color=WHITE, align="center")
+            keep_with_next(cell)
         prevent_row_split(table.rows[0])
         for r_i, row in enumerate(rows):
             for c_i, val in enumerate(row):
