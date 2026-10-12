@@ -1216,6 +1216,121 @@
   "price_rolled_at_coe": 397.92847359999996,
   "ms_bear": 300.0
  },
+ "tape": {
+  "fundamental": 351.4968536437141,
+  "target_change": 0.0,
+  "max_pain": 360.0,
+  "pin_low": 360.0,
+  "pin_high": 362.5,
+  "gamma_flip": 364.77,
+  "net_gex_m": 65.7,
+  "analyst_mean": 519.21,
+  "analyst_low": 350.0,
+  "analyst_high": 630.0,
+  "recent_mean": 501.0,
+  "recent_median": 470.0,
+  "short_interest": 0.0115,
+  "days_to_cover": 2.32,
+  "insider_shares_m": 0.6914864192067267,
+  "gap_to_put_wall": -8.503146356285924
+ },
+ "tape_input": {
+  "source": "saveticker",
+  "asof": "2026-10-10 05:05 KST",
+  "last": 361.56,
+  "after_hours": 362.28,
+  "bar": {
+   "open": 365.59,
+   "high": 366.63,
+   "low": 361.1,
+   "close": 361.54,
+   "volume_m": 16.48
+  },
+  "ma20": 355.25,
+  "ma60": 373.71,
+  "options": {
+   "expiry": "2026-10-09",
+   "max_pain": 360.0,
+   "call_wall": 362.5,
+   "put_wall": 360.0,
+   "gamma_flip": 364.77,
+   "net_gex_m": 65.7,
+   "pc_volume": 0.67,
+   "pc_oi": 0.96,
+   "volume_call_put": [
+    60,
+    40
+   ],
+   "oi_call_put": [
+    51,
+    49
+   ],
+   "premium_call_put": [
+    63,
+    37
+   ],
+   "notional_k": 292,
+   "pc_avg": [
+    0.843,
+    0.691,
+    0.772
+   ],
+   "vendor": "Unusual Whales"
+  },
+  "short": {
+   "interest": 0.0115,
+   "days_to_cover": 2.32
+  },
+  "screen_q3": {
+   "per": 46.17,
+   "gaap_eps": 2.68,
+   "rev": 29.6,
+   "div_yield": 0.0072,
+   "dps_q": 0.65
+  },
+  "analysts": {
+   "n": 29,
+   "buy": 27,
+   "hold": 2,
+   "sell": 0,
+   "mean": 519.21,
+   "low": 350.0,
+   "high": 630.0,
+   "recent": [
+    [
+     "UBS",
+     "2026-10-02",
+     470.0
+    ],
+    [
+     "Bernstein",
+     "2026-09-22",
+     575.0
+    ],
+    [
+     "Mizuho",
+     "2026-09-15",
+     530.0
+    ],
+    [
+     "Piper",
+     "2026-09-10",
+     460.0
+    ],
+    [
+     "DBS",
+     "2026-09-07",
+     470.0
+    ]
+   ]
+  },
+  "insider": {
+   "name": "Henry Samueli",
+   "role": "Director",
+   "date": "2026-09-23",
+   "amount_m": -250
+  }
+ },
  "mc": {
   "n": 20000,
   "seed": 42,

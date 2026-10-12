@@ -31,19 +31,23 @@ def main() -> None:
     coe = data["wacc"]["base"]["coe"]
     dps = data["fact"]["dps"]
     pw_roll = data["reasonable"]["model_prob_pw"]
+    tape = data["tape"]
     rows = sorted([
         ("Tail, 정합배수", data["reasonable"]["roll12m"]["Tail"], "#7A1F1F"),
         ("Bear, 정합배수", data["reasonable"]["roll12m"]["Bear"], "#B45309"),
         ("확률가중 DCF 12개월", pw_roll, "#64748B"),
         ("합리적인 목표", fair, "#0F2043"),
+        ("10/9 맥스페인", tape["max_pain"], "#0F766E"),
         ("Base, 정합배수", data["reasonable"]["roll12m"]["Base"], "#1D4E89"),
         ("Hold 하우스 평균", sum(data["cons"]["hold_tps"]) / 2, "#94A3B8"),
         ("종가를 자본비용으로 굴림", data["reasonable"]["price_rolled_at_coe"], "#94A3B8"),
+        ("최근 5곳 중앙", tape["recent_median"], "#B8943A"),
         ("Bull, 정합배수", data["reasonable"]["roll12m"]["Bull"], "#166534"),
+        ("세이브티커 평균", tape["analyst_mean"], "#B8943A"),
         ("셀사이드 평균", data["cons"]["tp_mean"], "#B8943A"),
     ], key=lambda r: r[1])
 
-    fig, axes = plt.subplots(1, 2, figsize=(12.4, 6.6), gridspec_kw={"width_ratios": [1.15, 1]})
+    fig, axes = plt.subplots(1, 2, figsize=(12.6, 7.3), gridspec_kw={"width_ratios": [1.15, 1]})
     fig.patch.set_facecolor("#F7F5F0")
     ax = axes[0]
     ax.set_facecolor("#F7F5F0")
@@ -101,7 +105,7 @@ def main() -> None:
     fig.suptitle(f"Broadcom (AVGO)  합리적인 12개월 목표주가  \\${fair:.0f}   ({fair / price - 1:+.0%})",
                  fontproperties=prop, fontsize=16, color="#0F2043", x=0.02, ha="left")
     fig.text(0.02, 0.012,
-             f"기준일 2026-10-09.  왼쪽 점선 = 종가 {price:.2f}달러.  목표가는 할인율과 맞는 12개월 가치.  배수법 기대값 {rich:.0f}달러는 종가를 자본비용으로 굴린 값과 같다.",
+             "기준일 2026-10-09.  10/9 옵션은 풋월 360, 콜월 362.50, 감마플립 364.77에 핀.  공매도 1.15%.  12개월 목표는 그대로.",
              fontproperties=prop, fontsize=8, color="#4B5563")
     fig.tight_layout(rect=(0, 0.04, 1, 0.93))
     OUT.parent.mkdir(parents=True, exist_ok=True)

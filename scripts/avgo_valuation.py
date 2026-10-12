@@ -39,6 +39,34 @@ CONS = dict(fy26_rev=105.97, fy26_eps=11.66, fy27_rev=173.93, fy27_eps=19.39, fy
             ms_bull=640.0, ms_base=505.0, ms_bear=300.0,
             street_fy28_pe=(14, 18))                         # Piper 14x / Cantor 17x / Rosenblatt 18x
 
+# 세이브티커 화면, 2026-10-10 05:05 KST. 세션은 10/9. 차트 종가 361.54는 FACT["price"]와 같다.
+TAPE = dict(
+    source="saveticker",
+    asof="2026-10-10 05:05 KST",
+    last=361.56, after_hours=362.28,
+    bar=dict(open=365.59, high=366.63, low=361.10, close=361.54, volume_m=16.48),
+    ma20=355.25, ma60=373.71,
+    options=dict(
+        expiry="2026-10-09", max_pain=360.00, call_wall=362.50, put_wall=360.00,
+        gamma_flip=364.77, net_gex_m=65.7, pc_volume=0.67, pc_oi=0.96,
+        volume_call_put=(60, 40), oi_call_put=(51, 49), premium_call_put=(63, 37),
+        notional_k=292, pc_avg=(0.843, 0.691, 0.772), vendor="Unusual Whales",
+    ),
+    short=dict(interest=0.0115, days_to_cover=2.32),
+    screen_q3=dict(per=46.17, gaap_eps=2.68, rev=29.6, div_yield=0.0072, dps_q=0.65),
+    analysts=dict(
+        n=29, buy=27, hold=2, sell=0, mean=519.21, low=350.0, high=630.0,
+        recent=[
+            ("UBS", "2026-10-02", 470.0),
+            ("Bernstein", "2026-09-22", 575.0),
+            ("Mizuho", "2026-09-15", 530.0),
+            ("Piper", "2026-09-10", 460.0),
+            ("DBS", "2026-09-07", 470.0),
+        ],
+    ),
+    insider=dict(name="Henry Samueli", role="Director", date="2026-09-23", amount_m=-250),
+)
+
 YEARS = ["FY26", "FY27", "FY28", "FY29", "FY30", "FY31"]
 
 # ───────────────────────────────── 1. 시나리오 정의 ─────────────────────────────────
@@ -335,6 +363,31 @@ def roll_12m(spot, coe=None):
     return spot * (1 + coe) - FACT["dps"]
 
 
+def tape_summary(fundamental):
+    """세이브티커 포지션을 12개월 목표와 나란히 둔다. 만기 월은 목표주가를 바꾸지 않는다."""
+    recent = [px for _, _, px in TAPE["analysts"]["recent"]]
+    recent_sorted = sorted(recent)
+    opt = TAPE["options"]
+    return dict(
+        fundamental=fundamental,
+        target_change=0.0,
+        max_pain=opt["max_pain"],
+        pin_low=opt["put_wall"],
+        pin_high=opt["call_wall"],
+        gamma_flip=opt["gamma_flip"],
+        net_gex_m=opt["net_gex_m"],
+        analyst_mean=TAPE["analysts"]["mean"],
+        analyst_low=TAPE["analysts"]["low"],
+        analyst_high=TAPE["analysts"]["high"],
+        recent_mean=sum(recent) / len(recent),
+        recent_median=recent_sorted[len(recent_sorted) // 2],
+        short_interest=TAPE["short"]["interest"],
+        days_to_cover=TAPE["short"]["days_to_cover"],
+        insider_shares_m=abs(TAPE["insider"]["amount_m"]) / FACT["price"],
+        gap_to_put_wall=fundamental - opt["put_wall"],
+    )
+
+
 def reasonable_target(S, scen_spot):
     """할인율과 정합하는 12개월 목표주가.
 
@@ -418,6 +471,7 @@ def run_model():
     pw_dcf = sum(v["p"] * dcf(v["rows"], W_BASE["wacc"])["value_ps"] for v in S.values())
     scen_dcf = {k: dcf(v["rows"], W_BASE["wacc"])["value_ps"] for k, v in S.items()}
     fair = reasonable_target(S, scen_dcf)
+    tape = tape_summary(fair["target"])
     d_digest = dcf(build(DIGEST), W_BASE["wacc"])
     d_digest9 = dcf(build(DIGEST), 0.09, 0.035)
     v1 = dict(Tail=(0.05, 10.0), Bear=(0.25, 13.0), Base=(0.45, 17.0), Bull=(0.25, 20.0))
@@ -452,7 +506,7 @@ def run_model():
         scenarios={k: {kk: vv for kk, vv in v.items() if kk != "rows"} for k, v in S.items()},
         scenario_rows={k: v["rows"] for k, v in S.items()},
         expected_tp=exp_tp, expected_upside=exp_tp / FACT["price"] - 1,
-        reasonable=fair,
+        reasonable=fair, tape=tape, tape_input=TAPE,
         mc=mc, implied=dict(eps_at_16x=implied_eps16, ai28_at_16x=implied_ai16),
         bridge=bridge, tests=tests, cons=CONS, fact=FACT,
     )
@@ -493,6 +547,9 @@ if __name__ == "__main__":
     print(f"합리적인 12개월 목표주가 ${fair['target']:.0f}  (모델확률 DCF롤 ${fair['model_prob_pw']:.0f} | Bear=$300 고정 ${fair['bear_anchored_at_ms']:.0f} | Bear 15% ${fair['bear_prob_shifted']:.0f})")
     for k, pe in fair["justified_pe"].items():
         print(f"  정합배수 {k:5s} 12m ${fair['roll12m'][k]:.0f} = {pe:.1f}x FY28 EPS")
+    tp = out["tape"]
+    print(f"세이브티커 10/9: 맥스페인 ${tp['max_pain']:.0f}  콜월 ${tp['pin_high']:.2f}  감마플립 ${tp['gamma_flip']:.2f}  Net GEX +{tp['net_gex_m']:.1f}M  공매도 {tp['short_interest']:.2%}  소진 {tp['days_to_cover']:.2f}일")
+    print(f"애널리스트 29명 평균 ${tp['analyst_mean']:.0f} (최저 ${tp['analyst_low']:.0f} / 최고 ${tp['analyst_high']:.0f})  최근 5곳 중앙 ${tp['recent_median']:.0f}  목표 변경 ${tp['target_change']:.0f}")
     print(f"DCF raw ${d_raw['value_ps']:.0f} | base ${d_base['value_ps']:.0f} (TV {d_base['tv_share']:.0%}) | 9%/3% ${d_street['value_ps']:.0f} | 9%/3.5% ${d_street_g['value_ps']:.0f} | Bull 9%/3.5% ${d_bull9['value_ps']:.0f} | exit 18x ${d_exit['value_ps']:.0f}")
     print(f"시점정합 DCF(tv_lag=1) ${out['timing_consistent_dcf']:.0f} | DCF가 함의하는 Base P/E {out['dcf_implied_pe_base']:.2f}x (레거시 상수 13.8x)")
     print(f"현재가 내재 WACC(g3%) {r_impl:.2%} | 내재 g(WACC {Wbase['wacc']:.1%}) {g_impl:.2%}")

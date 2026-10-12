@@ -150,6 +150,17 @@ def main() -> int:
           f"A ${anchored:.2f}  B ${shifted:.2f}  평균 ${midpoint:.2f}")
     price_roll = price * (1 + coe_b) - m.FACT["dps"]
     check("주가의 CoE 롤", close(price_roll, fair["price_rolled_at_coe"]), f"${price_roll:.2f}")
+    recent_px = [470.0, 575.0, 530.0, 460.0, 470.0]
+    tape = out["tape"]
+    check("세이브티커 최근 5곳 평균", close(sum(recent_px) / 5, tape["recent_mean"]), f"${tape['recent_mean']:.2f}")
+    check("세이브티커 최근 5곳 중앙", close(470.0, tape["recent_median"]), f"${tape['recent_median']:.0f}")
+    check("풋/콜 거래량 0.67", abs((40 / 60) - m.TAPE["options"]["pc_volume"]) < 0.01, f"{40/60:.3f}")
+    check("10/9 차트 종가 = 모델 종가", close(m.TAPE["bar"]["close"], m.FACT["price"]), f"{m.TAPE['bar']['close']}")
+    check("배당수익률 0.72%", abs((m.FACT["dps"] / m.TAPE["last"]) - m.TAPE["screen_q3"]["div_yield"]) < 0.0002,
+          f"{m.FACT['dps'] / m.TAPE['last']:.3%}")
+    check("목표와 애널리스트 최저의 간격", abs(tape["fundamental"] - tape["analyst_low"]) < 5,
+          f"${tape['fundamental']:.2f} vs ${tape['analyst_low']:.0f}")
+    check("옵션 핀은 목표를 바꾸지 않음", tape["target_change"] == 0.0, "0")
     check("확률 가중 합산 재검", close(exp_tp, sum(out["scenarios"][k]["p"] * out["scenarios"][k]["tp"] for k in out["scenarios"])),
           f"${exp_tp:.2f}")
 
